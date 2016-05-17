@@ -1,0 +1,51 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!--toolbar actionbar高度-->
+        <item name="actionBarSize">44dp</item>
+        <!-- toolBar 颜色-->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- 状态栏 颜色-->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!--CheckBox，RadioButton，SwitchCompat等控件的点击选中颜色-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <!--整个当前Activity的字体的默认 颜色-->
+        <!--<item name="android:textColorPrimary">@android:color/white</item>-->
+        <!--整个当前Activity的窗口的默认 颜色-->
+        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="titleTextAppearance">@style/ToolbarTextAppearance</item>
+        <item name="android:actionMenuTextAppearance">@style/ToolbarActionMenuTextAppearance</item>
+    </style>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <!--ToolBar 标题字体配置-->
+    <style name="ToolbarTextAppearance">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="ToolbarTextSubAppearance" parent="ToolbarTextAppearance">
+        <item name="android:textSize">16sp</item>
+    </style>
+    <!--ToolBar 菜单字体配置-->
+    <style name="ToolbarActionMenuTextAppearance">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@android:color/transparent</item>
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabPaddingStart">0dp</item>
+        <item name="tabPaddingEnd">0dp</item>
+        <item name="tabBackground">@drawable/bg_tab_selector</item>
+        <item name="android:background">@mipmap/bg_tab_layout</item>
+    </style>
+
+</resources>

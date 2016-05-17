@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">木虫</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="title_fragment_first">首页</string>
+    <string name="title_fragment_second">商城</string>
+    <string name="title_fragment_third">藏品专区</string>
+    <string name="title_fragment_fourth">论坛</string>
+    <string name="title_fragment_fifth">个人中心</string>
+</resources>
