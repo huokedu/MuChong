@@ -9,6 +9,8 @@ import com.htlc.muchong.adapter.HomePagerAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.fragment.FirstFragment;
 import com.htlc.muchong.fragment.HomeFragment;
+import com.htlc.muchong.fragment.SecondFragment;
+import com.htlc.muchong.fragment.DefaultFragment;
 import com.htlc.muchong.fragment.ThirdFragment;
 
 import java.util.ArrayList;
@@ -29,10 +31,10 @@ public class MainActivity extends BaseActivity{
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
         ArrayList<HomeFragment> pageFragments = new ArrayList<>();
         pageFragments.add(HomeFragment.newInstance(FirstFragment.class, getString(R.string.title_fragment_first), R.mipmap.tab_1));
-        pageFragments.add(HomeFragment.newInstance(ThirdFragment.class, getString(R.string.title_fragment_second), R.mipmap.tab_2));
+        pageFragments.add(HomeFragment.newInstance(SecondFragment.class, getString(R.string.title_fragment_second), R.mipmap.tab_2));
         pageFragments.add(HomeFragment.newInstance(ThirdFragment.class, getString(R.string.title_fragment_third), 0));
-        pageFragments.add(HomeFragment.newInstance(ThirdFragment.class, getString(R.string.title_fragment_fourth), R.mipmap.tab_4));
-        pageFragments.add(HomeFragment.newInstance(ThirdFragment.class, getString(R.string.title_fragment_fifth), R.mipmap.tab_5));
+        pageFragments.add(HomeFragment.newInstance(DefaultFragment.class, getString(R.string.title_fragment_fourth), R.mipmap.tab_4));
+        pageFragments.add(HomeFragment.newInstance(DefaultFragment.class, getString(R.string.title_fragment_fifth), R.mipmap.tab_5));
 
 
 

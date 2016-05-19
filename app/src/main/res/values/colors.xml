@@ -4,10 +4,16 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="bg_gray">#666</color>
     <color name="bg_color_transparent">#33000000</color>
     <color name="bg_banner_indicator">#33000000</color>
     <color name="bg_banner_indicator_circle_selected">#ff0000</color>
     <color name="bg_banner_indicator_circle_normal">#333</color>
+
+    <color name="divider_gray_color">#333</color>
+
+    <color name="text_color_black_muchong">#333</color>
+    <color name="text_color_red">#f00</color>
 
 
 </resources>

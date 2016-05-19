@@ -47,5 +47,106 @@
         <item name="tabBackground">@drawable/bg_tab_selector</item>
         <item name="android:background">@mipmap/bg_tab_layout</item>
     </style>
-
+    <style name="DividerHorizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.6dp</item>
+        <item name="android:background">@color/divider_gray_color</item>
+    </style>
+    <style name="DividerVertical">
+        <item name="android:layout_width">0.6dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/divider_gray_color</item>
+    </style>
+    <style name="PtrFrameLayout">
+        <item name="android:id">@id/rotate_header_list_view_frame</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="ptr_duration_to_close">200</item>
+        <item name="ptr_duration_to_close_header">1000</item>
+        <item name="ptr_keep_header_when_refresh">true</item>
+        <item name="ptr_pull_to_fresh">false</item>
+        <item name="ptr_ratio_of_header_height_to_refresh">1.2</item>
+        <item name="ptr_resistance">1.7</item>
+    </style>
+    <style name="FirstHeaderLinear">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <style name="FirstHeaderLinearText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_color_black_muchong</item>
+    </style>
+    <style name="DaoJiShiText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_color_red</item>
+        <item name="android:background">@drawable/black_retangle_shape</item>
+    </style>
+    <style name="FirstQiangLinear">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+    <style name="FirstQiangImage">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">150dp</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:src">@mipmap/default_first_qiang</item>
+    </style>
+    <style name="FirstQiangLinearText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_color_black_muchong</item>
+    </style>
+    <style name="FirstQiangLinearTextName" parent="FirstQiangLinearText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    <style name="FirstQiangLinearTextPrice" parent="FirstQiangLinearText">
+        <item name="android:textColor">@color/text_color_red</item>
+    </style>
+    <style name="FirstQiangLinearTextDescription" parent="FirstQiangLinearText">
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="FirstPaiLinear">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+    <style name="FirstPaiLinearText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/text_color_black_muchong</item>
+    </style>
+    <style name="FirstPaiLinearTextName" parent="FirstPaiLinearText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    <style name="FirstPaiLinearTextPrice" parent="FirstPaiLinearText">
+        <item name="android:textColor">@color/text_color_red</item>
+    </style>
 </resources>

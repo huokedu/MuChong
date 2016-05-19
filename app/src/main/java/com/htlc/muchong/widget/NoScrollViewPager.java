@@ -8,12 +8,12 @@ import android.view.MotionEvent;
 /**
  * 取消滑动的ViewPager
  */
-public class CancelSlideViewPager extends ViewPager {
-    public CancelSlideViewPager(Context context) {
+public class NoScrollViewPager extends ViewPager {
+    public NoScrollViewPager(Context context) {
         super(context);
     }
 
-    public CancelSlideViewPager(Context context, AttributeSet attrs) {
+    public NoScrollViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

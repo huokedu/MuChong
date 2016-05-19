@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@mipmap/bg_fragment_first_header"
+              android:gravity="center"
+              android:orientation="horizontal"
+              android:paddingLeft="15dp"
+              android:paddingRight="15dp">
+    <!--抢购-->
+    <LinearLayout
+        android:id="@+id/linearQiang"
+        style="@style/FirstHeaderLinear">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_first_qiang"/>
+
+        <TextView
+            style="@style/FirstHeaderLinearText"
+            android:text="@string/first_header_qiang"
+            />
+    </LinearLayout>
+    <!--竞拍-->
+    <LinearLayout
+        android:id="@+id/linearPai"
+        style="@style/FirstHeaderLinear">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_first_pai"/>
+
+        <TextView
+            style="@style/FirstHeaderLinearText"
+            android:text="@string/first_header_pai"
+            />
+    </LinearLayout>
+    <!--鉴定-->
+    <LinearLayout
+        android:id="@+id/linearJian"
+        style="@style/FirstHeaderLinear">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_first_jian"/>
+
+        <TextView
+            style="@style/FirstHeaderLinearText"
+            android:text="@string/first_header_jian"
+            />
+    </LinearLayout>
+    <!--夺宝-->
+    <LinearLayout
+        android:id="@+id/linearDuo"
+        style="@style/FirstHeaderLinear">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_first_duo"/>
+
+        <TextView
+            style="@style/FirstHeaderLinearText"
+            android:text="@string/first_header_duo"
+            />
+    </LinearLayout>
+</LinearLayout>

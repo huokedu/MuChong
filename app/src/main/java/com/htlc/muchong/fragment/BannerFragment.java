@@ -18,11 +18,8 @@ import android.widget.LinearLayout;
 import com.htlc.muchong.R;
 import com.squareup.picasso.Picasso;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import model.BannerBean;
 
 
 /** 
@@ -36,13 +33,13 @@ public class BannerFragment extends Fragment implements OnPageChangeListener {
     private LinearLayout indicatorLayout; // 指示器  
     private ViewPager viewPager;
     private BannerPagerAdapter adapter;
-    private List<BannerBean> list = new ArrayList<>();
+    private List<String> list = new ArrayList<>();
     private int currentItem;
     private onItemClickListener listener;
     private boolean recycle = true;
 
     interface onItemClickListener{
-        void onItemClickListener(BannerBean bean);
+        void onItemClickListener(int position);
     }
     private Handler handler = new Handler() {
         @Override
@@ -53,6 +50,7 @@ public class BannerFragment extends Fragment implements OnPageChangeListener {
                 }else {
                     viewPager.setCurrentItem(currentItem+1);
                 }
+                handler.sendEmptyMessageDelayed(CycleCode,DelayTime);
             }
         }
     };
@@ -95,15 +93,14 @@ public class BannerFragment extends Fragment implements OnPageChangeListener {
         this.listener = listener;
     }
 
-    public void setData(List<BannerBean> data){
+    public void setData(List<String> data){
         list.clear();
         list.addAll(data);
         adapter.notifyDataSetChanged();
 
         indicatorLayout.removeAllViews();
         for (int i = 0; i < adapter.getCount(); i++) {
-            ImageView pointer = (ImageView) View.inflate(getActivity(), R.layout.adapter_banner_point, null);
-            indicatorLayout.addView(pointer);
+            LayoutInflater.from(getContext()).inflate(R.layout.adapter_banner_point,indicatorLayout,true);
         }
         currentItem = viewPager.getCurrentItem();
         ImageView imageView = (ImageView) indicatorLayout.getChildAt(currentItem);
@@ -152,14 +149,13 @@ public class BannerFragment extends Fragment implements OnPageChangeListener {
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
             ImageView view = (ImageView) View.inflate(getActivity(), R.layout.adapter_banner, null);
-            final BannerBean bean = (BannerBean) list.get(position);
-//            Picasso.with(getContext().getApplicationContext()).load(Uri.parse("http://t2.damaimob.com/upload/morepic/573171eac7fef.png")).into(view);
-            view.setImageResource(R.mipmap.ic_launcher);
+            String uri = list.get(position);
+            Picasso.with(getContext()).load(Uri.parse(uri)).placeholder(R.mipmap.default_banner).error(R.mipmap.default_banner).into(view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(listener!=null){
-                        listener.onItemClickListener(bean);
+                        listener.onItemClickListener(position);
                     }
                 }
             });

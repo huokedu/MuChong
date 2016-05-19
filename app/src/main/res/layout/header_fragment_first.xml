@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <fragment
+        android:id="@+id/fragmentBanner"
+        android:name="com.htlc.muchong.fragment.BannerFragment"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/banner_height"/>
+    <!--类别-->
+    <LinearLayout
+        android:id="@+id/linearTypeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"></LinearLayout>
+    <!--抢购-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_first_samll_qiang"/>
+
+            <com.htlc.muchong.widget.DaoJiShiView
+                android:id="@+id/daoJiShiView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textQiangMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/first_header_more"
+            android:textColor="@color/text_color_black_muchong"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+    <View style="@style/DividerHorizontal"/>
+    <!--抢购的三个商品-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/frameQiang1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imageQiang1"
+                style="@style/FirstQiangImage"/>
+
+            <LinearLayout
+                style="@style/FirstQiangLinear">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textNameQiang1"
+                        style="@style/FirstQiangLinearTextName"
+                        android:text="名称"/>
+
+                    <TextView
+                        android:id="@+id/textPriceQiang1"
+                        style="@style/FirstQiangLinearTextPrice"
+                        android:text="价格"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textDescriptionQiang1"
+                    style="@style/FirstQiangLinearTextDescription"
+                    android:text="描述"/>
+            </LinearLayout>
+        </FrameLayout>
+
+        <View
+            style="@style/DividerVertical"/>
+
+        <FrameLayout
+            android:id="@+id/frameQiang2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imageQiang2"
+                style="@style/FirstQiangImage"/>
+
+            <LinearLayout
+                style="@style/FirstQiangLinear">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textNameQiang2"
+                        style="@style/FirstQiangLinearTextName"
+                        android:text="名称"/>
+
+                    <TextView
+                        android:id="@+id/textPriceQiang2"
+                        style="@style/FirstQiangLinearTextPrice"
+                        android:text="价格"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textDescriptionQiang2"
+                    style="@style/FirstQiangLinearTextDescription"
+                    android:text="描述"/>
+            </LinearLayout>
+        </FrameLayout>
+
+        <View
+            style="@style/DividerVertical"/>
+
+        <FrameLayout
+            android:id="@+id/frameQiang3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imageQiang3"
+                style="@style/FirstQiangImage"/>
+
+            <LinearLayout
+                style="@style/FirstQiangLinear">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textNameQiang3"
+                        style="@style/FirstQiangLinearTextName"
+                        android:text="名称"/>
+
+                    <TextView
+                        android:id="@+id/textPriceQiang3"
+                        style="@style/FirstQiangLinearTextPrice"
+                        android:text="价格"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textDescriptionQiang3"
+                    style="@style/FirstQiangLinearTextDescription"
+                    android:text="描述"/>
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+    <View style="@style/DividerHorizontal"/>
+    <!--竞拍-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/textTitlePai"
+            android:src="@mipmap/icon_first_small_pai"/>
+
+        <TextView
+            android:id="@+id/textTitlePai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/first_header_pai"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/textPaiMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/first_header_more"
+            android:textColor="@color/text_color_black_muchong"
+            android:textSize="14sp"/>
+    </RelativeLayout>
+
+    <!--竞拍的两个商品-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/relativeJing1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <View style="@style/DividerHorizontal"/>
+
+            <ImageView
+                android:id="@+id/imagePai1"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:src="@mipmap/default_first_pai"/>
+            <ImageView
+                android:id="@+id/imageTypePai1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:src="@mipmap/icon_first_wudijia"/>
+
+            <View
+                android:id="@+id/viewDividerPai1"
+                style="@style/DividerHorizontal"
+                android:layout_below="@+id/imagePai1"/>
+
+            <LinearLayout
+                style="@style/FirstPaiLinear"
+                android:layout_below="@+id/viewDividerPai1">
+
+                <TextView
+                    android:id="@+id/textPaiName1"
+                    style="@style/FirstPaiLinearTextName"
+                    android:text="名称"
+                    />
+
+                <TextView
+                    android:id="@+id/textPaiPrice1"
+                    style="@style/FirstPaiLinearTextPrice"
+                    android:text="￥9999"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+        <View style="@style/DividerVertical"/>
+        <RelativeLayout
+            android:id="@+id/relativeJing2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <View style="@style/DividerHorizontal"/>
+
+            <ImageView
+                android:id="@+id/imagePai2"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:src="@mipmap/default_first_pai"/>
+            <ImageView
+                android:id="@+id/imageTypePai2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:src="@mipmap/icon_first_wudijia"/>
+
+            <View
+                android:id="@+id/viewDividerPai2"
+                style="@style/DividerHorizontal"
+                android:layout_below="@+id/imagePai2"/>
+
+            <LinearLayout
+                style="@style/FirstPaiLinear"
+                android:layout_below="@+id/viewDividerPai2">
+
+                <TextView
+                    android:id="@+id/textPaiName2"
+                    style="@style/FirstPaiLinearTextName"
+                    android:text="名称"
+                    />
+
+                <TextView
+                    android:id="@+id/textPaiPrice2"
+                    style="@style/FirstPaiLinearTextPrice"
+                    android:text="￥9999"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View style="@style/DividerHorizontal"/>
+    <!--交易-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/textTitleJiao"
+            android:src="@mipmap/icon_first_samll_jiao"/>
+
+        <TextView
+            android:id="@+id/textTitleJiao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/first_header_jiao"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/textJiaoMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/first_header_more"
+            android:textColor="@color/text_color_black_muchong"
+            android:textSize="14sp"/>
+    </RelativeLayout>
+
+    <View style="@style/DividerHorizontal"/>
+</LinearLayout>
