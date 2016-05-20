@@ -8,6 +8,7 @@ import com.htlc.muchong.R;
 import com.htlc.muchong.adapter.HomePagerAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.fragment.FirstFragment;
+import com.htlc.muchong.fragment.FourthFragment;
 import com.htlc.muchong.fragment.HomeFragment;
 import com.htlc.muchong.fragment.SecondFragment;
 import com.htlc.muchong.fragment.DefaultFragment;
@@ -33,7 +34,7 @@ public class MainActivity extends BaseActivity{
         pageFragments.add(HomeFragment.newInstance(FirstFragment.class, getString(R.string.title_fragment_first), R.mipmap.tab_1));
         pageFragments.add(HomeFragment.newInstance(SecondFragment.class, getString(R.string.title_fragment_second), R.mipmap.tab_2));
         pageFragments.add(HomeFragment.newInstance(ThirdFragment.class, getString(R.string.title_fragment_third), 0));
-        pageFragments.add(HomeFragment.newInstance(DefaultFragment.class, getString(R.string.title_fragment_fourth), R.mipmap.tab_4));
+        pageFragments.add(HomeFragment.newInstance(FourthFragment.class, getString(R.string.fourth_title_fragment_one), R.mipmap.tab_4));
         pageFragments.add(HomeFragment.newInstance(DefaultFragment.class, getString(R.string.title_fragment_fifth), R.mipmap.tab_5));
 
 
@@ -48,8 +49,6 @@ public class MainActivity extends BaseActivity{
                 tab.setCustomView(pageFragments.get(i).getTabView(this));
             }
         }
-//        mViewPager.setCurrentItem(1);
-//        mViewPager.setCurrentItem(0);
         mTitleTextView.setText(mViewPager.getAdapter().getPageTitle(0));
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

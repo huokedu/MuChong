@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.htlc.muchong.R;
+import com.htlc.muchong.base.BaseRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,28 +15,7 @@ import java.util.List;
 /**
  * Created by sks on 2016/5/18.
  */
-public class ThirdRecyclerViewAdapter extends RecyclerView.Adapter {
-    private List mList = new ArrayList();
-    private OnItemClickListener mOnItemClickLitener;
-
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener mOnItemClickLitener) {
-        this.mOnItemClickLitener = mOnItemClickLitener;
-    }
-
-    public void setData(List data, boolean isAdd) {
-        if (isAdd) {
-            mList.addAll(data);
-            notifyItemRangeChanged(mList.size() - data.size(), mList.size());
-        } else {
-            mList.clear();
-            mList.addAll(data);
-            notifyDataSetChanged();
-        }
-    }
+public class ThirdRecyclerViewAdapter extends BaseRecyclerViewAdapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -47,15 +27,8 @@ public class ThirdRecyclerViewAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        if (mOnItemClickLitener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = holder.getLayoutPosition();
-                    mOnItemClickLitener.onItemClick(holder.itemView, pos);
-                }
-            });
-        }
+        super.onBindViewHolder(holder,position);
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -70,8 +43,4 @@ public class ThirdRecyclerViewAdapter extends RecyclerView.Adapter {
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return mList.size();
-    }
 }

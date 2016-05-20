@@ -8,10 +8,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <!-- 状态栏 颜色-->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!--整个当前Activity的字体的默认 颜色-->
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <!--CheckBox，RadioButton，SwitchCompat等控件的点击选中颜色-->
         <!--<item name="colorAccent">@color/colorAccent</item>-->
-        <!--整个当前Activity的字体的默认 颜色-->
-        <!--<item name="android:textColorPrimary">@android:color/white</item>-->
         <!--整个当前Activity的窗口的默认 颜色-->
         <!--<item name="android:windowBackground">@android:color/transparent</item>-->
     </style>
@@ -47,13 +47,25 @@
         <item name="tabBackground">@drawable/bg_tab_selector</item>
         <item name="android:background">@mipmap/bg_tab_layout</item>
     </style>
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">@color/textColorPrimary</item>
+    </style>
+    <style name="ThirdChildTabLayoutStyle" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/colorPrimaryDark</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabPaddingStart">0dp</item>
+        <item name="tabPaddingEnd">0dp</item>
+        <item name="android:background">@color/bg_gray</item>
+        <item name="tabTextAppearance">@style/TabTextAppearance</item>
+        <item name="tabSelectedTextColor">@color/textColorPrimary</item>
+    </style>
     <style name="DividerHorizontal">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0.6dp</item>
+        <item name="android:layout_height">@dimen/divider_width</item>
         <item name="android:background">@color/divider_gray_color</item>
     </style>
     <style name="DividerVertical">
-        <item name="android:layout_width">0.6dp</item>
+        <item name="android:layout_width">@dimen/divider_width</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/divider_gray_color</item>
     </style>
@@ -90,7 +102,7 @@
         <item name="android:singleLine">true</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/text_color_red</item>
-        <item name="android:background">@drawable/black_retangle_shape</item>
+        <item name="android:background">@drawable/bg_timer_retangle_shape</item>
     </style>
     <style name="FirstQiangLinear">
         <item name="android:layout_width">match_parent</item>
@@ -148,5 +160,9 @@
     </style>
     <style name="FirstPaiLinearTextPrice" parent="FirstPaiLinearText">
         <item name="android:textColor">@color/text_color_red</item>
+    </style>
+    <style name="ThirdChildOneImage" parent="FirstQiangImage">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
     </style>
 </resources>

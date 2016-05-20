@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@android:color/white"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/default_first_jiao"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView"
+        android:background="@color/bg_color_transparent"
+        android:paddingBottom="10dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="10dp"
+        android:text="檀香木雕刻座椅"
+        android:textColor="@color/text_color_black_muchong"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/textTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@mipmap/icon_fourth_four_time"
+        android:drawablePadding="5dp"
+        android:text="2016-06-06"
+        android:textSize="13sp"/>
+
+    <TextView
+        android:id="@+id/textHeart"
+        android:layout_toLeftOf="@+id/textEye"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textTime"
+        android:drawableLeft="@mipmap/icon_third_heart"
+        android:drawablePadding="5dp"
+        android:text="199"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:id="@+id/textEye"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textTime"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:drawableLeft="@mipmap/icon_third_eye"
+        android:drawablePadding="5dp"
+        android:text="199"
+        android:textSize="12sp"/>
+</RelativeLayout>

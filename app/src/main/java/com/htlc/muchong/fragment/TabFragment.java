@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 
 import com.htlc.muchong.R;
+import com.htlc.muchong.adapter.RecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

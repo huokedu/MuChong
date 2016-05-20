@@ -1,7 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:background="@drawable/divider_retangle_shape"
+              android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="165dp"
+        android:src="@mipmap/defautl_third_grid"/>
+
+    <View
+        style="@style/DividerHorizontal"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="3"
+        android:minLines="3"
+        android:ellipsize="end"
+        android:padding="5dp"
+        android:text="请求手机客户端以字符串形式把需要传输的数据发送给接收方的过程。返回支付宝以字符串形式直接把处理结果数据返回给手机客户端。通知服务器异步通知。支付宝根据得到的数据处理完成后，支付宝的服务器主动发起通知给商户的网站，同时携带处理完成的结果信息反馈给商户网站。H5支付浏览器或者App内嵌的Webview中展示H5页面，并完成支付。"/>
+
+    <View
+        style="@style/DividerHorizontal"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/default_third_gird_head"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:singleLine="true"
+            android:text="哆啦A梦"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:text="等级：专家级"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/icon_third_heart"
+            android:drawablePadding="2dp"
+            android:text="188"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:drawableLeft="@mipmap/icon_third_eye"
+            android:drawablePadding="2dp"
+            android:text="1888"/>
+    </LinearLayout>
 </LinearLayout>

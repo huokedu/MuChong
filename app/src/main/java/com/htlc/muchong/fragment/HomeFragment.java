@@ -6,14 +6,20 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.htlc.muchong.R;
+import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.base.BaseFragment;
 
 /**
  * Created by sks on 2015/12/29.
  */
 public abstract class HomeFragment extends BaseFragment {
-    public String mTitle;
+    public CharSequence mTitle;
     public int mIconResId;
+
+    public void setTitle(CharSequence title) {
+        this.mTitle = title;
+        ((BaseActivity)getActivity()).mTitleTextView.setText(mTitle);
+    }
 
     public static <T extends HomeFragment> T newInstance(Class<T> clazz, String title, int iconResId) {
         try {

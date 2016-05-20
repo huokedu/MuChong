@@ -19,8 +19,9 @@ import core.ActionCallbackListener;
  * Created by sks on 2016/5/13.
  */
 public abstract class BaseActivity extends AppCompatActivity {
-    protected Toolbar mToolbar;
-    protected TextView mTitleTextView,mTitleRightTextView,mTitleLeftTextView;
+    public Toolbar mToolbar;
+    public TextView mTitleTextView,mTitleRightTextView,mTitleLeftTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
