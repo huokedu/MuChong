@@ -44,4 +44,8 @@
     <string name="register_protocol_hint">我已阅读并同意</string>
     <string name="register_protocol">用户协议</string>
     <string name="register_code">获取验证码</string>
+
+    <string name="title_product_detail">商品详情</string>
+    <string name="product_detail_material">材质:&#160;%1$s&#160;&#160;规格:&#160;%2$s</string>
+    <string name="product_detail_comment">评价&#160;&#160;(%1$s)</string>
 </resources>

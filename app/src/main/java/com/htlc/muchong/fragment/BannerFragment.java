@@ -38,7 +38,7 @@ public class BannerFragment extends Fragment implements OnPageChangeListener {
     private onItemClickListener listener;
     private boolean recycle = true;
 
-    interface onItemClickListener{
+    public interface onItemClickListener{
         void onItemClickListener(int position);
     }
     private Handler handler = new Handler() {

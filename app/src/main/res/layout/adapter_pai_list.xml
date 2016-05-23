@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="@android:color/white"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <View style="@style/DividerHorizontal"/>
+
+        <ImageView
+            android:id="@+id/imagePai"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:src="@mipmap/default_first_jiao"/>
+        <FrameLayout
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@color/bg_color_transparent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.htlc.muchong.widget.DaoJiShiView
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"></com.htlc.muchong.widget.DaoJiShiView>
+        </FrameLayout>
+        <ImageView
+            android:id="@+id/imageTypePai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/icon_pai_list_dao"/>
+        <View
+            android:id="@+id/viewDividerPai"
+            style="@style/DividerHorizontal"
+            android:layout_below="@+id/imagePai"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_below="@+id/viewDividerPai">
+            <TextView
+                android:text="起拍价：3300元   市场价: 5000元   保证金：1000元"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:text="38珠紫檀木手串"
+                android:id="@+id/textName"
+                android:textSize="16sp"
+                android:textColor="@color/text_color_black_muchong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

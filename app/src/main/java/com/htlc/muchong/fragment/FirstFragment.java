@@ -1,5 +1,6 @@
 package com.htlc.muchong.fragment;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +13,8 @@ import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.PtrHandler;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
+import com.htlc.muchong.activity.PaiListActivity;
+import com.htlc.muchong.activity.QiangListActivity;
 import com.htlc.muchong.widget.DaoJiShiView;
 import com.larno.util.ToastUtil;
 
@@ -188,10 +191,12 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             case R.id.linearQiang:
             case R.id.textQiangMore:
                 ToastUtil.showToast(App.app, "textQiangMore");
+                startActivity(new Intent(getActivity(), QiangListActivity.class));
                 break;
             case R.id.linearPai:
             case R.id.textPaiMore:
                 ToastUtil.showToast(App.app, "textPaiMore");
+                startActivity(new Intent(getActivity(), PaiListActivity.class));
                 break;
             case R.id.linearJian:
                 ToastUtil.showToast(App.app, "linearJian");

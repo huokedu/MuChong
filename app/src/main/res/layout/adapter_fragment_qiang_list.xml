@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/linearLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/divider_retangle_shape"
+    android:orientation="vertical"
+    android:padding="@dimen/divider_width">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="165dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/defautl_third_grid"/>
+
+    <View
+        style="@style/DividerHorizontal"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="15dp">
+
+        <TextView
+            android:id="@+id/textName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="哆啦A梦"
+            android:textColor="@color/text_color_black_muchong"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/textPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textName"
+            android:layout_marginTop="10dp"
+            android:singleLine="true"
+            android:text="￥1488"
+            android:textColor="@color/text_color_red"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/textButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textPrice"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/holo_orange_light"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="5dp"
+            android:singleLine="true"
+            android:text="抢购"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"/>
+    </RelativeLayout>
+</LinearLayout>
