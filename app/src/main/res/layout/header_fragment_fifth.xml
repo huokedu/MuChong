@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="211dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:background="@mipmap/bg_fragment_fifth_header">
+
+    <ImageView
+        android:id="@+id/imageHead"
+        android:layout_above="@+id/textName"
+        android:layout_marginBottom="10dp"
+        android:layout_width="79dp"
+        android:layout_height="79dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bg_fragment_fifth_head"
+        android:padding="6dp"
+        android:src="@mipmap/default_third_gird_head"/>
+    <TextView
+        android:id="@+id/textName"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/textFans"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:text="樱桃小丸子"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/textLabelLevel"
+        android:layout_alignBottom="@+id/textName"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:text="等级"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <RatingBar
+        style="@style/RatingBarLevel"
+        android:numStars="5"
+        android:rating="4"
+        android:layout_alignBottom="@+id/textFans"
+        android:id="@+id/ratingBarLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/textFans"
+        android:text="粉丝 199"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

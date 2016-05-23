@@ -16,10 +16,32 @@
 
     <string name="first_header_start">距离开始</string>
     <string name="first_header_end">距离结束</string>
+    <string name="first_header_over">已结束</string>
     <string name="first_header_more">更多&#160;&#160;>></string>
 
     <string name="fourth_title_fragment_one">一人一语</string>
     <string name="fourth_title_fragment_two">藏家</string>
     <string name="fourth_title_fragment_three">活动</string>
     <string name="fourth_title_fragment_four">学堂</string>
+
+    <string name="fifth_chong">充值</string>
+    <string name="fifth_gou">购物车</string>
+    <string name="fifth_shou">我的收藏</string>
+    <string name="fifth_jian">我的鉴定</string>
+    <string name="fifth_jiao">我的交易</string>
+    <string name="fifth_jing">我的竞拍</string>
+    <string name="fifth_lun">我的论坛</string>
+    <string name="fifth_xiao">消息中心</string>
+    <string name="fifth_setting">设置</string>
+
+    <string name="title_login">登录</string>
+    <string name="login_username">用户名</string>
+    <string name="login_password">密码</string>
+    <string name="login_forget">忘记密码?</string>
+
+    <string name="title_register">注册</string>
+    <string name="title_forget">忘记密码</string>
+    <string name="register_protocol_hint">我已阅读并同意</string>
+    <string name="register_protocol">用户协议</string>
+    <string name="register_code">获取验证码</string>
 </resources>

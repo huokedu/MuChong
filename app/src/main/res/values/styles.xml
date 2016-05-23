@@ -11,7 +11,7 @@
         <!--整个当前Activity的字体的默认 颜色-->
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <!--CheckBox，RadioButton，SwitchCompat等控件的点击选中颜色-->
-        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <item name="colorAccent">@color/colorAccent</item>
         <!--整个当前Activity的窗口的默认 颜色-->
         <!--<item name="android:windowBackground">@android:color/transparent</item>-->
     </style>
@@ -58,6 +58,23 @@
         <item name="android:background">@color/bg_gray</item>
         <item name="tabTextAppearance">@style/TabTextAppearance</item>
         <item name="tabSelectedTextColor">@color/textColorPrimary</item>
+    </style>
+    <style name="RatingBarLevel" parent="Widget.AppCompat.RatingBar.Small">
+        <item name="android:progressDrawable">@drawable/rating_indicator_level</item>
+        <item name="android:indeterminateDrawable">@drawable/rating_indicator_level</item>
+        <item name="android:minHeight">16dp</item>
+        <item name="android:maxHeight">16dp</item>
+        <item name="android:isIndicator">true</item>
+        <item name="android:thumb">@null</item>
+    </style>
+    <style name="Button" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:layout_marginRight">30dp</item>
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@mipmap/bg_button</item>
     </style>
     <style name="DividerHorizontal">
         <item name="android:layout_width">match_parent</item>
@@ -164,5 +181,26 @@
     <style name="ThirdChildOneImage" parent="FirstQiangImage">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
+    </style>
+    <style name="LoginRelativeLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">30dp</item>
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:background">@drawable/divider_retangle_shape</item>
+    </style>
+    <style name="LoginTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_color_black_muchong</item>
+        <item name="android:background">@null</item>
+    </style>
+    <style name="LoginTextView.EditText">
+
     </style>
 </resources>

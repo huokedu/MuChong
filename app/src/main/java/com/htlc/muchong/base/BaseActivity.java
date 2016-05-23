@@ -8,9 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.bugtags.library.Bugtags;
 import com.htlc.muchong.R;
 
 import core.ActionCallbackListener;
@@ -21,7 +23,23 @@ import core.ActionCallbackListener;
 public abstract class BaseActivity extends AppCompatActivity {
     public Toolbar mToolbar;
     public TextView mTitleTextView,mTitleRightTextView,mTitleLeftTextView;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Bugtags.onResume(this);
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Bugtags.onPause(this);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        Bugtags.onDispatchTouchEvent(this, event);
+        return super.dispatchTouchEvent(event);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

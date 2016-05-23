@@ -25,7 +25,7 @@
         <ImageView
             android:layout_marginLeft="36dp"
             android:id="@+id/imageHead"
-            android:src="@mipmap/icon_fourth_two_head"
+            android:src="@mipmap/default_fourth_two_head"
             android:layout_width="57dp"
             android:layout_height="57dp"/>
         <RelativeLayout

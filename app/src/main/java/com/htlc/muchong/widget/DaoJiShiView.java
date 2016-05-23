@@ -23,6 +23,8 @@ public class DaoJiShiView extends LinearLayout {
 
     private long millisInFutureStart;
     private long millisInFutureEnd;
+    private CountDownTimer startTimer;
+    private CountDownTimer endTimer;
 
 
     public DaoJiShiView(Context context) {
@@ -53,36 +55,87 @@ public class DaoJiShiView extends LinearLayout {
     public void setData(long millisInFutureStart, long millisInFutureEnd){
         this.millisInFutureStart = millisInFutureStart;
         this.millisInFutureEnd = millisInFutureEnd;
-        new CountDownTimer(millisInFutureStart, 1000) {
-            public void onTick(long millisUntilFinished) {
-                long hour = millisUntilFinished/3600000;
-                long minute = millisUntilFinished%3600000/60000;
-                long second = millisUntilFinished%3600000%60000/1000;
-                textHour.setText(String.valueOf(hour));
-                textMinute.setText(String.valueOf(minute));
-                textSecond.setText(String.valueOf(second));
+        if(startTimer!=null){
+            startTimer.cancel();
+        }
+        if(endTimer!=null){
+            endTimer.cancel();
+        }
+        if(millisInFutureStart>0){
+            startStartTimer();
+        }else {
+            startEndTimer();
+        }
 
+    }
+
+    /**
+     * 开始倒计时
+     */
+    private void startStartTimer() {
+        startTimer = new CountDownTimer(millisInFutureStart, 1000) {
+            public void onTick(long millisUntilFinished) {
+                long hour = millisUntilFinished / 3600000;
+                long minute = millisUntilFinished % 3600000 / 60000;
+                long second = millisUntilFinished % 3600000 % 60000 / 1000;
+                if(hour<10){
+                    textHour.setText(String.format("0%d",hour));
+                }else {
+                    textHour.setText(String.valueOf(hour));
+                }
+                if(minute<10){
+                    textMinute.setText(String.format("0%d", minute));
+                }else {
+                    textMinute.setText(String.valueOf(minute));
+                }
+                if(second<10){
+                    textSecond.setText(String.format("0%d", second));
+                }else {
+                    textSecond.setText(String.valueOf(second));
+                }
             }
+
             public void onFinish() {
                 startEndTimer();
             }
-        }.start();
+        };
+        startTimer.start();
     }
+
+    /**
+     * 结束倒计时
+     */
     private void startEndTimer(){
         textLabel.setText(R.string.first_header_end);
-        new CountDownTimer(millisInFutureEnd, 1000) {
+        endTimer = new CountDownTimer(millisInFutureEnd, 1000) {
             public void onTick(long millisUntilFinished) {
-                long hour = millisUntilFinished/3600000;
-                long minute = millisUntilFinished%3600000/60000;
-                long second = millisUntilFinished%3600000%60000/1000;
-                textHour.setText(String.valueOf(hour));
-                textMinute.setText(String.valueOf(minute));
-                textSecond.setText(String.valueOf(second));
-
+                long hour = millisUntilFinished / 3600000;
+                long minute = millisUntilFinished % 3600000 / 60000;
+                long second = millisUntilFinished % 3600000 % 60000 / 1000;
+                if(hour<10){
+                    textHour.setText(String.format("0%d",hour));
+                }else {
+                    textHour.setText(String.valueOf(hour));
+                }
+                if(minute<10){
+                    textMinute.setText(String.format("0%d", minute));
+                }else {
+                    textMinute.setText(String.valueOf(minute));
+                }
+                if(second<10){
+                    textSecond.setText(String.format("0%d", second));
+                }else {
+                    textSecond.setText(String.valueOf(second));
+                }
             }
+
             public void onFinish() {
-
+                textLabel.setText(R.string.first_header_over);
+                textHour.setText(String.valueOf("00"));
+                textMinute.setText(String.valueOf("00"));
+                textSecond.setText(String.valueOf("00"));
             }
-        }.start();
+        };
+        endTimer.start();
     }
 }

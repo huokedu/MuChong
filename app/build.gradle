@@ -1,5 +1,15 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.bugtags.library.plugin'
+//Bugtags 插件配置
+bugtags {
+    //自动上传符号表功能配置，如果需要根据 build varint 配置，请参考插件详细使用说明
+    appKey "4aaf4a5cc27be878c499cff852a369f2"  //这里是你的 appKey
+    appSecret "9e822faa043da12699e13054c2112d24"    //这里是你的 appSecret，管理员在设置页可以查看
+    mappingUploadEnabled true
 
+    //网络跟踪功能配置(企业版)
+    trackingNetworkEnabled false
+}
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -29,5 +39,6 @@ dependencies {
     compile 'com.android.support:cardview-v7:23+'
     compile 'com.android.support:palette-v7:23+'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.bugtags.library:bugtags-lib:latest.integration'
     compile project(':cptr')
 }
