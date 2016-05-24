@@ -25,6 +25,9 @@
         <activity android:name=".activity.QiangListActivity"/>
         <activity android:name=".activity.ProductDetailActivity"/>
         <activity android:name=".activity.PaiListActivity"/>
+        <activity android:name=".activity.PaiDetailActivity"/>
+        <activity android:name=".activity.JianListActivity"/>
+        <activity android:name=".activity.JianDetailActivity"/>
     </application>
 
 </manifest>

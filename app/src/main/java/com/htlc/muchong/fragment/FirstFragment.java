@@ -13,6 +13,7 @@ import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.PtrHandler;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
+import com.htlc.muchong.activity.JianListActivity;
 import com.htlc.muchong.activity.PaiListActivity;
 import com.htlc.muchong.activity.QiangListActivity;
 import com.htlc.muchong.widget.DaoJiShiView;
@@ -200,6 +201,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
                 break;
             case R.id.linearJian:
                 ToastUtil.showToast(App.app, "linearJian");
+                startActivity(new Intent(getActivity(), JianListActivity.class));
                 break;
             case R.id.linearDuo:
                 ToastUtil.showToast(App.app, "linearDuo");

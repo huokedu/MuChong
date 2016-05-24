@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_layout"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_marginBottom="43dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <!--楼主-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="10dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@mipmap/default_third_gird_head"/>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/textName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:text="哆啦A梦"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textName"
+                            android:layout_marginTop="5dp"
+                            android:singleLine="true"
+                            android:text="等级：豆豆"
+                            android:textSize="12sp"/>
+                    </RelativeLayout>
+
+                    <RatingBar
+                        android:id="@+id/ratingBarLevel"
+                        style="@style/RatingBarLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:numStars="5"
+                        android:rating="4"/>
+                </LinearLayout>
+
+                <View style="@style/DividerHorizontal"/>
+                <!--banner-->
+                <fragment
+                    android:id="@+id/fragmentBanner"
+                    android:name="com.htlc.muchong.fragment.BannerFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/banner_height"/>
+
+                <View style="@style/DividerHorizontal"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@string/pai_name"
+                        android:textColor="@color/text_color_black_muchong"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/pai_detail_material"
+                        android:textColor="@color/text_color_black_muchong"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="酷传，是应用发布和监控平台，一键快速发布应用到多个应用市场，同时监控应用数据，同时解决了 App 在上传和监控时面临的问题。"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <View style="@style/DividerHorizontal"/>
+
+                <View style="@style/DividerHorizontal"/>
+
+                <!--价格-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/paiPriceLabel"
+                        style="@style/PaiDetailPriceLabelTextView"
+                        android:background="@color/text_color_red"
+                        android:text="@string/pai_price"/>
+
+                    <TextView
+                        style="@style/PaiDetailPriceTextView"
+                        android:layout_toRightOf="@+id/paiPriceLabel"
+                        android:text="￥8899"/>
+
+                    <TextView
+                        android:id="@+id/paiMarketPriceLabel"
+                        style="@style/PaiDetailPriceLabelTextView"
+                        android:layout_below="@+id/paiPriceLabel"
+                        android:layout_marginTop="15dp"
+                        android:background="@android:color/holo_blue_light"
+                        android:text="@string/pai_market_price"/>
+
+                    <TextView
+                        style="@style/PaiDetailPriceTextView"
+                        android:layout_alignBottom="@+id/paiMarketPriceLabel"
+                        android:layout_toRightOf="@+id/paiMarketPriceLabel"
+                        android:text="￥8899"/>
+
+                    <TextView
+                        android:id="@+id/depositLabel"
+                        style="@style/PaiDetailPriceLabelTextView"
+                        android:layout_below="@+id/paiMarketPriceLabel"
+                        android:layout_marginTop="15dp"
+                        android:background="@android:color/holo_orange_light"
+                        android:text="@string/pai_deposit"/>
+
+                    <TextView
+                        style="@style/PaiDetailPriceTextView"
+                        android:layout_alignBottom="@+id/depositLabel"
+                        android:layout_toRightOf="@+id/depositLabel"
+                        android:text="￥8899"/>
+                </RelativeLayout>
+                <!--竞拍-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="210dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="386"
+                        android:background="@mipmap/bg_pai_detail_left"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="87dp"
+                            android:layout_height="41dp"
+                            android:src="@mipmap/icon_pai_detail_left"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:text="@string/pai_last_username"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/pai_last_price"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="691"
+                        android:background="@mipmap/bg_pai_detail_right">
+
+                        <ImageView
+                            android:layout_width="90dp"
+                            android:layout_height="21dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="20dp"
+                            android:src="@mipmap/icon_pai_detail_right"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="75dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="63.6dp"
+                                android:layout_height="53.3dp"
+                                android:layout_marginRight="20dp"
+                                android:background="@mipmap/icon_add_price_bg"
+                                android:gravity="center"
+                                android:text="500元"
+                                android:textColor="@android:color/white"
+                                android:textSize="16sp"/>
+
+                            <TextView
+                                android:layout_width="63.6dp"
+                                android:layout_height="53.3dp"
+                                android:layout_marginLeft="20dp"
+                                android:background="@mipmap/icon_add_price_bg"
+                                android:gravity="center"
+                                android:text="500元"
+                                android:textColor="@android:color/white"
+                                android:textSize="16sp"/>
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="20dp"
+                            android:background="@mipmap/icon_pai_detail_daojishi_bg"
+                            android:gravity="center"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="3dp"
+                            android:paddingRight="3dp"
+                            android:paddingTop="5dp"
+                            android:text="@string/pai_dao_jis_shi"
+                            android:textColor="@android:color/white"
+                            android:textSize="12sp"/>
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+        <RelativeLayout
+            android:layout_gravity="bottom"
+            android:padding="5dp"
+            android:background="#46373c"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+          <!--  android:layout_alignTop="@+id/textButton"
+            android:layout_alignBottom="@+id/textButton"-->
+            <EditText
+                android:layout_centerVertical="true"
+                android:padding="6dp"
+                android:layout_toLeftOf="@+id/textButton"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/pai_eidit_retangle_shape"
+                android:textSize="14sp"
+                android:maxLines="6"
+                android:textColor="@color/text_color_black_muchong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:layout_marginLeft="5dp"
+                android:id="@+id/textButton"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@mipmap/icon_pai_detail_button_bg"
+                android:textSize="14sp"
+                android:text="@string/pai_comment"
+                android:textColor="@android:color/white"
+                android:layout_width="53.3dp"
+                android:layout_height="33dp"/>
+        </RelativeLayout>
+    </FrameLayout>
+</LinearLayout>

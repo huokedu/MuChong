@@ -25,12 +25,14 @@
         <item name="titleTextAppearance">@style/ToolbarTextAppearance</item>
         <item name="android:actionMenuTextAppearance">@style/ToolbarActionMenuTextAppearance</item>
     </style>
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
     <!--ToolBar 标题字体配置-->
     <style name="ToolbarTextAppearance">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
+
     <style name="ToolbarTextSubAppearance" parent="ToolbarTextAppearance">
         <item name="android:textSize">16sp</item>
     </style>
@@ -47,9 +49,11 @@
         <item name="tabBackground">@drawable/bg_tab_selector</item>
         <item name="android:background">@mipmap/bg_tab_layout</item>
     </style>
+
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
+
     <style name="ThirdChildTabLayoutStyle" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorColor">@color/colorPrimaryDark</item>
         <item name="tabIndicatorHeight">3dp</item>
@@ -59,12 +63,14 @@
         <item name="tabTextAppearance">@style/TabTextAppearance</item>
         <item name="tabSelectedTextColor">@color/textColorPrimary</item>
     </style>
+
     <style name="QiangTabLayoutStyle" parent="ThirdChildTabLayoutStyle">
         <item name="tabIndicatorColor">@color/colorPrimaryDark</item>
         <item name="tabTextAppearance">@style/TabTextAppearance</item>
         <item name="tabSelectedTextColor">@color/colorPrimaryDark</item>
         <item name="android:background">@android:color/white</item>
     </style>
+
     <style name="RatingBarLevel" parent="Widget.AppCompat.RatingBar.Small">
         <item name="android:progressDrawable">@drawable/rating_indicator_level</item>
         <item name="android:indeterminateDrawable">@drawable/rating_indicator_level</item>
@@ -73,6 +79,7 @@
         <item name="android:isIndicator">true</item>
         <item name="android:thumb">@null</item>
     </style>
+
     <style name="Button" parent="Base.TextAppearance.AppCompat.Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">44dp</item>
@@ -82,16 +89,30 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@mipmap/bg_button</item>
     </style>
+
+    <style name="DialogAppCompat" parent="@android:style/Theme.Dialog">
+        <item name="android:windowIsTranslucent">false</item>
+        <!--半透明-->
+        <item name="android:windowNoTitle">true</item>
+        <!--无标题-->
+        <item name="android:windowBackground">@mipmap/bg_dialog</item>
+        <!--背景透明-->
+        <item name="android:backgroundDimEnabled">false</item>
+        <!--模糊-->
+    </style>
+
     <style name="DividerHorizontal">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/divider_width</item>
         <item name="android:background">@color/divider_gray_color</item>
     </style>
+
     <style name="DividerVertical">
         <item name="android:layout_width">@dimen/divider_width</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/divider_gray_color</item>
     </style>
+
     <style name="PtrFrameLayout">
         <item name="android:id">@id/rotate_header_list_view_frame</item>
         <item name="android:layout_width">match_parent</item>
@@ -103,6 +124,7 @@
         <item name="ptr_ratio_of_header_height_to_refresh">1.2</item>
         <item name="ptr_resistance">1.7</item>
     </style>
+
     <style name="FirstHeaderLinear">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
@@ -110,6 +132,7 @@
         <item name="android:orientation">vertical</item>
         <item name="android:layout_height">match_parent</item>
     </style>
+
     <style name="FirstHeaderLinearText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:singleLine">true</item>
@@ -118,6 +141,7 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/text_color_black_muchong</item>
     </style>
+
     <style name="DaoJiShiText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -127,6 +151,7 @@
         <item name="android:textColor">@color/text_color_red</item>
         <item name="android:background">@drawable/bg_timer_retangle_shape</item>
     </style>
+
     <style name="FirstQiangLinear">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -137,12 +162,14 @@
         <item name="android:paddingTop">5dp</item>
         <item name="android:paddingBottom">5dp</item>
     </style>
+
     <style name="FirstQiangImage">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">150dp</item>
         <item name="android:scaleType">fitXY</item>
         <item name="android:src">@mipmap/default_first_qiang</item>
     </style>
+
     <style name="FirstQiangLinearText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -150,16 +177,20 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/text_color_black_muchong</item>
     </style>
+
     <style name="FirstQiangLinearTextName" parent="FirstQiangLinearText">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
     </style>
+
     <style name="FirstQiangLinearTextPrice" parent="FirstQiangLinearText">
         <item name="android:textColor">@color/text_color_red</item>
     </style>
+
     <style name="FirstQiangLinearTextDescription" parent="FirstQiangLinearText">
         <item name="android:textSize">12sp</item>
     </style>
+
     <style name="FirstPaiLinear">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -170,6 +201,7 @@
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
     </style>
+
     <style name="FirstPaiLinearText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -177,17 +209,21 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/text_color_black_muchong</item>
     </style>
+
     <style name="FirstPaiLinearTextName" parent="FirstPaiLinearText">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
     </style>
+
     <style name="FirstPaiLinearTextPrice" parent="FirstPaiLinearText">
         <item name="android:textColor">@color/text_color_red</item>
     </style>
+
     <style name="ThirdChildOneImage" parent="FirstQiangImage">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
     </style>
+
     <style name="LoginRelativeLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -199,6 +235,7 @@
         <item name="android:paddingRight">15dp</item>
         <item name="android:background">@drawable/divider_retangle_shape</item>
     </style>
+
     <style name="LoginTextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -206,7 +243,26 @@
         <item name="android:textColor">@color/text_color_black_muchong</item>
         <item name="android:background">@null</item>
     </style>
-    <style name="LoginTextView.EditText">
 
+    <style name="LoginTextView.EditText">
+    </style>
+
+    <style name="PaiDetailPriceLabelTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
+    </style>
+
+    <style name="PaiDetailPriceTextView" parent="PaiDetailPriceLabelTextView">
+        <item name="android:textColor">@color/text_color_red</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
     </style>
 </resources>
