@@ -6,117 +6,139 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <include layout="@layout/toolbar_layout"/>
-    <ScrollView
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-            <fragment
-                android:id="@+id/fragmentBanner"
-                android:name="com.htlc.muchong.fragment.BannerFragment"
+            android:paddingBottom="40dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/banner_height"/>
-            <RelativeLayout
-                android:background="@drawable/divider_retangle_shape"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/textName"
-                    android:text="檀木林"
-                    android:textSize="16sp"
-                    android:textColor="@color/text_color_black_muchong"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:id="@+id/textLike"
-                    android:layout_toLeftOf="@+id/imageRenZheng"
-                    android:drawablePadding="5dp"
-                    android:drawableLeft="@mipmap/icon_fourth_two_heart"
-                    android:text="1555"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/holo_orange_light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <ImageView
-                    android:layout_marginLeft="20dp"
-                    android:id="@+id/imageRenZheng"
-                    android:layout_alignParentRight="true"
-                    android:src="@mipmap/icon_product_ren_zheng"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@+id/textName"
-                    android:id="@+id/textPrice"
-                    android:text="￥5555"
-                    android:textSize="14sp"
-                    android:textColor="@color/text_color_red"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <fragment
+                    android:id="@+id/fragmentBanner"
+                    android:name="com.htlc.muchong.fragment.BannerFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/banner_height"/>
+                <!--商品正文-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/divider_retangle_shape"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:id="@+id/textName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="檀木林"
+                        android:textColor="@color/text_color_black_muchong"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/textLike"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/imageRenZheng"
+                        android:drawableLeft="@mipmap/icon_fourth_two_heart"
+                        android:drawablePadding="5dp"
+                        android:text="1555"
+                        android:textColor="@android:color/holo_orange_light"
+                        android:textSize="14sp"/>
+
+                    <ImageView
+                        android:id="@+id/imageRenZheng"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="20dp"
+                        android:src="@mipmap/icon_product_ren_zheng"/>
+
+                    <TextView
+                        android:id="@+id/textPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textName"
+                        android:layout_marginTop="10dp"
+                        android:text="￥5555"
+                        android:textColor="@color/text_color_red"
+                        android:textSize="14sp"/>
+
+                    <View
+                        android:id="@+id/divider"
+                        style="@style/DividerHorizontal"
+                        android:layout_below="@+id/textPrice"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"/>
+
+                    <TextView
+                        android:id="@+id/textDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/divider"
+                        android:text="一、首先来看商品概况页面描绘优化的重要性: 1、吸引买家检查商品描绘细节,发生购置愿望,进步商品成交的转化率 2、商品描绘页面的shop活动设计,和关联产品设计,可以提升买..."
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/textMaterial"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textDescription"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/product_detail_material"
+                        android:textColor="@color/text_color_black_muchong"
+                        android:textSize="12sp"/>
+                </RelativeLayout>
+
                 <View
-                    android:id="@+id/divider"
-                    android:layout_marginBottom="10dp"
-                    android:layout_below="@+id/textPrice"
-                    android:layout_marginTop="10dp"
-                    style="@style/DividerHorizontal"/>
-                <TextView
-                    android:layout_below="@+id/divider"
-                    android:id="@+id/textDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="一、首先来看商品概况页面描绘优化的重要性: 1、吸引买家检查商品描绘细节,发生购置愿望,进步商品成交的转化率 2、商品描绘页面的shop活动设计,和关联产品设计,可以提升买..."
-                    android:textSize="12sp"/>
-                <TextView
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@+id/textDescription"
-                    android:id="@+id/textMaterial"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_color_black_muchong"
-                    android:text="@string/product_detail_material"
-                    android:textSize="12sp"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_marginTop="10dp"
-                android:background="@drawable/divider_retangle_shape"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/textComment"
-                    android:text="@string/product_detail_comment"
-                    android:textSize="16sp"
-                    android:textColor="@color/text_color_black_muchong"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:layout_alignParentRight="true"
-                    android:textSize="16sp"
-                    android:text=">>"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <View
-                    android:id="@+id/divider2"
-                    android:layout_below="@+id/textComment"
-                    android:layout_marginTop="10dp"
-                    style="@style/DividerHorizontal"/>
-                <LinearLayout
-                    android:layout_below="@+id/divider2"
-                    android:id="@+id/linearContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"></LinearLayout>
-            </RelativeLayout>
-        </LinearLayout>
-    </ScrollView>
+                    style="@style/DividerHorizontal"
+                    android:layout_marginTop="10dp"/>
+
+                <include
+                    layout="@layout/layout_comment"/>
+            </LinearLayout>
+        </ScrollView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/bg_gray">
+
+            <TextView
+                android:id="@+id/textBuy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@mipmap/bg_button_code"
+                android:padding="10dp"
+                android:gravity="center"
+                android:text="@string/product_detail_buy"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:gravity="center"
+                android:id="@+id/textAddCar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/textBuy"
+                android:background="@android:color/holo_orange_light"
+                android:padding="10dp"
+                android:text="@string/product_detail_add_car"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"/>
+        </RelativeLayout>
+    </FrameLayout>
 </LinearLayout>

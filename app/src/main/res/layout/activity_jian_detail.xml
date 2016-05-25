@@ -14,146 +14,39 @@
         android:layout_height="match_parent">
 
         <ScrollView
-            android:layout_marginBottom="43dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="43dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <!--楼主-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@mipmap/default_third_gird_head"/>
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="5dp"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:id="@+id/textName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="哆啦A梦"/>
-                        <TextView
-                            android:layout_marginTop="5dp"
-                            android:textSize="12sp"
-                            android:layout_below="@+id/textName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="等级：豆豆"/>
-                    </RelativeLayout>
-                    <TextView
-                        android:layout_gravity="top"
-                        android:text="1小时前"
-                        android:textSize="12sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
+                <!--楼主-->
+                <include layout="@layout/layout_owner"/>
+
                 <View style="@style/DividerHorizontal"/>
-                <TextView
-                    android:id="@+id/textContent"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:textSize="12sp"
-                    android:text="人工智能是今年的 Google I/O 的一大主题。在发布会一开始，Google CEO 桑达拉·皮蔡（Sundar Pichai）就强调机器学习在生活中扮演的重要角色。随后，一系列基于 Google 人工智能的产品纷至沓来。OK, Google. 这句耳熟能详的命令，如今承载了 Google 全新的产品——Google Assistant.之所以 Google Assistant 是发布会上首个亮相的产品，是因为后续登场的数个产品都基于这一技术。Google 用将近十年的时间，改善自己的语音识别技术，更强调自然语义和对话式搜索。"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                <!--文章-->
+                <include layout="@layout/layout_article"/>
+
                 <View style="@style/DividerHorizontal"/>
-                <com.htlc.muchong.widget.NoScrollListView
-                    android:id="@+id/imageListView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-                </com.htlc.muchong.widget.NoScrollListView>
+
+                <!--鉴定结果-->
+                <include layout="@layout/layout_jian_result"/>
+
                 <View style="@style/DividerHorizontal"/>
-                <TextView
-                    android:padding="15dp"
-                    android:text="@string/jian_detail_result"
-                    android:textSize="14sp"
-                    android:textColor="@color/text_color_black_muchong"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                <!--专家点评-->
+                <include layout="@layout/layout_professor_comment"/>
+
                 <View style="@style/DividerHorizontal"/>
-                <com.htlc.muchong.widget.NoScrollListView
-                    android:id="@+id/resultListView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-                </com.htlc.muchong.widget.NoScrollListView>
-                <View style="@style/DividerHorizontal"/>
-                <TextView
-                    android:padding="15dp"
-                    android:text="@string/jian_detail_professor_comment"
-                    android:textSize="14sp"
-                    android:textColor="@color/text_color_black_muchong"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <View style="@style/DividerHorizontal"/>
-                <TextView
-                    android:id="@+id/textProfessorComment"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:textSize="12sp"
-                    android:text="人工智能是今年的 Google I/O 的一大主题。在发布会一开始，Google CEO 桑达拉·皮蔡（Sundar Pichai）就强调机器学习在生活中扮演的重要角色。随后，一系列基于 Google 人工智能的产品纷至沓来。OK, Google. 这句耳熟能详的命令，如今承载了 Google 全新的产品——Google Assistant."
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <View style="@style/DividerHorizontal"/>
-                <TextView
-                    android:padding="15dp"
-                    android:text="@string/jian_detail_professor_comment"
-                    android:textSize="14sp"
-                    android:textColor="@color/text_color_black_muchong"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                <!--评论-->
+                <include layout="@layout/layout_comment"/>
+
                 <View style="@style/DividerHorizontal"/>
             </LinearLayout>
         </ScrollView>
         <!--输入框-->
-        <RelativeLayout
-            android:layout_gravity="bottom"
-            android:padding="5dp"
-            android:background="#46373c"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:layout_centerVertical="true"
-                android:padding="6dp"
-                android:layout_toLeftOf="@+id/textButton"
-                android:layout_alignParentLeft="true"
-                android:background="@drawable/pai_eidit_retangle_shape"
-                android:textSize="14sp"
-                android:maxLines="6"
-                android:textColor="@color/text_color_black_muchong"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_marginLeft="5dp"
-                android:id="@+id/textButton"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@mipmap/icon_pai_detail_button_bg"
-                android:textSize="14sp"
-                android:text="@string/pai_comment"
-                android:textColor="@android:color/white"
-                android:layout_width="53.3dp"
-                android:layout_height="33dp"/>
-        </RelativeLayout>
+        <include layout="@layout/layout_input"/>
     </FrameLayout>
 </LinearLayout>

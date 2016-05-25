@@ -19,7 +19,8 @@
             android:id="@+id/title_left"
             style="@style/ToolbarTextSubAppearance"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_gravity="start"
             android:visibility="gone"/>
 
@@ -35,7 +36,10 @@
             android:id="@+id/title_right"
             style="@style/ToolbarTextSubAppearance"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:gravity="center"
+            android:layout_height="match_parent"
             android:layout_gravity="end"
             android:visibility="gone"/>
     </android.support.v7.widget.Toolbar>

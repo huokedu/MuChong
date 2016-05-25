@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_below="@+id/dividerProfessorComment"
+    android:id="@+id/textProfessorComment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    android:text="人工智能是今年的 Google I/O 的一大主题。随后，一系列基于 Google 人工智能的产品纷至沓来。OK, Google. 这句耳熟能详的命令，如今承载了 Google 全新的产品——Google Assistant."
+    android:textSize="12sp"/>

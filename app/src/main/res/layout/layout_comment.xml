@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    tools:showIn="@layout/activity_product_detail">
+
+    <TextView
+        android:id="@+id/textComment"
+        android:text="@string/product_detail_comment"
+        android:textSize="16sp"
+        android:textColor="@color/text_color_black_muchong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_alignParentRight="true"
+        android:textSize="16sp"
+        android:text=">>"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_below="@+id/textComment"
+        android:layout_marginTop="10dp"
+        style="@style/DividerHorizontal"/>
+
+    <com.htlc.muchong.widget.NoScrollListView
+        android:layout_below="@+id/divider2"
+        android:id="@+id/commentListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

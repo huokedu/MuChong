@@ -2,6 +2,7 @@
     <string name="app_name">木虫</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
+    <string name="publish">发布</string>
 
     <string name="title_activity_main">MainActivity</string>
 
@@ -48,9 +49,16 @@
     <string name="register_protocol">用户协议</string>
     <string name="register_code">获取验证码</string>
 
+    <string name="product_list_title_one">综合</string>
+    <string name="product_list_title_two">销量</string>
+    <string name="product_list_title_three">价格</string>
+    <string name="product_list_title_four">筛选</string>
+
     <string name="title_product_detail">商品详情</string>
     <string name="product_detail_material">材质:&#160;%1$s&#160;&#160;规格:&#160;%2$s</string>
     <string name="product_detail_comment">评价&#160;&#160;(%1$s)</string>
+    <string name="product_detail_buy">立即购买</string>
+    <string name="product_detail_add_car">加入购物车</string>
 
     <string name="title_pai_detail">竞拍详情</string>
     <string name="pai_name">名称:&#160;%1$s</string>
@@ -67,6 +75,8 @@
     <string name="jian_title_fragment_one">真</string>
     <string name="jian_title_fragment_two">假</string>
     <string name="jian_title_fragment_three">进行中</string>
+
+    <string name="title_jian_detail">鉴定详情</string>
     <string name="jian_detail_result">鉴定结果</string>
     <string name="jian_detail_professor_comment">专家点评</string>
     <string name="jian_detail_comment">评论</string>

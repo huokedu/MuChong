@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:showIn="@layout/activity_jian_detail">
+
+    <TextView
+        android:drawableLeft="@mipmap/icon_jian_professor_comment"
+        android:id="@+id/textProfessorCommentTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="@string/jian_detail_professor_comment"
+        android:textColor="@color/text_color_black_muchong"
+        android:textSize="14sp"/>
+
+    <View
+        android:id="@+id/dividerProfessorComment"
+        android:layout_below="@+id/textProfessorCommentTitle"
+        style="@style/DividerHorizontal"/>
+    <com.htlc.muchong.widget.NoScrollListView
+        android:id="@+id/professorCommentListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dividerProfessorComment"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp">
+    </com.htlc.muchong.widget.NoScrollListView>
+</RelativeLayout>

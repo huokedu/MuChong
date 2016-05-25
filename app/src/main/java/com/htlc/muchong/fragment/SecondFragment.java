@@ -1,5 +1,6 @@
 package com.htlc.muchong.fragment;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -7,6 +8,7 @@ import android.widget.GridView;
 
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
+import com.htlc.muchong.activity.ProductListActivity;
 import com.htlc.muchong.adapter.SecondAdapter;
 import com.larno.util.ToastUtil;
 
@@ -37,6 +39,7 @@ public class SecondFragment extends FirstFragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ToastUtil.showToast(App.app, "gridView position = " + position);
+                startActivity(new Intent(getActivity(), ProductListActivity.class));
             }
         });
     }

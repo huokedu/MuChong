@@ -2,22 +2,27 @@ package com.htlc.muchong.activity;
 
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
+import com.htlc.muchong.adapter.CommentAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.fragment.BannerFragment;
 import com.htlc.muchong.fragment.FirstFragment;
 import com.larno.util.ToastUtil;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by sks on 2016/5/23.
  */
 public class ProductDetailActivity extends BaseActivity{
     protected BannerFragment mBannerFragment;
-    protected LinearLayout mLinearContainer;
+    protected ListView mCommentListView;
+    private CommentAdapter adapter;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_product_detail;
@@ -43,15 +48,16 @@ public class ProductDetailActivity extends BaseActivity{
             }
         });
 
-        mLinearContainer = (LinearLayout) findViewById(R.id.linearContainer);
+        mCommentListView = (ListView) findViewById(R.id.commentListView);
+        adapter = new CommentAdapter();
+        mCommentListView.setAdapter(adapter);
         initData();
     }
 
     @Override
     protected void initData() {
         mBannerFragment.setData(Arrays.asList(FirstFragment.sampleNetworkImageURLs));
-        for(int i=0; i<4; i++){
-            View view = View.inflate(this,R.layout.adapter_product_comment,mLinearContainer);
-        }
+        List<String> strings = Arrays.asList(FirstFragment.sampleNetworkImageURLs);
+        adapter.setData(strings,false);
     }
 }

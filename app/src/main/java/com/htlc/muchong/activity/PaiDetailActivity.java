@@ -4,24 +4,29 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
+import com.htlc.muchong.adapter.CommentAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.fragment.BannerFragment;
 import com.htlc.muchong.fragment.FirstFragment;
 import com.larno.util.ToastUtil;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by sks on 2016/5/23.
  */
 public class PaiDetailActivity extends BaseActivity{
     protected BannerFragment mBannerFragment;
-    protected LinearLayout mLinearContainer;
     private TextView textButton;
+
+    protected ListView mCommentListView;
+    private CommentAdapter adapter;
 
     @Override
     protected int getLayoutId() {
@@ -48,7 +53,6 @@ public class PaiDetailActivity extends BaseActivity{
             }
         });
 
-        mLinearContainer = (LinearLayout) findViewById(R.id.linearContainer);
 
         textButton = (TextView) findViewById(R.id.textButton);
         textButton.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +61,10 @@ public class PaiDetailActivity extends BaseActivity{
                 showTips();
             }
         });
+
+        mCommentListView = (ListView) findViewById(R.id.commentListView);
+        adapter = new CommentAdapter();
+        mCommentListView.setAdapter(adapter);
         initData();
     }
 
@@ -85,11 +93,8 @@ public class PaiDetailActivity extends BaseActivity{
     @Override
     protected void initData() {
         mBannerFragment.setData(Arrays.asList(FirstFragment.sampleNetworkImageURLs));
+        List<String> strings = Arrays.asList(FirstFragment.sampleNetworkImageURLs);
+        adapter.setData(strings,false);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
 }

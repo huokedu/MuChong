@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="#46373c"
+    android:padding="5dp"
+    tools:showIn="@layout/activity_jian_detail">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/textButton"
+        android:background="@drawable/pai_eidit_retangle_shape"
+        android:maxLines="6"
+        android:padding="6dp"
+        android:textColor="@color/text_color_black_muchong"
+        android:textSize="14sp"/>
+
+    <Button
+        android:id="@+id/textButton"
+        android:layout_width="53.3dp"
+        android:layout_height="33dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:background="@mipmap/icon_pai_detail_button_bg"
+        android:text="@string/pai_comment"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"/>
+</RelativeLayout>

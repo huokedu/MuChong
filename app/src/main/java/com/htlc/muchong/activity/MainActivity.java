@@ -50,16 +50,43 @@ public class MainActivity extends BaseActivity{
             }
         }
         mTitleTextView.setText(mViewPager.getAdapter().getPageTitle(0));
+        mTitleRightTextView.setBackgroundResource(R.mipmap.icon_search);
+        mTitleRightTextView.setText("");
+        mTitleRightTextView.setVisibility(View.VISIBLE);
+
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 mViewPager.setCurrentItem(position, false);
                 mTitleTextView.setText(mViewPager.getAdapter().getPageTitle(position));
-                if(position==4){
-                    mToolbar.setVisibility(View.GONE);
-                }else {
+                if(position == 0){
+                    mTitleRightTextView.setBackgroundResource(R.mipmap.icon_search);
+                    mTitleRightTextView.setText("");
+
+                    mTitleLeftTextView.setVisibility(View.INVISIBLE);
+                    mTitleRightTextView.setVisibility(View.VISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
+                }else if(position == 1){
+                    mTitleRightTextView.setBackgroundResource(R.mipmap.icon_search);
+                    mTitleRightTextView.setText("");
+                    mTitleLeftTextView.setText(R.string.publish);
+
+                    mTitleLeftTextView.setVisibility(View.VISIBLE);
+                    mTitleRightTextView.setVisibility(View.VISIBLE);
+                    mToolbar.setVisibility(View.VISIBLE);
+                }else if(position == 2){
+                    mTitleLeftTextView.setVisibility(View.INVISIBLE);
+                    mTitleRightTextView.setVisibility(View.INVISIBLE);
+                    mToolbar.setVisibility(View.VISIBLE);
+                }else if(position == 3){
+                    mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);
+                    mTitleRightTextView.setText("");
+                    mTitleLeftTextView.setVisibility(View.INVISIBLE);
+                    mTitleRightTextView.setVisibility(View.VISIBLE);
+                    mToolbar.setVisibility(View.VISIBLE);
+                }else if(position == 4){
+                    mToolbar.setVisibility(View.GONE);
                 }
             }
 

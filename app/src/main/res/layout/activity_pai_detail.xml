@@ -113,7 +113,8 @@
                 </LinearLayout>
 
                 <View style="@style/DividerHorizontal"/>
-
+                <include
+                    layout="@layout/layout_comment"/>
                 <View style="@style/DividerHorizontal"/>
 
                 <!--价格-->
@@ -259,37 +260,6 @@
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
-        <RelativeLayout
-            android:layout_gravity="bottom"
-            android:padding="5dp"
-            android:background="#46373c"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-          <!--  android:layout_alignTop="@+id/textButton"
-            android:layout_alignBottom="@+id/textButton"-->
-            <EditText
-                android:layout_centerVertical="true"
-                android:padding="6dp"
-                android:layout_toLeftOf="@+id/textButton"
-                android:layout_alignParentLeft="true"
-                android:background="@drawable/pai_eidit_retangle_shape"
-                android:textSize="14sp"
-                android:maxLines="6"
-                android:textColor="@color/text_color_black_muchong"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_marginLeft="5dp"
-                android:id="@+id/textButton"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@mipmap/icon_pai_detail_button_bg"
-                android:textSize="14sp"
-                android:text="@string/pai_comment"
-                android:textColor="@android:color/white"
-                android:layout_width="53.3dp"
-                android:layout_height="33dp"/>
-        </RelativeLayout>
+        <include layout="@layout/layout_input"/>
     </FrameLayout>
 </LinearLayout>
