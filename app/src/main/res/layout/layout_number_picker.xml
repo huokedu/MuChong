@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:orientation="horizontal">
+    <Button
+        style="@style/ShoppingCartButton"
+        android:id="@+id/buttonMinus"
+        android:text="—"
+        />
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/textNumber"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:textColor="@color/text_color_red"
+        android:text="25"/>
+    <Button
+        style="@style/ShoppingCartButton"
+        android:id="@+id/buttonPlus"
+        android:background="@color/bg_gray"
+        android:textSize="18sp"
+        android:text="+"/>
+</LinearLayout>

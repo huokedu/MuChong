@@ -1,8 +1,6 @@
-package com.htlc.muchong.fragment;
+package com.htlc.muchong.activity;
 
-import android.content.Intent;
-import android.graphics.Rect;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -14,31 +12,42 @@ import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
-import com.htlc.muchong.activity.CangDetailActivity;
-import com.htlc.muchong.adapter.ThirdRecyclerViewAdapter;
+import com.htlc.muchong.adapter.PaiRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
-import com.larno.util.CommonUtil;
+import com.htlc.muchong.fragment.SecondFragment;
 import com.larno.util.ToastUtil;
 
 import java.util.Arrays;
 
 /**
- * Created by sks on 2016/1/27.
+ * Created by sks on 2016/5/24.
  */
-public class ThirdFragment extends HomeFragment {
+public class TaLikeActivity extends BaseActivity {
+
     private PtrClassicFrameLayout mPtrFrame;
-    private ThirdRecyclerViewAdapter adapter;
+    private PaiRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_third;
+        return R.layout.activity_pai_list;
     }
 
     @Override
     protected void setupView() {
-        mPtrFrame = findViewById(R.id.rotate_header_list_view_frame);
+        mTitleTextView.setText(R.string.title_ta_like);
+        mTitleRightTextView.setText("");
+        mTitleRightTextView.setBackgroundResource(R.mipmap.icon_share);
+        mTitleRightTextView.setVisibility(View.VISIBLE);
+        mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast(App.app, "share。。。。。。。。。。");
+            }
+        });
+
+        mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
         mPtrFrame.setLastUpdateTimeRelateObject(this);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
@@ -64,43 +73,12 @@ public class ThirdFragment extends HomeFragment {
             }
         });
 
-        mRecyclerView = findViewById(R.id.recyclerView);
-        adapter = new ThirdRecyclerViewAdapter();
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        adapter = new PaiRecyclerViewAdapter();
         mAdapter = new RecyclerAdapterWithHF(adapter);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2) {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this) {
         });
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration(){
-            private int space = CommonUtil.dp2px(getContext(),10);
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                if(parent.getChildAdapterPosition(view)%2 == 0){
-                    outRect.bottom = space;
-                    outRect.left = space;
-                    outRect.right = space/2;
-                }else {
-                    outRect.bottom = space;
-                    outRect.right = space;
-                    outRect.left = space/2;
-                }
-                if(parent.getChildAdapterPosition(view) < 2){
-                    outRect.top = space;
-                }
-
-            }
-        });
-        adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                ToastUtil.showToast(App.app, "mRecyclerView position " + position);
-                Intent intent = new Intent(getActivity(), CangDetailActivity.class);
-                intent.putExtra(BaseActivity.ActivityTitleId,R.string.title_cang_detail);
-                startActivity(intent);
-
-            }
-        });
-
-
     }
 
     private void loadMoreData() {

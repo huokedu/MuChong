@@ -9,6 +9,8 @@ import android.view.View;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.activity.LoginActivity;
+import com.htlc.muchong.activity.ShoppingCartActivity;
+import com.htlc.muchong.activity.TaLikeActivity;
 import com.htlc.muchong.adapter.FifthRecyclerViewAdapter;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
@@ -33,10 +35,11 @@ public class FifthFragment extends HomeFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            private int space = CommonUtil.dp2px(getContext(),40);
+            private int space = CommonUtil.dp2px(getContext(), 40);
+
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                if(parent.getChildAdapterPosition(view) == adapter.getItemCount()-1){
+                if (parent.getChildAdapterPosition(view) == adapter.getItemCount() - 1) {
                     outRect.bottom = space;
                 }
             }
@@ -45,7 +48,40 @@ public class FifthFragment extends HomeFragment {
             @Override
             public void onItemClick(int position) {
                 ToastUtil.showToast(App.app, "mRecyclerView position " + position);
-                startActivity(new Intent(getActivity(), LoginActivity.class));
+                switch (position) {
+                    case 0:
+                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
+                        break;
+                    case 1:
+                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
+                        startActivity(new Intent(getActivity(), ShoppingCartActivity.class));
+                        break;
+                    case 2:
+                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
+                        startActivity(new Intent(getActivity(), TaLikeActivity.class));
+                        break;
+                    case 3:
+                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
+                        break;
+                    case 4:
+                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
+                        break;
+                    case 5:
+                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
+                        break;
+                    case 6:
+                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
+                        break;
+                    case 7:
+                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
+                        break;
+                    case 8:
+                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                        break;
+
+
+                }
             }
         });
 

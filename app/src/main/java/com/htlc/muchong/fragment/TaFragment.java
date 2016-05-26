@@ -1,8 +1,6 @@
 package com.htlc.muchong.fragment;
 
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,7 +32,7 @@ import java.util.Arrays;
 /**
  * Created by sks on 2016/5/20.
  */
-public class FourthChildOneFragment extends HomeFragment {
+public class TaFragment extends HomeFragment {
     private PtrClassicFrameLayout mPtrFrame;
     private BaseRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
@@ -79,7 +77,8 @@ public class FourthChildOneFragment extends HomeFragment {
     }
 
     private void initAdapter() {
-        if (mTitle.equals(getString(R.string.fourth_title_fragment_one))) {
+        //一人一语  他的故事
+        if (mTitle.equals(getString(R.string.title_ta_three))) {
             adapter = new FourthOneRecyclerViewAdapter();
             mAdapter = new RecyclerAdapterWithHF(adapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -96,32 +95,36 @@ public class FourthChildOneFragment extends HomeFragment {
                 public void onItemClick(View view, int position) {
                     ToastUtil.showToast(App.app, "mRecyclerView position " + position);
                     Intent intent = new Intent(getActivity(), CangDetailActivity.class);
-                    intent.putExtra(BaseActivity.ActivityTitleId,R.string.fourth_title_fragment_one);
+                    intent.putExtra(BaseActivity.ActivityTitleId, R.string.title_ta_three);
                     startActivity(intent);
                 }
             });
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_two))) {
-            adapter = new FourthTwoRecyclerViewAdapter();
+            //他的藏品
+        } else if (mTitle.equals(getString(R.string.title_ta_one))) {
+            mRecyclerView = findViewById(R.id.recyclerView);
+            adapter = new ThirdRecyclerViewAdapter();
             mAdapter = new RecyclerAdapterWithHF(adapter);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    ToastUtil.showToast(App.app, "mRecyclerView position " + position);
-                    Intent intent = new Intent(getActivity(), PersonActivity.class);
-                    startActivity(intent);
-                }
+            mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2) {
             });
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_three))) {
-            adapter = new FourthThreeRecyclerViewAdapter();
-            mAdapter = new RecyclerAdapterWithHF(adapter);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
                 private int space = CommonUtil.dp2px(getContext(), 10);
 
                 @Override
                 public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                    outRect.bottom = space;
+                    if (parent.getChildAdapterPosition(view) % 2 == 0) {
+                        outRect.bottom = space;
+                        outRect.left = space;
+                        outRect.right = space / 2;
+                    } else {
+                        outRect.bottom = space;
+                        outRect.right = space;
+                        outRect.left = space / 2;
+                    }
+                    if (parent.getChildAdapterPosition(view) < 2) {
+                        outRect.top = space;
+                    }
+
                 }
             });
             adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
@@ -129,11 +132,17 @@ public class FourthChildOneFragment extends HomeFragment {
                 public void onItemClick(View view, int position) {
                     ToastUtil.showToast(App.app, "mRecyclerView position " + position);
                     Intent intent = new Intent(getActivity(), CangDetailActivity.class);
-                    intent.putExtra(BaseActivity.ActivityTitleId,R.string.fourth_title_fragment_three);
+                    intent.putExtra(BaseActivity.ActivityTitleId, R.string.title_cang_detail);
                     startActivity(intent);
+
                 }
             });
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_four))) {
+
+            //他的喜欢
+        } else if (mTitle.equals(getString(R.string.title_ta_four))) {
+
+            //他的学堂
+        } else if (mTitle.equals(getString(R.string.title_ta_two))) {
             adapter = new FourthFourRecyclerViewAdapter();
             mAdapter = new RecyclerAdapterWithHF(adapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -159,34 +168,29 @@ public class FourthChildOneFragment extends HomeFragment {
 
     @Override
     protected void initData() {
-        if (mTitle.equals(getString(R.string.fourth_title_fragment_one))) {
+        if (mTitle.equals(getString(R.string.title_ta_one))) {
             initDataOne();
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_two))) {
+        } else if (mTitle.equals(getString(R.string.title_ta_two))) {
             initDataTwo();
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_three))) {
+        } else if (mTitle.equals(getString(R.string.title_ta_three))) {
             initDataThree();
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_four))) {
-            initDataFour();
+        } else if (mTitle.equals(getString(R.string.title_ta_four))) {
+
         }
     }
 
     private void loadMoreData() {
-        if (mTitle.equals(getString(R.string.fourth_title_fragment_one))) {
+        if (mTitle.equals(getString(R.string.title_ta_one))) {
             loadMoreDataOne();
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_two))) {
+        } else if (mTitle.equals(getString(R.string.title_ta_two))) {
             loadMoreDataTwo();
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_three))) {
+        } else if (mTitle.equals(getString(R.string.title_ta_three))) {
             loadMoreDataThree();
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_four))) {
-            loadMoreDataFour();
+        } else if (mTitle.equals(getString(R.string.title_ta_four))) {
+
         }
     }
 
-    private void loadMoreDataFour() {
-        mPtrFrame.loadMoreComplete(true);
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), true);
-        mPtrFrame.setNoMoreData();
-    }
 
     private void loadMoreDataThree() {
         mPtrFrame.loadMoreComplete(true);
@@ -207,11 +211,6 @@ public class FourthChildOneFragment extends HomeFragment {
     }
 
 
-    private void initDataFour() {
-        mPtrFrame.refreshComplete();
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), false);
-        mPtrFrame.setLoadMoreEnable(true);
-    }
 
     private void initDataThree() {
         mPtrFrame.refreshComplete();

@@ -29,6 +29,10 @@
         <activity android:name=".activity.JianDetailActivity"/>
         <activity android:name=".activity.ProductListActivity"/>
         <activity android:name=".activity.ProductDetailActivity"/>
+        <activity android:name=".activity.CangDetailActivity"/>
+        <activity android:name=".activity.PersonActivity"/>
+        <activity android:name=".activity.TaLikeActivity"/>
+        <activity android:name=".activity.ShoppingCartActivity"/>
     </application>
 
 </manifest>

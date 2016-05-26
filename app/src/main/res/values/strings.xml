@@ -3,6 +3,7 @@
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
     <string name="publish">发布</string>
+    <string name="delete">删除</string>
 
     <string name="title_activity_main">MainActivity</string>
 
@@ -78,6 +79,21 @@
 
     <string name="title_jian_detail">鉴定详情</string>
     <string name="jian_detail_result">鉴定结果</string>
+    <string name="jian_detail_jian">鉴定</string>
     <string name="jian_detail_professor_comment">专家点评</string>
     <string name="jian_detail_comment">评论</string>
+
+    <string name="title_cang_detail">藏品详情</string>
+
+    <string name="title_ta_one">他的藏品</string>
+    <string name="title_ta_two">他的学堂</string>
+    <string name="title_ta_three">他的故事</string>
+    <string name="title_ta_four">他的喜欢</string>
+
+    <string name="title_ta_like">他的喜欢-%1$s</string>
+    <string name="title_my_like">我的喜欢-%1$s</string>
+    <string name="title_shopping_cart">购物车</string>
+
+
+
 </resources>

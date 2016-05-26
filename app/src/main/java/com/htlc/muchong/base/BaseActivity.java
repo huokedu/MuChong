@@ -21,6 +21,7 @@ import core.ActionCallbackListener;
  * Created by sks on 2016/5/13.
  */
 public abstract class BaseActivity extends AppCompatActivity {
+    public static final String ActivityTitleId = "ActivityTitle";
     public Toolbar mToolbar;
     public TextView mTitleTextView,mTitleRightTextView,mTitleLeftTextView;
     @Override
