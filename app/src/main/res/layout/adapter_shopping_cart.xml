@@ -1,14 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:descendantFocusability= "blocksDescendants"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp">
+
+    <CheckBox
+        android:layout_marginLeft="15dp"
+        android:layout_centerVertical="true"
+        android:id="@+id/checkbox"
+        android:clickable="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/imageView"
+        android:layout_toRightOf="@+id/checkbox"
+        android:src="@mipmap/defautl_third_grid"
+        android:layout_width="91dp"
+        android:layout_height="91dp"/>
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_toRightOf="@+id/imageView"
+        android:id="@+id/textName"
+        android:text="檀木林"
+        android:textSize="14sp"
+        android:textColor="@color/text_color_black_muchong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_marginBottom="10dp"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_toRightOf="@+id/imageView"
+        android:id="@+id/textPrice"
+        android:text="￥888"
+        android:textSize="14sp"
+        android:textColor="@color/text_color_red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <com.htlc.muchong.widget.NumberPicker
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/textPrice"
         android:id="@+id/numberPicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal"/>
-
-</LinearLayout>
+</RelativeLayout>

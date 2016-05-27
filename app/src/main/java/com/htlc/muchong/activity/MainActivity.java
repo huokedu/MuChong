@@ -61,31 +61,34 @@ public class MainActivity extends BaseActivity{
                 mViewPager.setCurrentItem(position, false);
                 mTitleTextView.setText(mViewPager.getAdapter().getPageTitle(position));
                 if(position == 0){
+                    setStatusBarColor();
                     mTitleRightTextView.setBackgroundResource(R.mipmap.icon_search);
                     mTitleRightTextView.setText("");
-
                     mTitleLeftTextView.setVisibility(View.INVISIBLE);
                     mTitleRightTextView.setVisibility(View.VISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
                 }else if(position == 1){
+                    setStatusBarColor();
                     mTitleRightTextView.setBackgroundResource(R.mipmap.icon_search);
                     mTitleRightTextView.setText("");
                     mTitleLeftTextView.setText(R.string.publish);
-
                     mTitleLeftTextView.setVisibility(View.VISIBLE);
                     mTitleRightTextView.setVisibility(View.VISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
                 }else if(position == 2){
+                    setStatusBarColor();
                     mTitleLeftTextView.setVisibility(View.INVISIBLE);
                     mTitleRightTextView.setVisibility(View.INVISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
                 }else if(position == 3){
+                    setStatusBarColor();
                     mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);
                     mTitleRightTextView.setText("");
                     mTitleLeftTextView.setVisibility(View.INVISIBLE);
                     mTitleRightTextView.setVisibility(View.VISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
                 }else if(position == 4){
+                    setStatusBarColor(R.mipmap.bg_fragment_fifth_header);
                     mToolbar.setVisibility(View.GONE);
                 }
             }

@@ -1,7 +1,9 @@
 package com.htlc.muchong.activity;
 
+import android.view.View;
 import android.widget.ListView;
 
+import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.adapter.CommentAdapter;
 import com.htlc.muchong.adapter.DetailImageAdapter;
@@ -9,6 +11,7 @@ import com.htlc.muchong.adapter.JianResultAdapter;
 import com.htlc.muchong.adapter.ProfessorCommentAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.fragment.FirstFragment;
+import com.larno.util.ToastUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +35,14 @@ public class JianDetailActivity extends BaseActivity {
     @Override
     protected void setupView() {
         mTitleTextView.setText(R.string.title_jian_detail);
+        mTitleRightTextView.setText(R.string.jian_detail_jian);
+        mTitleRightTextView.setVisibility(View.VISIBLE);
+        mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast(App.app,R.string.jian_detail_jian);
+            }
+        });
         imageListView = (ListView) findViewById(R.id.imageListView);
         imageAdapter = new DetailImageAdapter();
         imageListView.setAdapter(imageAdapter);

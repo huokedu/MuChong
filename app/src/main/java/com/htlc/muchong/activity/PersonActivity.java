@@ -3,6 +3,7 @@ package com.htlc.muchong.activity;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.htlc.muchong.R;
 import com.htlc.muchong.adapter.HomePagerAdapter;
@@ -30,6 +31,7 @@ public class PersonActivity extends BaseActivity {
 
     @Override
     protected void setupView() {
+        setStatusBarColor(R.mipmap.bg_fragment_fifth_header);
         mToolbar.setBackgroundResource(0);
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mViewPager.setOffscreenPageLimit(3);

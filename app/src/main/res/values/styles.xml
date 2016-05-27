@@ -9,11 +9,13 @@
         <!-- 状态栏 颜色-->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <!--整个当前Activity的字体的默认 颜色-->
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
         <!--CheckBox，RadioButton，SwitchCompat等控件的点击选中颜色-->
         <item name="colorAccent">@color/colorAccent</item>
         <!--整个当前Activity的窗口的默认 颜色-->
-        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="windowActionModeOverlay">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -100,7 +102,8 @@
         <item name="android:background">@mipmap/bg_button</item>
     </style>
 
-    <style name="DialogAppCompat" parent="@android:style/Theme.Dialog">
+    <!--<style name="DialogAppCompat" parent="@android:style/Theme.Dialog">-->
+    <style name="DialogAppCompat" parent="@style/Theme.AppCompat.Dialog">
         <item name="android:windowIsTranslucent">false</item>
         <!--半透明-->
         <item name="android:windowNoTitle">true</item>
@@ -109,6 +112,16 @@
         <!--背景透明-->
         <item name="android:backgroundDimEnabled">false</item>
         <!--模糊-->
+        <!--<item name="android:textAppearance">@style/DialogTextAppearance</item>-->
+        <!--字体-->
+    </style>
+    <style name="DialogTextAppearance">
+        <item name="android:textColor">@android:color/white</item>
+       <!-- <item name="android:textColorHighlight">?textColorHighlight</item>
+        <item name="android:textColorHint">?textColorHint</item>
+        <item name="android:textColorLink">?textColorLink</item>-->
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="DividerHorizontal">
@@ -283,4 +296,17 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
     </style>
+    <style name="UserRelative">
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+    <style name="UserLinear" parent="UserRelative">
+        <item name="android:orientation">vertical</item>
+    </style>
+
 </resources>

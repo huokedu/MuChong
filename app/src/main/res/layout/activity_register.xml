@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context="com.htlc.muchong.activity.MainActivity">
 
@@ -60,6 +61,10 @@
             <RelativeLayout
                 android:id="@+id/relativeCode"
                 style="@style/LoginRelativeLayout"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
                 android:layout_below="@+id/relativeUsername"
                 android:layout_marginTop="20dp">
 
@@ -67,14 +72,14 @@
                     android:layout_centerVertical="true"
                     android:id="@+id/editCode"
                     style="@style/LoginTextView.EditText"
-                    android:hint="@string/login_username"/>
+                    android:hint="@string/register_code_hint"/>
 
                 <Button
                     android:layout_alignParentRight="true"
                     android:textSize="14sp"
                     android:textColor="@android:color/white"
                     android:text="@string/register_code"
-                    android:layout_height="24dp"
+                    android:layout_height="28dp"
                     android:layout_width="wrap_content"
                     android:id="@+id/buttonCode"
                    android:background="@mipmap/bg_button_code"/>
@@ -136,7 +141,7 @@
                     style="@style/LoginTextView.EditText"
                     android:layout_alignParentRight="true"
                     android:layout_toRightOf="@+id/divider3"
-                    android:hint="@string/login_password"
+                    android:hint="@string/register_password"
                     android:inputType="textPassword"/>
             </RelativeLayout>
             <LinearLayout

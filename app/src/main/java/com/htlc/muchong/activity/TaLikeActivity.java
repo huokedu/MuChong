@@ -1,5 +1,7 @@
 package com.htlc.muchong.activity;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -29,6 +31,8 @@ public class TaLikeActivity extends BaseActivity {
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
 
+    int currentType = 0;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_pai_list;
@@ -36,14 +40,14 @@ public class TaLikeActivity extends BaseActivity {
 
     @Override
     protected void setupView() {
-        mTitleTextView.setText(R.string.title_ta_like);
-        mTitleRightTextView.setText("");
-        mTitleRightTextView.setBackgroundResource(R.mipmap.icon_share);
+        setTitle();
+        mTitleRightTextView.setText(R.string.like_type);
         mTitleRightTextView.setVisibility(View.VISIBLE);
         mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ToastUtil.showToast(App.app, "share。。。。。。。。。。");
+                selectLikeType();
             }
         });
 
@@ -79,6 +83,26 @@ public class TaLikeActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this) {
         });
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    private void setTitle() {
+        mTitleTextView.setText(String.format(getString(R.string.title_ta_like),getResources().getStringArray(R.array.like_type_array)[currentType]));
+    }
+
+    private void selectLikeType() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.DialogAppCompat);
+        builder.setItems(R.array.like_type_array, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                if(which!=currentType){
+                    currentType = which;
+                    setTitle();
+                }
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void loadMoreData() {

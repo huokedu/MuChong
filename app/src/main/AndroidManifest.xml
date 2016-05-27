@@ -33,6 +33,9 @@
         <activity android:name=".activity.PersonActivity"/>
         <activity android:name=".activity.TaLikeActivity"/>
         <activity android:name=".activity.ShoppingCartActivity"/>
+        <activity android:name=".activity.UserActivity"/>
+        <activity android:name=".activity.SettingActivity"/>
+        <activity android:name=".activity.JianDingActivity"/>
     </application>
 
 </manifest>

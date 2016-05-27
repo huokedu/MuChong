@@ -28,7 +28,7 @@ import java.util.List;
 @SuppressLint("NewApi")  
 public class BannerFragment extends Fragment implements OnPageChangeListener {
     public static final int CycleCode = 100;
-    public static final int DelayTime = 2000;
+    public static final int DelayTime = 4000;
 
     private LinearLayout indicatorLayout; // 指示器  
     private ViewPager viewPager;
@@ -75,7 +75,7 @@ public class BannerFragment extends Fragment implements OnPageChangeListener {
     public void onStart() {
         super.onStart();
         if(recycle){
-            handler.sendEmptyMessageDelayed(CycleCode,DelayTime);
+            handler.sendEmptyMessageDelayed(CycleCode,DelayTime*2);
         }
     }
 

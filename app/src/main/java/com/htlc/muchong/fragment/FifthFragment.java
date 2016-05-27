@@ -8,9 +8,13 @@ import android.view.View;
 
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
+import com.htlc.muchong.activity.JianListActivity;
 import com.htlc.muchong.activity.LoginActivity;
+import com.htlc.muchong.activity.PaiListActivity;
+import com.htlc.muchong.activity.SettingActivity;
 import com.htlc.muchong.activity.ShoppingCartActivity;
 import com.htlc.muchong.activity.TaLikeActivity;
+import com.htlc.muchong.activity.UserActivity;
 import com.htlc.muchong.adapter.FifthRecyclerViewAdapter;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
@@ -21,6 +25,7 @@ import com.larno.util.ToastUtil;
 public class FifthFragment extends HomeFragment {
     private FifthRecyclerViewAdapter adapter;
     private RecyclerView mRecyclerView;
+    private FifthRecyclerViewAdapter.HeadViewHolder headViewHolder;
 
     @Override
     protected int getLayoutId() {
@@ -50,34 +55,39 @@ public class FifthFragment extends HomeFragment {
                 ToastUtil.showToast(App.app, "mRecyclerView position " + position);
                 switch (position) {
                     case 0:
-                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
+                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
                         break;
                     case 1:
-                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
+                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
                         startActivity(new Intent(getActivity(), ShoppingCartActivity.class));
                         break;
                     case 2:
-                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
+                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
                         startActivity(new Intent(getActivity(), TaLikeActivity.class));
                         break;
                     case 3:
-                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
+                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
+                        startActivity(new Intent(getActivity(), JianListActivity.class));
                         break;
                     case 4:
-                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
+                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
+                        startActivity(new Intent(getActivity(), PaiListActivity.class));
                         break;
                     case 5:
-                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
+                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
+                        startActivity(new Intent(getActivity(), PaiListActivity.class));
                         break;
                     case 6:
-                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
+                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
                         break;
                     case 7:
-                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
+                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
                         break;
                     case 8:
-                        ToastUtil.showToast(App.app,FifthRecyclerViewAdapter.nameArray[position]);
-                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
+                        startActivity(new Intent(getActivity(), SettingActivity.class));
                         break;
 
 
@@ -85,7 +95,7 @@ public class FifthFragment extends HomeFragment {
             }
         });
 
-
+        initData();
     }
 
     @Override

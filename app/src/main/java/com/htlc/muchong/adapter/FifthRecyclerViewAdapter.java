@@ -1,6 +1,7 @@
 package com.htlc.muchong.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.htlc.muchong.R;
+import com.htlc.muchong.activity.UserActivity;
 
 /**
  * Created by sks on 2016/5/20.
@@ -17,12 +19,11 @@ import com.htlc.muchong.R;
 public class FifthRecyclerViewAdapter extends RecyclerView.Adapter {
     public static final int TYPE_HEAD = 1;
     public static final int TYPE_BODY = 0;
-    public static final int[] iconArray = {R.mipmap.icon_fifth_chong,R.mipmap.icon_fifth_gou,R.mipmap.icon_fifth_shou,R.mipmap.icon_fifth_jian,
-            R.mipmap.icon_fifth_jiao,R.mipmap.icon_fifth_jing,R.mipmap.icon_fifth_lun,R.mipmap.icon_fifth_xiao,R.mipmap.icon_fifth_setting};
-    public static final int[] nameArray = {R.string.fifth_chong,R.string.fifth_gou,R.string.fifth_shou,R.string.fifth_jian,
-            R.string.fifth_jiao,R.string.fifth_jing,R.string.fifth_lun,R.string.fifth_xiao,R.string.fifth_setting};
+    public static final int[] iconArray = {R.mipmap.icon_fifth_chong, R.mipmap.icon_fifth_gou, R.mipmap.icon_fifth_shou, R.mipmap.icon_fifth_jian,
+            R.mipmap.icon_fifth_jiao, R.mipmap.icon_fifth_jing, R.mipmap.icon_fifth_lun, R.mipmap.icon_fifth_xiao, R.mipmap.icon_fifth_setting};
+    public static final int[] nameArray = {R.string.fifth_chong, R.string.fifth_gou, R.string.fifth_shou, R.string.fifth_jian,
+            R.string.fifth_jiao, R.string.fifth_jing, R.string.fifth_lun, R.string.fifth_xiao, R.string.fifth_setting};
     protected OnItemClickListener mOnItemClickListener;
-    private HeadViewHolder headViewHolder;
 
     private int money;
 
@@ -41,7 +42,7 @@ public class FifthRecyclerViewAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return iconArray.length+1;
+        return iconArray.length + 1;
     }
 
     @Override
@@ -66,7 +67,7 @@ public class FifthRecyclerViewAdapter extends RecyclerView.Adapter {
             wm.getDefaultDisplay().getSize(point);//屏幕宽度
             int height = (int) (point.x * 0.467);
             view.setLayoutParams(new RecyclerView.LayoutParams(point.x, height));
-            headViewHolder = new HeadViewHolder(view);
+            HeadViewHolder headViewHolder = new HeadViewHolder(view);
             return headViewHolder;
         }
     }
@@ -74,8 +75,8 @@ public class FifthRecyclerViewAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder.getItemViewType() == TYPE_BODY) {
-            final int pos = position-1;
-            if(mOnItemClickListener != null ){
+            final int pos = position - 1;
+            if (mOnItemClickListener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -86,13 +87,19 @@ public class FifthRecyclerViewAdapter extends RecyclerView.Adapter {
             ViewHolder tempHolder = (ViewHolder) holder;
             tempHolder.imageView.setImageResource(iconArray[pos]);
             tempHolder.textName.setText(nameArray[pos]);
-            if(pos==0){
-                tempHolder.textOther.setText("余额￥"+money);
-            }else {
+            if (pos == 0) {
+                tempHolder.textOther.setText("余额￥" + money);
+            } else {
                 tempHolder.textOther.setText("");
             }
         } else if (holder.getItemViewType() == TYPE_HEAD) {
-
+            HeadViewHolder tempHolder = (HeadViewHolder) holder;
+            tempHolder.imageHead.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    v.getContext().startActivity(new Intent(v.getContext(), UserActivity.class));
+                }
+            });
         }
 
     }
@@ -112,13 +119,13 @@ public class FifthRecyclerViewAdapter extends RecyclerView.Adapter {
 
     public static class HeadViewHolder extends RecyclerView.ViewHolder {
         public TextView textName, textPrice;
-        public ImageView imageView;
+        public ImageView imageHead;
 
         public HeadViewHolder(View view) {
             super(view);
             textName = (TextView) view.findViewById(R.id.textName);
             textPrice = (TextView) view.findViewById(R.id.textPrice);
-            imageView = (ImageView) view.findViewById(R.id.imageView);
+            imageHead = (ImageView) view.findViewById(R.id.imageHead);
         }
     }
 }

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_layout"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/UserLinear"
+                android:layout_marginTop="15dp">
+                <!--修改密码-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/setting_feedback"
+                        android:textColor="@color/text_color_black_muchong"
+                        android:textSize="14sp"/>
+
+                    <ImageView
+                        android:id="@+id/imageArrow3"
+                        android:layout_width="11dp"
+                        android:layout_height="18dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/icon_fourth_two_arrow"/>
+                </RelativeLayout>
+                <View
+                    android:id="@+id/divider2"
+                    style="@style/DividerHorizontal"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="12dp"/>
+                <!--更换手机-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/setting_clear_cache"
+                        android:textColor="@color/text_color_black_muchong"
+                        android:textSize="14sp"/>
+                    <ImageView
+                        android:id="@+id/imageArrow4"
+                        android:layout_width="11dp"
+                        android:layout_height="18dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/icon_fourth_two_arrow"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <TextView
+                android:padding="12dp"
+                android:background="@android:color/white"
+                android:layout_marginTop="30dp"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:text="@string/setting_logout"
+                android:textColor="@color/text_color_black_muchong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

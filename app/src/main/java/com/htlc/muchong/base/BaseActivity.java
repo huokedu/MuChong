@@ -1,5 +1,6 @@
 package com.htlc.muchong.base;
 
+import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -9,11 +10,14 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.bugtags.library.Bugtags;
 import com.htlc.muchong.R;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import core.ActionCallbackListener;
 
@@ -23,7 +27,8 @@ import core.ActionCallbackListener;
 public abstract class BaseActivity extends AppCompatActivity {
     public static final String ActivityTitleId = "ActivityTitle";
     public Toolbar mToolbar;
-    public TextView mTitleTextView,mTitleRightTextView,mTitleLeftTextView;
+    public TextView mTitleTextView, mTitleRightTextView, mTitleLeftTextView;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -80,29 +85,81 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 设置状态栏颜色
      */
     protected void setStatusBarColor() {
-
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), getToolbarBackgroundResourcesId());
-        //异步获得bitmap图片颜色值
-        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-            @Override
-            public void onGenerated(Palette palette) {
-                Palette.Swatch vibrant = palette.getVibrantSwatch();//有活力
+//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), getToolbarBackgroundResourcesId());
+//        //异步获得bitmap图片颜色值
+//        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+//            @Override
+//            public void onGenerated(Palette palette) {
+//                Palette.Swatch vibrant = palette.getVibrantSwatch();//有活力
 //                Palette.Swatch c = palette.getDarkVibrantSwatch();//有活力 暗色
 //                Palette.Swatch d = palette.getLightVibrantSwatch();//有活力 亮色
 //                Palette.Swatch f = palette.getMutedSwatch();//柔和
 //                Palette.Swatch a = palette.getDarkMutedSwatch();//柔和 暗色
 //                Palette.Swatch b = palette.getLightMutedSwatch();//柔和 亮色
-                if (vibrant != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                if (vibrant != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //                    int color1 = vibrant.getBodyTextColor();//内容颜色
 //                    int color2 = vibrant.getTitleTextColor();//标题颜色
 //                    int color3 = vibrant.getRgb();//rgb颜色
-                    Window window = getWindow();
-                    // 很明显，这两货是新API才有的。
-                    window.setStatusBarColor(vibrant.getRgb());
-                    // window.setNavigationBarColor(vibrant.getRgb());
-                }
-            }
-        });
+//                    Window window = getWindow();
+//                    window.setStatusBarColor(vibrant.getRgb());
+//                    window.setNavigationBarColor(vibrant.getRgb());
+//                }
+//
+//            }
+//        });
+        // 修改状态栏颜色，4.4+生效
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setTranslucentStatus();
+        }
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        tintManager.setStatusBarTintEnabled(true);
+        tintManager.setStatusBarTintResource(R.mipmap.bg_toolbar);//通知栏所需颜色
+    }
+
+    /**
+     * 设置状态栏颜色
+     */
+    protected void setStatusBarColor(int imageId) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT)
+            return;
+//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), imageId);
+//        //异步获得bitmap图片颜色值
+//        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+//            @Override
+//            public void onGenerated(Palette palette) {
+//                Palette.Swatch vibrant = palette.getVibrantSwatch();//有活力
+//                Palette.Swatch vibrant1 = palette.getDarkVibrantSwatch();//有活力 暗色
+//                Palette.Swatch vibrant2 = palette.getLightVibrantSwatch();//有活力 亮色
+//                Palette.Swatch vibrant3 = palette.getMutedSwatch();//柔和
+//                Palette.Swatch vibrant4 = palette.getDarkMutedSwatch();//柔和 暗色
+//                Palette.Swatch vibrant5 = palette.getLightMutedSwatch();//柔和 亮色
+//                if (vibrant != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//                    int color1 = vibrant.getBodyTextColor();//内容颜色
+//                    int color2 = vibrant.getTitleTextColor();//标题颜色
+//                    int color3 = vibrant.getRgb();//rgb颜色
+//                    setTranslucentStatus();
+//                    SystemBarTintManager tintManager = new SystemBarTintManager(BaseActivity.this);
+//                    tintManager.setStatusBarTintEnabled(true);
+//                    tintManager.setStatusBarTintColor(0xd58d6f4);//通知栏所需颜色
+//                }
+//
+//            }
+//        });
+
+        setTranslucentStatus();
+        SystemBarTintManager tintManager = new SystemBarTintManager(BaseActivity.this);
+        tintManager.setStatusBarTintEnabled(true);
+        tintManager.setStatusBarTintResource(R.color.statusBar);//通知栏所需颜色
+//        tintManager.setStatusBarTintResource(android.R.color.transparent);//通知栏所需颜色
+//        tintManager.setStatusBarTintColor(0xd79060);
+    }
+
+    @TargetApi(19)
+    protected void setTranslucentStatus() {
+        Window window = getWindow();
+        window.setFlags(
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
 
     /**
