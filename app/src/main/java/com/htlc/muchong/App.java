@@ -6,6 +6,7 @@ import com.bugtags.library.Bugtags;
 import com.bugtags.library.BugtagsOptions;
 import com.htlc.muchong.util.Constant;
 import com.larno.util.okhttp.Log;
+import com.larno.util.okhttp.OkHttpClientManager;
 import com.squareup.picasso.Picasso;
 
 import core.AppAction;
@@ -17,13 +18,28 @@ import core.AppActionImpl;
 public class App extends Application {
     public static App app;
     public AppAction appAction;
+    private boolean isLogin;
+
+    public boolean isLogin() {
+        return isLogin;
+    }
+
+    public void setIsLogin(boolean isLogin) {
+        this.isLogin = isLogin;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         app = this;
         appAction = new AppActionImpl(this);
+        initHttp();
         initPicasso();
         initBugTags();
+    }
+
+    private void initHttp() {
+        OkHttpClientManager.init(this,true);
     }
 
     private void initBugTags() {

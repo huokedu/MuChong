@@ -32,17 +32,15 @@ public abstract class OkHttpRequest
     protected Object tag;
     protected Map<String, String> params;
     protected Map<String, String> headers;
-    protected String cache;
 
     protected OkHttpRequest(String url, Object tag,
-                            Map<String, String> params, Map<String, String> headers, String cache)
+                            Map<String, String> params, Map<String, String> headers)
     {
         mOkHttpClient = mOkHttpClientManager.getOkHttpClient();
         this.url = url;
         this.tag = tag;
         this.params = params;
         this.headers = headers;
-        this.cache = cache;
     }
 
     protected abstract Request buildRequest();
@@ -121,8 +119,6 @@ public abstract class OkHttpRequest
         private byte[] bytes;
         private File file;
 
-        //cache control
-        private String cache;
 
         public Builder url(String url)
         {
@@ -211,40 +207,35 @@ public abstract class OkHttpRequest
             this.mediaType = mediaType;
             return this;
         }
-        public Builder cache(String cache)
-        {
-            this.cache = cache;
-            return this;
-        }
 
         public String get() throws IOException
         {
-            OkHttpRequest request = new OkHttpGetRequest(url, tag, params, headers, cache);
+            OkHttpRequest request = new OkHttpGetRequest(url, tag, params, headers);
             return request.invoke();
         }
 
         public OkHttpRequest get(ResultCallback callback)
         {
-            OkHttpRequest request = new OkHttpGetRequest(url, tag, params, headers, cache);
+            OkHttpRequest request = new OkHttpGetRequest(url, tag, params, headers);
             request.invokeAsyn(callback);
             return request;
         }
 
         public String post() throws IOException
         {
-            OkHttpRequest request = new OkHttpPostRequest(url, tag, params, headers, mediaType, content, bytes, file, cache);
+            OkHttpRequest request = new OkHttpPostRequest(url, tag, params, headers, mediaType, content, bytes, file);
             return request.invoke();
         }
 
         public OkHttpRequest post(ResultCallback callback)
         {
-            OkHttpRequest request = new OkHttpPostRequest(url, tag, params, headers, mediaType, content, bytes, file, cache);
+            OkHttpRequest request = new OkHttpPostRequest(url, tag, params, headers, mediaType, content, bytes, file);
             request.invokeAsyn(callback);
             return request;
         }
         public OkHttpRequest json(ResultCallback callback)
         {
-            OkHttpRequest request = new OkHttpJsonRequest(url, tag, headers, content,cache);
+            OkHttpRequest request = new OkHttpJsonRequest(url, tag, headers, content);
             request.invokeAsyn(callback);
             return request;
         }

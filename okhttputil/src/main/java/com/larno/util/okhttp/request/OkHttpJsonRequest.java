@@ -10,7 +10,7 @@ import okhttp3.MediaType;
  */
 public class OkHttpJsonRequest extends OkHttpPostRequest {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    public OkHttpJsonRequest(String url, Object tag, Map<String, String> headers, String content, String cache) {
-        super(url, tag, null, headers, JSON, null, null, null, cache);
+    public OkHttpJsonRequest(String url, Object tag, Map<String, String> headers, String content) {
+        super(url, tag, null, headers, JSON, null, null, null);
     }
 }

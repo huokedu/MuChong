@@ -32,7 +32,7 @@ public class OkHttpClientManager {
     private static Context mContext;
     private Handler mDelivery;
     private Cache mCache;
-    private static final long CACHE_SIZE = 10*1024*1024;
+    private static final long CACHE_SIZE = 10 * 1024 * 1024;
 
     private OkHttpClientManager() {
         File cacheFileDir = mContext.getExternalCacheDir();
@@ -56,7 +56,7 @@ public class OkHttpClientManager {
     }
 
     public static void init(Context context, boolean isDebug) {
-        if(context == null){
+        if (context == null) {
             throw new IllegalArgumentException("Context not be null");
         }
         if (mContext == null) {
@@ -68,8 +68,9 @@ public class OkHttpClientManager {
             }
         }
     }
+
     public static OkHttpClientManager getInstance() {
-        if(mContext == null){
+        if (mContext == null) {
             throw new IllegalStateException("Before getInstance(), You must be invoke init(Context context).");
         }
         if (mInstance == null) {
@@ -104,25 +105,17 @@ public class OkHttpClientManager {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(Log.debug){
+                if (Log.debug) {
                     Response response1 = response.cacheResponse();
                     Response response2 = response.networkResponse();
-                    Log.e((response1==null)+"?"+(response2==null));
+                    Log.e((response1 == null) + " cache ? network " + (response2 == null)+" response is network "+ (response == response2));
                 }
                 if (response.code() >= 400 && response.code() <= 599) {
-                    try {
-                        sendFailResultCallback(call.request(), new RuntimeException(response.body().string()), resCallBack);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    sendFailResultCallback(call.request(), new RuntimeException(response.body().string()), resCallBack);
                     return;
                 }
-                try {
-                    final String string = response.body().string();
-                    sendSuccessResultCallback(string, resCallBack);
-                } catch (Exception e) {
-                    sendFailResultCallback(response.request(), e, resCallBack);
-                }
+                final String string = response.body().string();
+                sendSuccessResultCallback(string, resCallBack);
             }
         });
     }
@@ -159,12 +152,12 @@ public class OkHttpClientManager {
 
 
     public void cancelTag(Object tag) {
-        for(Call call : mOkHttpClient.dispatcher().queuedCalls()) {
-            if(call.request().tag().equals(tag))
+        for (Call call : mOkHttpClient.dispatcher().queuedCalls()) {
+            if (call.request().tag().equals(tag))
                 call.cancel();
         }
-        for(Call call : mOkHttpClient.dispatcher().runningCalls()) {
-            if(call.request().tag().equals(tag))
+        for (Call call : mOkHttpClient.dispatcher().runningCalls()) {
+            if (call.request().tag().equals(tag))
                 call.cancel();
         }
     }

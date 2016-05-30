@@ -26,7 +26,7 @@ public class OkHttpDownloadRequest extends OkHttpGetRequest {
             String url, Object tag, Map<String,
             String> params, Map<String, String> headers,
             String destFileName, String destFileDir) {
-        super(url, tag, params, headers,null);
+        super(url, tag, params, headers);
         this.destFileName = destFileName;
         this.destFileDir = destFileDir;
     }

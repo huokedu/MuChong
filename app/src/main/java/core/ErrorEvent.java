@@ -22,4 +22,11 @@ package core;
 public class ErrorEvent {
     static final public String PARAM_NULL = "PARAM_NULL"; // 参数为空
     static final public String PARAM_ILLEGAL = "PARAM_ILLEGAL"; // 参数不合法
+    static final public String SEVER_ERROR = "SEVER_ERROR"; // 服务器问题
+    static final public String SEVER_ILLEGAL = "SEVER_ILLEGAL"; // 服务器认为参数不合法
+    static final public String NETWORK_ERROR = "NETWORK_ERROR"; // 网络问题
+
+
+    static final public String NETWORK_ERROR_MSG = "网络异常"; // 网络问题 提示
+    static final public String SEVER_ERROR_MSG = "服务器异常"; // 服务器问题 提示
 }

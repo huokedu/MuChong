@@ -3,15 +3,24 @@ package com.htlc.muchong.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.htlc.muchong.App;
 import com.htlc.muchong.R;
+import com.htlc.muchong.activity.LoginActivity;
 import com.htlc.muchong.activity.UserActivity;
+import com.htlc.muchong.util.LoginUtil;
+import com.squareup.picasso.Picasso;
+
+import model.UserInfoBean;
 
 /**
  * Created by sks on 2016/5/20.
@@ -25,10 +34,10 @@ public class FifthRecyclerViewAdapter extends RecyclerView.Adapter {
             R.string.fifth_jiao, R.string.fifth_jing, R.string.fifth_lun, R.string.fifth_xiao, R.string.fifth_setting};
     protected OnItemClickListener mOnItemClickListener;
 
-    private int money;
+    private UserInfoBean userInfoBean;
 
-    public void setMoney(int money) {
-        this.money = money;
+    public void setUserInfoBean(UserInfoBean userInfoBean) {
+        this.userInfoBean = userInfoBean;
         notifyDataSetChanged();
     }
 
@@ -88,16 +97,36 @@ public class FifthRecyclerViewAdapter extends RecyclerView.Adapter {
             tempHolder.imageView.setImageResource(iconArray[pos]);
             tempHolder.textName.setText(nameArray[pos]);
             if (pos == 0) {
-                tempHolder.textOther.setText("余额￥" + money);
+                if(userInfoBean!=null){
+                    tempHolder.textOther.setText("余额￥" + userInfoBean.userinfo_money);
+                }else {
+                    tempHolder.textOther.setText("余额￥0");
+                }
             } else {
                 tempHolder.textOther.setText("");
             }
         } else if (holder.getItemViewType() == TYPE_HEAD) {
             HeadViewHolder tempHolder = (HeadViewHolder) holder;
+            if(userInfoBean!=null){
+                Picasso.with(tempHolder.imageHead.getContext()).load(Uri.parse(userInfoBean.userinfo_headportrait)).placeholder(R.mipmap.default_fourth_two_head).error(R.mipmap.default_fourth_two_head).into(tempHolder.imageHead);
+                tempHolder.textName.setText(TextUtils.isEmpty(userInfoBean.userinfo_nickname)? LoginUtil.getUser().user_account : userInfoBean.userinfo_nickname);
+                tempHolder.textFans.setText("粉丝  "+userInfoBean.userinfo_likenum);
+                tempHolder.ratingBarLevel.setRating(Float.parseFloat(userInfoBean.userinfo_grade));
+            }else {
+                tempHolder.imageHead.setImageResource(R.mipmap.default_fourth_two_head);
+                tempHolder.textName.setText("昵称");
+                tempHolder.textFans.setText("粉丝  0");
+                tempHolder.ratingBarLevel.setRating(0.0f);
+            }
             tempHolder.imageHead.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    v.getContext().startActivity(new Intent(v.getContext(), UserActivity.class));
+                    if(App.app.isLogin()){
+                        v.getContext().startActivity(new Intent(v.getContext(), UserActivity.class));
+                    }else {
+                        v.getContext().startActivity(new Intent(v.getContext(), LoginActivity.class));
+                    }
+
                 }
             });
         }
@@ -118,14 +147,16 @@ public class FifthRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     public static class HeadViewHolder extends RecyclerView.ViewHolder {
-        public TextView textName, textPrice;
+        public TextView textName, textFans;
         public ImageView imageHead;
+        public RatingBar ratingBarLevel;
 
         public HeadViewHolder(View view) {
             super(view);
             textName = (TextView) view.findViewById(R.id.textName);
-            textPrice = (TextView) view.findViewById(R.id.textPrice);
+            textFans = (TextView) view.findViewById(R.id.textFans);
             imageHead = (ImageView) view.findViewById(R.id.imageHead);
+            ratingBarLevel = (RatingBar) view.findViewById(R.id.ratingBarLevel);
         }
     }
 }

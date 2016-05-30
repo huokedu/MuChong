@@ -28,7 +28,7 @@ public class OkHttpDisplayImgRequest extends OkHttpGetRequest
             String> params, Map<String, String> headers,
             ImageView imageView, int errorResId)
     {
-        super(url, tag, params, headers, null);
+        super(url, tag, params, headers);
         this.imageview = imageView;
         this.errorResId = errorResId;
     }

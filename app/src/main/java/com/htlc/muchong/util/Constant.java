@@ -6,4 +6,7 @@ package com.htlc.muchong.util;
 public interface Constant {
     String BugTags_App_Key = "4aaf4a5cc27be878c499cff852a369f2";
     String BugTags_App_Secret = "9e822faa043da12699e13054c2112d24";
+
+    int Sms_Code_Timer = 60000;
+    int Sms_Code_Timer_T = 1000;
 }

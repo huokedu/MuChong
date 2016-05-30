@@ -27,11 +27,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"/>
         <ImageView
-            android:layout_marginBottom="5dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            android:layout_width="60dp"
+            android:layout_height="64dp"
+            android:background="@mipmap/tab_3_bg"
             android:src="@mipmap/tab_3"/>
     </RelativeLayout>
 </LinearLayout>

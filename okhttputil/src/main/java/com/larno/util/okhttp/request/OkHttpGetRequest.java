@@ -14,9 +14,9 @@ import okhttp3.RequestBody;
  */
 public class OkHttpGetRequest extends OkHttpRequest
 {
-    protected OkHttpGetRequest(String url, Object tag, Map<String, String> params, Map<String, String> headers, String cache)
+    protected OkHttpGetRequest(String url, Object tag, Map<String, String> params, Map<String, String> headers)
     {
-        super(url, tag, params, headers,cache);
+        super(url, tag, params, headers);
     }
 
 

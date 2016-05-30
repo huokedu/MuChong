@@ -2,8 +2,10 @@ package com.htlc.muchong.activity;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 
+import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.adapter.HomePagerAdapter;
 import com.htlc.muchong.base.BaseActivity;
@@ -14,8 +16,11 @@ import com.htlc.muchong.fragment.HomeFragment;
 import com.htlc.muchong.fragment.SecondFragment;
 import com.htlc.muchong.fragment.DefaultFragment;
 import com.htlc.muchong.fragment.ThirdFragment;
+import com.htlc.muchong.util.LoginUtil;
 
 import java.util.ArrayList;
+
+import model.UserBean;
 
 public class MainActivity extends BaseActivity{
     private ViewPager mViewPager;
@@ -60,14 +65,14 @@ public class MainActivity extends BaseActivity{
                 int position = tab.getPosition();
                 mViewPager.setCurrentItem(position, false);
                 mTitleTextView.setText(mViewPager.getAdapter().getPageTitle(position));
-                if(position == 0){
+                if (position == 0) {
                     setStatusBarColor();
                     mTitleRightTextView.setBackgroundResource(R.mipmap.icon_search);
                     mTitleRightTextView.setText("");
                     mTitleLeftTextView.setVisibility(View.INVISIBLE);
                     mTitleRightTextView.setVisibility(View.VISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
-                }else if(position == 1){
+                } else if (position == 1) {
                     setStatusBarColor();
                     mTitleRightTextView.setBackgroundResource(R.mipmap.icon_search);
                     mTitleRightTextView.setText("");
@@ -75,19 +80,19 @@ public class MainActivity extends BaseActivity{
                     mTitleLeftTextView.setVisibility(View.VISIBLE);
                     mTitleRightTextView.setVisibility(View.VISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
-                }else if(position == 2){
+                } else if (position == 2) {
                     setStatusBarColor();
                     mTitleLeftTextView.setVisibility(View.INVISIBLE);
                     mTitleRightTextView.setVisibility(View.INVISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
-                }else if(position == 3){
+                } else if (position == 3) {
                     setStatusBarColor();
                     mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);
                     mTitleRightTextView.setText("");
                     mTitleLeftTextView.setVisibility(View.INVISIBLE);
                     mTitleRightTextView.setVisibility(View.VISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
-                }else if(position == 4){
+                } else if (position == 4) {
                     setStatusBarColor(R.mipmap.bg_fragment_fifth_header);
                     mToolbar.setVisibility(View.GONE);
                 }
@@ -101,10 +106,14 @@ public class MainActivity extends BaseActivity{
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+        initData();
     }
 
     @Override
     protected void initData() {
-
+        UserBean user = LoginUtil.getUser();
+        if(!TextUtils.isEmpty(user.user_token)){
+            App.app.setIsLogin(true);
+        }
     }
 }

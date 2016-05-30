@@ -43,6 +43,7 @@
                 <EditText
                     android:id="@+id/editUsername"
                     style="@style/LoginTextView.EditText"
+                    android:inputType="phone"
                     android:layout_toLeftOf="@+id/imageCheckout"
                     android:layout_toRightOf="@+id/divider"
                     android:hint="@string/login_username"/>
@@ -71,6 +72,7 @@
                 <EditText
                     android:layout_centerVertical="true"
                     android:id="@+id/editCode"
+                    android:inputType="number"
                     style="@style/LoginTextView.EditText"
                     android:hint="@string/register_code_hint"/>
 
@@ -163,6 +165,7 @@
                     android:text="@string/register_protocol_hint"
                     android:textSize="14sp"/>
                 <TextView
+                    android:id="@+id/textProtocol"
                     android:textColor="@color/colorPrimary"
                     android:gravity="center"
                     android:paddingBottom="5dp"
@@ -174,6 +177,7 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/buttonRegister"
                 style="@style/Button"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"

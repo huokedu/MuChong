@@ -85,28 +85,6 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 设置状态栏颜色
      */
     protected void setStatusBarColor() {
-//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), getToolbarBackgroundResourcesId());
-//        //异步获得bitmap图片颜色值
-//        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-//            @Override
-//            public void onGenerated(Palette palette) {
-//                Palette.Swatch vibrant = palette.getVibrantSwatch();//有活力
-//                Palette.Swatch c = palette.getDarkVibrantSwatch();//有活力 暗色
-//                Palette.Swatch d = palette.getLightVibrantSwatch();//有活力 亮色
-//                Palette.Swatch f = palette.getMutedSwatch();//柔和
-//                Palette.Swatch a = palette.getDarkMutedSwatch();//柔和 暗色
-//                Palette.Swatch b = palette.getLightMutedSwatch();//柔和 亮色
-//                if (vibrant != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                    int color1 = vibrant.getBodyTextColor();//内容颜色
-//                    int color2 = vibrant.getTitleTextColor();//标题颜色
-//                    int color3 = vibrant.getRgb();//rgb颜色
-//                    Window window = getWindow();
-//                    window.setStatusBarColor(vibrant.getRgb());
-//                    window.setNavigationBarColor(vibrant.getRgb());
-//                }
-//
-//            }
-//        });
         // 修改状态栏颜色，4.4+生效
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             setTranslucentStatus();

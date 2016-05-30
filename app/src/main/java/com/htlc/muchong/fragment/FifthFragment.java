@@ -2,6 +2,7 @@ package com.htlc.muchong.fragment;
 
 import android.content.Intent;
 import android.graphics.Rect;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -16,8 +17,11 @@ import com.htlc.muchong.activity.ShoppingCartActivity;
 import com.htlc.muchong.activity.TaLikeActivity;
 import com.htlc.muchong.activity.UserActivity;
 import com.htlc.muchong.adapter.FifthRecyclerViewAdapter;
+import com.htlc.muchong.base.BaseActivity;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
+
+import model.UserInfoBean;
 
 /**
  * Created by sks on 2016/1/27.
@@ -25,7 +29,6 @@ import com.larno.util.ToastUtil;
 public class FifthFragment extends HomeFragment {
     private FifthRecyclerViewAdapter adapter;
     private RecyclerView mRecyclerView;
-    private FifthRecyclerViewAdapter.HeadViewHolder headViewHolder;
 
     @Override
     protected int getLayoutId() {
@@ -95,11 +98,34 @@ public class FifthFragment extends HomeFragment {
             }
         });
 
-        initData();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(App.app.isLogin()){
+            initData();
+        }else {
+            adapter.setUserInfoBean(null);
+        }
+
     }
 
     @Override
     protected void initData() {
-        adapter.setMoney(100);
+        BaseActivity activity = (BaseActivity) getActivity();
+        App.app.appAction.getUserInfo(activity.new BaseActionCallbackListener<UserInfoBean>() {
+            @Override
+            public void onSuccess(UserInfoBean data) {
+                adapter.setUserInfoBean(data);
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+
+            }
+        });
+
     }
 }
