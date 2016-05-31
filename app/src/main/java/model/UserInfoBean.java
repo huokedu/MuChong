@@ -15,4 +15,5 @@ public class UserInfoBean {
     public String userinfo_money;
     public String userinfo_headportrait;
     public String userinfo_likenum;
+    public String userinfo_address;
 }

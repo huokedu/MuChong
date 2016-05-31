@@ -13,7 +13,7 @@
         <!--CheckBox，RadioButton，SwitchCompat等控件的点击选中颜色-->
         <item name="colorAccent">@color/colorAccent</item>
         <!--整个当前Activity的窗口的默认 颜色-->
-        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowBackground">@color/bg_gray</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
@@ -115,11 +115,12 @@
         <!--<item name="android:textAppearance">@style/DialogTextAppearance</item>-->
         <!--字体-->
     </style>
+
     <style name="DialogTextAppearance">
         <item name="android:textColor">@android:color/white</item>
-       <!-- <item name="android:textColorHighlight">?textColorHighlight</item>
-        <item name="android:textColorHint">?textColorHint</item>
-        <item name="android:textColorLink">?textColorLink</item>-->
+        <!-- <item name="android:textColorHighlight">?textColorHighlight</item>
+         <item name="android:textColorHint">?textColorHint</item>
+         <item name="android:textColorLink">?textColorLink</item>-->
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">normal</item>
     </style>
@@ -130,10 +131,14 @@
         <item name="android:background">@color/divider_gray_color</item>
     </style>
 
+    <style name="DividerHorizontal.Thin">
+        <item name="android:layout_height">@dimen/divider_width_thin</item>
+    </style>
+
     <style name="DividerVertical">
         <item name="android:layout_width">@dimen/divider_width</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@color/divider_gray_color</item>
+        <item name="android:background">@color/divider_white_color</item>
     </style>
 
     <style name="PtrFrameLayout">
@@ -147,7 +152,7 @@
         <item name="ptr_ratio_of_header_height_to_refresh">1.2</item>
         <item name="ptr_resistance">1.7</item>
     </style>
-
+    <!--四种类别Linear-->
     <style name="FirstHeaderLinear">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
@@ -155,7 +160,7 @@
         <item name="android:orientation">vertical</item>
         <item name="android:layout_height">match_parent</item>
     </style>
-
+    <!--四种类别Text-->
     <style name="FirstHeaderLinearText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:singleLine">true</item>
@@ -164,7 +169,7 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/text_color_black_muchong</item>
     </style>
-
+    <!--倒计时Text-->
     <style name="DaoJiShiText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -174,57 +179,108 @@
         <item name="android:textColor">@color/text_color_red</item>
         <item name="android:background">@drawable/bg_timer_retangle_shape</item>
     </style>
-
-    <style name="FirstQiangLinear">
+    <!--边距-->
+    <style name="FirstBase">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+    <!--类别标题-->
+    <style name="FirstTypeLinear" parent="FirstBase">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:layout_gravity">bottom</item>
-        <item name="android:paddingLeft">10dp</item>
-        <item name="android:paddingRight">10dp</item>
-        <item name="android:paddingTop">5dp</item>
-        <item name="android:paddingBottom">5dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
     </style>
-
+    <!--还有更多-->
+    <style name="FirstShowMore" parent="FirstBase">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">3dp</item>
+        <item name="android:drawableRight">@mipmap/icon_first_add</item>
+        <item name="android:textColor">@color/text_color_black_muchong</item>
+        <item name="android:text">@string/first_header_more</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!--抢购的一个商品Linear-->
+    <style name="FirstQiangLinearItem">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    <!--抢购商品图片-->
     <style name="FirstQiangImage">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">150dp</item>
+        <!--<item name="android:layout_width">112dp</item>-->
+        <item name="android:layout_height">84dp</item>
         <item name="android:scaleType">fitXY</item>
         <item name="android:src">@mipmap/default_first_qiang</item>
     </style>
-
-    <style name="FirstQiangLinearText">
+    <!--抢购的一个商品文本Linear-->
+    <style name="FirstQiangDescriptionLinear">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:background">@color/bg_gray</item>
+    </style>
+    <!--抢购商品名字-->
+    <style name="FirstQiangLinearTextName">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:singleLine">true</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/text_color_black_muchong</item>
     </style>
+    <!--抢购商品价格-->
+    <style name="FirstQiangLinearTextPrice" parent="FirstQiangLinearTextName">
+        <item name="android:textColor">@color/text_color_red</item>
+        <item name="android:layout_marginTop">5dp</item>
+    </style>
 
-    <style name="FirstQiangLinearTextName" parent="FirstQiangLinearText">
+    <!--竞拍的一个商品Relative-->
+    <style name="FirstPaiRelativeItem">
         <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
     </style>
-
-    <style name="FirstQiangLinearTextPrice" parent="FirstQiangLinearText">
-        <item name="android:textColor">@color/text_color_red</item>
+    <!--竞拍商品图片-->
+    <style name="FirstPaiImage">
+        <item name="android:layout_width">match_parent</item>
+        <!--<item name="android:layout_width">168.33dp</item>-->
+        <item name="android:layout_height">126dp</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:src">@mipmap/default_first_pai</item>
     </style>
-
-    <style name="FirstQiangLinearTextDescription" parent="FirstQiangLinearText">
-        <item name="android:textSize">12sp</item>
+    <!--竞拍类型图片-->
+    <style name="FirstPaiImageType">
+        <item name="android:layout_width">32.5dp</item>
+        <item name="android:layout_height">32.5dp</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginRight">5dp</item>
     </style>
-
-    <style name="FirstPaiLinear">
+    <!--竞拍商品描述的Linear-->
+    <style name="FirstPaiDescriptionLinear">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@color/bg_gray</item>
         <item name="android:paddingLeft">20dp</item>
         <item name="android:paddingRight">20dp</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
     </style>
-
+    <!--竞拍描述Text-->
     <style name="FirstPaiLinearText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -232,12 +288,13 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/text_color_black_muchong</item>
     </style>
-
+    <!--竞拍描述名字-->
     <style name="FirstPaiLinearTextName" parent="FirstPaiLinearText">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:ellipsize">end</item>
     </style>
-
+    <!--竞拍描述价格-->
     <style name="FirstPaiLinearTextPrice" parent="FirstPaiLinearText">
         <item name="android:textColor">@color/text_color_red</item>
     </style>
@@ -289,6 +346,7 @@
         <item name="android:paddingLeft">5dp</item>
         <item name="android:paddingRight">5dp</item>
     </style>
+
     <style name="ShoppingCartButton" parent="Base.Widget.AppCompat.Button.Small">
         <item name="android:minHeight">38dip</item>
         <item name="android:minWidth">38dip</item>
@@ -297,6 +355,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
     </style>
+
     <style name="UserRelative">
         <item name="android:paddingLeft">15dp</item>
         <item name="android:paddingRight">15dp</item>
@@ -306,6 +365,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
     </style>
+
     <style name="UserLinear" parent="UserRelative">
         <item name="android:orientation">vertical</item>
     </style>

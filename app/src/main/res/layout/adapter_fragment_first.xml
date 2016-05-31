@@ -1,41 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<RelativeLayout
+    android:id="@+id/relativePai1"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
+
     <ImageView
-        android:id="@+id/imageView"
-        android:scaleType="fitXY"
-        android:src="@mipmap/default_first_jiao"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"/>
-    <View style="@style/DividerHorizontal"/>
+        android:id="@+id/imagePai1"
+        style="@style/FirstPaiImage"/>
+
     <LinearLayout
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        style="@style/FirstPaiDescriptionLinear"
+        android:layout_below="@+id/imagePai1">
+
         <TextView
-            android:id="@+id/textName"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="14sp"
-            android:textColor="@color/text_color_black_muchong"
-            android:text="名称"/>
+            android:id="@+id/textPaiName1"
+            style="@style/FirstPaiLinearTextName"
+            android:text="陀圆吉佛珠"
+            />
+
         <TextView
-            android:id="@+id/textPrice"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="14sp"
-            android:textColor="@color/text_color_red"
-            android:text="￥888"/>
+            android:id="@+id/textPaiPrice1"
+            style="@style/FirstPaiLinearTextPrice"
+            android:text="￥9999"
+            />
     </LinearLayout>
-    <View style="@style/DividerHorizontal"/>
-</LinearLayout>
+</RelativeLayout>

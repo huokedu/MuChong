@@ -12,6 +12,8 @@ import com.larno.util.NetworkUtil;
 import com.larno.util.RegexUtils;
 import com.larno.util.okhttp.callback.ResultCallback;
 
+import java.io.File;
+
 import api.Api;
 import api.ApiImpl;
 import model.UserBean;
@@ -152,6 +154,21 @@ public class AppActionImpl implements AppAction {
                     UserInfoBean userInfoBean = JSON.parseObject(model.getString(KEY_DATA), UserInfoBean.class);
                     listener.onSuccess(userInfoBean);
                 } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void updateUserInfo(String userinfo_nickname, String userinfo_address, File userinfo_headportrait, ActionCallbackListener<Void> listener) {
+        api.updateUserInfo(userinfo_nickname, userinfo_address, userinfo_headportrait, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if(VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))){
+                    listener.onSuccess(null);
+                }else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }
             }

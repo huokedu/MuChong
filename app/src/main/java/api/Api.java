@@ -2,6 +2,8 @@ package api;
 
 import com.larno.util.okhttp.callback.ResultCallback;
 
+import java.io.File;
+
 /**
  * Api接口
  */
@@ -11,9 +13,11 @@ public interface Api {
     String Register = Host + "/Home/HomeUser/register";
     String Login = Host + "/Home/HomeUser/login";
     String GetUserInfo = Host + "/Home/HomeUser/getUserinfo";
+    String UpdateUserInfo = Host + "/Home/HomeUser/updateUserinfo";
 
     void smsCode(String mobile, ResultCallback callback);
     void register(String user_account,String Verifycode,String user_pwda,String user_pwdb, ResultCallback callback);
     void login(String user_account,String user_pwd,ResultCallback callback);
     void getUserInfo(ResultCallback callback);
+    void updateUserInfo(String userinfo_nickname,String userinfo_address,File userinfo_headportrait, ResultCallback callback);
 }

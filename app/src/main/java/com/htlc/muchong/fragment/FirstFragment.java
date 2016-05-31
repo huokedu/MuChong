@@ -3,6 +3,8 @@ package com.htlc.muchong.fragment;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import com.htlc.muchong.R;
 import com.htlc.muchong.activity.JianListActivity;
 import com.htlc.muchong.activity.PaiListActivity;
 import com.htlc.muchong.activity.QiangListActivity;
+import com.htlc.muchong.adapter.FirstAdapter;
 import com.htlc.muchong.widget.DaoJiShiView;
 import com.larno.util.ToastUtil;
 
@@ -40,18 +43,18 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
 
     protected BannerFragment mBannerFragment;
     protected PtrClassicFrameLayout mPtrFrame;
-    protected LinearLayout mLinearContainer;
+    protected GridView mGridView;
     protected LinearLayout mlinearTypeContainer;
     private LinearLayout linearQiang, linearPai, linearJian, linearDuo;
     protected View textQiangMore, textPaiMore, textJiaoMore;
 
-    protected View frameQiang1, frameQiang2, frameQiang3;
+    protected View linearQiang1, linearQiang2, linearQiang3;
     protected ImageView imageQiang1, imageQiang2, imageQiang3;
     protected TextView textNameQiang1, textNameQiang2, textNameQiang3;
     protected TextView textPriceQiang1, textPriceQiang2, textPriceQiang3;
     protected TextView textDescriptionQiang1, textDescriptionQiang2, textDescriptionQiang3;
 
-    protected View relativeJing1, relativeJing2;
+    protected View relativePai1, relativePai2;
     protected ImageView imagePai1, imagePai2;
     protected ImageView imageTypePai1, imageTypePai2;
     protected TextView textPaiName1, textPaiName2;
@@ -63,6 +66,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
 
     protected List mBannerList = new ArrayList();
     protected List mList = new ArrayList();
+    private FirstAdapter adapter;
 
 
     @Override
@@ -101,7 +105,17 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
                 ToastUtil.showToast(App.app, "banner position = " + position);
             }
         });
-        mLinearContainer = findViewById(R.id.linearContainer);
+
+        mGridView = findViewById(R.id.gridView);
+        mGridView.setFocusable(false);
+        adapter = new FirstAdapter();
+        mGridView.setAdapter(adapter);
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ToastUtil.showToast(App.app, "Grid position " + position);
+            }
+        });
 
         mlinearTypeContainer = findViewById(R.id.linearTypeContainer);
         initLinearType();
@@ -115,12 +129,12 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         textPaiMore.setOnClickListener(this);
         textJiaoMore.setOnClickListener(this);
 
-        frameQiang1 = findViewById(R.id.frameQiang1);
-        frameQiang2 = findViewById(R.id.frameQiang2);
-        frameQiang3 = findViewById(R.id.frameQiang3);
-        frameQiang1.setOnClickListener(this);
-        frameQiang2.setOnClickListener(this);
-        frameQiang3.setOnClickListener(this);
+        linearQiang1 = findViewById(R.id.linearQiang1);
+        linearQiang2 = findViewById(R.id.linearQiang2);
+        linearQiang3 = findViewById(R.id.linearQiang3);
+        linearQiang1.setOnClickListener(this);
+        linearQiang2.setOnClickListener(this);
+        linearQiang3.setOnClickListener(this);
         imageQiang1 = findViewById(R.id.imageQiang1);
         imageQiang2 = findViewById(R.id.imageQiang2);
         imageQiang3 = findViewById(R.id.imageQiang3);
@@ -130,14 +144,11 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         textPriceQiang1 = findViewById(R.id.textPriceQiang1);
         textPriceQiang2 = findViewById(R.id.textPriceQiang2);
         textPriceQiang3 = findViewById(R.id.textPriceQiang3);
-        textDescriptionQiang1 = findViewById(R.id.textDescriptionQiang1);
-        textDescriptionQiang2 = findViewById(R.id.textDescriptionQiang2);
-        textDescriptionQiang3 = findViewById(R.id.textDescriptionQiang3);
 
-        relativeJing1 = findViewById(R.id.relativeJing1);
-        relativeJing2 = findViewById(R.id.relativeJing2);
-        relativeJing1.setOnClickListener(this);
-        relativeJing2.setOnClickListener(this);
+        relativePai1 = findViewById(R.id.relativePai1);
+        relativePai2 = findViewById(R.id.relativePai2);
+        relativePai1.setOnClickListener(this);
+        relativePai2.setOnClickListener(this);
         imagePai1 = findViewById(R.id.imagePai1);
         imagePai2 = findViewById(R.id.imagePai2);
         imageTypePai1 = findViewById(R.id.imageTypePai1);
@@ -151,9 +162,9 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
     protected void initLinearType() {
         LayoutInflater.from(getContext()).inflate(R.layout.layout_first_type, mlinearTypeContainer, true);
         linearQiang = (LinearLayout) mlinearTypeContainer.findViewById(R.id.linearQiang);
-        linearPai =  (LinearLayout) mlinearTypeContainer.findViewById(R.id.linearPai);
-        linearJian =  (LinearLayout) mlinearTypeContainer.findViewById(R.id.linearJian);
-        linearDuo =  (LinearLayout) mlinearTypeContainer.findViewById(R.id.linearDuo);
+        linearPai = (LinearLayout) mlinearTypeContainer.findViewById(R.id.linearPai);
+        linearJian = (LinearLayout) mlinearTypeContainer.findViewById(R.id.linearJian);
+        linearDuo = (LinearLayout) mlinearTypeContainer.findViewById(R.id.linearDuo);
         linearQiang.setOnClickListener(this);
         linearPai.setOnClickListener(this);
         linearJian.setOnClickListener(this);
@@ -165,25 +176,13 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         mPtrFrame.refreshComplete();
         refreshView();
     }
-    protected void refreshView(){
-        daoJiShiView.setData(300000,300000);
+
+    protected void refreshView() {
+        daoJiShiView.setData(300000, 300000);
         mBannerFragment.setData(Arrays.asList(sampleNetworkImageURLs));
         mList.addAll(Arrays.asList(sampleNetworkImageURLs));
-        mLinearContainer.removeAllViews();
-        for (int i = 0; i < mList.size(); i++) {
-            View view = View.inflate(getContext(), R.layout.adapter_fragment_first, null);
-            final int position = i;
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ToastUtil.showToast(App.app, "mLinearContainer position = " + position);
-                }
-            });
-            TextView textName = (TextView) view.findViewById(R.id.textName);
-            TextView textPrice = (TextView) view.findViewById(R.id.textPrice);
-            ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
-            mLinearContainer.addView(view);
-        }
+        adapter.setData(Arrays.asList(sampleNetworkImageURLs),false);
+
     }
 
     @Override
@@ -209,20 +208,20 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             case R.id.textJiaoMore:
                 ToastUtil.showToast(App.app, "textJiaoMore");
                 break;
-            case R.id.frameQiang1:
-                ToastUtil.showToast(App.app, "frameQiang1");
+            case R.id.linearQiang1:
+                ToastUtil.showToast(App.app, "linearQiang1");
                 break;
-            case R.id.frameQiang2:
-                ToastUtil.showToast(App.app, "frameQiang2");
+            case R.id.linearQiang2:
+                ToastUtil.showToast(App.app, "linearQiang2");
                 break;
-            case R.id.frameQiang3:
-                ToastUtil.showToast(App.app, "frameQiang3");
+            case R.id.linearQiang3:
+                ToastUtil.showToast(App.app, "linearQiang3");
                 break;
-            case R.id.relativeJing1:
-                ToastUtil.showToast(App.app, "relativeJing1");
+            case R.id.relativePai1:
+                ToastUtil.showToast(App.app, "relativePai1");
                 break;
-            case R.id.relativeJing2:
-                ToastUtil.showToast(App.app, "relativeJing2");
+            case R.id.relativePai2:
+                ToastUtil.showToast(App.app, "relativePai2");
                 break;
         }
     }

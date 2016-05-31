@@ -6,6 +6,7 @@
     <string name="delete">删除</string>
     <string name="select_all">全选</string>
     <string name="commit">提交</string>
+    <string name="login_timeout_tips">登录过期！请重新登录</string>
 
     <string name="title_activity_main">MainActivity</string>
 
@@ -24,7 +25,7 @@
     <string name="first_header_start">距离开始</string>
     <string name="first_header_end">距离结束</string>
     <string name="first_header_over">已结束</string>
-    <string name="first_header_more">更多&#160;&#160;>></string>
+    <string name="first_header_more">还有更多</string>
 
     <string name="fourth_title_fragment_one">一人一语</string>
     <string name="fourth_title_fragment_two">藏家</string>
@@ -107,7 +108,9 @@
     <string name="title_user">个人信息</string>
     <string name="user_head">头像</string>
     <string name="user_nick">昵称</string>
+    <string name="user_nick_hint">请输入昵称</string>
     <string name="user_area">所在地</string>
+    <string name="user_area_hint">请输入所在地</string>
     <string name="user_address">收货地址</string>
     <string name="user_save">保存修改</string>
     <string name="user_update_password">修改密码</string>

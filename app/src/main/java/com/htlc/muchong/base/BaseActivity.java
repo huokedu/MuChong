@@ -1,10 +1,12 @@
 package com.htlc.muchong.base;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
@@ -16,7 +18,10 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.bugtags.library.Bugtags;
+import com.htlc.muchong.App;
 import com.htlc.muchong.R;
+import com.htlc.muchong.activity.LoginActivity;
+import com.htlc.muchong.util.LoginUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import core.ActionCallbackListener;
@@ -169,9 +174,36 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         @Override
         public void onFailure(String errorEvent, String message) {
+            if("token失效".equals(message)){
+                showTips();
+                return;
+            }
             onIllegalState(errorEvent, message);
         }
 
         public abstract void onIllegalState(String errorEvent, String message);
+    }
+    private void showTips() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.DialogAppCompat);
+        builder.setCancelable(false);
+        View view = View.inflate(this, R.layout.dialog_layout, null);
+        builder.setView(view);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        TextView textMessage = (TextView) view.findViewById(R.id.textMessage);
+        textMessage.setText(R.string.login_timeout_tips);
+        view.findViewById(R.id.positiveButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(alertDialog!=null){
+                    alertDialog.dismiss();
+                }
+                LoginUtil.clearUser();
+                App.app.setIsLogin(false);
+                startActivity(new Intent(BaseActivity.this, LoginActivity.class));
+            }
+        });
+        view.findViewById(R.id.negativeButton).setVisibility(View.INVISIBLE);
     }
 }

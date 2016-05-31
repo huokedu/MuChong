@@ -18,6 +18,7 @@ import com.htlc.muchong.activity.TaLikeActivity;
 import com.htlc.muchong.activity.UserActivity;
 import com.htlc.muchong.adapter.FifthRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
+import com.htlc.muchong.util.LoginUtil;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
@@ -114,11 +115,12 @@ public class FifthFragment extends HomeFragment {
 
     @Override
     protected void initData() {
+        adapter.setUserInfoBean(LoginUtil.getUserInfo());
         BaseActivity activity = (BaseActivity) getActivity();
         App.app.appAction.getUserInfo(activity.new BaseActionCallbackListener<UserInfoBean>() {
             @Override
             public void onSuccess(UserInfoBean data) {
-                adapter.setUserInfoBean(data);
+                LoginUtil.setUserInfo(data);
             }
 
             @Override

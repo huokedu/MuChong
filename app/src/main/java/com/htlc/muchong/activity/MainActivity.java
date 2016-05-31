@@ -85,6 +85,7 @@ public class MainActivity extends BaseActivity{
                     mTitleLeftTextView.setVisibility(View.INVISIBLE);
                     mTitleRightTextView.setVisibility(View.INVISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
+                    tab.getCustomView().setBackgroundResource(R.mipmap.bg_tab_layout);
                 } else if (position == 3) {
                     setStatusBarColor();
                     mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);

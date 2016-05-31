@@ -47,5 +47,5 @@
         android:layout_alignRight="@+id/imageArrow"
         android:layout_alignLeft="@+id/textName"
         android:layout_marginTop="10dp"
-        style="@style/DividerHorizontal"/>
+        style="@style/DividerHorizontal.Thin"/>
 </RelativeLayout>

@@ -1,9 +1,12 @@
 package api;
 
+import android.util.Pair;
+
 import com.htlc.muchong.util.LoginUtil;
 import com.larno.util.okhttp.callback.ResultCallback;
 import com.larno.util.okhttp.request.OkHttpRequest;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,5 +53,22 @@ public class ApiImpl implements Api {
         params.put("user_token", user.user_token);
         String url = Api.GetUserInfo;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void updateUserInfo(String userinfo_nickname, String userinfo_address, File userinfo_headportrait, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+        params.put("userinfo_nickname", userinfo_nickname);
+        params.put("userinfo_address", userinfo_address);
+        String url = Api.UpdateUserInfo;
+        if(userinfo_headportrait!=null){
+            Pair<String, File> pair = new Pair<>("userinfo_headportrait", userinfo_headportrait);
+            new OkHttpRequest.Builder().url(url).params(params).files(pair).upload(callback);
+        }else {
+            new OkHttpRequest.Builder().url(url).params(params).post(callback);
+        }
     }
 }
