@@ -13,9 +13,11 @@ import com.larno.util.RegexUtils;
 import com.larno.util.okhttp.callback.ResultCallback;
 
 import java.io.File;
+import java.util.List;
 
 import api.Api;
 import api.ApiImpl;
+import model.GoodsTypeBean;
 import model.UserBean;
 import model.UserInfoBean;
 import okhttp3.Request;
@@ -168,6 +170,68 @@ public class AppActionImpl implements AppAction {
                 JSONObject model = JSON.parseObject(response);
                 if(VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))){
                     listener.onSuccess(null);
+                }else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void resetPassword(String user_account, String Verifycode, String user_pwda, String user_pwdb, ActionCallbackListener<Void> listener) {
+        if(!NetworkUtil.isNetworkAvailable(context)){
+            listener.onFailure(ErrorEvent.NETWORK_ERROR,ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        if(TextUtils.isEmpty(user_account)){
+            listener.onFailure(ErrorEvent.PARAM_NULL,"手机号不能为空");
+            return;
+        }
+        if(!RegexUtils.isMatchPhoneNum(user_account)){
+            listener.onFailure(ErrorEvent.PARAM_ILLEGAL,"手机号格式不正确");
+            return;
+        }
+        if(TextUtils.isEmpty(Verifycode)){
+            listener.onFailure(ErrorEvent.PARAM_NULL,"验证码不能为空");
+            return;
+        }
+        if(TextUtils.isEmpty(user_pwda)){
+            listener.onFailure(ErrorEvent.PARAM_NULL,"密码不能为空");
+            return;
+        }
+        if(!user_pwda.equals(user_pwdb)){
+            listener.onFailure(ErrorEvent.PARAM_ILLEGAL,"密码不一致");
+            return;
+        }
+        user_pwda = EncryptUtil.makeMD5(user_pwda);
+        user_pwdb = EncryptUtil.makeMD5(user_pwdb);
+        api.resetPassword(user_account, Verifycode, user_pwda, user_pwdb, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if(VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))){
+                    listener.onSuccess(null);
+                }else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void home(ActionCallbackListener<Void> listener) {
+
+    }
+
+    @Override
+    public void getGoodsType(ActionCallbackListener<List<GoodsTypeBean>> listener) {
+        api.getGoodsType(new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if(VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))){
+                    List<GoodsTypeBean> bean = JSON.parseArray(model.getString(KEY_DATA), GoodsTypeBean.class);
+                    listener.onSuccess(bean);
                 }else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }

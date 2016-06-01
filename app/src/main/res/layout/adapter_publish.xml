@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+    <ImageView
+        android:layout_gravity="center"
+        android:id="@+id/imageView"
+        android:layout_width="@dimen/publish_grid_view_size"
+        android:layout_height="@dimen/publish_grid_view_size"
+        android:background="@drawable/divider_retangle_shape"
+        android:src="@mipmap/icon_publish_add_image"/>
+</FrameLayout>
+<!--<ImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/imageView"
+    android:layout_width="@dimen/publish_grid_view_size"
+    android:layout_height="@dimen/publish_grid_view_size"
+    android:background="@drawable/divider_retangle_shape"
+    android:src="@mipmap/icon_publish_add_image"/>-->
+

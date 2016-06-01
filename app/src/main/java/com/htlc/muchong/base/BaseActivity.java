@@ -185,7 +185,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
     private void showTips() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.DialogAppCompat);
-        builder.setCancelable(false);
+        builder.setCancelable(true);
         View view = View.inflate(this, R.layout.dialog_layout, null);
         builder.setView(view);
         final AlertDialog alertDialog = builder.create();
@@ -204,6 +204,15 @@ public abstract class BaseActivity extends AppCompatActivity {
                 startActivity(new Intent(BaseActivity.this, LoginActivity.class));
             }
         });
-        view.findViewById(R.id.negativeButton).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.negativeButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (alertDialog != null) {
+                    alertDialog.dismiss();
+                }
+                LoginUtil.clearUser();
+                App.app.setIsLogin(false);
+            }
+        });
     }
 }

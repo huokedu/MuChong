@@ -53,61 +53,15 @@ public class FifthFragment extends HomeFragment {
                 }
             }
         });
-        adapter.setOnItemClickListener(new FifthRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                ToastUtil.showToast(App.app, "mRecyclerView position " + position);
-                switch (position) {
-                    case 0:
-                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
-                        break;
-                    case 1:
-                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
-                        startActivity(new Intent(getActivity(), ShoppingCartActivity.class));
-                        break;
-                    case 2:
-                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
-                        startActivity(new Intent(getActivity(), TaLikeActivity.class));
-                        break;
-                    case 3:
-                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
-                        startActivity(new Intent(getActivity(), JianListActivity.class));
-                        break;
-                    case 4:
-                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
-                        startActivity(new Intent(getActivity(), PaiListActivity.class));
-                        break;
-                    case 5:
-                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
-                        startActivity(new Intent(getActivity(), PaiListActivity.class));
-                        break;
-                    case 6:
-                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
-                        startActivity(new Intent(getActivity(), LoginActivity.class));
-                        break;
-                    case 7:
-                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
-                        startActivity(new Intent(getActivity(), LoginActivity.class));
-                        break;
-                    case 8:
-                        ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
-                        startActivity(new Intent(getActivity(), SettingActivity.class));
-                        break;
-
-
-                }
-            }
-        });
-
-
+        adapter.setOnItemClickListener(new RecyclerViewOnItemClickListener());
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        if(App.app.isLogin()){
+        if (App.app.isLogin()) {
             initData();
-        }else {
+        } else {
             adapter.setUserInfoBean(null);
         }
 
@@ -121,6 +75,7 @@ public class FifthFragment extends HomeFragment {
             @Override
             public void onSuccess(UserInfoBean data) {
                 LoginUtil.setUserInfo(data);
+                adapter.setUserInfoBean(LoginUtil.getUserInfo());
             }
 
             @Override
@@ -129,5 +84,61 @@ public class FifthFragment extends HomeFragment {
             }
         });
 
+    }
+
+    private class RecyclerViewOnItemClickListener implements FifthRecyclerViewAdapter.OnItemClickListener {
+        @Override
+        public void onItemClick(int position) {
+            switch (position) {
+                case 0:
+                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
+                    if (!App.app.isLogin()) break;
+                    startActivity(new Intent(getActivity(), PaiListActivity.class));
+                    return;
+                case 1:
+                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
+                    if (!App.app.isLogin()) break;
+                    startActivity(new Intent(getActivity(), ShoppingCartActivity.class));
+                    return;
+                case 2:
+                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
+                    if (!App.app.isLogin()) break;
+                    startActivity(new Intent(getActivity(), TaLikeActivity.class));
+                    return;
+                case 3:
+                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
+                    if (!App.app.isLogin()) break;
+                    startActivity(new Intent(getActivity(), JianListActivity.class));
+                    return;
+                case 4:
+                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
+                    if (!App.app.isLogin()) break;
+                    startActivity(new Intent(getActivity(), PaiListActivity.class));
+                    return;
+                case 5:
+                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
+                    if (!App.app.isLogin()) break;
+                    startActivity(new Intent(getActivity(), PaiListActivity.class));
+                    return;
+                case 6:
+                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
+                    if (!App.app.isLogin()) break;
+                    startActivity(new Intent(getActivity(), PaiListActivity.class));
+                    return;
+                case 7:
+                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
+                    if (!App.app.isLogin()) break;
+                    startActivity(new Intent(getActivity(), PaiListActivity.class));
+                    return;
+                case 8:
+                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
+                    startActivity(new Intent(getActivity(), SettingActivity.class));
+                    return;
+                default:
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                    return;
+            }
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        }
     }
 }

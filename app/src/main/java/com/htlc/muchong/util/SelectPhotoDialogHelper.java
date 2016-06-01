@@ -39,6 +39,7 @@ public class SelectPhotoDialogHelper {
     private Activity activity;
     private PickPhotoDialog mPickPhotoDialog;
     private OnPickPhotoFinishListener listener;
+    private String fileName;
 
 
     public SelectPhotoDialogHelper(Activity activity,OnPickPhotoFinishListener listener,int outputX, int aspectX,int aspectY) {
@@ -125,9 +126,8 @@ public class SelectPhotoDialogHelper {
                 break;
             // 取得裁剪后的图片
             case Request_Clip_Photo:
-                if (data != null) {
-                    handleBitmapAfterClip(data);
-                }
+                if (Activity.RESULT_OK != resultCode) return;
+                handleUriAfterClip();
                 break;
         }
     }
@@ -145,10 +145,20 @@ public class SelectPhotoDialogHelper {
         intent.putExtra("outputX", outputX);
         int outputY = outputX * aspectY / aspectX;
         intent.putExtra("outputY", outputY);
-        intent.putExtra("return-data", true);
+        intent.putExtra("return-data", false);
+        fileName = "IMG_" + UUID.randomUUID() + ".jpg";
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Path, fileName)));
         activity.startActivityForResult(intent, Request_Clip_Photo);
     }
 
+    /**
+     * 剪裁成功处理
+     */
+    private void handleUriAfterClip() {
+        if(listener!=null && fileName!=null){
+            listener.onPickPhotoFinishListener(new File(Path, fileName));
+        }
+    }
 
     /**
      * 保存裁剪之后的图片数据

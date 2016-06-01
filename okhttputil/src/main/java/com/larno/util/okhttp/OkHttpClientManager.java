@@ -105,11 +105,11 @@ public class OkHttpClientManager {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (Log.debug) {
-                    Response response1 = response.cacheResponse();
-                    Response response2 = response.networkResponse();
-                    Log.e((response1 == null) + " cache ? network " + (response2 == null)+" response is network "+ (response == response2));
-                }
+//                if (Log.debug) {
+//                    Response response1 = response.cacheResponse();
+//                    Response response2 = response.networkResponse();
+//                    Log.e((response1 == null) + " cache ? network " + (response2 == null)+" response is network "+ (response == response2));
+//                }
                 if (response.code() >= 400 && response.code() <= 599) {
                     sendFailResultCallback(call.request(), new RuntimeException(response.body().string()), resCallBack);
                     return;

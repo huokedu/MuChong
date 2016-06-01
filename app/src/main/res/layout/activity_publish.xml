@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_layout"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--封面-->
+            <LinearLayout
+                style="@style/PublishLinear"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/publish_cover_image"
+                    android:textColor="@color/text_color_black_muchong"
+                    android:textSize="14sp"/>
+
+                <ImageView
+                    android:id="@+id/imageViewCover"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/divider_retangle_shape"
+                    android:src="@mipmap/icon_publish_add_image"/>
+            </LinearLayout>
+
+            <View
+                style="@style/DividerHorizontal.Thin"/>
+            <!--内容图片-->
+            <LinearLayout
+                style="@style/PublishLinear"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/publish_content_image"
+                    android:textColor="@color/text_color_black_muchong"
+                    android:textSize="14sp"/>
+
+                <com.htlc.muchong.widget.NoScrollGridView
+                    android:id="@+id/gridView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:cacheColorHint="@android:color/transparent"
+                    android:columnWidth="@dimen/publish_grid_view_size"
+                    android:fadingEdge="none"
+                    android:gravity="center"
+                    android:listSelector="@android:color/transparent"
+                    android:numColumns="4"
+                    android:verticalSpacing="10dp"
+                    />
+            </LinearLayout>
+            <!--标题-->
+            <LinearLayout
+                style="@style/PublishLinear"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/publish_title"
+                    android:textColor="@color/text_color_black_muchong"
+                    android:textSize="14sp"/>
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@null"
+                    android:hint="@string/publish_title_hint"
+                    android:textColor="@color/text_color_black_muchong"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+            <!--描述-->
+            <EditText
+                android:layout_marginTop="10dp"
+                style="@style/PublishLinear"
+                android:gravity="start"
+                android:hint="@string/publish_content_hint"
+                android:textColor="@color/text_color_black_muchong"
+                android:minLines="5"
+                android:textSize="14sp"/>
+            <!--选择列表-->
+            <LinearLayout
+                style="@style/PublishLinear"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="8dp">
+                <!--类型-->
+                <LinearLayout
+                    android:id="@+id/linearType"
+                    style="@style/PublishLinearItem">
+
+                    <TextView
+                        android:id="@+id/textType"
+                        style="@style/PublishTextItem"
+                        android:text="@string/publish_type"/>
+
+                    <View
+                        style="@style/DividerHorizontal.Thin"
+                        android:layout_marginTop="10dp"/>
+                </LinearLayout>
+                <!--商品分类-->
+                <LinearLayout
+                    android:id="@+id/linearChildType"
+                    style="@style/PublishLinearItem">
+
+                    <TextView
+                        android:id="@+id/textChildType"
+                        style="@style/PublishTextItem"
+                        android:text="@string/publish_child_type"
+                        />
+
+                    <View
+                        style="@style/DividerHorizontal.Thin"
+                        android:layout_marginTop="10dp"/>
+                </LinearLayout>
+                <!--开始时间-->
+                <LinearLayout
+                    android:id="@+id/linearStartTime"
+                    style="@style/PublishLinearItem">
+
+                    <TextView
+                        android:id="@+id/textStartTime"
+                        style="@style/PublishTextItem"
+                        android:text="@string/publish_start_time"
+                        />
+
+                    <View
+                        style="@style/DividerHorizontal.Thin"
+                        android:layout_marginTop="10dp"/>
+                </LinearLayout>
+                <!--限时长度-->
+                <LinearLayout
+                    android:id="@+id/linearDurationTime"
+                    style="@style/PublishLinearItem">
+
+                    <TextView
+                        android:id="@+id/textDurationTime"
+                        style="@style/PublishTextItem"
+                        android:text="@string/publish_duration_time"
+                        />
+
+                    <View
+                        style="@style/DividerHorizontal.Thin"
+                        android:layout_marginTop="10dp"/>
+                </LinearLayout>
+            </LinearLayout>
+            <!--填写列表-->
+            <LinearLayout
+                style="@style/PublishLinear"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="8dp">
+                <!--数量-->
+                <RelativeLayout
+                    style="@style/PublishRelativeItem">
+
+                    <TextView
+                        android:id="@+id/labelCount"
+                        style="@style/PublishRelativeItemText"
+                        android:text="@string/publish_buy_count"
+                        />
+
+                    <EditText
+                        android:id="@+id/editCount"
+                        style="@style/PublishRelativeItemEdit"
+                        android:layout_toRightOf="@+id/labelCount"
+                        android:hint="@string/publish_buy_count_hint"/>
+
+                    <View
+                        style="@style/DividerHorizontal.Thin"
+                        android:layout_below="@+id/labelCount"
+                        android:layout_marginTop="10dp"/>
+                </RelativeLayout>
+                <!--市场价-->
+                <RelativeLayout
+                    style="@style/PublishRelativeItem">
+
+                    <TextView
+                        android:id="@+id/labelMarketPrice"
+                        style="@style/PublishRelativeItemText"
+                        android:text="@string/pai_market_price"
+                        />
+
+                    <EditText
+                        android:id="@+id/editMarketPrice"
+                        style="@style/PublishRelativeItemEdit"
+                        android:layout_toRightOf="@+id/labelMarketPrice"
+                        android:hint="@string/publish_market_price_hint"/>
+
+                    <View
+                        style="@style/DividerHorizontal.Thin"
+                        android:layout_below="@+id/labelMarketPrice"
+                        android:layout_marginTop="10dp"/>
+                </RelativeLayout>
+                <!--保证金-->
+                <RelativeLayout
+                    style="@style/PublishRelativeItem">
+
+                    <TextView
+                        android:id="@+id/labelDeposit"
+                        style="@style/PublishRelativeItemText"
+                        android:text="@string/publish_deposit"
+                        />
+
+                    <EditText
+                        android:id="@+id/editDeposit"
+                        style="@style/PublishRelativeItemEdit"
+                        android:layout_toRightOf="@+id/labelDeposit"
+                        android:hint="@string/publish_deposit_hint"/>
+
+                    <View
+                        style="@style/DividerHorizontal.Thin"
+                        android:layout_below="@+id/labelDeposit"
+                        android:layout_marginTop="10dp"/>
+                </RelativeLayout>
+                <!--规格-->
+                <RelativeLayout
+                    style="@style/PublishRelativeItem">
+
+                    <TextView
+                        android:id="@+id/labelSize"
+                        style="@style/PublishRelativeItemText"
+                        android:text="@string/publish_size"
+                        />
+
+                    <EditText
+                        android:id="@+id/editSize"
+                        style="@style/PublishRelativeItemEdit"
+                        android:layout_toRightOf="@+id/labelSize"
+                        android:hint="@string/publish_size_hint"/>
+
+                    <View
+                        style="@style/DividerHorizontal.Thin"
+                        android:layout_below="@+id/labelSize"
+                        android:layout_marginTop="10dp"/>
+                </RelativeLayout>
+                <!--材质-->
+                <RelativeLayout
+                    style="@style/PublishRelativeItem">
+
+                    <TextView
+                        android:id="@+id/labelMaterial"
+                        style="@style/PublishRelativeItemText"
+                        android:text="@string/publish_material"
+                        />
+
+                    <EditText
+                        android:id="@+id/editMaterial"
+                        style="@style/PublishRelativeItemEdit"
+                        android:layout_toRightOf="@+id/labelMaterial"
+                        android:hint="@string/publish_material_hint"/>
+
+                    <View
+                        style="@style/DividerHorizontal.Thin"
+                        android:layout_below="@+id/labelMaterial"
+                        android:layout_marginTop="10dp"/>
+                </RelativeLayout>
+                <!--价格-->
+                <RelativeLayout
+                    style="@style/PublishRelativeItem">
+
+                    <TextView
+                        android:id="@+id/labelPrice"
+                        style="@style/PublishRelativeItemText"
+                        android:text="@string/publish_price"
+                        />
+
+                    <EditText
+                        android:id="@+id/editPrice"
+                        style="@style/PublishRelativeItemEdit"
+                        android:layout_toRightOf="@+id/labelPrice"
+                        android:hint="@string/publish_price_hint"/>
+
+                    <View
+                        style="@style/DividerHorizontal.Thin"
+                        android:layout_below="@+id/labelPrice"
+                        android:layout_marginTop="10dp"/>
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

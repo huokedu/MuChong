@@ -1,5 +1,6 @@
 package com.htlc.muchong.activity;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import com.htlc.muchong.fragment.SecondFragment;
 import com.htlc.muchong.fragment.DefaultFragment;
 import com.htlc.muchong.fragment.ThirdFragment;
 import com.htlc.muchong.util.LoginUtil;
+import com.larno.util.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -25,6 +27,8 @@ import model.UserBean;
 public class MainActivity extends BaseActivity{
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+    private View imageViewButton;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -33,6 +37,7 @@ public class MainActivity extends BaseActivity{
     @Override
     protected void setupView() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        imageViewButton = findViewById(R.id.imageViewButton);
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mViewPager.setOffscreenPageLimit(3);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -52,6 +57,9 @@ public class MainActivity extends BaseActivity{
             if (tab != null) {
                 tab.setTag(pageFragments.get(i));
                 tab.setCustomView(pageFragments.get(i).getTabView(this));
+                if(i==2){
+                    tab.getCustomView().setBackgroundResource(R.mipmap.bg_tab_layout);
+                }
             }
         }
         mTitleTextView.setText(mViewPager.getAdapter().getPageTitle(0));
@@ -69,6 +77,12 @@ public class MainActivity extends BaseActivity{
                     setStatusBarColor();
                     mTitleRightTextView.setBackgroundResource(R.mipmap.icon_search);
                     mTitleRightTextView.setText("");
+                    mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ToastUtil.showToast(App.app,"Home Search");
+                        }
+                    });
                     mTitleLeftTextView.setVisibility(View.INVISIBLE);
                     mTitleRightTextView.setVisibility(View.VISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
@@ -76,16 +90,29 @@ public class MainActivity extends BaseActivity{
                     setStatusBarColor();
                     mTitleRightTextView.setBackgroundResource(R.mipmap.icon_search);
                     mTitleRightTextView.setText("");
+                    mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ToastUtil.showToast(App.app, "Shopping Search");
+                        }
+                    });
                     mTitleLeftTextView.setText(R.string.publish);
                     mTitleLeftTextView.setVisibility(View.VISIBLE);
                     mTitleRightTextView.setVisibility(View.VISIBLE);
+                    mTitleLeftTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ToastUtil.showToast(App.app, "Shopping Publish Goods");
+                            startActivity(new Intent(MainActivity.this,PublishActivity.class));
+                        }
+                    });
                     mToolbar.setVisibility(View.VISIBLE);
                 } else if (position == 2) {
                     setStatusBarColor();
                     mTitleLeftTextView.setVisibility(View.INVISIBLE);
                     mTitleRightTextView.setVisibility(View.INVISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
-                    tab.getCustomView().setBackgroundResource(R.mipmap.bg_tab_layout);
+                    imageViewButton.setPressed(true);
                 } else if (position == 3) {
                     setStatusBarColor();
                     mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);
@@ -101,6 +128,10 @@ public class MainActivity extends BaseActivity{
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                if(position == 2){
+                    imageViewButton.setPressed(false);
+                }
             }
 
             @Override

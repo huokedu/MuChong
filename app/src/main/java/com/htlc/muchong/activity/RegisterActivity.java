@@ -124,7 +124,18 @@ public class RegisterActivity extends BaseActivity {
      * 忘记密码
      */
     private void forget() {
+        App.app.appAction.resetPassword(editUsername.getText().toString(), editCode.getText().toString(), editPassword.getText().toString(), editPassword2.getText().toString(), new BaseActionCallbackListener<Void>() {
+            @Override
+            public void onSuccess(Void data) {
+                ToastUtil.showToast(App.app,"密码设置成功");
+                finish();
+            }
 
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app,message);
+            }
+        });
     }
 
 

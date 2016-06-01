@@ -27,12 +27,15 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"/>
         <ImageView
+            android:id="@+id/imageViewButton"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:scaleType="centerInside"
             android:layout_width="60dp"
+            android:paddingTop="5dp"
+            android:foregroundGravity="center"
             android:layout_height="64dp"
-            android:background="@mipmap/tab_3_bg"
+            android:background="@drawable/tab_3_bg_selector"
             android:src="@mipmap/tab_3"/>
     </RelativeLayout>
 </LinearLayout>

@@ -12,4 +12,5 @@
     <dimen name="person_head_height">168dp</dimen>
     <dimen name="divider_width">3dp</dimen>
     <dimen name="divider_width_thin">1dp</dimen>
+    <dimen name="publish_grid_view_size">50dp</dimen>
 </resources>

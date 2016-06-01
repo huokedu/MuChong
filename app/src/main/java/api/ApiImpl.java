@@ -71,4 +71,27 @@ public class ApiImpl implements Api {
             new OkHttpRequest.Builder().url(url).params(params).post(callback);
         }
     }
+
+    @Override
+    public void resetPassword(String user_account, String Verifycode, String user_pwda, String user_pwdb, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_account", user_account);
+        params.put("Verifycode", Verifycode);
+        params.put("user_pwda", user_pwda);
+        params.put("user_pwdb", user_pwdb);
+        String url = Api.ResetPassword;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void home(ResultCallback callback) {
+        String url = Api.Home;
+        new OkHttpRequest.Builder().url(url).get(callback);
+    }
+
+    @Override
+    public void getGoodsType(ResultCallback callback) {
+        String url = Api.GetGoodsType;
+        new OkHttpRequest.Builder().url(url).get(callback);
+    }
 }
