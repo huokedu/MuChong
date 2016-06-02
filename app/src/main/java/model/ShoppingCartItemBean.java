@@ -2,6 +2,7 @@ package model;
 
 /**
  * Created by sks on 2016/5/27.
+ * 购物车bean
  */
 public class ShoppingCartItemBean {
     public int number;

@@ -5,7 +5,11 @@ import com.larno.util.okhttp.callback.ResultCallback;
 import java.io.File;
 import java.util.List;
 
+import model.GoodsCommentBean;
+import model.GoodsDetailBean;
 import model.GoodsTypeBean;
+import model.HomeBean;
+import model.PointInTimeBean;
 import model.UserBean;
 import model.UserInfoBean;
 
@@ -21,6 +25,14 @@ public interface AppAction {
     void updateUserInfo(String userinfo_nickname,String userinfo_address,File userinfo_headportrait, ActionCallbackListener<Void> listener);
     void resetPassword(String user_account,String Verifycode,String user_pwda,String user_pwdb, ActionCallbackListener<Void> listener);
 
-    void home(ActionCallbackListener<Void> listener);
+    void home(ActionCallbackListener<HomeBean> listener);
     void getGoodsType(ActionCallbackListener<List<GoodsTypeBean>> listener);
+    void getPointInTimes(ActionCallbackListener<List<PointInTimeBean>> listener);
+    void publishGoods(String commodity_name, String commodity_content,
+                      String commodity_type, String commodity_smallclass, String commodity_spec, String commodity_material, String commodity_panicprice,
+                      String commodity_starttime, String commodity_limitend, String commodity_buynum, String commodity_price, String commodity_bond,
+                      File coverImageFile,List<File> contentImageFiles,
+                      ActionCallbackListener<Void> listener);
+    void goodsDetail(String commodity_id,ActionCallbackListener<GoodsDetailBean> listener);
+    void goodsCommentList(String commodity_id, ActionCallbackListener<List<GoodsCommentBean>> listener);
 }

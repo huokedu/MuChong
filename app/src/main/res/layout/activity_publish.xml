@@ -88,6 +88,7 @@
                     android:textSize="14sp"/>
 
                 <EditText
+                    android:id="@+id/editTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -98,6 +99,7 @@
             </LinearLayout>
             <!--描述-->
             <EditText
+                android:id="@+id/editContent"
                 android:layout_marginTop="10dp"
                 style="@style/PublishLinear"
                 android:gravity="start"
@@ -145,6 +147,7 @@
                 </LinearLayout>
                 <!--开始时间-->
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/linearStartTime"
                     style="@style/PublishLinearItem">
 
@@ -160,6 +163,7 @@
                 </LinearLayout>
                 <!--限时长度-->
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/linearDurationTime"
                     style="@style/PublishLinearItem">
 
@@ -185,6 +189,8 @@
                 android:paddingTop="8dp">
                 <!--数量-->
                 <RelativeLayout
+                    android:visibility="gone"
+                    android:id="@+id/relativeCount"
                     style="@style/PublishRelativeItem">
 
                     <TextView
@@ -194,6 +200,7 @@
                         />
 
                     <EditText
+                        android:inputType="numberDecimal"
                         android:id="@+id/editCount"
                         style="@style/PublishRelativeItemEdit"
                         android:layout_toRightOf="@+id/labelCount"
@@ -206,15 +213,18 @@
                 </RelativeLayout>
                 <!--市场价-->
                 <RelativeLayout
+                    android:visibility="gone"
+                    android:id="@+id/relativeMarketPrice"
                     style="@style/PublishRelativeItem">
 
                     <TextView
                         android:id="@+id/labelMarketPrice"
                         style="@style/PublishRelativeItemText"
-                        android:text="@string/pai_market_price"
+                        android:text="@string/publish_market_price"
                         />
 
                     <EditText
+                        android:inputType="numberDecimal"
                         android:id="@+id/editMarketPrice"
                         style="@style/PublishRelativeItemEdit"
                         android:layout_toRightOf="@+id/labelMarketPrice"
@@ -227,6 +237,8 @@
                 </RelativeLayout>
                 <!--保证金-->
                 <RelativeLayout
+                    android:visibility="gone"
+                    android:id="@+id/relativeDeposit"
                     style="@style/PublishRelativeItem">
 
                     <TextView
@@ -236,6 +248,7 @@
                         />
 
                     <EditText
+                        android:inputType="numberDecimal"
                         android:id="@+id/editDeposit"
                         style="@style/PublishRelativeItemEdit"
                         android:layout_toRightOf="@+id/labelDeposit"
@@ -299,6 +312,7 @@
                         />
 
                     <EditText
+                        android:inputType="numberDecimal"
                         android:id="@+id/editPrice"
                         style="@style/PublishRelativeItemEdit"
                         android:layout_toRightOf="@+id/labelPrice"
@@ -310,6 +324,12 @@
                         android:layout_marginTop="10dp"/>
                 </RelativeLayout>
             </LinearLayout>
+            <Button
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
+                android:id="@+id/buttonCommit"
+                android:text="@string/commit"
+                style="@style/Button"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

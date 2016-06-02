@@ -1,6 +1,7 @@
 package com.htlc.muchong.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,15 +17,21 @@ import com.chanven.lib.cptr.PtrHandler;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.activity.JianListActivity;
+import com.htlc.muchong.activity.PaiDetailActivity;
 import com.htlc.muchong.activity.PaiListActivity;
+import com.htlc.muchong.activity.ProductDetailActivity;
 import com.htlc.muchong.activity.QiangListActivity;
 import com.htlc.muchong.adapter.FirstAdapter;
+import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.widget.DaoJiShiView;
 import com.larno.util.ToastUtil;
+import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+
+import model.GoodsBean;
+import model.HomeBean;
+import model.PaiGoodsBean;
 
 
 /**
@@ -32,14 +39,12 @@ import java.util.List;
  */
 public class FirstFragment extends HomeFragment implements View.OnClickListener {
 
-
     public static final String[] sampleNetworkImageURLs = {
             "http://pic55.nipic.com/file/20141208/19462408_171130083000_2.jpg",
             "http://pic36.nipic.com/20131217/6704106_233034463381_2.jpg",
             "http://img05.tooopen.com/images/20140604/sy_62331342149.jpg",
             "http://pic36.nipic.com/20131217/6704106_233034463381_2.jpg"
     };
-
 
     protected BannerFragment mBannerFragment;
     protected PtrClassicFrameLayout mPtrFrame;
@@ -52,7 +57,6 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
     protected ImageView imageQiang1, imageQiang2, imageQiang3;
     protected TextView textNameQiang1, textNameQiang2, textNameQiang3;
     protected TextView textPriceQiang1, textPriceQiang2, textPriceQiang3;
-    protected TextView textDescriptionQiang1, textDescriptionQiang2, textDescriptionQiang3;
 
     protected View relativePai1, relativePai2;
     protected ImageView imagePai1, imagePai2;
@@ -60,13 +64,10 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
     protected TextView textPaiName1, textPaiName2;
     protected TextView textPaiPrice1, textPaiPrice2;
 
-
     protected DaoJiShiView daoJiShiView;
 
-
-    protected List mBannerList = new ArrayList();
-    protected List mList = new ArrayList();
-    private FirstAdapter adapter;
+    protected HomeBean homeBean;
+    protected FirstAdapter adapter;
 
 
     @Override
@@ -95,7 +96,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             public void run() {
                 mPtrFrame.autoRefresh();
             }
-        }, 100);
+        }, 500);
 
         mBannerFragment = (BannerFragment) getChildFragmentManager().findFragmentById(R.id.fragmentBanner);
         mBannerFragment.setRecycle(true);
@@ -113,7 +114,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ToastUtil.showToast(App.app, "Grid position " + position);
+                goProductActivity((GoodsBean) adapter.getItem(position));
             }
         });
 
@@ -173,16 +174,85 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
 
     @Override
     protected void initData() {
-        mPtrFrame.refreshComplete();
-        refreshView();
+        App.app.appAction.home(((BaseActivity) getActivity()).new BaseActionCallbackListener<HomeBean>() {
+            @Override
+            public void onSuccess(HomeBean data) {
+                homeBean = data;
+                mPtrFrame.refreshComplete();
+                refreshView();
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+            }
+        });
     }
 
     protected void refreshView() {
-        daoJiShiView.setData(300000, 300000);
-        mBannerFragment.setData(Arrays.asList(sampleNetworkImageURLs));
-        mList.addAll(Arrays.asList(sampleNetworkImageURLs));
-        adapter.setData(Arrays.asList(sampleNetworkImageURLs),false);
+        //刷新Banner数据
+        String[] bannerArray = new String[homeBean.banner.size()];
+        for (int i = 0; i < homeBean.banner.size(); i++) {
+            bannerArray[i] = homeBean.banner.get(i).banner_coverimg;
+        }
+        mBannerFragment.setData(Arrays.asList(bannerArray));
+        //刷新抢购数据
+        if (PaiGoodsBean.STATE_NO_START.equals(homeBean.limittime.state)) {
+            daoJiShiView.setData(Long.parseLong(homeBean.limittime.timeStr) * 1000, Long.parseLong(homeBean.limittime.timeend) * 1000);
+        } else if (PaiGoodsBean.STATE_END.equals(homeBean.limittime.state)) {
+            daoJiShiView.setData(0, 0);
+        } else if (PaiGoodsBean.STATE_STARTING.equals(homeBean.limittime.state)) {
+            daoJiShiView.setData(0, Long.parseLong(homeBean.limittime.timeStr) * 1000);
+        }
+        if (homeBean.limittime.list.size() >= 1) {
+            GoodsBean goodsBean = homeBean.limittime.list.get(0);
+            Picasso.with(getContext()).load(Uri.parse(goodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_qiang).error(R.mipmap.default_first_qiang).into(imageQiang1);
+            textNameQiang1.setText(goodsBean.commodity_name);
+            textPriceQiang1.setText(goodsBean.commodity_panicprice);
+        }
+        if (homeBean.limittime.list.size() >= 2) {
+            GoodsBean goodsBean = homeBean.limittime.list.get(1);
+            Picasso.with(getContext()).load(Uri.parse(goodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_qiang).error(R.mipmap.default_first_qiang).into(imageQiang2);
+            textNameQiang2.setText(goodsBean.commodity_name);
+            textPriceQiang2.setText(goodsBean.commodity_panicprice);
+        }
+        if (homeBean.limittime.list.size() >= 3) {
+            GoodsBean goodsBean = homeBean.limittime.list.get(2);
+            Picasso.with(getContext()).load(Uri.parse(goodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_qiang).error(R.mipmap.default_first_qiang).into(imageQiang3);
+            textNameQiang3.setText(homeBean.limittime.list.get(2).commodity_name);
+            textPriceQiang3.setText(homeBean.limittime.list.get(2).commodity_panicprice);
+        }
 
+        //刷新竞拍数据
+        if (homeBean.bid.size() >= 1) {
+            PaiGoodsBean paiGoodsBean = homeBean.bid.get(0);
+            Picasso.with(getContext()).load(Uri.parse(paiGoodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_pai).error(R.mipmap.default_first_pai).into(imagePai1);
+            setImageByType(imageTypePai1, paiGoodsBean.commodity_type);
+            textPaiName1.setText(paiGoodsBean.commodity_name);
+            textPaiPrice1.setText(paiGoodsBean.commodity_panicprice);
+        }
+        if (homeBean.bid.size() >= 2) {
+            PaiGoodsBean paiGoodsBean = homeBean.bid.get(1);
+            Picasso.with(getContext()).load(Uri.parse(paiGoodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_pai).error(R.mipmap.default_first_pai).into(imagePai2);
+            setImageByType(imageTypePai2, paiGoodsBean.commodity_type);
+            textPaiName2.setText(paiGoodsBean.commodity_name);
+            textPaiPrice2.setText(paiGoodsBean.commodity_panicprice);
+        }
+
+        //刷新精品数据
+        adapter.setData(homeBean.jingpin, false);
+
+    }
+
+    /*根据商品竞拍类型设置类型标签图片*/
+    private void setImageByType(ImageView imageType, String commodity_type) {
+        if (PaiGoodsBean.TYPE_DAO.equals(commodity_type)) {
+            imageType.setImageResource(R.mipmap.icon_pai_list_dao);
+        } else if (PaiGoodsBean.TYPE_WU.equals(commodity_type)) {
+            imageType.setImageResource(R.mipmap.icon_pai_list_wu);
+        } else if (PaiGoodsBean.TYPE_YOU.equals(commodity_type)) {
+            imageType.setImageResource(R.mipmap.icon_pai_list_you);
+        }
     }
 
     @Override
@@ -190,16 +260,13 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.linearQiang:
             case R.id.textQiangMore:
-                ToastUtil.showToast(App.app, "textQiangMore");
                 startActivity(new Intent(getActivity(), QiangListActivity.class));
                 break;
             case R.id.linearPai:
             case R.id.textPaiMore:
-                ToastUtil.showToast(App.app, "textPaiMore");
                 startActivity(new Intent(getActivity(), PaiListActivity.class));
                 break;
             case R.id.linearJian:
-                ToastUtil.showToast(App.app, "linearJian");
                 startActivity(new Intent(getActivity(), JianListActivity.class));
                 break;
             case R.id.linearDuo:
@@ -209,20 +276,43 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
                 ToastUtil.showToast(App.app, "textJiaoMore");
                 break;
             case R.id.linearQiang1:
-                ToastUtil.showToast(App.app, "linearQiang1");
+                if (homeBean.limittime.list.size() >= 1) {
+                    goProductActivity(homeBean.limittime.list.get(0));
+                }
                 break;
             case R.id.linearQiang2:
-                ToastUtil.showToast(App.app, "linearQiang2");
+                if (homeBean.limittime.list.size() >= 2) {
+                    goProductActivity(homeBean.limittime.list.get(1));
+                }
                 break;
             case R.id.linearQiang3:
-                ToastUtil.showToast(App.app, "linearQiang3");
+                if (homeBean.limittime.list.size() >= 3) {
+                    goProductActivity(homeBean.limittime.list.get(2));
+                }
                 break;
             case R.id.relativePai1:
-                ToastUtil.showToast(App.app, "relativePai1");
+                if (homeBean.bid.size() >= 1) {
+                    goPaiActivity(homeBean.bid.get(0));
+                }
                 break;
             case R.id.relativePai2:
-                ToastUtil.showToast(App.app, "relativePai2");
+                if (homeBean.bid.size() >= 2) {
+                    goPaiActivity(homeBean.bid.get(1));
+                }
                 break;
         }
+    }
+
+    /*去商品详情*/
+    private void goProductActivity(GoodsBean goodsBean) {
+        Intent intent = new Intent(getContext(), ProductDetailActivity.class);
+        intent.putExtra(ProductDetailActivity.Product_Id,goodsBean.id);
+        startActivity(intent);
+    }
+    /*去商品详情*/
+    private void goPaiActivity(PaiGoodsBean goodsBean) {
+        Intent intent = new Intent(getContext(), PaiDetailActivity.class);
+        intent.putExtra(PaiDetailActivity.Product_Id,goodsBean.id);
+        startActivity(intent);
     }
 }

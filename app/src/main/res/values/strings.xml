@@ -127,22 +127,22 @@
     <string name="publish_title">标题</string>
     <string name="publish_title_hint">请输入标题</string>
     <string name="publish_content_hint">请输入简介</string>
-    <string name="publish_type">类型</string>
+    <string name="publish_type">类型&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
     <string name="publish_child_type">商品种类</string>
     <string name="publish_start_time">开始时间</string>
     <string name="publish_duration_time">限时长度</string>
 
     <string name="publish_buy_count">库存数量</string>
     <string name="publish_buy_count_hint">请输入库存数量</string>
-    <string name="publish_market_price">市场价</string>
+    <string name="publish_market_price">市场价&#160;&#160;&#160;&#160;</string>
     <string name="publish_market_price_hint">请输入市场价</string>
-    <string name="publish_deposit">保证金</string>
+    <string name="publish_deposit">保证金&#160;&#160;&#160;&#160;</string>
     <string name="publish_deposit_hint">请输入保证金</string>
-    <string name="publish_size">规格</string>
+    <string name="publish_size">规格&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
     <string name="publish_size_hint">请输入规格</string>
-    <string name="publish_material">材质</string>
+    <string name="publish_material">材质&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
     <string name="publish_material_hint">请输入材质</string>
-    <string name="publish_price">价格</string>
+    <string name="publish_price">价格&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
     <string name="publish_price_hint">请输入价格</string>
 
 

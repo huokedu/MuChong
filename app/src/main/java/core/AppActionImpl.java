@@ -2,6 +2,7 @@ package core;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Pair;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -13,11 +14,16 @@ import com.larno.util.RegexUtils;
 import com.larno.util.okhttp.callback.ResultCallback;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
 import api.Api;
 import api.ApiImpl;
+import model.GoodsCommentBean;
+import model.GoodsDetailBean;
 import model.GoodsTypeBean;
+import model.HomeBean;
+import model.PointInTimeBean;
 import model.UserBean;
 import model.UserInfoBean;
 import okhttp3.Request;
@@ -25,7 +31,6 @@ import okhttp3.Request;
 
 /**
  * AppAction接口的实现类
- *
  */
 public class AppActionImpl implements AppAction {
     public static final String KEY_CODE = "code";
@@ -46,25 +51,25 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void smsCode(String mobile, final ActionCallbackListener<Void> listener) {
-        if(!NetworkUtil.isNetworkAvailable(context)){
-            listener.onFailure(ErrorEvent.NETWORK_ERROR,ErrorEvent.NETWORK_ERROR_MSG);
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
             return;
         }
-        if(TextUtils.isEmpty(mobile)){
-            listener.onFailure(ErrorEvent.PARAM_NULL,"手机号不能为空");
+        if (TextUtils.isEmpty(mobile)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "手机号不能为空");
             return;
         }
-        if(!RegexUtils.isMatchPhoneNum(mobile)){
-            listener.onFailure(ErrorEvent.PARAM_ILLEGAL,"手机号格式不正确");
+        if (!RegexUtils.isMatchPhoneNum(mobile)) {
+            listener.onFailure(ErrorEvent.PARAM_ILLEGAL, "手机号格式不正确");
             return;
         }
         api.smsCode(mobile, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
-                if(VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))){
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     listener.onSuccess(null);
-                }else {
+                } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }
             }
@@ -72,33 +77,33 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void register(String user_account, String Verifycode, String user_pwda, String user_pwdb,boolean isAgreeProtocol, ActionCallbackListener<Void> listener) {
-        if(!NetworkUtil.isNetworkAvailable(context)){
-            listener.onFailure(ErrorEvent.NETWORK_ERROR,ErrorEvent.NETWORK_ERROR_MSG);
+    public void register(String user_account, String Verifycode, String user_pwda, String user_pwdb, boolean isAgreeProtocol, ActionCallbackListener<Void> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
             return;
         }
-        if(TextUtils.isEmpty(user_account)){
-            listener.onFailure(ErrorEvent.PARAM_NULL,"手机号不能为空");
+        if (TextUtils.isEmpty(user_account)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "手机号不能为空");
             return;
         }
-        if(!RegexUtils.isMatchPhoneNum(user_account)){
-            listener.onFailure(ErrorEvent.PARAM_ILLEGAL,"手机号格式不正确");
+        if (!RegexUtils.isMatchPhoneNum(user_account)) {
+            listener.onFailure(ErrorEvent.PARAM_ILLEGAL, "手机号格式不正确");
             return;
         }
-        if(TextUtils.isEmpty(Verifycode)){
-            listener.onFailure(ErrorEvent.PARAM_NULL,"验证码不能为空");
+        if (TextUtils.isEmpty(Verifycode)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "验证码不能为空");
             return;
         }
-        if(TextUtils.isEmpty(user_pwda)){
-            listener.onFailure(ErrorEvent.PARAM_NULL,"密码不能为空");
+        if (TextUtils.isEmpty(user_pwda)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "密码不能为空");
             return;
         }
-        if(!user_pwda.equals(user_pwdb)){
-            listener.onFailure(ErrorEvent.PARAM_ILLEGAL,"密码不一致");
+        if (!user_pwda.equals(user_pwdb)) {
+            listener.onFailure(ErrorEvent.PARAM_ILLEGAL, "密码不一致");
             return;
         }
-        if(!isAgreeProtocol){
-            listener.onFailure(ErrorEvent.PARAM_ILLEGAL,"请阅读并同意相关协议");
+        if (!isAgreeProtocol) {
+            listener.onFailure(ErrorEvent.PARAM_ILLEGAL, "请阅读并同意相关协议");
             return;
         }
         user_pwda = EncryptUtil.makeMD5(user_pwda);
@@ -107,9 +112,9 @@ public class AppActionImpl implements AppAction {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
-                if(VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))){
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     listener.onSuccess(null);
-                }else {
+                } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }
             }
@@ -118,16 +123,16 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void login(String user_account, String user_pwd, ActionCallbackListener<UserBean> listener) {
-        if(!NetworkUtil.isNetworkAvailable(context)){
-            listener.onFailure(ErrorEvent.NETWORK_ERROR,ErrorEvent.NETWORK_ERROR_MSG);
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
             return;
         }
-        if(TextUtils.isEmpty(user_account)){
-            listener.onFailure(ErrorEvent.PARAM_NULL,"手机号不能为空");
+        if (TextUtils.isEmpty(user_account)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "手机号不能为空");
             return;
         }
-        if(TextUtils.isEmpty(user_pwd)){
-            listener.onFailure(ErrorEvent.PARAM_NULL,"密码不能为空");
+        if (TextUtils.isEmpty(user_pwd)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "密码不能为空");
             return;
         }
         user_pwd = EncryptUtil.makeMD5(user_pwd);
@@ -135,11 +140,11 @@ public class AppActionImpl implements AppAction {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
-                if(VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))){
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     UserBean userBean = JSON.parseObject(model.getString(KEY_DATA), UserBean.class);
                     LoginUtil.setUser(userBean);
                     listener.onSuccess(userBean);
-                }else {
+                } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }
             }
@@ -168,9 +173,9 @@ public class AppActionImpl implements AppAction {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
-                if(VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))){
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     listener.onSuccess(null);
-                }else {
+                } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }
             }
@@ -179,28 +184,28 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void resetPassword(String user_account, String Verifycode, String user_pwda, String user_pwdb, ActionCallbackListener<Void> listener) {
-        if(!NetworkUtil.isNetworkAvailable(context)){
-            listener.onFailure(ErrorEvent.NETWORK_ERROR,ErrorEvent.NETWORK_ERROR_MSG);
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
             return;
         }
-        if(TextUtils.isEmpty(user_account)){
-            listener.onFailure(ErrorEvent.PARAM_NULL,"手机号不能为空");
+        if (TextUtils.isEmpty(user_account)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "手机号不能为空");
             return;
         }
-        if(!RegexUtils.isMatchPhoneNum(user_account)){
-            listener.onFailure(ErrorEvent.PARAM_ILLEGAL,"手机号格式不正确");
+        if (!RegexUtils.isMatchPhoneNum(user_account)) {
+            listener.onFailure(ErrorEvent.PARAM_ILLEGAL, "手机号格式不正确");
             return;
         }
-        if(TextUtils.isEmpty(Verifycode)){
-            listener.onFailure(ErrorEvent.PARAM_NULL,"验证码不能为空");
+        if (TextUtils.isEmpty(Verifycode)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "验证码不能为空");
             return;
         }
-        if(TextUtils.isEmpty(user_pwda)){
-            listener.onFailure(ErrorEvent.PARAM_NULL,"密码不能为空");
+        if (TextUtils.isEmpty(user_pwda)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "密码不能为空");
             return;
         }
-        if(!user_pwda.equals(user_pwdb)){
-            listener.onFailure(ErrorEvent.PARAM_ILLEGAL,"密码不一致");
+        if (!user_pwda.equals(user_pwdb)) {
+            listener.onFailure(ErrorEvent.PARAM_ILLEGAL, "密码不一致");
             return;
         }
         user_pwda = EncryptUtil.makeMD5(user_pwda);
@@ -209,9 +214,9 @@ public class AppActionImpl implements AppAction {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
-                if(VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))){
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     listener.onSuccess(null);
-                }else {
+                } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }
             }
@@ -219,8 +224,19 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void home(ActionCallbackListener<Void> listener) {
-
+    public void home(ActionCallbackListener<HomeBean> listener) {
+        api.home(new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    HomeBean bean = JSON.parseObject(model.getString(KEY_DATA), HomeBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
     }
 
     @Override
@@ -229,10 +245,157 @@ public class AppActionImpl implements AppAction {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
-                if(VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))){
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     List<GoodsTypeBean> bean = JSON.parseArray(model.getString(KEY_DATA), GoodsTypeBean.class);
                     listener.onSuccess(bean);
-                }else {
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getPointInTimes(ActionCallbackListener<List<PointInTimeBean>> listener) {
+        api.getPointInTimes(new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<PointInTimeBean> bean = JSON.parseArray(model.getString(KEY_DATA), PointInTimeBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void publishGoods(String commodity_name, String commodity_content, String commodity_type, String commodity_smallclass, String commodity_spec, String commodity_material, String commodity_panicprice,
+                             String commodity_starttime, String commodity_limitend, String commodity_buynum, String commodity_price, String commodity_bond,
+                             File coverImageFile, List<File> contentImageFiles, ActionCallbackListener<Void> listener) {
+        if (coverImageFile == null) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "封面图片不能为空");
+            return;
+        }
+        if (contentImageFiles == null || contentImageFiles.size() == 0) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "内容图片不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(commodity_name)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "标题(商品名称)不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(commodity_content)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "(商品)简介不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(commodity_type)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "(商品)类型不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(commodity_smallclass)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "(商品)分类不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(commodity_spec)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "(商品)规格不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(commodity_material)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "(商品)材质不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(commodity_panicprice)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "(商品)价格不能为空");
+            return;
+        }
+        if ("1".equals(commodity_type)) {
+            commodity_starttime = "";
+            commodity_limitend = "";
+            commodity_buynum = "";
+            commodity_price = "";
+            commodity_bond = "";
+        } else if ("2".equals(commodity_type)) {
+            if (TextUtils.isEmpty(commodity_buynum)) {
+                listener.onFailure(ErrorEvent.PARAM_NULL, "(商品)总数量不能为空");
+                return;
+            }
+            if (TextUtils.isEmpty(commodity_price)) {
+                listener.onFailure(ErrorEvent.PARAM_NULL, "(商品)市场价格不能为空");
+                return;
+            }
+            commodity_starttime = "";
+            commodity_limitend = "";
+            commodity_bond = "";
+        } else if ("3".equals(commodity_type) || "4".equals(commodity_type) || "5".equals(commodity_type)) {
+            if (TextUtils.isEmpty(commodity_starttime)) {
+                listener.onFailure(ErrorEvent.PARAM_NULL, "开始时间不能为空");
+                return;
+            }
+            if (TextUtils.isEmpty(commodity_limitend)) {
+                listener.onFailure(ErrorEvent.PARAM_NULL, "持续时间不能为空");
+                return;
+            }
+            if (TextUtils.isEmpty(commodity_price)) {
+                listener.onFailure(ErrorEvent.PARAM_NULL, "(商品)市场价格不能为空");
+                return;
+            }
+            if (TextUtils.isEmpty(commodity_bond)) {
+                listener.onFailure(ErrorEvent.PARAM_NULL, "保证金不能为空");
+                return;
+            }
+            commodity_buynum = "";
+        } else {
+            return;
+        }
+        Pair<String, File>[] imageFiles = new Pair[contentImageFiles.size() + 1];
+        imageFiles[0] = new Pair<>("commodity_imgs[0]", coverImageFile);
+        for (int i = 0; i < contentImageFiles.size(); i++) {
+            imageFiles[i + 1] = new Pair<>("commodity_imgs[" + (i + 1) + "]", contentImageFiles.get(i));
+        }
+        api.publishGoods(commodity_name, commodity_content, commodity_type, commodity_smallclass, commodity_spec, commodity_material, commodity_panicprice,
+                commodity_starttime, commodity_limitend, commodity_buynum, commodity_price, commodity_bond, imageFiles, new DefaultResultCallback(listener) {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONObject model = JSON.parseObject(response);
+                        if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                            listener.onSuccess(null);
+                        } else {
+                            listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                        }
+                    }
+                });
+
+    }
+
+    @Override
+    public void goodsDetail(String commodity_id, ActionCallbackListener<GoodsDetailBean> listener) {
+        api.goodsDetail(commodity_id, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    GoodsDetailBean bean = JSON.parseObject(model.getString(KEY_DATA), GoodsDetailBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void goodsCommentList(String commodity_id, ActionCallbackListener<List<GoodsCommentBean>> listener) {
+        api.goodsCommentList(commodity_id, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<GoodsCommentBean> bean = JSON.parseArray(model.getString(KEY_DATA), GoodsCommentBean.class);
+                    listener.onSuccess(bean);
+                } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }
             }

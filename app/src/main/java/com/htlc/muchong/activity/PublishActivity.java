@@ -1,41 +1,40 @@
 package com.htlc.muchong.activity;
 
 import android.app.Activity;
-import android.content.Context;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AlertDialog;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.adapter.PublishAdapter;
 import com.htlc.muchong.base.BaseActivity;
-import com.htlc.muchong.util.LoginUtil;
 import com.htlc.muchong.util.SelectPhotoDialogHelper;
 import com.larno.util.ToastUtil;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import model.GoodsTypeBean;
+import model.PointInTimeBean;
+import model.TimeBoxingBean;
 
 /**
  * Created by sks on 2016/5/27.
@@ -48,6 +47,9 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
     private SelectPhotoDialogHelper selectPhotoDialogHelper;
     private File coverImageFile;
     private boolean isPickCover;
+    private EditText editContent;
+    private EditText editTitle;
+
     private LinearLayout linearType;
     private LinearLayout linearChildType;
     private LinearLayout linearStartTime;
@@ -57,12 +59,27 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
     private TextView textStartTime;
     private TextView textDurationTime;
 
+    private EditText editMarketPrice;
+    private EditText editDeposit;
+    private EditText editCount;
+    private EditText editPrice;
+    private EditText editMaterial;
+    private EditText editSize;
+    private RelativeLayout relativeCount;
+    private RelativeLayout relativeMarketPrice;
+    private RelativeLayout relativeDeposit;
+
+
     private List<GoodsTypeBean> goodsTypes;
+    private List<PointInTimeBean> pointInTimes;
+    private List<TimeBoxingBean> timeBoxings;
 
     private String type;
     private String childType;
-    private String startTime;
-    private String durationTime;
+    private String pointInTime;
+    private String timeboxing;
+    private ProgressDialog progressDialog;
+
 
     @Override
     protected int getLayoutId() {
@@ -80,6 +97,9 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
 
+        editTitle = (EditText) findViewById(R.id.editTitle);
+        editContent = (EditText) findViewById(R.id.editContent);
+
         linearType = (LinearLayout) findViewById(R.id.linearType);
         linearChildType = (LinearLayout) findViewById(R.id.linearChildType);
         linearStartTime = (LinearLayout) findViewById(R.id.linearStartTime);
@@ -93,20 +113,50 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
         linearStartTime.setOnClickListener(this);
         linearDurationTime.setOnClickListener(this);
 
+        relativeCount = (RelativeLayout) findViewById(R.id.relativeCount);
+        relativeMarketPrice = (RelativeLayout) findViewById(R.id.relativeMarketPrice);
+        relativeDeposit = (RelativeLayout) findViewById(R.id.relativeDeposit);
+        editCount = (EditText) findViewById(R.id.editCount);
+        editMarketPrice = (EditText) findViewById(R.id.editMarketPrice);
+        editDeposit = (EditText) findViewById(R.id.editDeposit);
+        editSize = (EditText) findViewById(R.id.editSize);
+        editMaterial = (EditText) findViewById(R.id.editMaterial);
+        editPrice = (EditText) findViewById(R.id.editPrice);
+
+        findViewById(R.id.buttonCommit).setOnClickListener(this);
+
         initData();
     }
 
     @Override
     protected void initData() {
         getGoodsType();
+        getPointInTime();
     }
 
+    /*获取竞拍时间点*/
+    private void getPointInTime() {
+        App.app.appAction.getPointInTimes(new BaseActionCallbackListener<List<PointInTimeBean>>() {
+            @Override
+            public void onSuccess(List<PointInTimeBean> data) {
+                pointInTimes = data;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+            }
+        });
+    }
+
+    /*获取商品小类*/
     private void getGoodsType() {
         App.app.appAction.getGoodsType(new BaseActionCallbackListener<List<GoodsTypeBean>>() {
             @Override
             public void onSuccess(List<GoodsTypeBean> data) {
                 goodsTypes = data;
             }
+
             @Override
             public void onIllegalState(String errorEvent, String message) {
                 ToastUtil.showToast(App.app, message);
@@ -137,23 +187,61 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
                 showPopupWindow(v, Arrays.asList(TYPE_ARRAY));
                 break;
             case R.id.linearChildType:
-                if(goodsTypes!=null){
+                if (goodsTypes != null) {
                     String[] goodsTypesArray = new String[goodsTypes.size()];
-                    for(int i=0; i<goodsTypes.size(); i++){
+                    for (int i = 0; i < goodsTypes.size(); i++) {
                         goodsTypesArray[i] = goodsTypes.get(i).constant_name;
                     }
                     showPopupWindow(v, Arrays.asList(goodsTypesArray));
                 }
                 break;
             case R.id.linearStartTime:
-                showPopupWindow(v, Arrays.asList(TYPE_ARRAY));
+                if (goodsTypes != null) {
+                    String[] pointInTimeArray = new String[pointInTimes.size()];
+                    for (int i = 0; i < pointInTimes.size(); i++) {
+                        pointInTimeArray[i] = pointInTimes.get(i).constant_time;
+                    }
+                    showPopupWindow(v, Arrays.asList(pointInTimeArray));
+                }
                 break;
             case R.id.linearDurationTime:
-                showPopupWindow(v, Arrays.asList(TYPE_ARRAY));
+                showPopupWindow(v, Arrays.asList(TimeBoxingBean.TIME_DESCRIPTION_ARRAY));
+                break;
+            case R.id.buttonCommit:
+                publishGoods();
                 break;
 
         }
     }
+
+    /*提交商品*/
+    private void publishGoods() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("提交中，请稍等...");
+        progressDialog.show();
+        App.app.appAction.publishGoods(editTitle.getText().toString().trim(),editContent.getText().toString().trim(),
+                type,childType,editSize.getText().toString().trim(),editMaterial.getText().toString().trim(),editPrice.getText().toString(),
+                pointInTime,timeboxing,editCount.getText().toString(),editMarketPrice.getText().toString(),editDeposit.getText().toString(),
+                coverImageFile,adapter.getData(), new BaseActionCallbackListener<Void>() {
+                    @Override
+                    public void onSuccess(Void data) {
+                        if(progressDialog!=null){
+                            progressDialog.dismiss();
+                        }
+                        ToastUtil.showToast(App.app,"提交成功");
+                    }
+
+                    @Override
+                    public void onIllegalState(String errorEvent, String message) {
+                        if(progressDialog!=null){
+                            progressDialog.dismiss();
+                        }
+                        ToastUtil.showToast(App.app,message);
+                    }
+                }
+        );
+    }
+
 
     /*弹出选择条目*/
     private void showPopupWindow(final View clickView, List<String> list) {
@@ -194,16 +282,53 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
 
     /*选中条目*/
     private void selectItem(View clickView, int position) {
-        if(clickView == linearType){
-            type = position+"";
-            textType.setText(TYPE_ARRAY[position]);
-        }else if(clickView == linearChildType){
+        if (clickView == linearType) {
+            type = (position+1)+"";
+            String preStr = getString(R.string.publish_type);
+            textType.setText(preStr+"\t\t"+TYPE_ARRAY[position]);
+            if(position == 0){
+                linearStartTime.setVisibility(View.GONE);
+                linearDurationTime.setVisibility(View.GONE);
+                relativeCount.setVisibility(View.GONE);
+                relativeMarketPrice.setVisibility(View.GONE);
+                relativeDeposit.setVisibility(View.GONE);
+            }else if(position == 1){
+                linearStartTime.setVisibility(View.GONE);
+                linearDurationTime.setVisibility(View.GONE);
+                relativeCount.setVisibility(View.VISIBLE);
+                relativeMarketPrice.setVisibility(View.VISIBLE);
+                relativeDeposit.setVisibility(View.GONE);
+            }else if(position == 2){
+                linearStartTime.setVisibility(View.VISIBLE);
+                linearDurationTime.setVisibility(View.VISIBLE);
+                relativeCount.setVisibility(View.GONE);
+                relativeMarketPrice.setVisibility(View.VISIBLE);
+                relativeDeposit.setVisibility(View.VISIBLE);
+            }else if(position == 3){
+                linearStartTime.setVisibility(View.VISIBLE);
+                linearDurationTime.setVisibility(View.VISIBLE);
+                relativeCount.setVisibility(View.GONE);
+                relativeMarketPrice.setVisibility(View.VISIBLE);
+                relativeDeposit.setVisibility(View.VISIBLE);
+            }else if(position == 4){
+                linearStartTime.setVisibility(View.VISIBLE);
+                linearDurationTime.setVisibility(View.VISIBLE);
+                relativeCount.setVisibility(View.GONE);
+                relativeMarketPrice.setVisibility(View.VISIBLE);
+                relativeDeposit.setVisibility(View.VISIBLE);
+            }
+        } else if (clickView == linearChildType) {
             childType = goodsTypes.get(position).id;
-            textChildType.setText(TYPE_ARRAY[position]);
-        }else if(clickView == linearStartTime){
-            textStartTime.setText(TYPE_ARRAY[position]);
-        }else if(clickView == linearDurationTime){
-            textDurationTime.setText(TYPE_ARRAY[position]);
+            String preStr = getString(R.string.publish_child_type);
+            textChildType.setText(preStr+"\t\t"+goodsTypes.get(position).constant_name);
+        } else if (clickView == linearStartTime) {
+            pointInTime = pointInTimes.get(position).constant_time;
+            String preStr = getString(R.string.publish_start_time);
+            textStartTime.setText(preStr+"\t\t"+pointInTimes.get(position).constant_time);
+        } else if (clickView == linearDurationTime) {
+            timeboxing = TimeBoxingBean.TIME_ARRAY[position];
+            String preStr = getString(R.string.publish_duration_time);
+            textDurationTime.setText(preStr+"\t\t"+TimeBoxingBean.TIME_DESCRIPTION_ARRAY[position]);
         }
     }
 

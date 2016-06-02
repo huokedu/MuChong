@@ -1,5 +1,7 @@
 package api;
 
+import android.util.Pair;
+
 import com.larno.util.okhttp.callback.ResultCallback;
 
 import java.io.File;
@@ -18,6 +20,10 @@ public interface Api {
 
     String Home = Host + "/Home/HomeCommodity/homepage";
     String GetGoodsType = Host + "/Home/HomeCommodity/smallclasslist";
+    String GetPaiStartTimes = Host + "/Home/HomeCommodity/getbidtimelist";
+    String PublishGoods = Host + "/Home/HomeCommodity/publishCommodity";
+    String GoodsDetail = Host + "/Home/HomeCommodity/commodityinfo";
+    String GoodsCommentList = Host + "/Home/HomeCommodity/evallist";
 
     void smsCode(String mobile, ResultCallback callback);
     void register(String user_account,String Verifycode,String user_pwda,String user_pwdb, ResultCallback callback);
@@ -28,4 +34,12 @@ public interface Api {
 
     void home(ResultCallback callback);
     void getGoodsType(ResultCallback callback);
+    void getPointInTimes(ResultCallback callback);
+    void publishGoods(String commodity_name,String commodity_content,
+                      String commodity_type,String commodity_smallclass,String commodity_spec,String commodity_material,String commodity_panicprice,
+                      String commodity_starttime,String commodity_limitend,String commodity_buynum,String commodity_price,String commodity_bond,
+                      Pair<String,File>[] images, ResultCallback callback);
+    void goodsDetail(String commodity_id,ResultCallback callback);
+    void goodsCommentList(String commodity_id,ResultCallback callback);
+
 }

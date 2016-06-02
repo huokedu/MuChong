@@ -96,16 +96,18 @@ public class MainActivity extends BaseActivity{
                             ToastUtil.showToast(App.app, "Shopping Search");
                         }
                     });
-                    mTitleLeftTextView.setText(R.string.publish);
-                    mTitleLeftTextView.setVisibility(View.VISIBLE);
-                    mTitleRightTextView.setVisibility(View.VISIBLE);
-                    mTitleLeftTextView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            ToastUtil.showToast(App.app, "Shopping Publish Goods");
-                            startActivity(new Intent(MainActivity.this,PublishActivity.class));
-                        }
-                    });
+                    if(App.app.isLogin() && LoginUtil.getUser().user_role.equals("1")){
+                        mTitleLeftTextView.setText(R.string.publish);
+                        mTitleLeftTextView.setVisibility(View.VISIBLE);
+                        mTitleRightTextView.setVisibility(View.VISIBLE);
+                        mTitleLeftTextView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ToastUtil.showToast(App.app, "Shopping Publish Goods");
+                                startActivity(new Intent(MainActivity.this,PublishActivity.class));
+                            }
+                        });
+                    }
                     mToolbar.setVisibility(View.VISIBLE);
                 } else if (position == 2) {
                     setStatusBarColor();
@@ -117,6 +119,12 @@ public class MainActivity extends BaseActivity{
                     setStatusBarColor();
                     mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);
                     mTitleRightTextView.setText("");
+                    mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ToastUtil.showToast(App.app, "论坛 发布");
+                        }
+                    });
                     mTitleLeftTextView.setVisibility(View.INVISIBLE);
                     mTitleRightTextView.setVisibility(View.VISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);

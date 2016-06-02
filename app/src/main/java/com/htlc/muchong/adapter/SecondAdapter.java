@@ -14,12 +14,15 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.GoodsBean;
+import model.GoodsTypeBean;
+
 /**
  * Created by sks on 2016/5/19.
  */
 public class SecondAdapter extends BaseAdapter {
-    private List mList = new ArrayList();
-    public void setData(List data, boolean isAdd) {
+    private List<GoodsTypeBean> mList = new ArrayList();
+    public void setData(List<GoodsTypeBean> data, boolean isAdd) {
         if (isAdd) {
             mList.addAll(data);
         } else {
@@ -35,7 +38,7 @@ public class SecondAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mList.get(position);
     }
 
     @Override
@@ -55,7 +58,9 @@ public class SecondAdapter extends BaseAdapter {
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
-//        Picasso.with(parent.getContext()).load(Uri.parse("http://img05.tooopen.com/images/20140604/sy_62331342149.jpg")).transform(new CircleTransform()).into(holder.imageView);
+        GoodsTypeBean goodsTypeBean = mList.get(position);
+        Picasso.with(parent.getContext()).load(Uri.parse(goodsTypeBean.id)).placeholder(R.mipmap.default_second_grid).error(R.mipmap.default_second_grid).into(holder.imageView);
+        holder.textView.setText(goodsTypeBean.constant_name);
         return convertView;
     }
     class ViewHolder{

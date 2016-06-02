@@ -22,11 +22,13 @@ import java.util.List;
  * Created by sks on 2016/5/23.
  */
 public class PaiDetailActivity extends BaseActivity{
+    public static final String Product_Id = "Product_Id";
     protected BannerFragment mBannerFragment;
     private TextView textButton;
 
     protected ListView mCommentListView;
     private CommentAdapter adapter;
+    private String productId;
 
     @Override
     protected int getLayoutId() {
@@ -35,6 +37,7 @@ public class PaiDetailActivity extends BaseActivity{
 
     @Override
     protected void setupView() {
+        productId = getIntent().getStringExtra(Product_Id);
         mTitleTextView.setText(R.string.title_pai_detail);
         mTitleRightTextView.setBackgroundResource(R.mipmap.icon_share);
         mTitleRightTextView.setVisibility(View.VISIBLE);

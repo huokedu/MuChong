@@ -45,10 +45,8 @@ public class SecondFragment extends FirstFragment{
     }
 
     @Override
-    protected void initData() {
-        mPtrFrame.refreshComplete();
-        refreshView();
-        adapter.setData(Arrays.asList(sampleNetworkImageURLs),false);
+    protected void refreshView() {
+        super.refreshView();
+        adapter.setData(homeBean.smallclass,false);
     }
-
 }

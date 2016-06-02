@@ -73,6 +73,7 @@ public class DaoJiShiView extends LinearLayout {
      * 开始倒计时
      */
     private void startStartTimer() {
+        textLabel.setText(R.string.first_header_start);
         startTimer = new CountDownTimer(millisInFutureStart, 1000) {
             public void onTick(long millisUntilFinished) {
                 long hour = millisUntilFinished / 3600000;

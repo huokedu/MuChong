@@ -1,5 +1,6 @@
 package com.htlc.muchong.adapter;
 
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -7,15 +8,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.htlc.muchong.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import model.GoodsBean;
 
 /**
  * Created by sks on 2016/5/19.
  */
 public class FirstAdapter extends BaseAdapter {
-    private List mList = new ArrayList();
+    private List<GoodsBean> mList = new ArrayList();
     public void setData(List data, boolean isAdd) {
         if (isAdd) {
             mList.addAll(data);
@@ -32,7 +36,7 @@ public class FirstAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mList.get(position);
     }
 
     @Override
@@ -46,17 +50,22 @@ public class FirstAdapter extends BaseAdapter {
         if(convertView == null){
             convertView = View.inflate(parent.getContext(),R.layout.adapter_fragment_first,null);
             holder = new ViewHolder();
-            holder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
-            holder.textView = (TextView) convertView.findViewById(R.id.textView);
+            holder.imageView = (ImageView) convertView.findViewById(R.id.imagePai1);
+            holder.textName = (TextView) convertView.findViewById(R.id.textPaiName1);
+            holder.textPrice = (TextView) convertView.findViewById(R.id.textPaiPrice1);
             convertView.setTag(holder);
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
-//        Picasso.with(parent.getContext()).load(Uri.parse("http://img05.tooopen.com/images/20140604/sy_62331342149.jpg")).transform(new CircleTransform()).into(holder.imageView);
+        GoodsBean goodsBean = mList.get(position);
+        Picasso.with(parent.getContext()).load(Uri.parse(goodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_pai).error(R.mipmap.default_first_pai).into(holder.imageView);
+        holder.textName.setText(goodsBean.commodity_name);
+        holder.textPrice.setText(goodsBean.commodity_panicprice);
         return convertView;
     }
     class ViewHolder{
         public ImageView imageView;
-        public TextView textView;
+        public TextView textName;
+        public TextView textPrice;
     }
 }
