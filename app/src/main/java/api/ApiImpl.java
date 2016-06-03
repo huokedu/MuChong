@@ -132,7 +132,11 @@ public class ApiImpl implements Api {
 
     @Override
     public void goodsDetail(String commodity_id, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
         Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
         params.put("commodity_id", commodity_id);
         String url = Api.GoodsDetail;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
@@ -143,6 +147,37 @@ public class ApiImpl implements Api {
         Map<String, String> params = new HashMap<String, String>();
         params.put("commodity_id", commodity_id);
         String url = Api.GoodsCommentList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void qiangTimeList(ResultCallback callback) {
+        String url = Api.QiangTimeList;
+        new OkHttpRequest.Builder().url(url).get(callback);
+    }
+
+    @Override
+    public void qiangList(String flag, String page, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("flag", flag);
+        params.put("page", page);
+        String url = Api.QiangList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void paiList(String page, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("page", page);
+        String url = Api.PaiList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void jiaoList(String page, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("page", page);
+        String url = Api.JiaoList;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }
 }

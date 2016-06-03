@@ -1,5 +1,7 @@
 package com.htlc.muchong.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,19 +14,29 @@ import com.htlc.muchong.adapter.CommentAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.fragment.BannerFragment;
 import com.htlc.muchong.fragment.FirstFragment;
+import com.htlc.muchong.util.GoodsUtil;
 import com.larno.util.ToastUtil;
 
 import java.util.Arrays;
 import java.util.List;
 
+import model.GoodsCommentBean;
 import model.GoodsDetailBean;
 
 /**
  * Created by sks on 2016/5/23.
  */
-public class ProductDetailActivity extends BaseActivity{
+public class ProductDetailActivity extends BaseActivity implements View.OnClickListener {
     public static final String SPLIT_FLAG = ",";
     public static final String Product_Id = "Product_Id";
+    private TextView textCommentMore;
+
+    /*去商品详情*/
+    public static void goProductActivity(Context context,String goodId) {
+        Intent intent = new Intent(context, ProductDetailActivity.class);
+        intent.putExtra(ProductDetailActivity.Product_Id,goodId);
+        context.startActivity(intent);
+    }
 
     private String productId;
 
@@ -74,6 +86,8 @@ public class ProductDetailActivity extends BaseActivity{
         textMaterial = (TextView) findViewById(R.id.textMaterial);
 
         textComment = (TextView) findViewById(R.id.textComment);
+        textCommentMore = (TextView) findViewById(R.id.textCommentMore);
+        textCommentMore.setOnClickListener(this);
 
         mCommentListView = (ListView) findViewById(R.id.commentListView);
         adapter = new CommentAdapter();
@@ -90,10 +104,13 @@ public class ProductDetailActivity extends BaseActivity{
                 mBannerFragment.setData(Arrays.asList(data.commodity_imgStr.split(SPLIT_FLAG)));
                 textName.setText(data.commodity_name);
                 textLike.setText(data.commodity_likenum);
-                textPrice.setText(data.commodity_panicprice);
+                imageRenZheng.setVisibility(GoodsDetailBean.REN_ZHENG_FLAG.equals(data.userinfo_sincerity) ? View.VISIBLE : View.INVISIBLE);
+                GoodsUtil.setPriceBySymbol(textPrice, data.commodity_panicprice);
                 textDescription.setText(data.commodity_content);
-                String material = getString(R.string.product_detail_material,data.commodity_material,data.commodity_spec);
+                String material = getString(R.string.product_detail_material, data.commodity_material, data.commodity_spec);
                 textMaterial.setText(material);
+                textComment.setText(getString(R.string.product_detail_comment, data.evalcount));
+                adapter.setData(data.evallist, false);
             }
 
             @Override
@@ -103,7 +120,14 @@ public class ProductDetailActivity extends BaseActivity{
         });
 
 
-        List<String> strings = Arrays.asList(FirstFragment.sampleNetworkImageURLs);
-        adapter.setData(strings,false);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.textCommentMore:
+                CommentListActivity.goCommentListActivity(this,"1");
+                break;
+        }
     }
 }

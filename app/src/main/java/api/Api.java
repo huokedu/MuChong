@@ -24,6 +24,10 @@ public interface Api {
     String PublishGoods = Host + "/Home/HomeCommodity/publishCommodity";
     String GoodsDetail = Host + "/Home/HomeCommodity/commodityinfo";
     String GoodsCommentList = Host + "/Home/HomeCommodity/evallist";
+    String QiangTimeList = Host + "/Home/HomeCommodity/fourtime";
+    String QiangList = Host + "/Home/HomeCommodity/buylimit";
+    String PaiList = Host + "/Home/HomeCommodity/bidlist";
+    String JiaoList = Host + "/Home/HomeCommodity/commoditylist";
 
     void smsCode(String mobile, ResultCallback callback);
     void register(String user_account,String Verifycode,String user_pwda,String user_pwdb, ResultCallback callback);
@@ -41,5 +45,9 @@ public interface Api {
                       Pair<String,File>[] images, ResultCallback callback);
     void goodsDetail(String commodity_id,ResultCallback callback);
     void goodsCommentList(String commodity_id,ResultCallback callback);
+    void qiangTimeList(ResultCallback callback);
+    void qiangList(String flag, String page, ResultCallback callback);
+    void paiList(String page, ResultCallback callback);
+    void jiaoList(String page, ResultCallback callback);
 
 }

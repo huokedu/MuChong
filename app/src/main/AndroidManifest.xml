@@ -40,6 +40,8 @@
         <activity android:name=".activity.JianDingActivity"/>
         <activity android:name=".activity.UpdateInfoActivity"/>
         <activity android:name=".activity.PublishActivity"/>
+        <activity android:name=".activity.JiaoListActivity"/>
+        <activity android:name=".activity.CommentListActivity"/>
     </application>
 
 </manifest>

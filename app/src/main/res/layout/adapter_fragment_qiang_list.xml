@@ -11,12 +11,12 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="165dp"
+        android:layout_height="128dp"
         android:scaleType="fitXY"
-        android:src="@mipmap/defautl_third_grid"/>
+        android:src="@mipmap/default_first_pai"/>
 
     <View
-        style="@style/DividerHorizontal"/>
+        style="@style/DividerHorizontal.Thin"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

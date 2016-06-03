@@ -1,5 +1,7 @@
 package core;
 
+import android.util.Pair;
+
 import com.larno.util.okhttp.callback.ResultCallback;
 
 import java.io.File;
@@ -9,7 +11,10 @@ import model.GoodsCommentBean;
 import model.GoodsDetailBean;
 import model.GoodsTypeBean;
 import model.HomeBean;
+import model.JiaoGoodsBean;
+import model.PaiGoodsBean;
 import model.PointInTimeBean;
+import model.QiangListBean;
 import model.UserBean;
 import model.UserInfoBean;
 
@@ -35,4 +40,8 @@ public interface AppAction {
                       ActionCallbackListener<Void> listener);
     void goodsDetail(String commodity_id,ActionCallbackListener<GoodsDetailBean> listener);
     void goodsCommentList(String commodity_id, ActionCallbackListener<List<GoodsCommentBean>> listener);
+    void qiangTimeList(ActionCallbackListener<List<Pair<String,String>>> listener);
+    void qiangList(String flag, int page,ActionCallbackListener<QiangListBean> listener);
+    void paiList(int page, ActionCallbackListener<List<PaiGoodsBean>> listener);
+    void jiaoList(int page, ActionCallbackListener<List<JiaoGoodsBean>> listener);
 }

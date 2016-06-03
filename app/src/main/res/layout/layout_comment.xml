@@ -21,8 +21,11 @@
         android:layout_height="wrap_content"/>
 
     <TextView
+        android:id="@+id/textCommentMore"
         android:layout_alignParentRight="true"
         android:textSize="16sp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text=">>"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -31,7 +34,7 @@
         android:id="@+id/divider2"
         android:layout_below="@+id/textComment"
         android:layout_marginTop="10dp"
-        style="@style/DividerHorizontal"/>
+        style="@style/DividerHorizontal.Thin"/>
 
     <com.htlc.muchong.widget.NoScrollListView
         android:layout_below="@+id/divider2"

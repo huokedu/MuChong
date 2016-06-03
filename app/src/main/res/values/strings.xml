@@ -145,5 +145,7 @@
     <string name="publish_price">价格&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
     <string name="publish_price_hint">请输入价格</string>
 
+    <string name="qiang_list_start">%1$s开抢</string>
+
 
 </resources>

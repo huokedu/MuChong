@@ -9,8 +9,8 @@ import java.util.List;
 /**
  * Created by sks on 2016/5/20.
  */
-public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter{
-    protected List mList = new ArrayList();
+public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter{
+    protected List<T> mList = new ArrayList();
     protected OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
@@ -21,7 +21,7 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter{
         this.mOnItemClickListener = listener;
     }
 
-    public void setData(List data, boolean isAdd) {
+    public void setData(List<T> data, boolean isAdd) {
         if (isAdd) {
             mList.addAll(data);
             notifyItemRangeChanged(mList.size() - data.size(), mList.size());
@@ -31,6 +31,11 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter{
             notifyDataSetChanged();
         }
     }
+
+    public List<T> getData() {
+        return mList;
+    }
+
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (mOnItemClickListener != null) {

@@ -1,5 +1,6 @@
 package com.htlc.muchong.adapter;
 
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -8,16 +9,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.htlc.muchong.R;
+import com.htlc.muchong.util.CircleTransform;
+import com.htlc.muchong.util.PersonUtil;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import model.GoodsCommentBean;
 
 /**
  * Created by sks on 2016/5/25.
  */
 public class CommentAdapter extends BaseAdapter {
-    private List list = new ArrayList<>();
-    public void setData(List list,boolean isAdd){
+    private List<GoodsCommentBean> list = new ArrayList();
+    public void setData(List<GoodsCommentBean> list,boolean isAdd){
         if(isAdd){
             this.list.addAll(list);
         }else {
@@ -33,7 +39,7 @@ public class CommentAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return list.get(position);
     }
 
     @Override
@@ -55,6 +61,15 @@ public class CommentAdapter extends BaseAdapter {
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
+        GoodsCommentBean bean = list.get(position);
+        Picasso.with(holder.imageView.getContext())
+                .load(Uri.parse(bean.userinfo_headportrait))
+                .placeholder(R.mipmap.default_fourth_two_head)
+                .error(R.mipmap.default_fourth_two_head)
+                .transform(new CircleTransform()).into(holder.imageView);
+        holder.textName.setText(bean.userinfo_nickname);
+        PersonUtil.setPersonLevel(holder.textLevel,bean.userinfo_grade);
+        holder.textComment.setText(bean.commodityeval_content);
         return convertView;
     }
     public class ViewHolder{

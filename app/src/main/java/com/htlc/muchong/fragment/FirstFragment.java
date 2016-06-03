@@ -1,5 +1,6 @@
 package com.htlc.muchong.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -17,12 +18,14 @@ import com.chanven.lib.cptr.PtrHandler;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.activity.JianListActivity;
+import com.htlc.muchong.activity.JiaoListActivity;
 import com.htlc.muchong.activity.PaiDetailActivity;
 import com.htlc.muchong.activity.PaiListActivity;
 import com.htlc.muchong.activity.ProductDetailActivity;
 import com.htlc.muchong.activity.QiangListActivity;
 import com.htlc.muchong.adapter.FirstAdapter;
 import com.htlc.muchong.base.BaseActivity;
+import com.htlc.muchong.util.GoodsUtil;
 import com.htlc.muchong.widget.DaoJiShiView;
 import com.larno.util.ToastUtil;
 import com.squareup.picasso.Picasso;
@@ -114,7 +117,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                goProductActivity((GoodsBean) adapter.getItem(position));
+                ProductDetailActivity.goProductActivity(getContext(),((GoodsBean) adapter.getItem(position)).id);
             }
         });
 
@@ -185,6 +188,8 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             @Override
             public void onIllegalState(String errorEvent, String message) {
                 ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                refreshView();
             }
         });
     }
@@ -208,35 +213,35 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             GoodsBean goodsBean = homeBean.limittime.list.get(0);
             Picasso.with(getContext()).load(Uri.parse(goodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_qiang).error(R.mipmap.default_first_qiang).into(imageQiang1);
             textNameQiang1.setText(goodsBean.commodity_name);
-            textPriceQiang1.setText(goodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbol(textPriceQiang1, goodsBean.commodity_panicprice);
         }
         if (homeBean.limittime.list.size() >= 2) {
             GoodsBean goodsBean = homeBean.limittime.list.get(1);
             Picasso.with(getContext()).load(Uri.parse(goodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_qiang).error(R.mipmap.default_first_qiang).into(imageQiang2);
             textNameQiang2.setText(goodsBean.commodity_name);
-            textPriceQiang2.setText(goodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbol(textPriceQiang2, goodsBean.commodity_panicprice);
         }
         if (homeBean.limittime.list.size() >= 3) {
             GoodsBean goodsBean = homeBean.limittime.list.get(2);
             Picasso.with(getContext()).load(Uri.parse(goodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_qiang).error(R.mipmap.default_first_qiang).into(imageQiang3);
-            textNameQiang3.setText(homeBean.limittime.list.get(2).commodity_name);
-            textPriceQiang3.setText(homeBean.limittime.list.get(2).commodity_panicprice);
+            textNameQiang3.setText(goodsBean.commodity_name);
+            GoodsUtil.setPriceBySymbol(textPriceQiang3, goodsBean.commodity_panicprice);
         }
 
         //刷新竞拍数据
         if (homeBean.bid.size() >= 1) {
             PaiGoodsBean paiGoodsBean = homeBean.bid.get(0);
             Picasso.with(getContext()).load(Uri.parse(paiGoodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_pai).error(R.mipmap.default_first_pai).into(imagePai1);
-            setImageByType(imageTypePai1, paiGoodsBean.commodity_type);
+            GoodsUtil.setImageByPaiType(imageTypePai1, paiGoodsBean.commodity_type);
             textPaiName1.setText(paiGoodsBean.commodity_name);
-            textPaiPrice1.setText(paiGoodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbol(textPaiPrice1, paiGoodsBean.commodity_panicprice);
         }
         if (homeBean.bid.size() >= 2) {
             PaiGoodsBean paiGoodsBean = homeBean.bid.get(1);
             Picasso.with(getContext()).load(Uri.parse(paiGoodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_pai).error(R.mipmap.default_first_pai).into(imagePai2);
-            setImageByType(imageTypePai2, paiGoodsBean.commodity_type);
+            GoodsUtil.setImageByPaiType(imageTypePai2, paiGoodsBean.commodity_type);
             textPaiName2.setText(paiGoodsBean.commodity_name);
-            textPaiPrice2.setText(paiGoodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbol(textPaiPrice2, paiGoodsBean.commodity_panicprice);
         }
 
         //刷新精品数据
@@ -244,16 +249,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
 
     }
 
-    /*根据商品竞拍类型设置类型标签图片*/
-    private void setImageByType(ImageView imageType, String commodity_type) {
-        if (PaiGoodsBean.TYPE_DAO.equals(commodity_type)) {
-            imageType.setImageResource(R.mipmap.icon_pai_list_dao);
-        } else if (PaiGoodsBean.TYPE_WU.equals(commodity_type)) {
-            imageType.setImageResource(R.mipmap.icon_pai_list_wu);
-        } else if (PaiGoodsBean.TYPE_YOU.equals(commodity_type)) {
-            imageType.setImageResource(R.mipmap.icon_pai_list_you);
-        }
-    }
+
 
     @Override
     public void onClick(View v) {
@@ -273,46 +269,36 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
                 ToastUtil.showToast(App.app, "linearDuo");
                 break;
             case R.id.textJiaoMore:
-                ToastUtil.showToast(App.app, "textJiaoMore");
+                startActivity(new Intent(getActivity(), JiaoListActivity.class));
                 break;
             case R.id.linearQiang1:
-                if (homeBean.limittime.list.size() >= 1) {
-                    goProductActivity(homeBean.limittime.list.get(0));
+                if (homeBean!=null&&homeBean.limittime.list.size() >= 1) {
+                    ProductDetailActivity.goProductActivity(getContext(), homeBean.limittime.list.get(0).id);
                 }
                 break;
             case R.id.linearQiang2:
-                if (homeBean.limittime.list.size() >= 2) {
-                    goProductActivity(homeBean.limittime.list.get(1));
+                if (homeBean!=null&&homeBean.limittime.list.size() >= 2) {
+                    ProductDetailActivity.goProductActivity(getContext(), homeBean.limittime.list.get(1).id);
                 }
                 break;
             case R.id.linearQiang3:
-                if (homeBean.limittime.list.size() >= 3) {
-                    goProductActivity(homeBean.limittime.list.get(2));
+                if (homeBean!=null&&homeBean.limittime.list.size() >= 3) {
+                    ProductDetailActivity.goProductActivity(getContext(), homeBean.limittime.list.get(2).id);
                 }
                 break;
             case R.id.relativePai1:
-                if (homeBean.bid.size() >= 1) {
-                    goPaiActivity(homeBean.bid.get(0));
+                if (homeBean!=null&&homeBean.bid.size() >= 1) {
+                    PaiDetailActivity.goPaiActivity(getContext(), homeBean.bid.get(0).id);
                 }
                 break;
             case R.id.relativePai2:
-                if (homeBean.bid.size() >= 2) {
-                    goPaiActivity(homeBean.bid.get(1));
+                if (homeBean!=null&&homeBean.bid.size() >= 2) {
+                    PaiDetailActivity.goPaiActivity(getContext(),homeBean.bid.get(1).id);
                 }
                 break;
         }
     }
 
-    /*去商品详情*/
-    private void goProductActivity(GoodsBean goodsBean) {
-        Intent intent = new Intent(getContext(), ProductDetailActivity.class);
-        intent.putExtra(ProductDetailActivity.Product_Id,goodsBean.id);
-        startActivity(intent);
-    }
-    /*去商品详情*/
-    private void goPaiActivity(PaiGoodsBean goodsBean) {
-        Intent intent = new Intent(getContext(), PaiDetailActivity.class);
-        intent.putExtra(PaiDetailActivity.Product_Id,goodsBean.id);
-        startActivity(intent);
-    }
+
+
 }

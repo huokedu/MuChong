@@ -1,10 +1,11 @@
-package com.htlc.muchong.fragment;
+package com.htlc.muchong.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
@@ -14,61 +15,44 @@ import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
-import com.htlc.muchong.activity.ProductDetailActivity;
-import com.htlc.muchong.adapter.QiangRecyclerViewAdapter;
+import com.htlc.muchong.adapter.PaiRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
-import com.htlc.muchong.base.BaseFragment;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
-import com.htlc.muchong.widget.DaoJiShiView;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
-import java.util.Arrays;
+import java.util.List;
 
 import core.AppActionImpl;
-import model.GoodsBean;
 import model.PaiGoodsBean;
-import model.QiangListBean;
 
 /**
  * Created by sks on 2016/5/23.
  */
-public class QiangListFragment extends BaseFragment {
-    public static final String TYPE_1 = "1";
-    public static final String TYPE_2 = "2";
-    public static final String TYPE_3 = "3";
-    public static final String TYPE_4 = "4";
-    public CharSequence mTitle;
-    private String mType;
-    private DaoJiShiView daoJiShiView;
-    private TextView textView;
-
-    public static QiangListFragment newInstance(String title, String type) {
-        try {
-            QiangListFragment fragment = QiangListFragment.class.newInstance();
-            fragment.mTitle = title;
-            fragment.mType = type;
-            return fragment;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+public class CommentListActivity extends BaseActivity {
+    public static final String Product_Id = "Product_Id";
+    public static void goCommentListActivity(Context context, String goodsId){
+        Intent intent = new Intent(context,CommentListActivity.class);
+        intent.putExtra(Product_Id,goodsId);
+        context.startActivity(intent);
     }
 
-
     private PtrClassicFrameLayout mPtrFrame;
-    private QiangRecyclerViewAdapter adapter;
+    private PaiRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
+
     int page = 1;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_qiang_list;
+        return R.layout.activity_comment_list;
     }
+
     @Override
     protected void setupView() {
-        mPtrFrame = findViewById(R.id.rotate_header_list_view_frame);
+        mTitleTextView.setText(R.string.first_header_pai);
+        mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
         mPtrFrame.setLastUpdateTimeRelateObject(this);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
@@ -94,17 +78,15 @@ public class QiangListFragment extends BaseFragment {
             }
         });
 
-        daoJiShiView = (DaoJiShiView) findViewById(R.id.daoJiShiView);
-        textView = (TextView) findViewById(R.id.textView);
 
-        mRecyclerView = findViewById(R.id.recyclerView);
-        adapter = new QiangRecyclerViewAdapter();
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        adapter = new PaiRecyclerViewAdapter();
         mAdapter = new RecyclerAdapterWithHF(adapter);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),2) {
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2) {
         });
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            private int space = CommonUtil.dp2px(getContext(), 10);
+            private int space = CommonUtil.dp2px(CommentListActivity.this, 10);
 
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -117,32 +99,32 @@ public class QiangListFragment extends BaseFragment {
                     outRect.right = space;
                     outRect.left = space / 2;
                 }
+                if (parent.getChildAdapterPosition(view) < 2) {
+                    outRect.top = space;
+                }
 
             }
         });
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                GoodsBean bean = adapter.getData().get(position);
-                ProductDetailActivity.goProductActivity(getContext(),bean.id);
+                PaiDetailActivity.goPaiActivity(CommentListActivity.this, adapter.getData().get(position).id);
             }
         });
-
 
     }
 
     private void loadMoreData() {
-        App.app.appAction.qiangList(mType, page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<QiangListBean>() {
+        App.app.appAction.paiList(page, new BaseActionCallbackListener<List<PaiGoodsBean>>() {
             @Override
-            public void onSuccess(QiangListBean data) {
+            public void onSuccess(List<PaiGoodsBean> data) {
                 mPtrFrame.refreshComplete();
-                adapter.setData(data.list, true);
-                if(data.list.size()< AppActionImpl.PAGE_SIZE){
+                adapter.setData(data, true);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
                     mPtrFrame.setNoMoreData();
-                }else {
+                } else {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
-                refreshView(data);
                 page++;
             }
 
@@ -158,17 +140,16 @@ public class QiangListFragment extends BaseFragment {
     @Override
     protected void initData() {
         page = 1;
-        App.app.appAction.qiangList(mType, page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<QiangListBean>() {
+        App.app.appAction.paiList(page, new BaseActionCallbackListener<List<PaiGoodsBean>>() {
             @Override
-            public void onSuccess(QiangListBean data) {
+            public void onSuccess(List<PaiGoodsBean> data) {
                 mPtrFrame.refreshComplete();
-                adapter.setData(data.list, false);
-                if(data.list.size()< AppActionImpl.PAGE_SIZE){
+                adapter.setData(data, false);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
                     mPtrFrame.setLoadMoreEnable(false);
-                }else {
+                } else {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
-                refreshView(data);
                 page++;
             }
 
@@ -179,17 +160,5 @@ public class QiangListFragment extends BaseFragment {
                 mPtrFrame.setLoadMoreEnable(false);
             }
         });
-    }
-
-    private void refreshView(QiangListBean data) {
-        //刷新抢购数据
-        if (PaiGoodsBean.STATE_NO_START.equals(data.state)) {
-            daoJiShiView.setData(Long.parseLong(data.timeStr) * 1000, Long.parseLong(data.timeend) * 1000);
-        } else if (PaiGoodsBean.STATE_END.equals(data.state)) {
-            daoJiShiView.setData(0, 0);
-        } else if (PaiGoodsBean.STATE_STARTING.equals(data.state)) {
-            daoJiShiView.setData(0, Long.parseLong(data.timeStr) * 1000);
-        }
-        textView.setText(getString(R.string.qiang_list_start,data.buytime));
     }
 }

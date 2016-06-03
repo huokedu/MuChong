@@ -107,14 +107,14 @@ public class TaLikeActivity extends BaseActivity {
 
     private void loadMoreData() {
         mPtrFrame.loadMoreComplete(true);
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), true);
+//        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), true);
         mPtrFrame.setNoMoreData();
     }
 
     @Override
     protected void initData() {
         mPtrFrame.refreshComplete();
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), false);
+//        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), false);
         mPtrFrame.setLoadMoreEnable(true);
     }
 }

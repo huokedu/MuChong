@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:text="10:00开抢"
+        android:text="@string/qiang_list_start"
         android:textColor="@color/text_color_red"
         android:textSize="14sp"/>
 

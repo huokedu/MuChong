@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.htlc.muchong.R;
+import com.htlc.muchong.util.GoodsUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class FirstAdapter extends BaseAdapter {
         GoodsBean goodsBean = mList.get(position);
         Picasso.with(parent.getContext()).load(Uri.parse(goodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_pai).error(R.mipmap.default_first_pai).into(holder.imageView);
         holder.textName.setText(goodsBean.commodity_name);
-        holder.textPrice.setText(goodsBean.commodity_panicprice);
+        GoodsUtil.setPriceBySymbol(holder.textPrice,goodsBean.commodity_panicprice);
         return convertView;
     }
     class ViewHolder{

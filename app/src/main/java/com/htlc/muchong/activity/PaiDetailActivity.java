@@ -1,6 +1,8 @@
 package com.htlc.muchong.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -23,6 +25,14 @@ import java.util.List;
  */
 public class PaiDetailActivity extends BaseActivity{
     public static final String Product_Id = "Product_Id";
+    /*去商品详情*/
+    public static void goPaiActivity(Context context, String goodsId) {
+        Intent intent = new Intent(context, PaiDetailActivity.class);
+        intent.putExtra(PaiDetailActivity.Product_Id, goodsId);
+        context.startActivity(intent);
+    }
+
+
     protected BannerFragment mBannerFragment;
     private TextView textButton;
 
@@ -97,7 +107,7 @@ public class PaiDetailActivity extends BaseActivity{
     protected void initData() {
         mBannerFragment.setData(Arrays.asList(FirstFragment.sampleNetworkImageURLs));
         List<String> strings = Arrays.asList(FirstFragment.sampleNetworkImageURLs);
-        adapter.setData(strings,false);
+//        adapter.setData(strings,false);
     }
 
 }

@@ -5,6 +5,7 @@ package model;
  */
 public class GoodsCommentBean {
     public String id;
+    public String commodityeval_userid;
     public String commodityeval_content;
     public String userinfo_nickname;
     public String userinfo_grade;

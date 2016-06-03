@@ -1120,6 +1120,10 @@ public class PtrFrameLayout extends ViewGroup {
         isLoadMoreEnable = false;
         mLoadMoreView.showNomore();
     }
+    public void setFail() {
+        isLoadMoreEnable = false;
+        mLoadMoreView.showFail(new Exception("加载失败，点击重试！"));
+    }
 
     OnLoadMoreListener mOnLoadMoreListener;
 

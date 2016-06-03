@@ -24,6 +24,11 @@ import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
 import java.util.Arrays;
+import java.util.List;
+
+import core.AppActionImpl;
+import model.PaiGoodsBean;
+import model.QiangListBean;
 
 /**
  * Created by sks on 2016/5/23.
@@ -33,6 +38,8 @@ public class PaiListActivity extends BaseActivity {
     private PaiRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
+
+    int page = 1;
 
     @Override
     protected int getLayoutId() {
@@ -60,7 +67,7 @@ public class PaiListActivity extends BaseActivity {
             public void run() {
                 mPtrFrame.autoRefresh();
             }
-        }, 200);
+        }, 500);
         mPtrFrame.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void loadMore() {
@@ -68,10 +75,11 @@ public class PaiListActivity extends BaseActivity {
             }
         });
 
+
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         adapter = new PaiRecyclerViewAdapter();
         mAdapter = new RecyclerAdapterWithHF(adapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this) {
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2) {
         });
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -79,30 +87,75 @@ public class PaiListActivity extends BaseActivity {
 
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                outRect.bottom = space;
+                if (parent.getChildAdapterPosition(view) % 2 == 0) {
+                    outRect.bottom = space;
+                    outRect.left = space;
+                    outRect.right = space / 2;
+                } else {
+                    outRect.bottom = space;
+                    outRect.right = space;
+                    outRect.left = space / 2;
+                }
+                if (parent.getChildAdapterPosition(view) < 2) {
+                    outRect.top = space;
+                }
+
             }
         });
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ToastUtil.showToast(App.app, "mRecyclerView " + position);
-                startActivity(new Intent(PaiListActivity.this, PaiDetailActivity.class));
-
+                PaiDetailActivity.goPaiActivity(PaiListActivity.this, adapter.getData().get(position).id);
             }
         });
 
     }
 
     private void loadMoreData() {
-        mPtrFrame.loadMoreComplete(true);
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), true);
-        mPtrFrame.setNoMoreData();
+        App.app.appAction.paiList(page, new BaseActionCallbackListener<List<PaiGoodsBean>>() {
+            @Override
+            public void onSuccess(List<PaiGoodsBean> data) {
+                mPtrFrame.refreshComplete();
+                adapter.setData(data, true);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setNoMoreData();
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setFail();
+            }
+        });
     }
 
     @Override
     protected void initData() {
-        mPtrFrame.refreshComplete();
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), false);
-        mPtrFrame.setLoadMoreEnable(true);
+        page = 1;
+        App.app.appAction.paiList(page, new BaseActionCallbackListener<List<PaiGoodsBean>>() {
+            @Override
+            public void onSuccess(List<PaiGoodsBean> data) {
+                mPtrFrame.refreshComplete();
+                adapter.setData(data, false);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setLoadMoreEnable(false);
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setLoadMoreEnable(false);
+            }
+        });
     }
 }

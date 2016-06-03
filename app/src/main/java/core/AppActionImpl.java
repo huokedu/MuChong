@@ -14,8 +14,12 @@ import com.larno.util.RegexUtils;
 import com.larno.util.okhttp.callback.ResultCallback;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import api.Api;
 import api.ApiImpl;
@@ -23,7 +27,10 @@ import model.GoodsCommentBean;
 import model.GoodsDetailBean;
 import model.GoodsTypeBean;
 import model.HomeBean;
+import model.JiaoGoodsBean;
+import model.PaiGoodsBean;
 import model.PointInTimeBean;
+import model.QiangListBean;
 import model.UserBean;
 import model.UserInfoBean;
 import okhttp3.Request;
@@ -38,6 +45,7 @@ public class AppActionImpl implements AppAction {
     public static final String KEY_MSG = "msg";
     public static final String VALUE_CODE_SUCCESS = "1";
     public static final String VALUE_CODE_FAIL = "0";
+    public static final int PAGE_SIZE = 10;
 
     private Context context;
     private Api api;
@@ -394,6 +402,83 @@ public class AppActionImpl implements AppAction {
                 JSONObject model = JSON.parseObject(response);
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     List<GoodsCommentBean> bean = JSON.parseArray(model.getString(KEY_DATA), GoodsCommentBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void qiangTimeList(ActionCallbackListener<List<Pair<String, String>>> listener) {
+        api.qiangTimeList(new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    JSONObject data = JSON.parseObject(model.getString(KEY_DATA));
+                    Set<String> keySet = data.keySet();
+                    List<Pair<String, String>> list = new ArrayList<>();
+                    for(String key : keySet){
+                        String value = data.getString(key);
+                        Pair<String, String> pair = new Pair<>(key, value);
+                        list.add(pair);
+                    }
+                    Collections.sort(list, new Comparator<Pair<String, String>>() {
+                        @Override
+                        public int compare(Pair<String, String> lhs, Pair<String, String> rhs) {
+                            return lhs.first.compareTo(rhs.first);
+                        }
+                    });
+                    listener.onSuccess(list);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void qiangList(String flag, int page, ActionCallbackListener<QiangListBean> listener) {
+            api.qiangList(flag, String.valueOf(page), new DefaultResultCallback(listener) {
+                @Override
+                public void onResponse(String response) {
+                    JSONObject model = JSON.parseObject(response);
+                    if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                        QiangListBean bean = JSON.parseObject(model.getString(KEY_DATA), QiangListBean.class);
+                        listener.onSuccess(bean);
+                    } else {
+                        listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                    }
+                }
+            });
+    }
+
+    @Override
+    public void paiList(int page, ActionCallbackListener<List<PaiGoodsBean>> listener) {
+        api.paiList(String.valueOf(page), new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<PaiGoodsBean> bean = JSON.parseArray(model.getString(KEY_DATA), PaiGoodsBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void jiaoList(int page, ActionCallbackListener<List<JiaoGoodsBean>> listener) {
+        api.jiaoList(String.valueOf(page), new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<JiaoGoodsBean> bean = JSON.parseArray(model.getString(KEY_DATA), JiaoGoodsBean.class);
                     listener.onSuccess(bean);
                 } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
