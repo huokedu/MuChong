@@ -171,7 +171,7 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
             adapter.removeData(position);
         } else {
             isPickCover = false;
-            pickPhoto();
+            pickPhoto(SelectPhotoDialogHelper.Width_720,SelectPhotoDialogHelper.Width_Scale_12,SelectPhotoDialogHelper.Height_Scale_5);
         }
     }
 
@@ -181,7 +181,7 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
         switch (v.getId()) {
             case R.id.imageViewCover:
                 isPickCover = true;
-                pickPhoto();
+                pickPhoto(SelectPhotoDialogHelper.Width_720,SelectPhotoDialogHelper.Width_Scale_4,SelectPhotoDialogHelper.Height_Scale_3);
                 break;
             case R.id.linearType:
                 showPopupWindow(v, Arrays.asList(TYPE_ARRAY));
@@ -219,6 +219,7 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("提交中，请稍等...");
         progressDialog.show();
+        boolean exists = coverImageFile.exists();
         App.app.appAction.publishGoods(editTitle.getText().toString().trim(),editContent.getText().toString().trim(),
                 type,childType,editSize.getText().toString().trim(),editMaterial.getText().toString().trim(),editPrice.getText().toString(),
                 pointInTime,timeboxing,editCount.getText().toString(),editMarketPrice.getText().toString(),editDeposit.getText().toString(),
@@ -344,8 +345,8 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
     }
 
     /*弹窗选择图片对话框*/
-    private void pickPhoto() {
-        selectPhotoDialogHelper = new SelectPhotoDialogHelper(this, new PublishOnPickPhotoFinishListener(), 800, 4, 3);
+    private void pickPhoto(int width, int aspectX, int aspectY) {
+        selectPhotoDialogHelper = new SelectPhotoDialogHelper(this, new PublishOnPickPhotoFinishListener(), width, aspectX, aspectY);
         selectPhotoDialogHelper.showPickPhotoDialog();
     }
 

@@ -39,9 +39,11 @@ public interface AppAction {
                       File coverImageFile,List<File> contentImageFiles,
                       ActionCallbackListener<Void> listener);
     void goodsDetail(String commodity_id,ActionCallbackListener<GoodsDetailBean> listener);
-    void goodsCommentList(String commodity_id, ActionCallbackListener<List<GoodsCommentBean>> listener);
+    void goodsCommentList(String commodity_id,int page, ActionCallbackListener<List<GoodsCommentBean>> listener);
+    void addGoodsComment(String commodityeval_commodityid, String commodityeval_content, ActionCallbackListener<Void> listener);
     void qiangTimeList(ActionCallbackListener<List<Pair<String,String>>> listener);
     void qiangList(String flag, int page,ActionCallbackListener<QiangListBean> listener);
     void paiList(int page, ActionCallbackListener<List<PaiGoodsBean>> listener);
     void jiaoList(int page, ActionCallbackListener<List<JiaoGoodsBean>> listener);
+    void addLikeGoods(String commodity_id,ActionCallbackListener<Void> listener);
 }

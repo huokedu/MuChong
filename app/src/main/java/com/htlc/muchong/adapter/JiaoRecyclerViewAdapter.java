@@ -34,7 +34,9 @@ public class JiaoRecyclerViewAdapter extends BaseRecyclerViewAdapter<JiaoGoodsBe
         ViewHolder currentHolder = (ViewHolder) holder;
         JiaoGoodsBean goodsBean = mList.get(position);
 
-        Picasso.with(currentHolder.imageView.getContext()).load(Uri.parse(goodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_pai).error(R.mipmap.default_first_pai).into(currentHolder.imageView);
+        int intrinsicWidth = currentHolder.imageView.getResources().getDrawable(R.mipmap.default_first_pai).getIntrinsicWidth();
+        int intrinsicHeight = currentHolder.imageView.getResources().getDrawable(R.mipmap.default_first_pai).getIntrinsicHeight();
+        Picasso.with(currentHolder.imageView.getContext()).load(Uri.parse(goodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_pai).error(R.mipmap.default_first_pai).resize(intrinsicWidth,intrinsicHeight).into(currentHolder.imageView);
         currentHolder.textDescription.setText(goodsBean.commodity_content);
         currentHolder.textLike.setText(goodsBean.commodity_likenum);
         currentHolder.textLook.setText(goodsBean.commodity_looknum);

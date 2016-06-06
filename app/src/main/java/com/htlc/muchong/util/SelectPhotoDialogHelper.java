@@ -13,8 +13,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.widget.PickPhotoDialog;
+import com.larno.util.ToastUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,12 +26,20 @@ import java.util.UUID;
  * Created by sks on 2016/5/31.
  */
 public class SelectPhotoDialogHelper {
-    public static final String Path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/MuChong";
+    public static final int Width_720 = 720;
+
+    public static final int Width_Scale_12 = 12;
+    public static final int Height_Scale_5 = 5;
+
+    public static final int Width_Scale_4 = 4;
+    public static final int Height_Scale_3 = 3;
+
+    public String Path;
     private static final int Request_Take_Photo = 4833;
     private static final int Request_Pick_Photo = 4834;
     private static final int Request_Clip_Photo = 4835;
 
-    public interface  OnPickPhotoFinishListener{
+    public interface OnPickPhotoFinishListener {
         void onPickPhotoFinishListener(File imageFile);
     }
 
@@ -42,12 +52,19 @@ public class SelectPhotoDialogHelper {
     private String fileName;
 
 
-    public SelectPhotoDialogHelper(Activity activity,OnPickPhotoFinishListener listener,int outputX, int aspectX,int aspectY) {
+    public SelectPhotoDialogHelper(Activity activity, OnPickPhotoFinishListener listener, int outputX, int aspectX, int aspectY) {
         this.activity = activity;
         this.listener = listener;
         this.outputX = outputX;
         this.aspectX = aspectX;
         this.aspectY = aspectY;
+        String externalStorageState = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(externalStorageState)) {
+            Path = activity.getExternalCacheDir().getAbsolutePath();
+        } else {
+//            ToastUtil.showToast(App.app, "存储不可用");
+            Path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+        }
     }
 
     /**
@@ -134,6 +151,7 @@ public class SelectPhotoDialogHelper {
 
     /**
      * 裁剪图片方法实现
+     *
      * @param uri
      */
     public void clipPhoto(Uri uri) {
@@ -155,7 +173,7 @@ public class SelectPhotoDialogHelper {
      * 剪裁成功处理
      */
     private void handleUriAfterClip() {
-        if(listener!=null && fileName!=null){
+        if (listener != null && fileName != null) {
             listener.onPickPhotoFinishListener(new File(Path, fileName));
         }
     }
@@ -170,26 +188,28 @@ public class SelectPhotoDialogHelper {
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
             File imageFile = saveBitmapToFile(photo, "IMG_" + UUID.randomUUID() + ".jpg");
-            if(listener!=null){
+            if (listener != null) {
                 listener.onPickPhotoFinishListener(imageFile);
             }
         }
     }
+
     /**
      * 把图片保存到文件
+     *
      * @param bitmap
      * @param fileName
      * @return
      */
-    public File saveBitmapToFile(Bitmap bitmap,String fileName) {
+    public File saveBitmapToFile(Bitmap bitmap, String fileName) {
         File dir = new File(Path);
-        if(!dir.exists()){
+        if (!dir.exists()) {
             dir.mkdirs();
         }
-        File file = new File(dir,fileName);
+        File file = new File(dir, fileName);
         FileOutputStream fos = null;
         try {
-            if(!file.exists()){
+            if (!file.exists()) {
                 file.createNewFile();
             }
             fos = new FileOutputStream(file);

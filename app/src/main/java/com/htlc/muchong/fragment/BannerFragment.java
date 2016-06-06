@@ -150,7 +150,7 @@ public class BannerFragment extends Fragment implements OnPageChangeListener {
         public Object instantiateItem(ViewGroup container, final int position) {
             ImageView view = (ImageView) View.inflate(getActivity(), R.layout.adapter_banner, null);
             String uri = list.get(position);
-            Picasso.with(getContext()).load(Uri.parse(uri)).placeholder(R.mipmap.default_banner).error(R.mipmap.default_banner).into(view);
+            Picasso.with(getContext()).load(Uri.parse(uri)).placeholder(R.mipmap.default_banner).error(R.mipmap.default_banner).resizeDimen(R.dimen.banner_width,R.dimen.banner_height).into(view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

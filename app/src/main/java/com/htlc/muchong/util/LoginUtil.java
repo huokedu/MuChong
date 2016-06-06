@@ -1,8 +1,15 @@
 package com.htlc.muchong.util;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.TextView;
 
 import com.htlc.muchong.App;
+import com.htlc.muchong.R;
+import com.htlc.muchong.activity.LoginActivity;
 
 import model.UserBean;
 import model.UserInfoBean;
@@ -84,5 +91,33 @@ public class LoginUtil {
         SharedPreferenceUtil.remove(App.app, userinfo_money);
         SharedPreferenceUtil.remove(App.app, userinfo_likenum);
         SharedPreferenceUtil.remove(App.app, userinfo_address);
+    }
+
+    public static void showLoginTips(final Activity activity ){
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.DialogAppCompat);
+        View view = View.inflate(activity, R.layout.dialog_layout, null);
+        builder.setView(view);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        TextView textMessage = (TextView) view.findViewById(R.id.textMessage);
+        textMessage.setText(R.string.login_no_login_tips);
+        view.findViewById(R.id.positiveButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(alertDialog!=null){
+                    alertDialog.dismiss();
+                }
+                activity.startActivity(new Intent(activity, LoginActivity.class));
+            }
+        });
+        view.findViewById(R.id.negativeButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(alertDialog!=null){
+                    alertDialog.dismiss();
+                }
+            }
+        });
     }
 }

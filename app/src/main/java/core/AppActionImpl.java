@@ -395,14 +395,33 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void goodsCommentList(String commodity_id, ActionCallbackListener<List<GoodsCommentBean>> listener) {
-        api.goodsCommentList(commodity_id, new DefaultResultCallback(listener) {
+    public void goodsCommentList(String commodity_id,int page, ActionCallbackListener<List<GoodsCommentBean>> listener) {
+        api.goodsCommentList(commodity_id,String.valueOf(page), new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     List<GoodsCommentBean> bean = JSON.parseArray(model.getString(KEY_DATA), GoodsCommentBean.class);
                     listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void addGoodsComment(String commodityeval_commodityid, String commodityeval_content,ActionCallbackListener<Void> listener) {
+        if(TextUtils.isEmpty(commodityeval_content)){
+            listener.onFailure(ErrorEvent.PARAM_NULL, "请输入评论内容");
+            return;
+        }
+        api.addGoodsComment(commodityeval_commodityid, commodityeval_content, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    listener.onSuccess(null);
                 } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }
@@ -480,6 +499,21 @@ public class AppActionImpl implements AppAction {
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     List<JiaoGoodsBean> bean = JSON.parseArray(model.getString(KEY_DATA), JiaoGoodsBean.class);
                     listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void addLikeGoods(String commodity_id, ActionCallbackListener<Void> listener) {
+        api.addLike(commodity_id, "", "", new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    listener.onSuccess(null);
                 } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }

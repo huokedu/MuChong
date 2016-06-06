@@ -24,10 +24,13 @@ public interface Api {
     String PublishGoods = Host + "/Home/HomeCommodity/publishCommodity";
     String GoodsDetail = Host + "/Home/HomeCommodity/commodityinfo";
     String GoodsCommentList = Host + "/Home/HomeCommodity/evallist";
+    String AddGoodsComment = Host + "/Home/HomeCommodity/addeval";
     String QiangTimeList = Host + "/Home/HomeCommodity/fourtime";
     String QiangList = Host + "/Home/HomeCommodity/buylimit";
     String PaiList = Host + "/Home/HomeCommodity/bidlist";
     String JiaoList = Host + "/Home/HomeCommodity/commoditylist";
+    String AddLike = Host + "/Home/HomeCommodity/addlike";
+    String AddShoppingCart = Host + "/Home/HomeShopCar/addShopCar";
 
     void smsCode(String mobile, ResultCallback callback);
     void register(String user_account,String Verifycode,String user_pwda,String user_pwdb, ResultCallback callback);
@@ -44,10 +47,13 @@ public interface Api {
                       String commodity_starttime,String commodity_limitend,String commodity_buynum,String commodity_price,String commodity_bond,
                       Pair<String,File>[] images, ResultCallback callback);
     void goodsDetail(String commodity_id,ResultCallback callback);
-    void goodsCommentList(String commodity_id,ResultCallback callback);
+    void goodsCommentList(String commodity_id,String page,ResultCallback callback);
+    void addGoodsComment(String commodityeval_commodityid, String commodityeval_content, ResultCallback callback);
     void qiangTimeList(ResultCallback callback);
     void qiangList(String flag, String page, ResultCallback callback);
     void paiList(String page, ResultCallback callback);
     void jiaoList(String page, ResultCallback callback);
+    void addLike(String commodityid,String forumid,String user, ResultCallback callback);
+//    void addShoppingCart(String shopcar_commodityid,String shopcar_commoditynum,boolean flag);
 
 }

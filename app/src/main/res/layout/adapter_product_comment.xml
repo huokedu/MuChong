@@ -46,11 +46,11 @@
         android:id="@+id/textComment"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Universal App Campaigns 在去年的 Google I/O 大会上，Google 推出了 Universal App Campaigns。"
         android:textSize="12sp"/>
 
     <View
-        style="@style/DividerHorizontal"/>
+        style="@style/DividerHorizontal.Thin"/>
 </LinearLayout>

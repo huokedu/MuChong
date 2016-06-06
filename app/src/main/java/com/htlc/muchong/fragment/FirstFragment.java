@@ -189,7 +189,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             public void onIllegalState(String errorEvent, String message) {
                 ToastUtil.showToast(App.app, message);
                 mPtrFrame.refreshComplete();
-                refreshView();
+//                refreshView();
             }
         });
     }

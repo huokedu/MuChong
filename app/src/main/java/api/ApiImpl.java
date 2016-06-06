@@ -143,10 +143,24 @@ public class ApiImpl implements Api {
     }
 
     @Override
-    public void goodsCommentList(String commodity_id, ResultCallback callback) {
+    public void goodsCommentList(String commodity_id,String page, ResultCallback callback) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("commodity_id", commodity_id);
+        params.put("page", page);
         String url = Api.GoodsCommentList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void addGoodsComment(String commodityeval_commodityid, String commodityeval_content, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
+        params.put("commodityeval_commodityid", commodityeval_commodityid);
+        params.put("commodityeval_content", commodityeval_content);
+        String url = Api.AddGoodsComment;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }
 
@@ -178,6 +192,20 @@ public class ApiImpl implements Api {
         Map<String, String> params = new HashMap<String, String>();
         params.put("page", page);
         String url = Api.JiaoList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void addLike(String commodityid, String forumid, String user, ResultCallback callback) {
+        UserBean bean = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", bean.id);
+        params.put("user_token", bean.user_token);
+
+        params.put("commodityid", commodityid);
+        params.put("forumid", forumid);
+        params.put("user", user);
+        String url = Api.AddLike;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }
 }

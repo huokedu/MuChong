@@ -7,6 +7,7 @@
     <string name="select_all">全选</string>
     <string name="commit">提交</string>
     <string name="login_timeout_tips">登录过期！请重新登录</string>
+    <string name="login_no_login_tips">您未登录，是否去登录？</string>
 
     <string name="title_activity_main">MainActivity</string>
 
@@ -68,7 +69,7 @@
 
     <string name="title_pai_detail">竞拍详情</string>
     <string name="pai_name">名称:&#160;%1$s</string>
-    <string name="pai_detail_material">材质:&#160;%1$s&#160;&#160;尺寸:&#160;%2$s\n规格:&#160;%3$s</string>
+    <string name="pai_detail_material">材质:&#160;%1$s\n规格:&#160;%2$s</string>
     <string name="pai_price">拍卖价</string>
     <string name="pai_market_price">市场价</string>
     <string name="pai_deposit">保证金</string>
@@ -76,6 +77,8 @@
     <string name="pai_last_price">最新价格:&#160;%1$s</string>
     <string name="pai_dao_jis_shi">最后剩余时间:&#160;%1$s&#160;时&#160;%1$s&#160;分&#160;%1$s&#160;秒</string>
     <string name="pai_comment">评论</string>
+    <string name="pai_current_price">现价:&#160;%1$s</string>
+    <string name="pai_dao_pai_tips">每%1$s分钟降价一次</string>
     <string name="pai_tips">您的余额保证金不足，请充值！</string>
 
     <string name="jian_title_fragment_one">真</string>
@@ -146,6 +149,9 @@
     <string name="publish_price_hint">请输入价格</string>
 
     <string name="qiang_list_start">%1$s开抢</string>
+
+    <string name="title_comment_list">评论</string>
+
 
 
 </resources>

@@ -32,6 +32,11 @@ public class GoodsDetailBean {
     public String commodity_bond;
     public String state;
     public String timeStr;
+    public String timeend;
+    public String userinfo_nickname;
+    public String userinfo_grade;
+    public String userinfo_headportrait;
+    public String decpricetime;
 
 
     public String commodity_userid;

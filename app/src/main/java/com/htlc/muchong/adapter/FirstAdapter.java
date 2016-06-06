@@ -59,7 +59,9 @@ public class FirstAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         GoodsBean goodsBean = mList.get(position);
-        Picasso.with(parent.getContext()).load(Uri.parse(goodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_pai).error(R.mipmap.default_first_pai).into(holder.imageView);
+        int intrinsicWidth = holder.imageView.getResources().getDrawable(R.mipmap.default_first_pai).getIntrinsicWidth();
+        int intrinsicHeight = holder.imageView.getResources().getDrawable(R.mipmap.default_first_pai).getIntrinsicHeight();
+        Picasso.with(parent.getContext()).load(Uri.parse(goodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_pai).error(R.mipmap.default_first_pai).resize(intrinsicWidth,intrinsicHeight).into(holder.imageView);
         holder.textName.setText(goodsBean.commodity_name);
         GoodsUtil.setPriceBySymbol(holder.textPrice,goodsBean.commodity_panicprice);
         return convertView;

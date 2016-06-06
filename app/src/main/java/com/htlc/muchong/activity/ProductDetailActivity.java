@@ -15,6 +15,7 @@ import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.fragment.BannerFragment;
 import com.htlc.muchong.fragment.FirstFragment;
 import com.htlc.muchong.util.GoodsUtil;
+import com.htlc.muchong.util.LoginUtil;
 import com.larno.util.ToastUtil;
 
 import java.util.Arrays;
@@ -32,9 +33,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     private TextView textCommentMore;
 
     /*去商品详情*/
-    public static void goProductActivity(Context context,String goodId) {
+    public static void goProductActivity(Context context, String goodId) {
         Intent intent = new Intent(context, ProductDetailActivity.class);
-        intent.putExtra(ProductDetailActivity.Product_Id,goodId);
+        intent.putExtra(ProductDetailActivity.Product_Id, goodId);
         context.startActivity(intent);
     }
 
@@ -80,6 +81,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
         textName = (TextView) findViewById(R.id.textName);
         textLike = (TextView) findViewById(R.id.textLike);
+        textLike.setOnClickListener(this);
         imageRenZheng = (ImageView) findViewById(R.id.imageRenZheng);
         textPrice = (TextView) findViewById(R.id.textPrice);
         textDescription = (TextView) findViewById(R.id.textDescription);
@@ -92,6 +94,12 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         mCommentListView = (ListView) findViewById(R.id.commentListView);
         adapter = new CommentAdapter();
         mCommentListView.setAdapter(adapter);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         initData();
     }
 
@@ -104,6 +112,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 mBannerFragment.setData(Arrays.asList(data.commodity_imgStr.split(SPLIT_FLAG)));
                 textName.setText(data.commodity_name);
                 textLike.setText(data.commodity_likenum);
+                //喜欢过设置为不可点击
+                textLike.setEnabled(!GoodsUtil.isTrue(data.islike));
                 imageRenZheng.setVisibility(GoodsDetailBean.REN_ZHENG_FLAG.equals(data.userinfo_sincerity) ? View.VISIBLE : View.INVISIBLE);
                 GoodsUtil.setPriceBySymbol(textPrice, data.commodity_panicprice);
                 textDescription.setText(data.commodity_content);
@@ -124,10 +134,34 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.textCommentMore:
-                CommentListActivity.goCommentListActivity(this,"1");
+                CommentListActivity.goCommentListActivity(this, productId);
+                break;
+            case R.id.textLike:
+                if (App.app.isLogin()) {
+                    addLike();
+                } else {
+                    LoginUtil.showLoginTips(this);
+                }
                 break;
         }
+    }
+
+    /*添加我的喜欢*/
+    private void addLike() {
+        App.app.appAction.addLikeGoods(productId, new BaseActionCallbackListener<Void>() {
+            @Override
+            public void onSuccess(Void data) {
+                ToastUtil.showToast(App.app, "喜欢成功");
+                textLike.setEnabled(false);
+                textLike.setText(String.valueOf((Integer.parseInt(textLike.getText().toString())+1)));
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+            }
+        });
     }
 }

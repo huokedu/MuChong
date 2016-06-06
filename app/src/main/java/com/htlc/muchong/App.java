@@ -51,7 +51,7 @@ public class App extends Application {
                 trackingNetworkURLFilter("(.*)").//自定义网络请求跟踪的 url 规则，默认 null
                 build();
         //BTGInvocationEventNone BTGInvocationEventShake   BTGInvocationEventBubble
-        Bugtags.start(Constant.BugTags_App_Key, this, Bugtags.BTGInvocationEventBubble, options);
+        Bugtags.start(Constant.BugTags_App_Key, this, Bugtags.BTGInvocationEventNone, options);
     }
 
     private void initPicasso() {

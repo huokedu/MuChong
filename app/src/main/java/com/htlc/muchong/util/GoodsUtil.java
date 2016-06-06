@@ -11,6 +11,7 @@ import model.PaiGoodsBean;
  * Created by sks on 2016/6/3.
  */
 public class GoodsUtil {
+    public static final String IS_TRUE = "1";
     /*根据商品竞拍类型设置类型标签图片*/
     public static void setImageByPaiType(ImageView imageType, String commodity_type) {
         if (PaiGoodsBean.TYPE_DAO.equals(commodity_type)) {
@@ -24,5 +25,9 @@ public class GoodsUtil {
     /*设置商品价格为：￥100*/
     public static void setPriceBySymbol(TextView textView, String price) {
         textView.setText("￥"+price);
+    }
+    /*如果flag=1，则为true*/
+    public static boolean isTrue(String flag){
+        return IS_TRUE.equals(flag);
     }
 }
