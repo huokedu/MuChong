@@ -7,6 +7,7 @@ import com.larno.util.okhttp.callback.ResultCallback;
 import java.io.File;
 import java.util.List;
 
+import model.CangBean;
 import model.GoodsCommentBean;
 import model.GoodsDetailBean;
 import model.GoodsTypeBean;
@@ -14,6 +15,8 @@ import model.HomeBean;
 import model.JiaoGoodsBean;
 import model.PaiGoodsBean;
 import model.PointInTimeBean;
+import model.PostCommentBean;
+import model.PostDetailBean;
 import model.QiangListBean;
 import model.UserBean;
 import model.UserInfoBean;
@@ -45,5 +48,12 @@ public interface AppAction {
     void qiangList(String flag, int page,ActionCallbackListener<QiangListBean> listener);
     void paiList(int page, ActionCallbackListener<List<PaiGoodsBean>> listener);
     void jiaoList(int page, ActionCallbackListener<List<JiaoGoodsBean>> listener);
+    void jiaoListBySmallClass(int page, String commodity_smallclass, String order, String commodity_material, ActionCallbackListener<List<JiaoGoodsBean>> listener);
     void addLikeGoods(String commodity_id,ActionCallbackListener<Void> listener);
+    void addShoppingCart(String shopcar_commodityid,ActionCallbackListener<Void> listener);
+
+    void cangList(int page,ActionCallbackListener<List<CangBean>> listener);
+    void postDetail(String forum_id,ActionCallbackListener<PostDetailBean> listener);
+    void postCommentList(String forum_id, int page, ActionCallbackListener<List<PostCommentBean>> listener);
+    void addPostComment(String forum_backid, String forum_content, ActionCallbackListener<Void> listener);
 }

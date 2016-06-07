@@ -115,12 +115,11 @@ public class PaiListActivity extends BaseActivity {
         App.app.appAction.paiList(page, new BaseActionCallbackListener<List<PaiGoodsBean>>() {
             @Override
             public void onSuccess(List<PaiGoodsBean> data) {
-                mPtrFrame.refreshComplete();
                 adapter.setData(data, true);
                 if (data.size() < AppActionImpl.PAGE_SIZE) {
-                    mPtrFrame.setNoMoreData();
+                    mPtrFrame.loadMoreComplete(false);
                 } else {
-                    mPtrFrame.setLoadMoreEnable(true);
+                    mPtrFrame.loadMoreComplete(true);
                 }
                 page++;
             }

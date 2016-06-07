@@ -31,6 +31,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     public static final String SPLIT_FLAG = ",";
     public static final String Product_Id = "Product_Id";
     private TextView textCommentMore;
+    private TextView textBuy;
+    private TextView textAddCar;
 
     /*去商品详情*/
     public static void goProductActivity(Context context, String goodId) {
@@ -91,6 +93,11 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         textCommentMore = (TextView) findViewById(R.id.textCommentMore);
         textCommentMore.setOnClickListener(this);
 
+        textBuy = (TextView) findViewById(R.id.textBuy);
+        textBuy.setOnClickListener(this);
+        textAddCar = (TextView) findViewById(R.id.textAddCar);
+        textAddCar.setOnClickListener(this);
+
         mCommentListView = (ListView) findViewById(R.id.commentListView);
         adapter = new CommentAdapter();
         mCommentListView.setAdapter(adapter);
@@ -114,7 +121,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 textLike.setText(data.commodity_likenum);
                 //喜欢过设置为不可点击
                 textLike.setEnabled(!GoodsUtil.isTrue(data.islike));
-                imageRenZheng.setVisibility(GoodsDetailBean.REN_ZHENG_FLAG.equals(data.userinfo_sincerity) ? View.VISIBLE : View.INVISIBLE);
+                imageRenZheng.setVisibility(GoodsUtil.isTrue(data.userinfo_sincerity) ? View.VISIBLE : View.INVISIBLE);
                 GoodsUtil.setPriceBySymbol(textPrice, data.commodity_panicprice);
                 textDescription.setText(data.commodity_content);
                 String material = getString(R.string.product_detail_material, data.commodity_material, data.commodity_spec);
@@ -138,6 +145,20 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
             case R.id.textCommentMore:
                 CommentListActivity.goCommentListActivity(this, productId);
                 break;
+            case R.id.textBuy:
+                if (App.app.isLogin()) {
+                    ToastUtil.showToast(App.app, "立即购买");
+                } else {
+                    LoginUtil.showLoginTips(this);
+                }
+                break;
+            case R.id.textAddCar:
+                if (App.app.isLogin()) {
+                    addCart();
+                } else {
+                    LoginUtil.showLoginTips(this);
+                }
+                break;
             case R.id.textLike:
                 if (App.app.isLogin()) {
                     addLike();
@@ -148,6 +169,21 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    /*加入购物车*/
+    private void addCart() {
+        App.app.appAction.addShoppingCart(productId, new BaseActionCallbackListener<Void>() {
+            @Override
+            public void onSuccess(Void data) {
+                ToastUtil.showToast(App.app,"添加成功");
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app,message);
+            }
+        });
+    }
+
     /*添加我的喜欢*/
     private void addLike() {
         App.app.appAction.addLikeGoods(productId, new BaseActionCallbackListener<Void>() {
@@ -155,7 +191,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
             public void onSuccess(Void data) {
                 ToastUtil.showToast(App.app, "喜欢成功");
                 textLike.setEnabled(false);
-                textLike.setText(String.valueOf((Integer.parseInt(textLike.getText().toString())+1)));
+                textLike.setText(String.valueOf((Integer.parseInt(textLike.getText().toString()) + 1)));
             }
 
             @Override

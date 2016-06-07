@@ -21,6 +21,11 @@ import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
 import java.util.Arrays;
+import java.util.List;
+
+import core.AppActionImpl;
+import model.CangBean;
+import model.PaiGoodsBean;
 
 /**
  * Created by sks on 2016/1/27.
@@ -30,6 +35,8 @@ public class ThirdFragment extends HomeFragment {
     private ThirdRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
+
+    private int page = 1;
 
     @Override
     protected int getLayoutId() {
@@ -93,10 +100,9 @@ public class ThirdFragment extends HomeFragment {
             @Override
             public void onItemClick(View view, int position) {
                 ToastUtil.showToast(App.app, "mRecyclerView position " + position);
-                Intent intent = new Intent(getActivity(), CangDetailActivity.class);
-                intent.putExtra(BaseActivity.ActivityTitleId,R.string.title_cang_detail);
-                startActivity(intent);
-
+                List<CangBean> data = adapter.getData();
+                CangBean bean = data.get(position);
+                CangDetailActivity.goCangDetailActivity(getContext(),bean.id,R.string.title_cang_detail);
             }
         });
 
@@ -104,15 +110,51 @@ public class ThirdFragment extends HomeFragment {
     }
 
     private void loadMoreData() {
-        mPtrFrame.loadMoreComplete(true);
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), true);
-        mPtrFrame.setNoMoreData();
+        App.app.appAction.cangList(page, ((BaseActivity)getActivity()).new BaseActionCallbackListener<List<CangBean>>() {
+            @Override
+            public void onSuccess(List<CangBean> data) {
+
+                adapter.setData(data, true);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.loadMoreComplete(false);
+                } else {
+                    mPtrFrame.loadMoreComplete(true);
+                }
+                page++;
+            }
+
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setFail();
+            }
+        });
     }
 
     @Override
     protected void initData() {
-        mPtrFrame.refreshComplete();
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), false);
-        mPtrFrame.setLoadMoreEnable(true);
+        page = 1;
+        App.app.appAction.cangList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<CangBean>>() {
+            @Override
+            public void onSuccess(List<CangBean> data) {
+                mPtrFrame.refreshComplete();
+                adapter.setData(data, false);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setLoadMoreEnable(false);
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setLoadMoreEnable(false);
+            }
+        });
     }
 }

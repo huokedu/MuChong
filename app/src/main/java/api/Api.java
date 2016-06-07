@@ -32,6 +32,11 @@ public interface Api {
     String AddLike = Host + "/Home/HomeCommodity/addlike";
     String AddShoppingCart = Host + "/Home/HomeShopCar/addShopCar";
 
+    String CangList = Host + "/Home/HomeForum/collectionlist";
+    String PostDetail = Host + "/Home/HomeForum/foruminfo";
+    String PostCommentList = Host + "/Home/HomeForum/evallist";
+    String AddPostComment = Host + "/Home/HomeForum/addeval";
+
     void smsCode(String mobile, ResultCallback callback);
     void register(String user_account,String Verifycode,String user_pwda,String user_pwdb, ResultCallback callback);
     void login(String user_account,String user_pwd,ResultCallback callback);
@@ -53,7 +58,15 @@ public interface Api {
     void qiangList(String flag, String page, ResultCallback callback);
     void paiList(String page, ResultCallback callback);
     void jiaoList(String page, ResultCallback callback);
+    void jiaoListBySmallClass(String page, String commodity_smallclass,String order, String commodity_material, ResultCallback callback);
     void addLike(String commodityid,String forumid,String user, ResultCallback callback);
-//    void addShoppingCart(String shopcar_commodityid,String shopcar_commoditynum,boolean flag);
+    void addShoppingCart(String shopcar_commodityid,ResultCallback callback);
+
+    void cangList(String page, ResultCallback callback);
+    void postDetail(String forum_id, ResultCallback callback);
+    void postCommentList(String forum_id, String page, ResultCallback callback);
+    void addPostComment(String forum_backid, String forum_content, ResultCallback callback);
+
+
 
 }

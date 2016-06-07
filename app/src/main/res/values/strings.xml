@@ -75,7 +75,8 @@
     <string name="pai_deposit">保证金</string>
     <string name="pai_last_username">最后出价:&#160;%1$s</string>
     <string name="pai_last_price">最新价格:&#160;%1$s</string>
-    <string name="pai_dao_jis_shi">最后剩余时间:&#160;%1$s&#160;时&#160;%1$s&#160;分&#160;%1$s&#160;秒</string>
+    <string name="pai_dao_jis_shi">最后剩余时间:&#160;%1$s&#160;时&#160;%2$s&#160;分&#160;%3$s&#160;秒</string>
+    <string name="pai_dao_jis_shi_start">距离开始时间:&#160;%1$s&#160;时&#160;%2$s&#160;分&#160;%3$s&#160;秒</string>
     <string name="pai_comment">评论</string>
     <string name="pai_current_price">现价:&#160;%1$s</string>
     <string name="pai_dao_pai_tips">每%1$s分钟降价一次</string>

@@ -29,10 +29,12 @@ public class GoodsDetailBean {
     public String commodity_timelimit;
     public String commodity_buynum;
     public String commodity_price;
+    public String commodity_startprice;
     public String commodity_bond;
     public String state;
     public String timeStr;
     public String timeend;
+    public String bidname;
     public String userinfo_nickname;
     public String userinfo_grade;
     public String userinfo_headportrait;

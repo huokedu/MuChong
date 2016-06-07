@@ -15,7 +15,7 @@ import com.htlc.muchong.R;
  * Created by sks on 2016/5/19.
  */
 public class DaoJiShiView extends LinearLayout {
-
+    public static final long T = 1000;
     private TextView textHour;
     private TextView textMinute;
     private TextView textSecond;
@@ -74,7 +74,7 @@ public class DaoJiShiView extends LinearLayout {
      */
     private void startStartTimer() {
         textLabel.setText(R.string.first_header_start);
-        startTimer = new CountDownTimer(millisInFutureStart, 1000) {
+        startTimer = new CountDownTimer(millisInFutureStart, T) {
             public void onTick(long millisUntilFinished) {
                 long hour = millisUntilFinished / 3600000;
                 long minute = millisUntilFinished % 3600000 / 60000;
@@ -108,7 +108,7 @@ public class DaoJiShiView extends LinearLayout {
      */
     private void startEndTimer(){
         textLabel.setText(R.string.first_header_end);
-        endTimer = new CountDownTimer(millisInFutureEnd, 1000) {
+        endTimer = new CountDownTimer(millisInFutureEnd, T) {
             public void onTick(long millisUntilFinished) {
                 long hour = millisUntilFinished / 3600000;
                 long minute = millisUntilFinished % 3600000 / 60000;

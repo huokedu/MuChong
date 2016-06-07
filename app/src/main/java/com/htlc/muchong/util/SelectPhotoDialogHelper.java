@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -34,7 +35,7 @@ public class SelectPhotoDialogHelper {
     public static final int Width_Scale_4 = 4;
     public static final int Height_Scale_3 = 3;
 
-    public String Path;
+    private String path;
     private static final int Request_Take_Photo = 4833;
     private static final int Request_Pick_Photo = 4834;
     private static final int Request_Clip_Photo = 4835;
@@ -60,10 +61,7 @@ public class SelectPhotoDialogHelper {
         this.aspectY = aspectY;
         String externalStorageState = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(externalStorageState)) {
-            Path = activity.getExternalCacheDir().getAbsolutePath();
-        } else {
-//            ToastUtil.showToast(App.app, "存储不可用");
-            Path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath();
+            path = activity.getExternalCacheDir().getAbsolutePath();
         }
     }
 
@@ -71,6 +69,10 @@ public class SelectPhotoDialogHelper {
      * 选择图片对话框
      */
     public void showPickPhotoDialog() {
+        if(TextUtils.isEmpty(path)){
+            ToastUtil.showToast(App.app,"存储不可用！");
+            return;
+        }
         mPickPhotoDialog = new PickPhotoDialog(activity, R.style.TransparentAlertDialog);//创建Dialog并设置样式主题
         mPickPhotoDialog.setCanceledOnTouchOutside(true);//设置点击Dialog外部任意区域关闭Dialog
         mPickPhotoDialog.show();
@@ -116,7 +118,7 @@ public class SelectPhotoDialogHelper {
 
     private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Path, "temp.png")));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(path, "temp.png")));
         intent.putExtra("flag", true);
         activity.startActivityForResult(intent, Request_Take_Photo);
 
@@ -138,7 +140,7 @@ public class SelectPhotoDialogHelper {
             // 如果是调用相机拍照时
             case Request_Take_Photo:
                 if (Activity.RESULT_OK != resultCode) return;
-                File file = new File(Path + "/temp.png");
+                File file = new File(path + "/temp.png");
                 clipPhoto(Uri.fromFile(file));
                 break;
             // 取得裁剪后的图片
@@ -165,7 +167,7 @@ public class SelectPhotoDialogHelper {
         intent.putExtra("outputY", outputY);
         intent.putExtra("return-data", false);
         fileName = "IMG_" + UUID.randomUUID() + ".jpg";
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Path, fileName)));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(path, fileName)));
         activity.startActivityForResult(intent, Request_Clip_Photo);
     }
 
@@ -174,7 +176,7 @@ public class SelectPhotoDialogHelper {
      */
     private void handleUriAfterClip() {
         if (listener != null && fileName != null) {
-            listener.onPickPhotoFinishListener(new File(Path, fileName));
+            listener.onPickPhotoFinishListener(new File(path, fileName));
         }
     }
 
@@ -202,7 +204,7 @@ public class SelectPhotoDialogHelper {
      * @return
      */
     public File saveBitmapToFile(Bitmap bitmap, String fileName) {
-        File dir = new File(Path);
+        File dir = new File(path);
         if (!dir.exists()) {
             dir.mkdirs();
         }

@@ -12,9 +12,9 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="165dp"
+        android:layout_height="126dp"
         android:scaleType="fitXY"
-        android:src="@mipmap/defautl_third_grid"/>
+        android:src="@mipmap/default_first_pai"/>
     <ImageView
         android:src="@mipmap/icon_product_ren_zheng"
         android:id="@+id/imageFlag"

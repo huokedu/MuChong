@@ -196,6 +196,17 @@ public class ApiImpl implements Api {
     }
 
     @Override
+    public void jiaoListBySmallClass(String page, String commodity_smallclass, String order, String commodity_material, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("page", page);
+        params.put("commodity_smallclass", commodity_smallclass);
+        params.put("order", order);
+        params.put("commodity_material", commodity_material);
+        String url = Api.JiaoList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
     public void addLike(String commodityid, String forumid, String user, ResultCallback callback) {
         UserBean bean = LoginUtil.getUser();
         Map<String, String> params = new HashMap<String, String>();
@@ -206,6 +217,56 @@ public class ApiImpl implements Api {
         params.put("forumid", forumid);
         params.put("user", user);
         String url = Api.AddLike;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void addShoppingCart(String shopcar_commodityid, ResultCallback callback) {
+        UserBean bean = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", bean.id);
+        params.put("user_token", bean.user_token);
+
+        params.put("shopcar_commodityid", shopcar_commodityid);
+        String url = Api.AddShoppingCart;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void cangList(String page,ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("page", page);
+        String url = Api.CangList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void postDetail(String forum_id, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("forum_id", forum_id);
+        String url = Api.PostDetail;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void postCommentList(String forum_id, String page, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("forum_id", forum_id);
+        params.put("page", page);
+        String url = Api.PostCommentList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void addPostComment(String forum_backid, String forum_content, ResultCallback callback) {
+        UserBean bean = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", bean.id);
+        params.put("user_token", bean.user_token);
+
+        params.put("forum_backid", forum_backid);
+        params.put("forum_content", forum_content);
+        String url = Api.AddPostComment;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }
 }

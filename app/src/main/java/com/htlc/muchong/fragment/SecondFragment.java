@@ -1,6 +1,5 @@
 package com.htlc.muchong.fragment;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,7 +11,7 @@ import com.htlc.muchong.activity.ProductListActivity;
 import com.htlc.muchong.adapter.SecondAdapter;
 import com.larno.util.ToastUtil;
 
-import java.util.Arrays;
+import model.GoodsTypeBean;
 
 /**
  * Created by sks on 2016/5/17.
@@ -39,7 +38,8 @@ public class SecondFragment extends FirstFragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ToastUtil.showToast(App.app, "gridView position = " + position);
-                startActivity(new Intent(getActivity(), ProductListActivity.class));
+                GoodsTypeBean bean = (GoodsTypeBean) adapter.getItem(position);
+                ProductListActivity.goProductListActivity(getActivity(),bean.id,bean.constant_name);
             }
         });
     }

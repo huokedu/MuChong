@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,6 +42,7 @@ import model.TimeBoxingBean;
  */
 public class PublishActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     public static final String[] TYPE_ARRAY = {"精品交易", "限时抢购", "倒拍", "无底价", "有底价"};
+    public static final String[] TYPE_ARRAY_VALUE = {"1", "2", "3", "4", "5"};
     private ImageView imageViewCover;
     private GridView gridView;
     private PublishAdapter adapter;
@@ -72,7 +74,7 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
 
     private List<GoodsTypeBean> goodsTypes;
     private List<PointInTimeBean> pointInTimes;
-    private List<TimeBoxingBean> timeBoxings;
+    private List<Pair<String, String>> qiangDays;
 
     private String type;
     private String childType;
@@ -132,6 +134,22 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
     protected void initData() {
         getGoodsType();
         getPointInTime();
+        getQiangDays();
+    }
+
+    /*获取抢购可选日期*/
+    private void getQiangDays() {
+        App.app.appAction.qiangTimeList(new BaseActionCallbackListener<List<Pair<String, String>>>() {
+            @Override
+            public void onSuccess(List<Pair<String, String>> data) {
+                qiangDays = data;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+            }
+        });
     }
 
     /*获取竞拍时间点*/
@@ -171,7 +189,7 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
             adapter.removeData(position);
         } else {
             isPickCover = false;
-            pickPhoto(SelectPhotoDialogHelper.Width_720,SelectPhotoDialogHelper.Width_Scale_12,SelectPhotoDialogHelper.Height_Scale_5);
+            pickPhoto(SelectPhotoDialogHelper.Width_720, SelectPhotoDialogHelper.Width_Scale_12, SelectPhotoDialogHelper.Height_Scale_5);
         }
     }
 
@@ -181,7 +199,7 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
         switch (v.getId()) {
             case R.id.imageViewCover:
                 isPickCover = true;
-                pickPhoto(SelectPhotoDialogHelper.Width_720,SelectPhotoDialogHelper.Width_Scale_4,SelectPhotoDialogHelper.Height_Scale_3);
+                pickPhoto(SelectPhotoDialogHelper.Width_720, SelectPhotoDialogHelper.Width_Scale_4, SelectPhotoDialogHelper.Height_Scale_3);
                 break;
             case R.id.linearType:
                 showPopupWindow(v, Arrays.asList(TYPE_ARRAY));
@@ -196,12 +214,22 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
                 }
                 break;
             case R.id.linearStartTime:
-                if (goodsTypes != null) {
-                    String[] pointInTimeArray = new String[pointInTimes.size()];
-                    for (int i = 0; i < pointInTimes.size(); i++) {
-                        pointInTimeArray[i] = pointInTimes.get(i).constant_time;
+                if (TYPE_ARRAY_VALUE[1].equals(type)) {
+                    if(qiangDays!=null){
+                        String[] qiangDaysArray = new String[qiangDays.size()];
+                        for (int i = 0; i < qiangDays.size(); i++) {
+                            qiangDaysArray[i] = qiangDays.get(i).second;
+                        }
+                        showPopupWindow(v, Arrays.asList(qiangDaysArray));
                     }
-                    showPopupWindow(v, Arrays.asList(pointInTimeArray));
+                } else {
+                    if (pointInTimes != null) {
+                        String[] pointInTimeArray = new String[pointInTimes.size()];
+                        for (int i = 0; i < pointInTimes.size(); i++) {
+                            pointInTimeArray[i] = pointInTimes.get(i).constant_time;
+                        }
+                        showPopupWindow(v, Arrays.asList(pointInTimeArray));
+                    }
                 }
                 break;
             case R.id.linearDurationTime:
@@ -220,24 +248,24 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
         progressDialog.setMessage("提交中，请稍等...");
         progressDialog.show();
         boolean exists = coverImageFile.exists();
-        App.app.appAction.publishGoods(editTitle.getText().toString().trim(),editContent.getText().toString().trim(),
-                type,childType,editSize.getText().toString().trim(),editMaterial.getText().toString().trim(),editPrice.getText().toString(),
-                pointInTime,timeboxing,editCount.getText().toString(),editMarketPrice.getText().toString(),editDeposit.getText().toString(),
-                coverImageFile,adapter.getData(), new BaseActionCallbackListener<Void>() {
+        App.app.appAction.publishGoods(editTitle.getText().toString().trim(), editContent.getText().toString().trim(),
+                type, childType, editSize.getText().toString().trim(), editMaterial.getText().toString().trim(), editPrice.getText().toString(),
+                pointInTime, timeboxing, editCount.getText().toString(), editMarketPrice.getText().toString(), editDeposit.getText().toString(),
+                coverImageFile, adapter.getData(), new BaseActionCallbackListener<Void>() {
                     @Override
                     public void onSuccess(Void data) {
-                        if(progressDialog!=null){
+                        if (progressDialog != null) {
                             progressDialog.dismiss();
                         }
-                        ToastUtil.showToast(App.app,"提交成功");
+                        ToastUtil.showToast(App.app, "提交成功");
                     }
 
                     @Override
                     public void onIllegalState(String errorEvent, String message) {
-                        if(progressDialog!=null){
+                        if (progressDialog != null) {
                             progressDialog.dismiss();
                         }
-                        ToastUtil.showToast(App.app,message);
+                        ToastUtil.showToast(App.app, message);
                     }
                 }
         );
@@ -284,34 +312,34 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
     /*选中条目*/
     private void selectItem(View clickView, int position) {
         if (clickView == linearType) {
-            type = (position+1)+"";
+            type = (position + 1) + "";
             String preStr = getString(R.string.publish_type);
-            textType.setText(preStr+"\t\t"+TYPE_ARRAY[position]);
-            if(position == 0){
+            textType.setText(preStr + "\t\t" + TYPE_ARRAY[position]);
+            if (position == 0) {
                 linearStartTime.setVisibility(View.GONE);
                 linearDurationTime.setVisibility(View.GONE);
                 relativeCount.setVisibility(View.GONE);
                 relativeMarketPrice.setVisibility(View.GONE);
                 relativeDeposit.setVisibility(View.GONE);
-            }else if(position == 1){
-                linearStartTime.setVisibility(View.GONE);
+            } else if (position == 1) {
+                linearStartTime.setVisibility(View.VISIBLE);
                 linearDurationTime.setVisibility(View.GONE);
                 relativeCount.setVisibility(View.VISIBLE);
                 relativeMarketPrice.setVisibility(View.VISIBLE);
                 relativeDeposit.setVisibility(View.GONE);
-            }else if(position == 2){
+            } else if (position == 2) {
                 linearStartTime.setVisibility(View.VISIBLE);
                 linearDurationTime.setVisibility(View.VISIBLE);
                 relativeCount.setVisibility(View.GONE);
                 relativeMarketPrice.setVisibility(View.VISIBLE);
                 relativeDeposit.setVisibility(View.VISIBLE);
-            }else if(position == 3){
+            } else if (position == 3) {
                 linearStartTime.setVisibility(View.VISIBLE);
                 linearDurationTime.setVisibility(View.VISIBLE);
                 relativeCount.setVisibility(View.GONE);
                 relativeMarketPrice.setVisibility(View.VISIBLE);
                 relativeDeposit.setVisibility(View.VISIBLE);
-            }else if(position == 4){
+            } else if (position == 4) {
                 linearStartTime.setVisibility(View.VISIBLE);
                 linearDurationTime.setVisibility(View.VISIBLE);
                 relativeCount.setVisibility(View.GONE);
@@ -321,15 +349,21 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
         } else if (clickView == linearChildType) {
             childType = goodsTypes.get(position).id;
             String preStr = getString(R.string.publish_child_type);
-            textChildType.setText(preStr+"\t\t"+goodsTypes.get(position).constant_name);
+            textChildType.setText(preStr + "\t\t" + goodsTypes.get(position).constant_name);
         } else if (clickView == linearStartTime) {
-            pointInTime = pointInTimes.get(position).constant_time;
-            String preStr = getString(R.string.publish_start_time);
-            textStartTime.setText(preStr+"\t\t"+pointInTimes.get(position).constant_time);
+            if(TYPE_ARRAY_VALUE[1].equals(type)){
+                pointInTime = qiangDays.get(position).second;
+                String preStr = getString(R.string.publish_start_time);
+                textStartTime.setText(preStr + "\t\t" + qiangDays.get(position).second);
+            }else {
+                pointInTime = pointInTimes.get(position).constant_time;
+                String preStr = getString(R.string.publish_start_time);
+                textStartTime.setText(preStr + "\t\t" + pointInTimes.get(position).constant_time);
+            }
         } else if (clickView == linearDurationTime) {
             timeboxing = TimeBoxingBean.TIME_ARRAY[position];
             String preStr = getString(R.string.publish_duration_time);
-            textDurationTime.setText(preStr+"\t\t"+TimeBoxingBean.TIME_DESCRIPTION_ARRAY[position]);
+            textDurationTime.setText(preStr + "\t\t" + TimeBoxingBean.TIME_DESCRIPTION_ARRAY[position]);
         }
     }
 

@@ -1,9 +1,9 @@
 package com.htlc.muchong.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.EditText;
@@ -19,7 +19,6 @@ import com.htlc.muchong.R;
 import com.htlc.muchong.adapter.CommentAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.fragment.BannerFragment;
-import com.htlc.muchong.fragment.FirstFragment;
 import com.htlc.muchong.util.GoodsUtil;
 import com.htlc.muchong.util.LoginUtil;
 import com.htlc.muchong.util.PersonUtil;
@@ -28,9 +27,7 @@ import com.larno.util.ToastUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
-import java.util.List;
 
-import core.AppActionImpl;
 import model.GoodsDetailBean;
 import model.PaiGoodsBean;
 
@@ -88,6 +85,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
     protected ListView mCommentListView;
     private CommentAdapter adapter;
     private String productId;
+    private CountDownTimer timer;
 
     @Override
     protected int getLayoutId() {
@@ -107,7 +105,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
             }
         });
 
-        imageHead = (ImageView)findViewById(R.id.imageHead);
+        imageHead = (ImageView) findViewById(R.id.imageHead);
         textName = (TextView) findViewById(R.id.textName);
         textLevel = (TextView) findViewById(R.id.textLevel);
         ratingBarLevel = (RatingBar) findViewById(R.id.ratingBarLevel);
@@ -140,6 +138,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
         daoJiShiView = (DaoJiShiView) findViewById(R.id.daoJiShiView);
         relativeBuy = (RelativeLayout) findViewById(R.id.relativeBuy);
         textBuy = (TextView) findViewById(R.id.textBuy);
+        textBuy.setOnClickListener(this);
 
         //竞拍
         linearJingPai = (LinearLayout) findViewById(R.id.linearJingPai);
@@ -161,7 +160,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void showTips() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.DialogAppCompat);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogAppCompat);
         View view = View.inflate(this, R.layout.dialog_layout, null);
         builder.setView(view);
         final AlertDialog alertDialog = builder.create();
@@ -172,16 +171,16 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
         view.findViewById(R.id.positiveButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(alertDialog!=null){
+                if (alertDialog != null) {
                     alertDialog.dismiss();
                 }
-                ToastUtil.showToast(App.app,"去充值咯!");
+                ToastUtil.showToast(App.app, "去充值咯!");
             }
         });
         view.findViewById(R.id.negativeButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(alertDialog!=null){
+                if (alertDialog != null) {
                     alertDialog.dismiss();
                 }
             }
@@ -201,19 +200,19 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
                 int intrinsicWidth = getResources().getDrawable(R.mipmap.default_third_gird_head).getIntrinsicWidth();
                 int intrinsicHeight = getResources().getDrawable(R.mipmap.default_third_gird_head).getIntrinsicHeight();
                 Picasso.with(PaiDetailActivity.this).load(Uri.parse(data.userinfo_headportrait)).placeholder(R.mipmap.default_third_gird_head).error(R.mipmap.default_third_gird_head)
-                        .resize(intrinsicWidth,intrinsicHeight).into(imageHead);
+                        .resize(intrinsicWidth, intrinsicHeight).into(imageHead);
                 String[] images = data.commodity_imgStr.split(ProductDetailActivity.SPLIT_FLAG);
                 mBannerFragment.setData(Arrays.asList(images));
                 textGoodsName.setText(getString(R.string.pai_name, data.commodity_name));
                 textMaterial.setText(getString(R.string.pai_detail_material, data.commodity_material, data.commodity_spec));
                 textDescription.setText(data.commodity_content);
-                textComment.setText(getString(R.string.product_detail_comment,data.evalcount));
+                textComment.setText(getString(R.string.product_detail_comment, data.evalcount));
                 adapter.setData(data.evallist, false);
                 GoodsUtil.setPriceBySymbol(textMarketPrice, data.commodity_price);
                 GoodsUtil.setPriceBySymbol(textDeposit, data.commodity_bond);
-                if(PaiGoodsBean.TYPE_DAO.equals(data.commodity_type)){
+                if (PaiGoodsBean.TYPE_DAO.equals(data.commodity_type)) {
                     GoodsUtil.setPriceBySymbol(textPrice, data.commodity_panicprice);
-                    textDaoPaiTips.setText(getString(R.string.pai_dao_pai_tips, Double.parseDouble(data.decpricetime)/60));
+                    textDaoPaiTips.setText(getString(R.string.pai_dao_pai_tips, Double.parseDouble(data.decpricetime) / 60));
                     //刷新抢购数据
                     if (PaiGoodsBean.STATE_NO_START.equals(data.state)) {
                         daoJiShiView.setData(Long.parseLong(data.timeStr) * 1000, Long.parseLong(data.timeend) * 1000);
@@ -228,8 +227,16 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
                     relativeBuy.setVisibility(View.VISIBLE);
                     linearJingPai.setVisibility(View.GONE);
                     relativeInput.setVisibility(View.GONE);
-                }else {
-
+                } else {
+                    textLastPaiName.setText(getString(R.string.pai_last_username, data.bidname));
+                    textLastPaiPrice.setText(getString(R.string.pai_last_price, data.commodity_panicprice));
+                    if (PaiGoodsBean.STATE_NO_START.equals(data.state)) {
+                        startStartTimer(Long.parseLong(data.timeStr) * 1000, Long.parseLong(data.timeend) * 1000);
+                    } else if (PaiGoodsBean.STATE_END.equals(data.state)) {
+                        textDaoJiShi.setText(getString(R.string.pai_dao_jis_shi, 0, 0, 0));
+                    } else if (PaiGoodsBean.STATE_STARTING.equals(data.state)) {
+                        startEndTimer(Long.parseLong(data.timeStr));
+                    }
                     textPaiPrice.setVisibility(View.VISIBLE);
                     paiPriceLabel.setVisibility(View.VISIBLE);
                     linearDaoPai.setVisibility(View.GONE);
@@ -246,15 +253,89 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
         });
     }
 
+    private void startStartTimer(long millisInFutureStart, final long millisInFutureEnd){
+        if(timer!=null){
+            timer.cancel();
+        }
+        timer = new CountDownTimer(millisInFutureStart,DaoJiShiView.T) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long hour = millisUntilFinished / 3600000;
+                long minute = millisUntilFinished % 3600000 / 60000;
+                long second = millisUntilFinished % 3600000 % 60000 / 1000;
+                textDaoJiShi.setText(getString(R.string.pai_dao_jis_shi_start, hour, minute, second));
+            }
+
+            @Override
+            public void onFinish() {
+                startEndTimer(millisInFutureEnd);
+            }
+        };
+        timer.start();
+    }
+    /**
+     * 结束倒计时
+     */
+    private void startEndTimer(long millisInFutureEnd){
+        if(timer!=null){
+            timer.cancel();
+        }
+        timer = new CountDownTimer(millisInFutureEnd, DaoJiShiView.T) {
+            public void onTick(long millisUntilFinished) {
+                long hour = millisUntilFinished / 3600000;
+                long minute = millisUntilFinished % 3600000 / 60000;
+                long second = millisUntilFinished % 3600000 % 60000 / 1000;
+                textDaoJiShi.setText(getString(R.string.pai_dao_jis_shi, hour, minute, second));
+            }
+
+            public void onFinish() {
+                textDaoJiShi.setText(getString(R.string.pai_dao_jis_shi, 0, 0, 0));
+            }
+        };
+        timer.start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(timer!=null){
+            timer.cancel();
+        }
+    }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.textButton:
+                commitComment();
+                break;
+            case R.id.textBuy:
+                ToastUtil.showToast(App.app,"立即购买");
                 break;
             case R.id.textCommentMore:
-                CommentListActivity.goCommentListActivity(this,productId);
+                CommentListActivity.goCommentListActivity(this, productId);
                 break;
 
         }
+    }
+
+    private void commitComment() {
+        if(!App.app.isLogin()){
+            LoginUtil.showLoginTips(this);
+            return;
+        }
+        App.app.appAction.addGoodsComment(productId, editComment.getText().toString().trim(), new BaseActionCallbackListener<Void>() {
+            @Override
+            public void onSuccess(Void data) {
+                ToastUtil.showToast(App.app,"评论成功");
+                editComment.setText("");
+                initData();
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app,message);
+            }
+        });
     }
 }

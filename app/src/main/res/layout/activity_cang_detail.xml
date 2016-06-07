@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <com.htlc.muchong.widget.LoadMoreScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="43dp">
@@ -27,17 +28,17 @@
                 <!--楼主-->
                 <include layout="@layout/layout_owner"/>
 
-                <View style="@style/DividerHorizontal"/>
+                <View style="@style/DividerHorizontal.Thin"/>
                 <!--文章-->
                 <include layout="@layout/layout_cang_article"/>
 
-                <View style="@style/DividerHorizontal"/>
+                <View style="@style/DividerHorizontal.Thin"/>
                 <!--评论-->
                 <include layout="@layout/layout_comment"/>
 
-                <View style="@style/DividerHorizontal"/>
+                <View style="@style/DividerHorizontal.Thin"/>
             </LinearLayout>
-        </ScrollView>
+        </com.htlc.muchong.widget.LoadMoreScrollView>
         <!--输入框-->
         <include layout="@layout/layout_input"/>
     </FrameLayout>

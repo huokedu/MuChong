@@ -3,6 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:scaleType="fitXY"
-    android:src="@mipmap/default_first_jiao"
-    android:layout_height="150dp">
+    android:src="@mipmap/default_first_pai"
+    android:layout_height="270dp">
 </ImageView>

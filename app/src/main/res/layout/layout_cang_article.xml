@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:showIn="@layout/activity_cang_detail">
     <com.htlc.muchong.widget.NoScrollListView
-        android:layout_below="@+id/dividerArticle"
+        android:background="@android:color/white"
         android:id="@+id/imageListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -15,21 +15,24 @@
 
     <View
         android:id="@+id/dividerArticle1"
-        style="@style/DividerHorizontal"/>
+        style="@style/DividerHorizontal.Thin"/>
     <View
         android:layout_marginTop="10dp"
         android:id="@+id/dividerArticle2"
-        style="@style/DividerHorizontal"/>
+        style="@style/DividerHorizontal.Thin"/>
     <TextView
+        android:background="@android:color/white"
+        android:id="@+id/textPostTitle"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="10dp"
         android:textColor="@color/text_color_black_muchong"
         android:textSize="14sp"
         android:text="檀木林"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <TextView
+        android:background="@android:color/white"
         android:id="@+id/textContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

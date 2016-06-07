@@ -1,7 +1,10 @@
 package com.htlc.muchong.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
@@ -29,10 +32,40 @@ import java.util.ArrayList;
  * Created by sks on 2016/5/24.
  */
 public class ProductListActivity extends BaseActivity {
+    private static final String Small_Class_Id  = "Small_Class_Id";
+    private static final String Small_Class_Name  = "Small_Class_Name";
+
+    public static void goProductListActivity(Context context, String smallClassId, String smallClassName){
+        Intent intent = new Intent(context, ProductListActivity.class);
+        intent.putExtra(Small_Class_Id,smallClassId);
+        intent.putExtra(Small_Class_Name,smallClassName);
+        context.startActivity(intent);
+    }
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+    private ProductPagerAdapter pagerAdapter;
+
     private boolean priceOrderIsDown;
     private boolean salesOrderIsDown;
+    private String smallClassId;
+    private String smallClassName;
+    private String material;
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public String getSmallClassId() {
+        return smallClassId;
+    }
+
+    public boolean isSalesOrderIsDown() {
+        return salesOrderIsDown;
+    }
+
+    public boolean isPriceOrderIsDown() {
+        return priceOrderIsDown;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -41,7 +74,11 @@ public class ProductListActivity extends BaseActivity {
 
     @Override
     protected void setupView() {
-        mTitleTextView.setText("手串");
+        Intent intent = getIntent();
+        smallClassId = intent.getStringExtra(Small_Class_Id);
+        smallClassName = intent.getStringExtra(Small_Class_Name);
+
+        mTitleTextView.setText(smallClassName);
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mViewPager.setOffscreenPageLimit(3);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -52,7 +89,7 @@ public class ProductListActivity extends BaseActivity {
         pageFragments.add(ProductListFragment.newInstance(R.mipmap.icon_product_list_type, getString(R.string.product_list_title_four),ProductListFragment.TYPE_4));
 
 
-        ProductPagerAdapter pagerAdapter = new ProductPagerAdapter(getSupportFragmentManager(), pageFragments);
+        pagerAdapter = new ProductPagerAdapter(getSupportFragmentManager(), pageFragments);
         mViewPager.setAdapter(pagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         for (int i = 0; i < mTabLayout.getTabCount(); i++) {
@@ -101,6 +138,8 @@ public class ProductListActivity extends BaseActivity {
                     priceOrderIsDown = !priceOrderIsDown;
                     textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, priceOrderIsDown ? R.mipmap.icon_order_down : R.mipmap.icon_order_up, 0);
                 }
+                ProductListFragment fragment = (ProductListFragment) pagerAdapter.getItem(position);
+                fragment.initData();
             }
         });
     }

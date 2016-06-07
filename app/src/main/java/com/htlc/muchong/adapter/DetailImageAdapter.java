@@ -1,5 +1,6 @@
 package com.htlc.muchong.adapter;
 
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -7,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.htlc.muchong.R;
+import com.htlc.muchong.util.ImageUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +17,8 @@ import java.util.List;
  * Created by sks on 2016/5/25.
  */
 public class DetailImageAdapter extends BaseAdapter{
-    private List list = new ArrayList<>();
-    public void setData(List list,boolean isAdd){
+    private List<String> list = new ArrayList<>();
+    public void setData(List<String> list,boolean isAdd){
         if(isAdd){
             this.list.addAll(list);
         }else {
@@ -50,6 +52,7 @@ public class DetailImageAdapter extends BaseAdapter{
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
+        ImageUtil.setImageByDefault((ImageView) convertView,R.mipmap.default_first_pai, Uri.parse(list.get(position)));
         return convertView;
     }
     public class ViewHolder{
