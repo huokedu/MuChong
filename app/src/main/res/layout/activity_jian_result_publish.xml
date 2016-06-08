@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_layout"/>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="vertical">
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="40dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioTrue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:checked="true"
+                        android:drawablePadding="10dp"
+                        android:drawableRight="@drawable/jian_result_radio_selector"
+                        android:text="真"
+                        android:textSize="16sp"/>
+
+                    <RadioButton
+                        android:id="@+id/radioFalse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:button="@null"
+                        android:checked="false"
+                        android:drawablePadding="10dp"
+                        android:drawableRight="@drawable/jian_result_radio_selector"
+                        android:text="假"
+                        android:textSize="16sp"/>
+                </RadioGroup>
+
+                <EditText
+                    android:padding="10dp"
+                    android:id="@+id/editContent"
+                    android:gravity="start"
+                    android:textSize="14sp"
+                    android:hint="@string/publish_comment_hint"
+                    android:textColor="@color/text_color_black_muchong"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="40dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/divider_retangle_shape"
+                    android:minLines="5"/>
+            </LinearLayout>
+
+            <Button
+                android:text="@string/commit"
+                android:id="@+id/buttonCommit"
+                android:layout_marginTop="60dp"
+                style="@style/Button"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

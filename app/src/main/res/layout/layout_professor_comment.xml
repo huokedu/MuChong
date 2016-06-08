@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@android:color/white"
     tools:showIn="@layout/activity_jian_detail">
 
     <TextView
@@ -21,7 +22,7 @@
     <View
         android:id="@+id/dividerProfessorComment"
         android:layout_below="@+id/textProfessorCommentTitle"
-        style="@style/DividerHorizontal"/>
+        style="@style/DividerHorizontal.Thin"/>
     <com.htlc.muchong.widget.NoScrollListView
         android:id="@+id/professorCommentListView"
         android:layout_width="match_parent"

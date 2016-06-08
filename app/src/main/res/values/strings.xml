@@ -6,6 +6,8 @@
     <string name="delete">删除</string>
     <string name="select_all">全选</string>
     <string name="commit">提交</string>
+    <string name="like">喜欢</string>
+    <string name="comment">评论</string>
     <string name="login_timeout_tips">登录过期！请重新登录</string>
     <string name="login_no_login_tips">您未登录，是否去登录？</string>
 
@@ -126,6 +128,9 @@
     <string name="setting_logout_tips">您确定要退出吗？</string>
 
     <string name="title_publish">商品发布</string>
+    <string name="title_cang_publish">藏品发布</string>
+    <string name="title_jian_publish">我要鉴定</string>
+    <string name="title_jian_result_publish">鉴定</string>
     <string name="publish_cover_image">封面图片</string>
     <string name="publish_content_image">内容详情图</string>
     <string name="publish_title">标题</string>
@@ -148,6 +153,7 @@
     <string name="publish_material_hint">请输入材质</string>
     <string name="publish_price">价格&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</string>
     <string name="publish_price_hint">请输入价格</string>
+    <string name="publish_comment_hint">请输入评论</string>
 
     <string name="qiang_list_start">%1$s开抢</string>
 

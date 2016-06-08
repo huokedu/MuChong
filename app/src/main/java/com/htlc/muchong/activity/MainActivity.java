@@ -96,14 +96,13 @@ public class MainActivity extends BaseActivity{
                             ToastUtil.showToast(App.app, "Shopping Search");
                         }
                     });
-                    if(App.app.isLogin() && LoginUtil.getUser().user_role.equals("1")){
+                    if(App.app.isLogin() && LoginUtil.getUser().user_role.equals(UserBean.TYPE_MERCHANT)){
                         mTitleLeftTextView.setText(R.string.publish);
                         mTitleLeftTextView.setVisibility(View.VISIBLE);
                         mTitleRightTextView.setVisibility(View.VISIBLE);
                         mTitleLeftTextView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ToastUtil.showToast(App.app, "Shopping Publish Goods");
                                 startActivity(new Intent(MainActivity.this,PublishActivity.class));
                             }
                         });
@@ -111,10 +110,23 @@ public class MainActivity extends BaseActivity{
                     mToolbar.setVisibility(View.VISIBLE);
                 } else if (position == 2) {
                     setStatusBarColor();
+                    mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);
+                    mTitleRightTextView.setText("");
+                    mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(App.app.isLogin()){
+                                startActivity(new Intent(MainActivity.this,CangPublishActivity.class));
+                            }else {
+                                LoginUtil.showLoginTips(MainActivity.this);
+                            }
+
+                        }
+                    });
                     mTitleLeftTextView.setVisibility(View.INVISIBLE);
-                    mTitleRightTextView.setVisibility(View.INVISIBLE);
+                    mTitleRightTextView.setVisibility(View.VISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
-                    imageViewButton.setPressed(true);
+                    imageViewButton.setSelected(true);
                 } else if (position == 3) {
                     setStatusBarColor();
                     mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);
@@ -122,6 +134,11 @@ public class MainActivity extends BaseActivity{
                     mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            if(App.app.isLogin()){
+                                startActivity(new Intent(MainActivity.this,CangPublishActivity.class));
+                            }else {
+                                LoginUtil.showLoginTips(MainActivity.this);
+                            }
                             ToastUtil.showToast(App.app, "论坛 发布");
                         }
                     });
@@ -138,7 +155,7 @@ public class MainActivity extends BaseActivity{
             public void onTabUnselected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 if(position == 2){
-                    imageViewButton.setPressed(false);
+                    imageViewButton.setSelected(false);
                 }
             }
 

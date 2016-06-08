@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@android:color/white"
     tools:showIn="@layout/activity_jian_detail">
 
     <TextView
@@ -20,7 +21,7 @@
 
     <View
         android:id="@+id/dividerResult"
-        style="@style/DividerHorizontal"
+        style="@style/DividerHorizontal.Thin"
         android:layout_below="@+id/textResult"/>
 
     <com.htlc.muchong.widget.NoScrollListView

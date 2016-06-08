@@ -12,9 +12,9 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="165dp"
+        android:layout_height="126dp"
         android:scaleType="fitXY"
-        android:src="@mipmap/defautl_third_grid"/>
+        android:src="@mipmap/default_first_pai"/>
     <ImageView
         android:src="@mipmap/icon_jian_list_flag"
         android:id="@+id/imageFlag"
@@ -27,7 +27,7 @@
     <View
         android:id="@+id/divider"
         android:layout_below="@+id/imageView"
-        style="@style/DividerHorizontal"/>
+        style="@style/DividerHorizontal.Thin"/>
     <ImageView
         android:layout_marginLeft="5dp"
         android:layout_marginTop="-10dp"
@@ -37,6 +37,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"/>
     <TextView
+        android:id="@+id/textName"
         android:layout_marginBottom="5dp"
         android:layout_alignBottom="@+id/imageHead"
         android:layout_marginLeft="10dp"

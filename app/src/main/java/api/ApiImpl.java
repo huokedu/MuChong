@@ -269,4 +269,43 @@ public class ApiImpl implements Api {
         String url = Api.AddPostComment;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }
+
+    @Override
+    public void publishPost(String forum_title, String forum_content, String forum_type, Pair<String, File>[] images, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
+        params.put("forum_title", forum_title);
+        params.put("forum_content", forum_content);
+
+        params.put("forum_type", forum_type);
+        String url = Api.PublishPost;
+        new OkHttpRequest.Builder().url(url).params(params).files(images).upload(callback);
+    }
+
+    @Override
+    public void jianList(String page, String forum_yesorno, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+
+        params.put("page", page);
+        params.put("forum_yesorno", forum_yesorno);
+        String url = Api.JianList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void publishJianResult(String appraisal_forumid, String appraisal_type, String appraisal_content, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
+        params.put("appraisal_forumid", appraisal_forumid);
+        params.put("appraisal_type", appraisal_type);
+        params.put("appraisal_content", appraisal_content);
+        String url = Api.PublishJianResult;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
 }

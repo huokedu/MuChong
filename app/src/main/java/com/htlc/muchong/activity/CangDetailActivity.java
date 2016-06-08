@@ -1,25 +1,28 @@
 package com.htlc.muchong.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
-import com.htlc.muchong.adapter.CommentAdapter;
 import com.htlc.muchong.adapter.DetailImageAdapter;
-import com.htlc.muchong.adapter.JianResultAdapter;
 import com.htlc.muchong.adapter.PostCommentAdapter;
-import com.htlc.muchong.adapter.ProfessorCommentAdapter;
 import com.htlc.muchong.base.BaseActivity;
-import com.htlc.muchong.fragment.FirstFragment;
 import com.htlc.muchong.util.DateFormat;
 import com.htlc.muchong.util.ImageUtil;
+import com.htlc.muchong.util.LoginUtil;
 import com.htlc.muchong.util.PersonUtil;
 import com.htlc.muchong.widget.LoadMoreScrollView;
 import com.larno.util.ToastUtil;
@@ -34,7 +37,7 @@ import model.PostDetailBean;
 /**
  * Created by sks on 2016/5/24.
  */
-public class CangDetailActivity extends BaseActivity {
+public class CangDetailActivity extends BaseActivity implements View.OnClickListener {
     public static final String Post_Id = "Post_Id";
     private ImageView imageHead;
     private TextView textName;
@@ -44,7 +47,14 @@ public class CangDetailActivity extends BaseActivity {
     private TextView textContent;
     private TextView textComment;
     private TextView textCommentMore;
+
     private LoadMoreScrollView scrollView;
+    private RelativeLayout relativeInput;
+    private Button textButton;
+    private EditText editComment;
+    private TextView textCommentButton;
+    private TextView textLikeButton;
+    private LinearLayout linearBottom;
 
     public static void goCangDetailActivity(Context context, String id, int titleId) {
         Intent intent = new Intent(context, CangDetailActivity.class);
@@ -119,6 +129,39 @@ public class CangDetailActivity extends BaseActivity {
         commentAdapter = new PostCommentAdapter();
         mCommentListView.setAdapter(commentAdapter);
 
+        relativeInput = (RelativeLayout) findViewById(R.id.relativeInput);
+        textButton = (Button) findViewById(R.id.textButton);
+        textButton.setText(R.string.cancel);
+        editComment = (EditText) findViewById(R.id.editComment);
+        relativeInput.setVisibility(View.GONE);
+        textButton.setOnClickListener(this);
+        editComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().trim().length() < 1) {
+                    textButton.setText(R.string.cancel);
+                } else {
+                    textButton.setText(R.string.comment);
+                }
+            }
+        });
+
+        linearBottom = (LinearLayout) findViewById(R.id.linearBottom);
+        textCommentButton = (TextView) findViewById(R.id.textCommentButton);
+        textLikeButton = (TextView) findViewById(R.id.textLikeButton);
+        textCommentButton.setOnClickListener(this);
+        textLikeButton.setOnClickListener(this);
+
         initData();
     }
 
@@ -128,12 +171,12 @@ public class CangDetailActivity extends BaseActivity {
         App.app.appAction.postCommentList(postId, page, new BaseActionCallbackListener<List<PostCommentBean>>() {
             @Override
             public void onSuccess(List<PostCommentBean> data) {
-                if(data.size()<AppActionImpl.PAGE_SIZE){
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
                     hasMore = false;
-                }else {
+                } else {
                     hasMore = true;
                 }
-                commentAdapter.setData(data,true);
+                commentAdapter.setData(data, true);
                 page++;
 
                 isLoading = false;
@@ -179,6 +222,72 @@ public class CangDetailActivity extends BaseActivity {
             public void onIllegalState(String errorEvent, String message) {
                 ToastUtil.showToast(App.app, message);
                 isLoading = false;
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.textLikeButton:
+                addLike();
+                break;
+            case R.id.textCommentButton:
+                showInput(true);
+                break;
+            case R.id.textButton:
+                if (textButton.getText().toString().equals(getString(R.string.cancel))) {
+                    showInput(false);
+                } else {
+                    commitComment();
+                }
+                break;
+        }
+    }
+
+    /*提交评论*/
+    private void commitComment() {
+        App.app.appAction.addPostComment(postId, editComment.getText().toString().trim(), new BaseActionCallbackListener<Void>() {
+            @Override
+            public void onSuccess(Void data) {
+                ToastUtil.showToast(App.app, "评论成功");
+                editComment.setText("");
+                initData();
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+            }
+        });
+    }
+
+    /*切换评论输入 与 喜欢的  显示*/
+    private void showInput(boolean flag) {
+        if (flag) {
+            relativeInput.setVisibility(View.VISIBLE);
+            linearBottom.setVisibility(View.GONE);
+        } else {
+            relativeInput.setVisibility(View.GONE);
+            linearBottom.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /*添加喜欢*/
+    private void addLike() {
+        if (!App.app.isLogin()) {
+            LoginUtil.showLoginTips(this);
+            return;
+        }
+        App.app.appAction.addLikePost(postId, new BaseActionCallbackListener<Void>() {
+            @Override
+            public void onSuccess(Void data) {
+                ToastUtil.showToast(App.app, "喜欢成功");
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
             }
         });
     }

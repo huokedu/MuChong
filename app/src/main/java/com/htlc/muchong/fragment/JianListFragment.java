@@ -18,12 +18,18 @@ import com.htlc.muchong.activity.JianDetailActivity;
 import com.htlc.muchong.activity.ProductDetailActivity;
 import com.htlc.muchong.adapter.JianRecyclerViewAdapter;
 import com.htlc.muchong.adapter.QiangRecyclerViewAdapter;
+import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.base.BaseFragment;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
 import java.util.Arrays;
+import java.util.List;
+
+import core.AppActionImpl;
+import model.JianBean;
+import model.PaiGoodsBean;
 
 /**
  * Created by sks on 2016/5/23.
@@ -51,6 +57,7 @@ public class JianListFragment extends BaseFragment {
     private JianRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
+    int page = 1;
 
     @Override
     protected int getLayoutId() {
@@ -112,9 +119,7 @@ public class JianListFragment extends BaseFragment {
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ToastUtil.showToast(App.app,"mRecyclerView "+position);
-                startActivity(new Intent(getActivity(), JianDetailActivity.class));
-
+                JianDetailActivity.goJianDetailActivity(getContext(),adapter.getData().get(position).id,!mType.equals(TYPE_3));
             }
         });
 
@@ -122,15 +127,49 @@ public class JianListFragment extends BaseFragment {
     }
 
     private void loadMoreData() {
-        mPtrFrame.loadMoreComplete(true);
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), true);
-        mPtrFrame.setNoMoreData();
+        App.app.appAction.jianList(page,mType, ((BaseActivity)getActivity()).new BaseActionCallbackListener<List<JianBean>>() {
+            @Override
+            public void onSuccess(List<JianBean> data) {
+                adapter.setData(data, true);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.loadMoreComplete(false);
+                } else {
+                    mPtrFrame.loadMoreComplete(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setFail();
+            }
+        });
     }
 
     @Override
     protected void initData() {
-        mPtrFrame.refreshComplete();
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), false);
-        mPtrFrame.setLoadMoreEnable(true);
+        page = 1;
+        App.app.appAction.jianList(page,mType, ((BaseActivity)getActivity()).new BaseActionCallbackListener<List<JianBean>>() {
+            @Override
+            public void onSuccess(List<JianBean> data) {
+                mPtrFrame.refreshComplete();
+                adapter.setData(data, false);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setLoadMoreEnable(false);
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setLoadMoreEnable(false);
+            }
+        });
     }
 }

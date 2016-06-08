@@ -52,7 +52,7 @@ public class DetailImageAdapter extends BaseAdapter{
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
-        ImageUtil.setImageByDefault((ImageView) convertView,R.mipmap.default_first_pai, Uri.parse(list.get(position)));
+        ImageUtil.setImageByDefault((ImageView) convertView,R.mipmap.default_cang_detail, Uri.parse(list.get(position)));
         return convertView;
     }
     public class ViewHolder{

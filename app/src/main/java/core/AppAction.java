@@ -12,6 +12,7 @@ import model.GoodsCommentBean;
 import model.GoodsDetailBean;
 import model.GoodsTypeBean;
 import model.HomeBean;
+import model.JianBean;
 import model.JiaoGoodsBean;
 import model.PaiGoodsBean;
 import model.PointInTimeBean;
@@ -56,4 +57,8 @@ public interface AppAction {
     void postDetail(String forum_id,ActionCallbackListener<PostDetailBean> listener);
     void postCommentList(String forum_id, int page, ActionCallbackListener<List<PostCommentBean>> listener);
     void addPostComment(String forum_backid, String forum_content, ActionCallbackListener<Void> listener);
+    void addLikePost(String forum_backid, ActionCallbackListener<Void> listener);
+    void publishPostCang(boolean isCangPublish,String forum_title, String forum_content, File coverImageFile, List<File> contentImageFiles,  ActionCallbackListener<Void> listener);
+    void jianList(int page, String forum_yesorno,  ActionCallbackListener<List<JianBean>> listener);
+    void publishJianResult(String appraisal_forumid, boolean isTrue, String appraisal_content,  ActionCallbackListener<Void> listener);
 }

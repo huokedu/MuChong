@@ -11,12 +11,14 @@ import com.htlc.muchong.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.JianResultBean;
+
 /**
  * Created by sks on 2016/5/25.
  */
 public class ProfessorCommentAdapter extends BaseAdapter {
-    private List list = new ArrayList<>();
-    public void setData(List list,boolean isAdd){
+    private List<JianResultBean> list = new ArrayList<>();
+    public void setData(List<JianResultBean> list,boolean isAdd){
         if(isAdd){
             this.list.addAll(list);
         }else {
@@ -46,18 +48,16 @@ public class ProfessorCommentAdapter extends BaseAdapter {
         if(convertView == null){
             holder = new ViewHolder();
             convertView = View.inflate(parent.getContext(), R.layout.adapter_professor_comment,null);
-            holder.textName = (TextView) convertView.findViewById(R.id.textName);
-            holder.textLevel = (TextView) convertView.findViewById(R.id.textLevel);
-            holder.textComment = (TextView) convertView.findViewById(R.id.textComment);
-            holder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
             convertView.setTag(holder);
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
+        JianResultBean bean = list.get(position);
+        TextView textView = (TextView) convertView;
+        textView.setText(bean.userinfo_nickname+":  "+bean.appraisal_content);
         return convertView;
     }
     public class ViewHolder{
-        public TextView textComment,textName,textLevel;
-        public ImageView imageView;
+        public TextView textProfessorComment;
     }
 }

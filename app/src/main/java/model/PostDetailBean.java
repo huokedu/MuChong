@@ -27,6 +27,9 @@ public class PostDetailBean {
 
     /*鉴定真假*/
     public String forum_yesorno;
+    public List<JianResultBean> appraisal;
+
+
 
     /*活动*/
     public String forum_starttime;

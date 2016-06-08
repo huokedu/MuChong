@@ -28,6 +28,7 @@ import model.GoodsCommentBean;
 import model.GoodsDetailBean;
 import model.GoodsTypeBean;
 import model.HomeBean;
+import model.JianBean;
 import model.JiaoGoodsBean;
 import model.PaiGoodsBean;
 import model.PointInTimeBean;
@@ -616,6 +617,102 @@ public class AppActionImpl implements AppAction {
             return;
         }
         api.addPostComment(forum_backid, forum_content, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void addLikePost(String forum_backid, ActionCallbackListener<Void> listener) {
+        api.addLike("",forum_backid,"", new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void publishPostCang(boolean isCangPublish,String forum_title, String forum_content, File coverImageFile, List<File> contentImageFiles, ActionCallbackListener<Void> listener) {
+        if (coverImageFile == null) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "封面图片不能为空");
+            return;
+        }
+        if (contentImageFiles == null || contentImageFiles.size() == 0) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "内容图片不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(forum_title)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "标题不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(forum_content)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "文本内容不能为空");
+            return;
+        }
+        Pair<String, File>[] imageFiles = new Pair[contentImageFiles.size() + 1];
+        imageFiles[0] = new Pair<>("forum_imgs[0]", coverImageFile);
+        for (int i = 0; i < contentImageFiles.size(); i++) {
+            imageFiles[i + 1] = new Pair<>("forum_imgs[" + (i + 1) + "]", contentImageFiles.get(i));
+        }
+        final String TYPE_CANG = "1";
+        final String TYPE_JIAN = "6";
+        String publishType;
+        if(isCangPublish){
+            publishType = TYPE_CANG;
+        }else {
+            publishType = TYPE_JIAN;
+        }
+
+        api.publishPost(forum_title, forum_content, publishType, imageFiles, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void jianList(int page, String forum_yesorno, ActionCallbackListener<List<JianBean>> listener) {
+        api.jianList(String.valueOf(page), forum_yesorno, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<JianBean> bean = JSON.parseArray(model.getString(KEY_DATA), JianBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void publishJianResult(String appraisal_forumid, boolean isTrue, String appraisal_content, ActionCallbackListener<Void> listener) {
+        if (TextUtils.isEmpty(appraisal_content)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "评论内容不能为空");
+            return;
+        }
+        String appraisal_type = isTrue ? "1" : "2";
+        api.publishJianResult(appraisal_forumid, appraisal_type, appraisal_content, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);

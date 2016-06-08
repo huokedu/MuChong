@@ -16,7 +16,7 @@
         android:layout_width="79dp"
         android:layout_height="79dp"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/bg_fragment_fifth_head"
+        android:background="@drawable/bg_fragment_fifth_head_shape"
         android:padding="6dp"
         android:src="@mipmap/default_third_gird_head"/>
     <TextView
