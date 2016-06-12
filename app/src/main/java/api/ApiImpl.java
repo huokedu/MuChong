@@ -308,4 +308,38 @@ public class ApiImpl implements Api {
         String url = Api.PublishJianResult;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }
+
+    @Override
+    public void postList(String user_id, String page, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user_id);
+        params.put("page", page);
+        String url = Api.PostList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void schoolList(String user_id, String page, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user_id);
+        params.put("page", page);
+        String url = Api.SchoolList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void activityList(String page, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("page", page);
+        String url = Api.ActivityList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void personList(String page, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("page", page);
+        String url = Api.PersonList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
 }

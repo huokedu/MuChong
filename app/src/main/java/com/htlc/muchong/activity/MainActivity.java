@@ -39,7 +39,7 @@ public class MainActivity extends BaseActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         imageViewButton = findViewById(R.id.imageViewButton);
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(4);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
         ArrayList<HomeFragment> pageFragments = new ArrayList<>();
         pageFragments.add(HomeFragment.newInstance(FirstFragment.class, getString(R.string.title_fragment_first), R.mipmap.tab_1));
@@ -135,7 +135,7 @@ public class MainActivity extends BaseActivity{
                         @Override
                         public void onClick(View v) {
                             if(App.app.isLogin()){
-                                startActivity(new Intent(MainActivity.this,CangPublishActivity.class));
+                                startActivity(new Intent(MainActivity.this,PostPublishActivity.class));
                             }else {
                                 LoginUtil.showLoginTips(MainActivity.this);
                             }

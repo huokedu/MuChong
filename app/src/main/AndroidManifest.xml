@@ -45,6 +45,8 @@
         <activity android:name=".activity.CangPublishActivity"/>
         <activity android:name=".activity.JianPublishActivity"/>
         <activity android:name=".activity.JianResultPublishActivity"/>
+        <activity android:name=".activity.PostPublishActivity"/>
+        <activity android:name=".activity.PostDetailActivity"/>
     </application>
 
 </manifest>

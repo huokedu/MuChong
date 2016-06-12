@@ -19,6 +19,7 @@ import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.activity.CangDetailActivity;
 import com.htlc.muchong.activity.PersonActivity;
+import com.htlc.muchong.activity.PostDetailActivity;
 import com.htlc.muchong.adapter.FourthFourRecyclerViewAdapter;
 import com.htlc.muchong.adapter.FourthOneRecyclerViewAdapter;
 import com.htlc.muchong.adapter.FourthThreeRecyclerViewAdapter;
@@ -30,6 +31,14 @@ import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
 import java.util.Arrays;
+import java.util.List;
+
+import core.AppActionImpl;
+import model.ActivityBean;
+import model.GoodsCommentBean;
+import model.PersonBean;
+import model.PostBean;
+import model.SchoolBean;
 
 /**
  * Created by sks on 2016/5/20.
@@ -39,6 +48,7 @@ public class FourthChildOneFragment extends HomeFragment {
     private BaseRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
+    private int page = 1;
 
     @Override
     protected int getLayoutId() {
@@ -65,7 +75,7 @@ public class FourthChildOneFragment extends HomeFragment {
             public void run() {
                 mPtrFrame.autoRefresh();
             }
-        }, 200);
+        }, 500);
         mPtrFrame.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void loadMore() {
@@ -79,7 +89,7 @@ public class FourthChildOneFragment extends HomeFragment {
     }
 
     private void initAdapter() {
-        if (mTitle.equals(getString(R.string.fourth_title_fragment_one))) {
+        if (getString(R.string.fourth_title_fragment_one).equals(mTitle)) {
             adapter = new FourthOneRecyclerViewAdapter();
             mAdapter = new RecyclerAdapterWithHF(adapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -94,25 +104,22 @@ public class FourthChildOneFragment extends HomeFragment {
             adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    ToastUtil.showToast(App.app, "mRecyclerView position " + position);
-                    Intent intent = new Intent(getActivity(), CangDetailActivity.class);
-                    intent.putExtra(BaseActivity.ActivityTitleId,R.string.fourth_title_fragment_one);
-                    startActivity(intent);
+                    PostBean bean = (PostBean) adapter.getData().get(position);
+                    PostDetailActivity.goPostDetailActivity(getContext(), bean.id, R.string.detail);
                 }
             });
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_two))) {
+        } else if (getString(R.string.fourth_title_fragment_two).equals(mTitle)) {
             adapter = new FourthTwoRecyclerViewAdapter();
             mAdapter = new RecyclerAdapterWithHF(adapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    ToastUtil.showToast(App.app, "mRecyclerView position " + position);
-                    Intent intent = new Intent(getActivity(), PersonActivity.class);
-                    startActivity(intent);
+                    PersonBean bean = (PersonBean) adapter.getData().get(position);
+                    PersonActivity.goPersonActivity(getContext(), bean.id);
                 }
             });
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_three))) {
+        } else if (getString(R.string.fourth_title_fragment_three).equals(mTitle)) {
             adapter = new FourthThreeRecyclerViewAdapter();
             mAdapter = new RecyclerAdapterWithHF(adapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -127,13 +134,11 @@ public class FourthChildOneFragment extends HomeFragment {
             adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    ToastUtil.showToast(App.app, "mRecyclerView position " + position);
-                    Intent intent = new Intent(getActivity(), CangDetailActivity.class);
-                    intent.putExtra(BaseActivity.ActivityTitleId,R.string.fourth_title_fragment_three);
-                    startActivity(intent);
+                    ActivityBean bean = (ActivityBean) adapter.getData().get(position);
+                    PostDetailActivity.goPostDetailActivity(getContext(), bean.id, R.string.detail);
                 }
             });
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_four))) {
+        } else if (getString(R.string.fourth_title_fragment_four).equals(mTitle)) {
             adapter = new FourthFourRecyclerViewAdapter();
             mAdapter = new RecyclerAdapterWithHF(adapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -148,10 +153,8 @@ public class FourthChildOneFragment extends HomeFragment {
             adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    ToastUtil.showToast(App.app, "mRecyclerView position " + position);
-                    Intent intent = new Intent(getActivity(), CangDetailActivity.class);
-                    intent.putExtra(BaseActivity.ActivityTitleId,R.string.fourth_title_fragment_four);
-                    startActivity(intent);
+                    SchoolBean bean = (SchoolBean) adapter.getData().get(position);
+                    PostDetailActivity.goPostDetailActivity(getContext(), bean.id, R.string.detail);
                 }
             });
         }
@@ -159,75 +162,215 @@ public class FourthChildOneFragment extends HomeFragment {
 
     @Override
     protected void initData() {
-        if (mTitle.equals(getString(R.string.fourth_title_fragment_one))) {
+        if (getString(R.string.fourth_title_fragment_one).equals(mTitle)) {
             initDataOne();
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_two))) {
+        } else if (getString(R.string.fourth_title_fragment_two).equals(mTitle)) {
             initDataTwo();
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_three))) {
+        } else if (getString(R.string.fourth_title_fragment_three).equals(mTitle)) {
             initDataThree();
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_four))) {
+        } else if (getString(R.string.fourth_title_fragment_four).equals(mTitle)) {
             initDataFour();
         }
     }
 
     private void loadMoreData() {
-        if (mTitle.equals(getString(R.string.fourth_title_fragment_one))) {
+        if (getString(R.string.fourth_title_fragment_one).equals(mTitle)) {
             loadMoreDataOne();
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_two))) {
+        } else if (getString(R.string.fourth_title_fragment_two).equals(mTitle)) {
             loadMoreDataTwo();
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_three))) {
+        } else if (getString(R.string.fourth_title_fragment_three).equals(mTitle)) {
             loadMoreDataThree();
-        } else if (mTitle.equals(getString(R.string.fourth_title_fragment_four))) {
+        } else if (getString(R.string.fourth_title_fragment_four).equals(mTitle)) {
             loadMoreDataFour();
         }
     }
 
     private void loadMoreDataFour() {
-        mPtrFrame.loadMoreComplete(true);
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), true);
-        mPtrFrame.setNoMoreData();
+        App.app.appAction.schoolList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<SchoolBean>>() {
+            @Override
+            public void onSuccess(List<SchoolBean> data) {
+                mPtrFrame.loadMoreComplete(true);
+                adapter.setData(data, true);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setNoMoreData();
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setFail();
+            }
+        });
     }
 
     private void loadMoreDataThree() {
-        mPtrFrame.loadMoreComplete(true);
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), true);
-        mPtrFrame.setNoMoreData();
+        App.app.appAction.activityList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<ActivityBean>>() {
+            @Override
+            public void onSuccess(List<ActivityBean> data) {
+                mPtrFrame.loadMoreComplete(true);
+                adapter.setData(data, true);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setNoMoreData();
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setFail();
+            }
+        });
     }
 
     private void loadMoreDataTwo() {
-        mPtrFrame.loadMoreComplete(true);
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), true);
-        mPtrFrame.setNoMoreData();
+        App.app.appAction.personList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<PersonBean>>() {
+            @Override
+            public void onSuccess(List<PersonBean> data) {
+                mPtrFrame.loadMoreComplete(true);
+                adapter.setData(data, true);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setNoMoreData();
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setFail();
+            }
+        });
     }
 
     private void loadMoreDataOne() {
-        mPtrFrame.loadMoreComplete(true);
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), true);
-        mPtrFrame.setNoMoreData();
+        App.app.appAction.postList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<PostBean>>() {
+              @Override
+              public void onSuccess(List<PostBean> data) {
+                  mPtrFrame.loadMoreComplete(true);
+                  adapter.setData(data, true);
+                  if (data.size() < AppActionImpl.PAGE_SIZE) {
+                      mPtrFrame.setNoMoreData();
+                  } else {
+                      mPtrFrame.setLoadMoreEnable(true);
+                  }
+                  page++;
+              }
+
+              @Override
+              public void onIllegalState(String errorEvent, String message) {
+                  ToastUtil.showToast(App.app, message);
+                  mPtrFrame.refreshComplete();
+                  mPtrFrame.setFail();
+              }
+          });
     }
 
 
     private void initDataFour() {
-        mPtrFrame.refreshComplete();
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), false);
-        mPtrFrame.setLoadMoreEnable(true);
+        page = 1;
+        App.app.appAction.schoolList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<SchoolBean>>() {
+            @Override
+            public void onSuccess(List<SchoolBean> data) {
+                mPtrFrame.refreshComplete();
+                adapter.setData(data, false);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setLoadMoreEnable(false);
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setLoadMoreEnable(false);
+            }
+        });
     }
 
     private void initDataThree() {
-        mPtrFrame.refreshComplete();
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), false);
-        mPtrFrame.setLoadMoreEnable(true);
+        page = 1;
+        App.app.appAction.activityList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<ActivityBean>>() {
+            @Override
+            public void onSuccess(List<ActivityBean> data) {
+                mPtrFrame.refreshComplete();
+                adapter.setData(data, false);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setLoadMoreEnable(false);
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setLoadMoreEnable(false);
+            }
+        });
     }
 
     private void initDataTwo() {
-        mPtrFrame.refreshComplete();
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), false);
-        mPtrFrame.setLoadMoreEnable(true);
+        page = 1;
+        App.app.appAction.personList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<PersonBean>>() {
+            @Override
+            public void onSuccess(List<PersonBean> data) {
+                mPtrFrame.refreshComplete();
+                adapter.setData(data, false);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setLoadMoreEnable(false);
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setLoadMoreEnable(false);
+            }
+        });
     }
 
     private void initDataOne() {
-        mPtrFrame.refreshComplete();
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), false);
-        mPtrFrame.setLoadMoreEnable(true);
+        page = 1;
+        App.app.appAction.postList(page, ((BaseActivity)getActivity()).new BaseActionCallbackListener<List<PostBean>>() {
+            @Override
+            public void onSuccess(List<PostBean> data) {
+                mPtrFrame.refreshComplete();
+                adapter.setData(data, false);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setLoadMoreEnable(false);
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setLoadMoreEnable(false);
+            }
+        });
     }
 }

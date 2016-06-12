@@ -39,6 +39,10 @@ public interface Api {
     String PublishPost = Host + "/Home/HomeForum/publishForum";
     String JianList = Host + "/Home/HomeForum/appraisalList";
     String PublishJianResult = Host + "/Home/HomeForum/isAppraisal";
+    String PostList = Host + "/Home/HomeForum/myForum";
+    String SchoolList = Host + "/Home/HomeForum/school";
+    String ActivityList = Host + "/Home/HomeForum/activity";
+    String PersonList = Host + "/Home/HomeForum/collectors";
 
     void smsCode(String mobile, ResultCallback callback);
     void register(String user_account,String Verifycode,String user_pwda,String user_pwdb, ResultCallback callback);
@@ -72,4 +76,8 @@ public interface Api {
     void publishPost(String forum_title, String forum_content,String forum_type, Pair<String,File>[] images,ResultCallback callback);
     void jianList(String page,String forum_yesorno,ResultCallback callback);
     void publishJianResult(String appraisal_forumid,String appraisal_type,String appraisal_content, ResultCallback callback);
+    void postList(String user_id, String page, ResultCallback callback);
+    void schoolList(String user_id, String page, ResultCallback callback);
+    void activityList(String page, ResultCallback callback);
+    void personList(String page, ResultCallback callback);
 }

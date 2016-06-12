@@ -23,7 +23,7 @@ public class FourthFragment extends HomeFragment{
     @Override
     protected void setupView() {
         mViewPager = findViewById(R.id.viewPager);
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(4);
         mTabLayout = findViewById(R.id.tabLayout);
         ArrayList<HomeFragment> pageFragments = new ArrayList<>();
         pageFragments.add(HomeFragment.newInstance(FourthChildOneFragment.class, getString(R.string.fourth_title_fragment_one), 0));

@@ -8,11 +8,12 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="270dp"
         android:scaleType="fitXY"
-        android:src="@mipmap/default_first_jiao"/>
+        android:src="@mipmap/default_cang_detail"/>
 
     <TextView
+        android:id="@+id/textPostTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/imageView"
@@ -39,8 +40,8 @@
         android:textSize="13sp"/>
 
     <TextView
-        android:id="@+id/textHeart"
-        android:layout_toLeftOf="@+id/textEye"
+        android:id="@+id/textLike"
+        android:layout_toLeftOf="@+id/textLook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textTime"
@@ -51,7 +52,7 @@
 
     <TextView
         android:layout_marginLeft="10dp"
-        android:id="@+id/textEye"
+        android:id="@+id/textLook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/textTime"

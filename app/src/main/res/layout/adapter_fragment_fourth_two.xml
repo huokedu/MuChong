@@ -5,7 +5,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <View
-        style="@style/DividerHorizontal"/>
+        style="@style/DividerHorizontal.Thin"/>
     <RelativeLayout
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
@@ -51,6 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/textLike"
                 android:drawablePadding="5dp"
                 android:drawableLeft="@mipmap/icon_fourth_two_heart"
                 android:layout_marginLeft="100dp"
@@ -67,6 +68,5 @@
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-
     </RelativeLayout>
 </LinearLayout>

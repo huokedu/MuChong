@@ -2,11 +2,10 @@ package core;
 
 import android.util.Pair;
 
-import com.larno.util.okhttp.callback.ResultCallback;
-
 import java.io.File;
 import java.util.List;
 
+import model.ActivityBean;
 import model.CangBean;
 import model.GoodsCommentBean;
 import model.GoodsDetailBean;
@@ -15,10 +14,13 @@ import model.HomeBean;
 import model.JianBean;
 import model.JiaoGoodsBean;
 import model.PaiGoodsBean;
+import model.PersonBean;
 import model.PointInTimeBean;
+import model.PostBean;
 import model.PostCommentBean;
 import model.PostDetailBean;
 import model.QiangListBean;
+import model.SchoolBean;
 import model.UserBean;
 import model.UserInfoBean;
 
@@ -61,4 +63,10 @@ public interface AppAction {
     void publishPostCang(boolean isCangPublish,String forum_title, String forum_content, File coverImageFile, List<File> contentImageFiles,  ActionCallbackListener<Void> listener);
     void jianList(int page, String forum_yesorno,  ActionCallbackListener<List<JianBean>> listener);
     void publishJianResult(String appraisal_forumid, boolean isTrue, String appraisal_content,  ActionCallbackListener<Void> listener);
+    void postList(int page, ActionCallbackListener<List<PostBean>> listener);
+    void postListByPersonId(int page, String user_id, ActionCallbackListener<List<PostBean>> listener);
+    void schoolList(int page, ActionCallbackListener<List<SchoolBean>> listener);
+    void schoolListByPersonId(int page, String user_id, ActionCallbackListener<List<SchoolBean>> listener);
+    void activityList(int page, ActionCallbackListener<List<ActivityBean>> listener);
+    void personList(int page, ActionCallbackListener<List<PersonBean>> listener);
 }

@@ -7,6 +7,7 @@ import com.bugtags.library.BugtagsOptions;
 import com.htlc.muchong.util.Constant;
 import com.larno.util.okhttp.Log;
 import com.larno.util.okhttp.OkHttpClientManager;
+import com.squareup.leakcanary.LeakCanary;
 import com.squareup.picasso.Picasso;
 
 import core.AppAction;
@@ -36,6 +37,7 @@ public class App extends Application {
         initHttp();
         initPicasso();
         initBugTags();
+        LeakCanary.install(this);
     }
 
     private void initHttp() {

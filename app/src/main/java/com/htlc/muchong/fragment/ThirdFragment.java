@@ -99,7 +99,6 @@ public class ThirdFragment extends HomeFragment {
         adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ToastUtil.showToast(App.app, "mRecyclerView position " + position);
                 List<CangBean> data = adapter.getData();
                 CangBean bean = data.get(position);
                 CangDetailActivity.goCangDetailActivity(getContext(),bean.id,R.string.title_cang_detail);

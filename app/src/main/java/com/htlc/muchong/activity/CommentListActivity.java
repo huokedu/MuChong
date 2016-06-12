@@ -118,6 +118,7 @@ public class CommentListActivity extends BaseActivity {
             public void onSuccess(Void data) {
                 ToastUtil.showToast(App.app,"评论成功！");
                 editComment.setText("");
+                editComment.clearFocus();
                 initData();
             }
 

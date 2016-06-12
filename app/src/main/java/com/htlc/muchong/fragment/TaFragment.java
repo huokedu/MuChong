@@ -1,7 +1,7 @@
 package com.htlc.muchong.fragment;
 
-import android.content.Intent;
 import android.graphics.Rect;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,17 +17,21 @@ import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.activity.CangDetailActivity;
 import com.htlc.muchong.activity.PersonActivity;
+import com.htlc.muchong.activity.PostDetailActivity;
 import com.htlc.muchong.adapter.FourthFourRecyclerViewAdapter;
 import com.htlc.muchong.adapter.FourthOneRecyclerViewAdapter;
-import com.htlc.muchong.adapter.FourthThreeRecyclerViewAdapter;
-import com.htlc.muchong.adapter.FourthTwoRecyclerViewAdapter;
 import com.htlc.muchong.adapter.ThirdRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
-import java.util.Arrays;
+import java.util.List;
+
+import core.AppActionImpl;
+import model.CangBean;
+import model.PostBean;
+import model.SchoolBean;
 
 /**
  * Created by sks on 2016/5/20.
@@ -37,6 +41,8 @@ public class TaFragment extends HomeFragment {
     private BaseRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
+    private int page;
+    private String personId;
 
     @Override
     protected int getLayoutId() {
@@ -45,6 +51,7 @@ public class TaFragment extends HomeFragment {
 
     @Override
     protected void setupView() {
+        personId = ((PersonActivity)getActivity()).getPersonId();
         mPtrFrame = findViewById(R.id.rotate_header_list_view_frame);
         mPtrFrame.setLastUpdateTimeRelateObject(this);
         mPtrFrame.setPtrHandler(new PtrHandler() {
@@ -93,10 +100,8 @@ public class TaFragment extends HomeFragment {
             adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    ToastUtil.showToast(App.app, "mRecyclerView position " + position);
-                    Intent intent = new Intent(getActivity(), CangDetailActivity.class);
-                    intent.putExtra(BaseActivity.ActivityTitleId, R.string.title_ta_three);
-                    startActivity(intent);
+                    PostBean bean = (PostBean) adapter.getData().get(position);
+                    PostDetailActivity.goPostDetailActivity(getContext(), bean.id, R.string.detail);
                 }
             });
             //他的藏品
@@ -130,10 +135,8 @@ public class TaFragment extends HomeFragment {
             adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    ToastUtil.showToast(App.app, "mRecyclerView position " + position);
-                    Intent intent = new Intent(getActivity(), CangDetailActivity.class);
-                    intent.putExtra(BaseActivity.ActivityTitleId, R.string.title_cang_detail);
-                    startActivity(intent);
+                    CangBean bean = (CangBean) adapter.getData().get(position);
+                    CangDetailActivity.goCangDetailActivity(getContext(), bean.id, R.string.title_cang_detail);
 
                 }
             });
@@ -157,10 +160,8 @@ public class TaFragment extends HomeFragment {
             adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    ToastUtil.showToast(App.app, "mRecyclerView position " + position);
-                    Intent intent = new Intent(getActivity(), CangDetailActivity.class);
-                    intent.putExtra(BaseActivity.ActivityTitleId,R.string.fourth_title_fragment_four);
-                    startActivity(intent);
+                    SchoolBean bean = (SchoolBean) adapter.getData().get(position);
+                    PostDetailActivity.goPostDetailActivity(getContext(), bean.id, R.string.detail);
                 }
             });
         }
@@ -193,40 +194,146 @@ public class TaFragment extends HomeFragment {
 
 
     private void loadMoreDataThree() {
-        mPtrFrame.loadMoreComplete(true);
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), true);
-        mPtrFrame.setNoMoreData();
+        App.app.appAction.postListByPersonId(page, personId, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<PostBean>>() {
+            @Override
+            public void onSuccess(List<PostBean> data) {
+                mPtrFrame.loadMoreComplete(true);
+                adapter.setData(data, true);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setNoMoreData();
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setFail();
+            }
+        });
     }
 
     private void loadMoreDataTwo() {
-        mPtrFrame.loadMoreComplete(true);
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), true);
-        mPtrFrame.setNoMoreData();
+        App.app.appAction.schoolListByPersonId(page,personId, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<SchoolBean>>() {
+            @Override
+            public void onSuccess(List<SchoolBean> data) {
+                mPtrFrame.loadMoreComplete(true);
+                adapter.setData(data, true);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setNoMoreData();
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setFail();
+            }
+        });
     }
 
     private void loadMoreDataOne() {
-        mPtrFrame.loadMoreComplete(true);
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), true);
-        mPtrFrame.setNoMoreData();
+        App.app.appAction.cangList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<CangBean>>() {
+            @Override
+            public void onSuccess(List<CangBean> data) {
+
+                adapter.setData(data, true);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.loadMoreComplete(false);
+                } else {
+                    mPtrFrame.loadMoreComplete(true);
+                }
+                page++;
+            }
+
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setFail();
+            }
+        });
     }
 
 
 
     private void initDataThree() {
-        mPtrFrame.refreshComplete();
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), false);
-        mPtrFrame.setLoadMoreEnable(true);
+        page = 1;
+        App.app.appAction.postListByPersonId(page,personId, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<PostBean>>() {
+            @Override
+            public void onSuccess(List<PostBean> data) {
+                mPtrFrame.refreshComplete();
+                adapter.setData(data, false);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setLoadMoreEnable(false);
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setLoadMoreEnable(false);
+            }
+        });
     }
 
     private void initDataTwo() {
-        mPtrFrame.refreshComplete();
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), false);
-        mPtrFrame.setLoadMoreEnable(true);
+        page = 1;
+        App.app.appAction.schoolListByPersonId(page, personId, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<SchoolBean>>() {
+            @Override
+            public void onSuccess(List<SchoolBean> data) {
+                mPtrFrame.refreshComplete();
+                adapter.setData(data, false);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setLoadMoreEnable(false);
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setLoadMoreEnable(false);
+            }
+        });
     }
 
     private void initDataOne() {
-        mPtrFrame.refreshComplete();
-        adapter.setData(Arrays.asList(SecondFragment.sampleNetworkImageURLs), false);
-        mPtrFrame.setLoadMoreEnable(true);
+        page = 1;
+        App.app.appAction.cangList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<CangBean>>() {
+            @Override
+            public void onSuccess(List<CangBean> data) {
+                mPtrFrame.refreshComplete();
+                adapter.setData(data, false);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setLoadMoreEnable(false);
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setLoadMoreEnable(false);
+            }
+        });
     }
 }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:showIn="@layout/activity_post_detail">
+    <TextView
+        android:background="@android:color/white"
+        android:id="@+id/textPostTitle"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:textColor="@color/text_color_black_muchong"
+        android:textSize="14sp"
+        android:text="檀木林"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:background="@android:color/white"
+        android:id="@+id/textContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:text="人工智能是今年的 Google I/O 的一大主题。在发布会一开始，Google CEO 桑达拉·皮蔡（Sundar Pichai）就强调机器学习在生活中扮演的重要角色。随后，一系列基于 Google 人工智能的产品纷至沓来。OK, Google. 这句耳熟能详的命令，如今承载了 Google 全新的产品——Google Assistant.之所以 Google Assistant 是发布会上首个亮相的产品，是因为后续登场的数个产品都基于这一技术。Google 用将近十年的时间，改善自己的语音识别技术，更强调自然语义和对话式搜索。"
+        android:textSize="12sp"/>
+    <View
+        android:id="@+id/dividerArticle1"
+        style="@style/DividerHorizontal.Thin"/>
+    <com.htlc.muchong.widget.NoScrollListView
+        android:background="@android:color/white"
+        android:id="@+id/imageListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.htlc.muchong.widget.NoScrollListView>
+</LinearLayout>

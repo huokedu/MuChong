@@ -14,13 +14,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/divider_retangle_shape"
-            android:padding="@dimen/divider_width">
+            android:padding="@dimen/divider_width_thin">
 
             <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="142dp"
+                android:layout_height="255dp"
                 android:scaleType="fitXY"
-                android:src="@mipmap/default_first_jiao"/>
+                android:src="@mipmap/default_cang_detail"/>
         </FrameLayout>
 
         <LinearLayout
@@ -31,6 +32,7 @@
             android:paddingTop="20dp">
 
             <TextView
+                android:id="@+id/textPostTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -41,6 +43,7 @@
                 android:textSize="14sp"/>
 
             <TextView
+                android:id="@+id/textTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -49,6 +52,8 @@
         </LinearLayout>
     </LinearLayout>
     <FrameLayout
+        android:id="@+id/frameOver"
+        android:visibility="invisible"
         android:layout_alignRight="@+id/linearLayout"
         android:layout_alignLeft="@+id/linearLayout"
         android:layout_alignTop="@+id/linearLayout"

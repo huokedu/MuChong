@@ -8,6 +8,7 @@
     <string name="commit">提交</string>
     <string name="like">喜欢</string>
     <string name="comment">评论</string>
+    <string name="detail">详情</string>
     <string name="login_timeout_tips">登录过期！请重新登录</string>
     <string name="login_no_login_tips">您未登录，是否去登录？</string>
 
@@ -131,6 +132,7 @@
     <string name="title_cang_publish">藏品发布</string>
     <string name="title_jian_publish">我要鉴定</string>
     <string name="title_jian_result_publish">鉴定</string>
+    <string name="title_post_publish">发帖</string>
     <string name="publish_cover_image">封面图片</string>
     <string name="publish_content_image">内容详情图</string>
     <string name="publish_title">标题</string>

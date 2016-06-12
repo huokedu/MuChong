@@ -220,6 +220,7 @@
         <!--<item name="android:layout_width">112dp</item>-->
         <item name="android:layout_height">84dp</item>
         <item name="android:scaleType">fitXY</item>
+        <item name="android:visibility">invisible</item>
         <item name="android:src">@mipmap/default_first_qiang</item>
     </style>
     <!--抢购的一个商品文本Linear-->

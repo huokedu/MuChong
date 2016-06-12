@@ -6,10 +6,10 @@
               android:orientation="vertical">
 
     <View
-        style="@style/DividerHorizontal"/>
+        style="@style/DividerHorizontal.Thin"/>
     <include layout="@layout/layout_owner"/>
     <View
-        style="@style/DividerHorizontal"/>
+        style="@style/DividerHorizontal.Thin"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             style="@style/ThirdChildOneImage"/>
     </LinearLayout>
     <View
-        style="@style/DividerHorizontal"/>
+        style="@style/DividerHorizontal.Thin"/>
     <LinearLayout
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
@@ -39,12 +39,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/textPostTitle"
             android:textSize="14sp"
             android:text="小小世界"
             android:textColor="@color/text_color_black_muchong"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/textDescription"
             android:textSize="12sp"
             android:minLines="4"
             android:maxLines="4"
@@ -54,6 +56,6 @@
             android:layout_height="wrap_content"/>
     </LinearLayout>
     <View
-        style="@style/DividerHorizontal"/>
+        style="@style/DividerHorizontal.Thin"/>
 
 </LinearLayout>

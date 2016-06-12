@@ -23,6 +23,7 @@ import java.util.Set;
 
 import api.Api;
 import api.ApiImpl;
+import model.ActivityBean;
 import model.CangBean;
 import model.GoodsCommentBean;
 import model.GoodsDetailBean;
@@ -31,10 +32,13 @@ import model.HomeBean;
 import model.JianBean;
 import model.JiaoGoodsBean;
 import model.PaiGoodsBean;
+import model.PersonBean;
 import model.PointInTimeBean;
+import model.PostBean;
 import model.PostCommentBean;
 import model.PostDetailBean;
 import model.QiangListBean;
+import model.SchoolBean;
 import model.UserBean;
 import model.UserInfoBean;
 import okhttp3.Request;
@@ -718,6 +722,80 @@ public class AppActionImpl implements AppAction {
                 JSONObject model = JSON.parseObject(response);
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void postList(int page, ActionCallbackListener<List<PostBean>> listener) {
+        postListByPersonId(page,"",listener);
+    }
+
+    @Override
+    public void postListByPersonId(int page, String user_id, ActionCallbackListener<List<PostBean>> listener) {
+        api.postList(user_id, String.valueOf(page), new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<PostBean> bean = JSON.parseArray(model.getString(KEY_DATA), PostBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void schoolList(int page, ActionCallbackListener<List<SchoolBean>> listener) {
+        schoolListByPersonId(page, "", listener);
+    }
+
+    @Override
+    public void schoolListByPersonId(int page, String user_id, ActionCallbackListener<List<SchoolBean>> listener) {
+        api.schoolList(user_id, String.valueOf(page), new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<SchoolBean> bean = JSON.parseArray(model.getString(KEY_DATA), SchoolBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void activityList(int page, ActionCallbackListener<List<ActivityBean>> listener) {
+        api.activityList(String.valueOf(page), new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<ActivityBean> bean = JSON.parseArray(model.getString(KEY_DATA), ActivityBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void personList(int page, ActionCallbackListener<List<PersonBean>> listener) {
+        api.personList(String.valueOf(page), new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<PersonBean> bean = JSON.parseArray(model.getString(KEY_DATA), PersonBean.class);
+                    listener.onSuccess(bean);
                 } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }

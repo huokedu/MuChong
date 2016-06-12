@@ -149,8 +149,7 @@ public class ProductListFragment extends BaseFragment {
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ToastUtil.showToast(App.app, "mRecyclerView " + position);
-                startActivity(new Intent(getActivity(), ProductDetailActivity.class));
+                ProductDetailActivity.goProductActivity(getContext(),adapter.getData().get(position).id);
 
             }
         });
