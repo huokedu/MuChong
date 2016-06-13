@@ -6,6 +6,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
-        android:src="@drawable/banner_indicator_point">
+        android:src="@drawable/banner_indicator_point_selector">
     </ImageView>
 </merge>

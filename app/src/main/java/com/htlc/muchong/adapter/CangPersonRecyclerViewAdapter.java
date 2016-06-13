@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.htlc.muchong.R;
@@ -18,7 +17,7 @@ import model.JianBean;
 /**
  * Created by sks on 2016/5/20.
  */
-public class JianRecyclerViewAdapter extends BaseRecyclerViewAdapter<JianBean> {
+public class CangPersonRecyclerViewAdapter extends BaseRecyclerViewAdapter<JianBean> {
 
 
     @Override
@@ -39,7 +38,7 @@ public class JianRecyclerViewAdapter extends BaseRecyclerViewAdapter<JianBean> {
         viewHolder.textLook.setText(bean.forum_looknum);
         PersonUtil.setPersonLevel(viewHolder.textLevel, bean.userinfo_grade);
         ImageUtil.setImageByDefault(viewHolder.imageView, R.mipmap.default_first_pai, Uri.parse(bean.forum_coverimg));
-        ImageUtil.setCircleImageByDefault(viewHolder.imageHead,R.mipmap.default_third_gird_head,Uri.parse(bean.userinfo_headportrait));
+        ImageUtil.setCircleImageByDefault(viewHolder.imageHead, R.mipmap.default_third_gird_head, Uri.parse(bean.userinfo_headportrait));
 
     }
 

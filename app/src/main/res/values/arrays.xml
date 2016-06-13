@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="like_type_array">
+        <item>商品</item>
         <item>藏品</item>
         <item>学堂</item>
         <item>鉴定</item>
         <item>藏家</item>
-        <item>商品</item>
     </string-array>
 </resources>

@@ -1,10 +1,12 @@
 package com.htlc.muchong.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 
 import model.UserBean;
 
-public class MainActivity extends BaseActivity{
+public class MainActivity extends BaseActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private View imageViewButton;
@@ -57,7 +59,7 @@ public class MainActivity extends BaseActivity{
             if (tab != null) {
                 tab.setTag(pageFragments.get(i));
                 tab.setCustomView(pageFragments.get(i).getTabView(this));
-                if(i==2){
+                if (i == 2) {
                     tab.getCustomView().setBackgroundResource(R.mipmap.bg_tab_layout);
                 }
             }
@@ -80,7 +82,7 @@ public class MainActivity extends BaseActivity{
                     mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ToastUtil.showToast(App.app,"Home Search");
+                            ToastUtil.showToast(App.app, "Home Search");
                         }
                     });
                     mTitleLeftTextView.setVisibility(View.INVISIBLE);
@@ -96,14 +98,14 @@ public class MainActivity extends BaseActivity{
                             ToastUtil.showToast(App.app, "Shopping Search");
                         }
                     });
-                    if(App.app.isLogin() && LoginUtil.getUser().user_role.equals(UserBean.TYPE_MERCHANT)){
+                    if (App.app.isLogin() && LoginUtil.getUser().user_role.equals(UserBean.TYPE_MERCHANT)) {
                         mTitleLeftTextView.setText(R.string.publish);
                         mTitleLeftTextView.setVisibility(View.VISIBLE);
                         mTitleRightTextView.setVisibility(View.VISIBLE);
                         mTitleLeftTextView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                startActivity(new Intent(MainActivity.this,PublishActivity.class));
+                                startActivity(new Intent(MainActivity.this, PublishActivity.class));
                             }
                         });
                     }
@@ -115,9 +117,9 @@ public class MainActivity extends BaseActivity{
                     mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(App.app.isLogin()){
-                                startActivity(new Intent(MainActivity.this,CangPublishActivity.class));
-                            }else {
+                            if (App.app.isLogin()) {
+                                startActivity(new Intent(MainActivity.this, CangPublishActivity.class));
+                            } else {
                                 LoginUtil.showLoginTips(MainActivity.this);
                             }
 
@@ -134,9 +136,9 @@ public class MainActivity extends BaseActivity{
                     mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(App.app.isLogin()){
-                                startActivity(new Intent(MainActivity.this,PostPublishActivity.class));
-                            }else {
+                            if (App.app.isLogin()) {
+                                startActivity(new Intent(MainActivity.this, PostPublishActivity.class));
+                            } else {
                                 LoginUtil.showLoginTips(MainActivity.this);
                             }
                             ToastUtil.showToast(App.app, "论坛 发布");
@@ -146,7 +148,7 @@ public class MainActivity extends BaseActivity{
                     mTitleRightTextView.setVisibility(View.VISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
                 } else if (position == 4) {
-                    setStatusBarColor(R.mipmap.bg_fragment_fifth_header);
+                    setStatusBarColor(R.mipmap.bg_status_bar);
                     mToolbar.setVisibility(View.GONE);
                 }
             }
@@ -154,7 +156,7 @@ public class MainActivity extends BaseActivity{
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
-                if(position == 2){
+                if (position == 2) {
                     imageViewButton.setSelected(false);
                 }
             }
@@ -169,7 +171,7 @@ public class MainActivity extends BaseActivity{
     @Override
     protected void initData() {
         UserBean user = LoginUtil.getUser();
-        if(!TextUtils.isEmpty(user.user_token)){
+        if (!TextUtils.isEmpty(user.user_token)) {
             App.app.setIsLogin(true);
         }
     }

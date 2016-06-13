@@ -66,7 +66,7 @@ public class JianListFragment extends BaseFragment {
     @Override
     protected void setupView() {
         mPtrFrame = findViewById(R.id.rotate_header_list_view_frame);
-        mPtrFrame.setLastUpdateTimeRelateObject(this);
+       mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {

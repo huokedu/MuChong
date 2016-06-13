@@ -34,7 +34,7 @@ public class FourthTwoRecyclerViewAdapter extends com.htlc.muchong.base.BaseRecy
         viewHolder.textLike.setText(bean.userinfo_likenum);
         viewHolder.textOrder.setText(String.valueOf(position+1));
         PersonUtil.setPersonLevel(viewHolder.textLevel, bean.userinfo_grade);
-        ImageUtil.setImageByDefault(viewHolder.imageHead,R.mipmap.default_fourth_two_head, Uri.parse(bean.userinfo_headportrait));
+        ImageUtil.setCircleImageByDefault(viewHolder.imageHead,R.mipmap.default_fourth_two_head, Uri.parse(bean.userinfo_headportrait));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -2,10 +2,16 @@ package com.htlc.muchong.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
+import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.adapter.HomePagerAdapter;
 import com.htlc.muchong.base.BaseActivity;
@@ -14,13 +20,20 @@ import com.htlc.muchong.fragment.FourthChildOneFragment;
 import com.htlc.muchong.fragment.HomeFragment;
 import com.htlc.muchong.fragment.TaFragment;
 import com.htlc.muchong.fragment.ThirdFragment;
+import com.htlc.muchong.util.CircleTransform;
+import com.htlc.muchong.util.ImageUtil;
+import com.htlc.muchong.util.LoginUtil;
+import com.larno.util.ToastUtil;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import model.PersonInfoBean;
 
 /**
  * Created by sks on 2016/5/16.
  */
-public class PersonActivity extends BaseActivity {
+public class PersonActivity extends BaseActivity implements View.OnClickListener {
     public static final String Person_Id = "Person_Id";
     public static void goPersonActivity(Context context, String personId){
         Intent intent = new Intent(context, PersonActivity.class);
@@ -31,6 +44,12 @@ public class PersonActivity extends BaseActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private TabLayout.Tab mLastSelectTab;
+
+    private TextView textFollow;
+    private TextView textName;
+    private TextView textFans;
+    private RatingBar ratingBarLevel;
+    private ImageView imageHead;
 
     private String personId;
 
@@ -47,8 +66,17 @@ public class PersonActivity extends BaseActivity {
     protected void setupView() {
         personId = getIntent().getStringExtra(Person_Id);
 
-        setStatusBarColor(R.mipmap.bg_fragment_fifth_header);
+        setStatusBarColor(R.mipmap.bg_status_bar);
         mToolbar.setBackgroundResource(0);
+
+        textFollow = (TextView)findViewById(R.id.textFollow);
+        textFollow.setOnClickListener(this);
+        textName = (TextView)findViewById(R.id.textName);
+        textFans = (TextView)findViewById(R.id.textFans);
+        ratingBarLevel = (RatingBar)findViewById(R.id.ratingBarLevel);
+        imageHead = (ImageView)findViewById(R.id.imageHead);
+
+
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mViewPager.setOffscreenPageLimit(3);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -69,7 +97,7 @@ public class PersonActivity extends BaseActivity {
                 int position = tab.getPosition();
                 if (position == 3) {
                     mLastSelectTab.select();
-                    startActivity(new Intent(PersonActivity.this,TaLikeActivity.class));
+                    TaLikeActivity.goTaLikeActivity(PersonActivity.this, personId);
                 } else {
                     mViewPager.setCurrentItem(tab.getPosition(), false);
                     mLastSelectTab = tab;
@@ -84,13 +112,50 @@ public class PersonActivity extends BaseActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+
+        initData();
     }
 
 
     @Override
     protected void initData() {
+        App.app.appAction.getPersonInfo(personId, new BaseActionCallbackListener<PersonInfoBean>() {
+            @Override
+            public void onSuccess(PersonInfoBean data) {
+                textFans.setText("粉丝  " + data.userinfo_likenum);
+                ImageUtil.setCircleImageByDefault(imageHead, R.mipmap.default_fourth_two_head, Uri.parse(data.userinfo_headportrait));
+                textName.setText(data.userinfo_nickname);
+                ratingBarLevel.setRating(Float.parseFloat(data.userinfo_grade));
+            }
 
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+            }
+        });
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.textFollow:
+                addLike();
+                break;
+        }
+    }
+
+    private void addLike() {
+        App.app.appAction.addLikePerson(personId, new BaseActionCallbackListener<Void>() {
+            @Override
+            public void onSuccess(Void data) {
+                ToastUtil.showToast(App.app, "喜欢成功！");
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+            }
+        });
+    }
 }

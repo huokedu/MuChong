@@ -342,4 +342,31 @@ public class ApiImpl implements Api {
         String url = Api.PersonList;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }
+
+    @Override
+    public void cangListByPersonId(String page, String user_id, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("page", page);
+        params.put("user_id", user_id);
+        String url = Api.CangListByPersonId;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void getPersonInfo(String id, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("id", id);
+        String url = Api.GetPersonInfo;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void likeListByType(String page, String id, String type, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("page", page);
+        params.put("id", id);
+        params.put("type", type);
+        String url = Api.LikeListByType;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
 }

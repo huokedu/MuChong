@@ -43,6 +43,9 @@ public interface Api {
     String SchoolList = Host + "/Home/HomeForum/school";
     String ActivityList = Host + "/Home/HomeForum/activity";
     String PersonList = Host + "/Home/HomeForum/collectors";
+    String CangListByPersonId = Host + "/Home/HomeForum/mycollection";
+    String GetPersonInfo = Host + "/Home/HomeForum/collectorinfo";
+    String LikeListByType = Host + "/Home/HomeForum/likes";
 
     void smsCode(String mobile, ResultCallback callback);
     void register(String user_account,String Verifycode,String user_pwda,String user_pwdb, ResultCallback callback);
@@ -80,4 +83,7 @@ public interface Api {
     void schoolList(String user_id, String page, ResultCallback callback);
     void activityList(String page, ResultCallback callback);
     void personList(String page, ResultCallback callback);
+    void cangListByPersonId(String page, String user_id,  ResultCallback callback);
+    void getPersonInfo(String id,  ResultCallback callback);
+    void likeListByType(String page, String id, String type, ResultCallback callback);
 }

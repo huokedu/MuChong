@@ -8,6 +8,7 @@ public class JianBean {
     public String forum_coverimg;
     public String forum_likenum;
     public String forum_looknum;
+    public String forum_yesorno;
 
     public String userinfo_nickname;
     public String userinfo_grade;

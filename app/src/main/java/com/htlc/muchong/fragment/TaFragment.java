@@ -18,6 +18,7 @@ import com.htlc.muchong.R;
 import com.htlc.muchong.activity.CangDetailActivity;
 import com.htlc.muchong.activity.PersonActivity;
 import com.htlc.muchong.activity.PostDetailActivity;
+import com.htlc.muchong.adapter.CangPersonRecyclerViewAdapter;
 import com.htlc.muchong.adapter.FourthFourRecyclerViewAdapter;
 import com.htlc.muchong.adapter.FourthOneRecyclerViewAdapter;
 import com.htlc.muchong.adapter.ThirdRecyclerViewAdapter;
@@ -30,6 +31,7 @@ import java.util.List;
 
 import core.AppActionImpl;
 import model.CangBean;
+import model.JianBean;
 import model.PostBean;
 import model.SchoolBean;
 
@@ -53,7 +55,7 @@ public class TaFragment extends HomeFragment {
     protected void setupView() {
         personId = ((PersonActivity)getActivity()).getPersonId();
         mPtrFrame = findViewById(R.id.rotate_header_list_view_frame);
-        mPtrFrame.setLastUpdateTimeRelateObject(this);
+       mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -106,8 +108,7 @@ public class TaFragment extends HomeFragment {
             });
             //他的藏品
         } else if (mTitle.equals(getString(R.string.title_ta_one))) {
-            mRecyclerView = findViewById(R.id.recyclerView);
-            adapter = new ThirdRecyclerViewAdapter();
+            adapter = new CangPersonRecyclerViewAdapter();
             mAdapter = new RecyclerAdapterWithHF(adapter);
             mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2) {
             });
@@ -135,7 +136,7 @@ public class TaFragment extends HomeFragment {
             adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    CangBean bean = (CangBean) adapter.getData().get(position);
+                    JianBean  bean = (JianBean) adapter.getData().get(position);
                     CangDetailActivity.goCangDetailActivity(getContext(), bean.id, R.string.title_cang_detail);
 
                 }
@@ -240,9 +241,9 @@ public class TaFragment extends HomeFragment {
     }
 
     private void loadMoreDataOne() {
-        App.app.appAction.cangList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<CangBean>>() {
+        App.app.appAction.cangListByPersonId(page, personId,((BaseActivity) getActivity()).new BaseActionCallbackListener<List<JianBean>>() {
             @Override
-            public void onSuccess(List<CangBean> data) {
+            public void onSuccess(List<JianBean> data) {
 
                 adapter.setData(data, true);
                 if (data.size() < AppActionImpl.PAGE_SIZE) {
@@ -315,25 +316,25 @@ public class TaFragment extends HomeFragment {
 
     private void initDataOne() {
         page = 1;
-        App.app.appAction.cangList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<CangBean>>() {
-            @Override
-            public void onSuccess(List<CangBean> data) {
-                mPtrFrame.refreshComplete();
-                adapter.setData(data, false);
-                if (data.size() < AppActionImpl.PAGE_SIZE) {
-                    mPtrFrame.setLoadMoreEnable(false);
-                } else {
-                    mPtrFrame.setLoadMoreEnable(true);
-                }
-                page++;
-            }
+        App.app.appAction.cangListByPersonId(page, personId, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<JianBean>>() {
+              @Override
+              public void onSuccess(List<JianBean> data) {
+                  mPtrFrame.refreshComplete();
+                  adapter.setData(data, false);
+                  if (data.size() < AppActionImpl.PAGE_SIZE) {
+                      mPtrFrame.setLoadMoreEnable(false);
+                  } else {
+                      mPtrFrame.setLoadMoreEnable(true);
+                  }
+                  page++;
+              }
 
-            @Override
-            public void onIllegalState(String errorEvent, String message) {
-                ToastUtil.showToast(App.app, message);
-                mPtrFrame.refreshComplete();
-                mPtrFrame.setLoadMoreEnable(false);
-            }
-        });
+              @Override
+              public void onIllegalState(String errorEvent, String message) {
+                  ToastUtil.showToast(App.app, message);
+                  mPtrFrame.refreshComplete();
+                  mPtrFrame.setLoadMoreEnable(false);
+              }
+          });
     }
 }

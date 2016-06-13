@@ -16,6 +16,7 @@
         android:scaleType="fitXY"
         android:src="@mipmap/default_first_pai"/>
     <ImageView
+        android:visibility="invisible"
         android:src="@mipmap/icon_jian_list_flag"
         android:id="@+id/imageFlag"
         android:layout_alignLeft="@id/imageView"

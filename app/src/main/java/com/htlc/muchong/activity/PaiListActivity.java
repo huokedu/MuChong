@@ -50,7 +50,7 @@ public class PaiListActivity extends BaseActivity {
     protected void setupView() {
         mTitleTextView.setText(R.string.first_header_pai);
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
-        mPtrFrame.setLastUpdateTimeRelateObject(this);
+       mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {

@@ -25,6 +25,7 @@ import api.Api;
 import api.ApiImpl;
 import model.ActivityBean;
 import model.CangBean;
+import model.GoodsBean;
 import model.GoodsCommentBean;
 import model.GoodsDetailBean;
 import model.GoodsTypeBean;
@@ -33,6 +34,7 @@ import model.JianBean;
 import model.JiaoGoodsBean;
 import model.PaiGoodsBean;
 import model.PersonBean;
+import model.PersonInfoBean;
 import model.PointInTimeBean;
 import model.PostBean;
 import model.PostCommentBean;
@@ -407,7 +409,7 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void goodsCommentList(String commodity_id,int page, ActionCallbackListener<List<GoodsCommentBean>> listener) {
-        api.goodsCommentList(commodity_id,String.valueOf(page), new DefaultResultCallback(listener) {
+        api.goodsCommentList(commodity_id, String.valueOf(page), new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
@@ -450,7 +452,7 @@ public class AppActionImpl implements AppAction {
                     JSONObject data = JSON.parseObject(model.getString(KEY_DATA));
                     Set<String> keySet = data.keySet();
                     List<Pair<String, String>> list = new ArrayList<>();
-                    for(String key : keySet){
+                    for (String key : keySet) {
                         String value = data.getString(key);
                         Pair<String, String> pair = new Pair<>(key, value);
                         list.add(pair);
@@ -635,7 +637,7 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void addLikePost(String forum_backid, ActionCallbackListener<Void> listener) {
-        api.addLike("",forum_backid,"", new DefaultResultCallback(listener) {
+        api.addLike("", forum_backid, "", new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
@@ -731,7 +733,7 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void postList(int page, ActionCallbackListener<List<PostBean>> listener) {
-        postListByPersonId(page,"",listener);
+        postListByPersonId(page, "", listener);
     }
 
     @Override
@@ -802,4 +804,132 @@ public class AppActionImpl implements AppAction {
             }
         });
     }
+
+    @Override
+    public void cangListByPersonId(int page, String user_id, ActionCallbackListener<List<JianBean>> listener) {
+        api.cangListByPersonId(String.valueOf(page), user_id, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<JianBean> bean = JSON.parseArray(model.getString(KEY_DATA), JianBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void addLikePerson(String user, ActionCallbackListener<Void> listener) {
+        api.addLike("", "", user, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getPersonInfo(String id, ActionCallbackListener<PersonInfoBean> listener) {
+        api.getPersonInfo(id, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    PersonInfoBean bean = JSON.parseObject(model.getString(KEY_DATA), PersonInfoBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void likeListByTypeOfProduct(int page, String id, ActionCallbackListener<List<GoodsBean>> listener) {
+        api.likeListByType(String.valueOf(page), id, "1", new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<GoodsBean> bean = JSON.parseArray(model.getString(KEY_DATA), GoodsBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void likeListByTypeOfCang(int page, String id, ActionCallbackListener<List<JianBean>> listener) {
+        api.likeListByType(String.valueOf(page), id, "2", new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<JianBean> bean = JSON.parseArray(model.getString(KEY_DATA), JianBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void likeListByTypeOfSchool(int page, String id, ActionCallbackListener<List<SchoolBean>> listener) {
+        api.likeListByType(String.valueOf(page), id, "3", new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<SchoolBean> bean = JSON.parseArray(model.getString(KEY_DATA), SchoolBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void likeListByTypeOfJian(int page, String id, ActionCallbackListener<List<JianBean>> listener) {
+        api.likeListByType(String.valueOf(page), id, "4", new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<JianBean> bean = JSON.parseArray(model.getString(KEY_DATA), JianBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void likeListByTypeOfPerson(int page, String id, ActionCallbackListener<List<PersonBean>> listener) {
+        api.likeListByType(String.valueOf(page), id, "5", new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<PersonBean> bean = JSON.parseArray(model.getString(KEY_DATA), PersonBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
 }

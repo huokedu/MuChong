@@ -7,6 +7,7 @@ import java.util.List;
 
 import model.ActivityBean;
 import model.CangBean;
+import model.GoodsBean;
 import model.GoodsCommentBean;
 import model.GoodsDetailBean;
 import model.GoodsTypeBean;
@@ -15,6 +16,7 @@ import model.JianBean;
 import model.JiaoGoodsBean;
 import model.PaiGoodsBean;
 import model.PersonBean;
+import model.PersonInfoBean;
 import model.PointInTimeBean;
 import model.PostBean;
 import model.PostCommentBean;
@@ -69,4 +71,12 @@ public interface AppAction {
     void schoolListByPersonId(int page, String user_id, ActionCallbackListener<List<SchoolBean>> listener);
     void activityList(int page, ActionCallbackListener<List<ActivityBean>> listener);
     void personList(int page, ActionCallbackListener<List<PersonBean>> listener);
+    void cangListByPersonId(int page, String user_id,  ActionCallbackListener<List<JianBean>> listener);
+    void addLikePerson(String user, ActionCallbackListener<Void> listener);
+    void getPersonInfo(String id, ActionCallbackListener<PersonInfoBean> listener);
+    void likeListByTypeOfProduct(int page, String id, ActionCallbackListener<List<GoodsBean>> listener);
+    void likeListByTypeOfCang(int page, String id, ActionCallbackListener<List<JianBean>> listener);
+    void likeListByTypeOfSchool(int page, String id, ActionCallbackListener<List<SchoolBean>> listener);
+    void likeListByTypeOfJian(int page, String id, ActionCallbackListener<List<JianBean>> listener);
+    void likeListByTypeOfPerson(int page, String id, ActionCallbackListener<List<PersonBean>> listener);
 }

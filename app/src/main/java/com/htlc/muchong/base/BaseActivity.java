@@ -132,9 +132,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         setTranslucentStatus();
         SystemBarTintManager tintManager = new SystemBarTintManager(BaseActivity.this);
         tintManager.setStatusBarTintEnabled(true);
-        tintManager.setStatusBarTintResource(R.color.statusBar);//通知栏所需颜色
-//        tintManager.setStatusBarTintResource(android.R.color.transparent);//通知栏所需颜色
-//        tintManager.setStatusBarTintColor(0xd79060);
+        tintManager.setStatusBarTintResource(imageId);//通知栏所需颜色
+        tintManager.setStatusBarTintResource(android.R.color.background_dark);//通知栏所需颜色
+//        tintManager.setStatusBarTintResource(R.color.statusBar);//通知栏所需颜色
     }
 
     @TargetApi(19)

@@ -62,7 +62,7 @@ public class CommentListActivity extends BaseActivity {
 
         mTitleTextView.setText(R.string.title_comment_list);
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
-        mPtrFrame.setLastUpdateTimeRelateObject(this);
+       mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {

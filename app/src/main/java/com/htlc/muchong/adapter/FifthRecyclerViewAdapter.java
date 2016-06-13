@@ -18,6 +18,7 @@ import com.htlc.muchong.R;
 import com.htlc.muchong.activity.LoginActivity;
 import com.htlc.muchong.activity.UserActivity;
 import com.htlc.muchong.util.CircleTransform;
+import com.htlc.muchong.util.ImageUtil;
 import com.htlc.muchong.util.LoginUtil;
 import com.squareup.picasso.Picasso;
 
@@ -109,7 +110,7 @@ public class FifthRecyclerViewAdapter extends RecyclerView.Adapter {
         } else if (holder.getItemViewType() == TYPE_HEAD) {
             HeadViewHolder tempHolder = (HeadViewHolder) holder;
             if(userInfoBean!=null){
-                Picasso.with(tempHolder.imageHead.getContext()).load(Uri.parse(userInfoBean.userinfo_headportrait)).transform(new CircleTransform()).error(R.mipmap.default_fourth_two_head).into(tempHolder.imageHead);
+                ImageUtil.setCircleImageByDefault(tempHolder.imageHead, R.mipmap.default_fourth_two_head, Uri.parse(userInfoBean.userinfo_headportrait));
                 tempHolder.textName.setText(TextUtils.isEmpty(userInfoBean.userinfo_nickname)? LoginUtil.getUser().user_account : userInfoBean.userinfo_nickname);
                 tempHolder.textFans.setText("粉丝  "+userInfoBean.userinfo_likenum);
                 tempHolder.ratingBarLevel.setRating(Float.parseFloat(userInfoBean.userinfo_grade));
