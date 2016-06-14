@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.htlc.muchong.R;
 import com.htlc.muchong.util.CircleTransform;
+import com.htlc.muchong.util.ImageUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class SecondAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         GoodsTypeBean goodsTypeBean = mList.get(position);
-        Picasso.with(parent.getContext()).load(Uri.parse(goodsTypeBean.id)).placeholder(R.mipmap.default_second_grid).error(R.mipmap.default_second_grid).into(holder.imageView);
+        ImageUtil.setCircleImageByDefault(holder.imageView,R.mipmap.default_second_grid, Uri.parse(goodsTypeBean.constant_img));
         holder.textView.setText(goodsTypeBean.constant_name);
         return convertView;
     }

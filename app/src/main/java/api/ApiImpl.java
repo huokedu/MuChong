@@ -233,6 +233,69 @@ public class ApiImpl implements Api {
     }
 
     @Override
+    public void buyNow(String commodity_id, String num, String address_id, ResultCallback callback) {
+        UserBean bean = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", bean.id);
+        params.put("user_token", bean.user_token);
+
+        params.put("commodity_id", commodity_id);
+        params.put("num", num);
+        params.put("address_id", address_id);
+        String url = Api.BuyNow;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void buyByShoppingCart(String shopcar, String address_id, ResultCallback callback) {
+        UserBean bean = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", bean.id);
+        params.put("user_token", bean.user_token);
+
+        params.put("shopcar", shopcar);
+        params.put("address_id", address_id);
+        String url = Api.BuyByShoppingCart;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void shoppingCartList(ResultCallback callback) {
+        UserBean bean = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", bean.id);
+        params.put("user_token", bean.user_token);
+
+        String url = Api.ShoppingCartList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void deleteShoppingCart(String shopcar_id, ResultCallback callback) {
+        UserBean bean = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", bean.id);
+        params.put("user_token", bean.user_token);
+
+        params.put("shopcar_id", shopcar_id);
+        String url = Api.DeleteShoppingCart;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void addPaiPrice(String commodity_id, String price, ResultCallback callback) {
+        UserBean bean = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", bean.id);
+        params.put("user_token", bean.user_token);
+
+        params.put("commodity_id", commodity_id);
+        params.put("price", price);
+        String url = Api.AddPaiPrice;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
     public void cangList(String page,ResultCallback callback) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("page", page);

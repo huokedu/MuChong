@@ -37,7 +37,6 @@ public class SecondFragment extends FirstFragment{
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ToastUtil.showToast(App.app, "gridView position = " + position);
                 GoodsTypeBean bean = (GoodsTypeBean) adapter.getItem(position);
                 ProductListActivity.goProductListActivity(getActivity(),bean.id,bean.constant_name);
             }

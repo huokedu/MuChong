@@ -30,4 +30,9 @@ public class GoodsUtil {
     public static boolean isTrue(String flag){
         return IS_TRUE.equals(flag);
     }
+
+    /*设置商品数量为 数量： 1*/
+    public static void setNumber(TextView textNumber, String num) {
+        textNumber.setText("数量:  "+num);
+    }
 }

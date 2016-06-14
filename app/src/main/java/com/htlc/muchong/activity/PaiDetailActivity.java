@@ -145,7 +145,9 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
         textLastPaiName = (TextView) findViewById(R.id.textLastPaiName);
         textLastPaiPrice = (TextView) findViewById(R.id.textLastPaiPrice);
         textAddPriceSmall = (TextView) findViewById(R.id.textAddPriceSmall);
+        textAddPriceSmall.setOnClickListener(this);
         textAddPriceBig = (TextView) findViewById(R.id.textAddPriceBig);
+        textAddPriceBig.setOnClickListener(this);
         textDaoJiShi = (TextView) findViewById(R.id.textDaoJiShi);
         relativeInput = (RelativeLayout) findViewById(R.id.relativeInput);
         editComment = (EditText) findViewById(R.id.editComment);
@@ -235,9 +237,10 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
                     } else if (PaiGoodsBean.STATE_END.equals(data.state)) {
                         textDaoJiShi.setText(getString(R.string.pai_dao_jis_shi, 0, 0, 0));
                     } else if (PaiGoodsBean.STATE_STARTING.equals(data.state)) {
-                        startEndTimer(Long.parseLong(data.timeStr));
+                        startEndTimer(Long.parseLong(data.timeStr) * 1000);
                     }
                     textPaiPrice.setVisibility(View.VISIBLE);
+                    GoodsUtil.setPriceBySymbol(textPaiPrice, data.commodity_startprice);
                     paiPriceLabel.setVisibility(View.VISIBLE);
                     linearDaoPai.setVisibility(View.GONE);
                     relativeBuy.setVisibility(View.GONE);
@@ -253,11 +256,11 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
         });
     }
 
-    private void startStartTimer(long millisInFutureStart, final long millisInFutureEnd){
-        if(timer!=null){
+    private void startStartTimer(long millisInFutureStart, final long millisInFutureEnd) {
+        if (timer != null) {
             timer.cancel();
         }
-        timer = new CountDownTimer(millisInFutureStart,DaoJiShiView.T) {
+        timer = new CountDownTimer(millisInFutureStart, DaoJiShiView.T) {
             @Override
             public void onTick(long millisUntilFinished) {
                 long hour = millisUntilFinished / 3600000;
@@ -273,11 +276,12 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
         };
         timer.start();
     }
+
     /**
      * 结束倒计时
      */
-    private void startEndTimer(long millisInFutureEnd){
-        if(timer!=null){
+    private void startEndTimer(long millisInFutureEnd) {
+        if (timer != null) {
             timer.cancel();
         }
         timer = new CountDownTimer(millisInFutureEnd, DaoJiShiView.T) {
@@ -298,7 +302,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(timer!=null){
+        if (timer != null) {
             timer.cancel();
         }
     }
@@ -306,11 +310,17 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.textAddPriceBig:
+                addPrice(true);
+                break;
+            case R.id.textAddPriceSmall:
+                addPrice(false);
+                break;
             case R.id.textButton:
                 commitComment();
                 break;
             case R.id.textBuy:
-                ToastUtil.showToast(App.app,"立即购买");
+                ToastUtil.showToast(App.app, "立即购买");
                 break;
             case R.id.textCommentMore:
                 CommentListActivity.goCommentListActivity(this, productId);
@@ -319,22 +329,44 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    /*竞价  isBig 高档追加价格*/
+    private void addPrice(boolean isBig) {
+        int bigPrice = 200;
+        int smallPrice = 100;
+        int addPrice = isBig ? bigPrice : smallPrice;
+        App.app.appAction.addPaiPrice(productId, String.valueOf(addPrice), new BaseActionCallbackListener<Void>() {
+            @Override
+            public void onSuccess(Void data) {
+                initData();
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                if(message.equals(ERROR_BOUND_NO_ENOUGH)){
+                    showTips();
+                    return;
+                }
+                ToastUtil.showToast(App.app, message);
+            }
+        });
+    }
+
     private void commitComment() {
-        if(!App.app.isLogin()){
+        if (!App.app.isLogin()) {
             LoginUtil.showLoginTips(this);
             return;
         }
         App.app.appAction.addGoodsComment(productId, editComment.getText().toString().trim(), new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {
-                ToastUtil.showToast(App.app,"评论成功");
+                ToastUtil.showToast(App.app, "评论成功");
                 editComment.setText("");
                 initData();
             }
 
             @Override
             public void onIllegalState(String errorEvent, String message) {
-                ToastUtil.showToast(App.app,message);
+                ToastUtil.showToast(App.app, message);
             }
         });
     }

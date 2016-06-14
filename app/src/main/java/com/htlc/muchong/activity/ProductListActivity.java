@@ -106,6 +106,7 @@ public class ProductListActivity extends BaseActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 View view = tab.getCustomView();
+                mViewPager.setCurrentItem(position,false);
                 TextView textView = (TextView) view.findViewById(R.id.textView);
                 if (position == 1) {
                     textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, salesOrderIsDown ? R.mipmap.icon_order_down : R.mipmap.icon_order_up, 0);

@@ -2,13 +2,10 @@ package com.htlc.muchong.base;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -31,6 +28,8 @@ import core.ActionCallbackListener;
  */
 public abstract class BaseActivity extends AppCompatActivity {
     public static final String ActivityTitleId = "ActivityTitle";
+    public static final String ERROR_TOKEN_TIMEOUT = "token失效";
+    public static final String ERROR_BOUND_NO_ENOUGH = "保证金不足";
     public Toolbar mToolbar;
     public TextView mTitleTextView, mTitleRightTextView, mTitleLeftTextView;
 
@@ -174,7 +173,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         @Override
         public void onFailure(String errorEvent, String message) {
-            if("token失效".equals(message)){
+            if(ERROR_TOKEN_TIMEOUT.equals(message)){
                 showTips();
                 return;
             }

@@ -182,6 +182,9 @@ public class ProductListFragment extends BaseFragment {
 
     @Override
     public void initData() {
+        if(mType.equals(TYPE_4)){
+            return;
+        }
         String order = getOderType();
         page = 1;
         App.app.appAction.jiaoListBySmallClass(page,activity.getSmallClassId(),order,activity.getMaterial(), activity.new BaseActionCallbackListener<List<JiaoGoodsBean>>() {

@@ -1,5 +1,6 @@
 package com.htlc.muchong.activity;
 
+import android.net.Uri;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.fragment.FirstFragment;
+import com.htlc.muchong.util.GoodsUtil;
+import com.htlc.muchong.util.ImageUtil;
 import com.htlc.muchong.widget.NumberPicker;
 import com.htlc.muchong.widget.ShoppingCartSelectItem;
 import com.larno.util.ToastUtil;
@@ -38,7 +41,7 @@ public class ShoppingCartActivity extends BaseActivity{
     private TextView textTotalPrice;
 
     private int number;
-    private int price;
+    private double price;
 
     @Override
     protected int getLayoutId() {
@@ -53,7 +56,6 @@ public class ShoppingCartActivity extends BaseActivity{
         mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(App.app, "删除。。。。。。。");
                 deleteShoppingData();
             }
         });
@@ -75,6 +77,7 @@ public class ShoppingCartActivity extends BaseActivity{
                 buy();
             }
         });
+        //全选按钮
         checkbox = (CheckBox) findViewById(R.id.checkbox);
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -102,20 +105,33 @@ public class ShoppingCartActivity extends BaseActivity{
         textTotalNumber.setText(String.format(getString(R.string.shopping_cart_total_number),0));
         textTotalPrice.setText("￥0");
     }
+    /*删除商品*/
     private void deleteShoppingData() {
-        List<ShoppingCartItemBean> data = adapter.getData();
+        final List<ShoppingCartItemBean> data = adapter.getData();
         SparseBooleanArray checkedItemPositions = listView.getCheckedItemPositions();
-        List<ShoppingCartItemBean> tempDeleteData = new ArrayList<>();
+        final List<ShoppingCartItemBean> tempDeleteData = new ArrayList<>();
         for (int i = 0; i < checkedItemPositions.size(); i++) {
             int key = checkedItemPositions.keyAt(i);
             if(checkedItemPositions.get(key)){
                tempDeleteData.add(data.get(key));
             }
         }
-        data.removeAll(tempDeleteData);
-        listView.clearChoices();
-        adapter.notifyDataSetChanged();
-        initBottomData();
+        App.app.appAction.deleteShoppingCart(tempDeleteData, new BaseActionCallbackListener<Void>() {
+            @Override
+            public void onSuccess(Void result) {
+                ToastUtil.showToast(App.app, "删除成功");
+                data.removeAll(tempDeleteData);
+                listView.clearChoices();
+                adapter.notifyDataSetChanged();
+                initBottomData();
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+            }
+        });
+
     }
 
     /**
@@ -130,36 +146,44 @@ public class ShoppingCartActivity extends BaseActivity{
             int key = checkedItemPositions.keyAt(i);
            if(checkedItemPositions.get(key)){
                ShoppingCartItemBean bean = data.get(key);
-               number += bean.number;
-               price += bean.price * bean.number;
+               int num = Integer.parseInt(bean.num);
+               number += num;
+               price += Double.parseDouble(bean.commodity_panicprice) * num;
            }
         }
-        textTotalNumber.setText(String.format(getString(R.string.shopping_cart_total_number),number));
-        textTotalPrice.setText("￥" + price);
-
+        textTotalNumber.setText(String.format(getString(R.string.shopping_cart_total_number), number));
+        GoodsUtil.setPriceBySymbol(textTotalPrice, String.valueOf(price));
     }
 
     /**
-     * 付款
+     * 去创建订单
      */
     private void buy() {
-
+        List<ShoppingCartItemBean> data = adapter.getData();
+        SparseBooleanArray checkedItemPositions = listView.getCheckedItemPositions();
+        ArrayList<ShoppingCartItemBean> tempDeleteData = new ArrayList<>();
+        for (int i = 0; i < checkedItemPositions.size(); i++) {
+            int key = checkedItemPositions.keyAt(i);
+            if(checkedItemPositions.get(key)){
+                tempDeleteData.add(data.get(key));
+            }
+        }
+        CreateOrderActivity.goCreateOrderActivity(this, tempDeleteData,true);
     }
 
     @Override
     protected void initData() {
+        App.app.appAction.shoppingCartList(new BaseActionCallbackListener<List<ShoppingCartItemBean>>() {
+            @Override
+            public void onSuccess(List<ShoppingCartItemBean> data) {
+                adapter.setData(data, false);
+            }
 
-        List<ShoppingCartItemBean> list = new ArrayList<>();
-        for(int i=0; i<5; i++){
-            ShoppingCartItemBean bean = new ShoppingCartItemBean();
-            bean.id = "cc123";
-            bean.name= "手串";
-            bean.price = 100;
-            bean.number = 1;
-            bean.maxNumber = 10;
-            list.add(bean);
-        }
-        adapter.setData(list, false);
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+            }
+        });
     }
 
     public class ShoppingCartAdapter extends BaseAdapter {
@@ -200,17 +224,17 @@ public class ShoppingCartActivity extends BaseActivity{
             ShoppingCartItemBean bean = list.get(position);
             ShoppingCartSelectItem view = (ShoppingCartSelectItem) convertView;
             view.numberPicker.setMaxNumber(bean.maxNumber);
-            view.numberPicker.setNumber(bean.number);
+            view.numberPicker.setNumber(Integer.parseInt(bean.num));
             view.numberPicker.setOnNumberChangedListener(new NumberPicker.OnNumberChangedListener() {
                 @Override
                 public void onNumberChanged(int number) {
-                    list.get(position).number = number;
+                    list.get(position).num = String.valueOf(number);
                     updateSelectCount();
                 }
 
                 @Override
                 public void onGreaterThanMax() {
-                    ToastUtil.showToast(App.app, "数量最多为"+list.get(position).maxNumber);
+                    ToastUtil.showToast(App.app, "数量最多为" + list.get(position).maxNumber);
                 }
 
                 @Override
@@ -218,8 +242,9 @@ public class ShoppingCartActivity extends BaseActivity{
                     ToastUtil.showToast(App.app, "数量至少为1");
                 }
             });
-            view.textPrice.setText(String.valueOf(bean.price));
-            view.textName.setText(bean.name);
+            GoodsUtil.setPriceBySymbol(view.textPrice, bean.commodity_panicprice);
+            ImageUtil.setImageByDefault(view.imageView, R.mipmap.default_first_pai, Uri.parse(bean.commodity_coverimg));
+            view.textName.setText(bean.commodity_name);
             return convertView;
         }
 

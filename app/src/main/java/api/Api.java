@@ -31,6 +31,11 @@ public interface Api {
     String JiaoList = Host + "/Home/HomeCommodity/commoditylist";
     String AddLike = Host + "/Home/HomeCommodity/addlike";
     String AddShoppingCart = Host + "/Home/HomeShopCar/addShopCar";
+    String BuyNow = Host + "/Home/HomeOrder/createOrder";
+    String BuyByShoppingCart = Host + "/Home/HomeOrder/createShopCarOrder";
+    String ShoppingCartList = Host + "/Home/HomeShopCar/queryShopCar";
+    String DeleteShoppingCart = Host + "/Home/HomeShopCar/delShopCar";
+    String AddPaiPrice = Host + "/Home/HomeBid/addbid";
 
     String CangList = Host + "/Home/HomeForum/collectionlist";
     String PostDetail = Host + "/Home/HomeForum/foruminfo";
@@ -71,6 +76,11 @@ public interface Api {
     void jiaoListBySmallClass(String page, String commodity_smallclass,String order, String commodity_material, ResultCallback callback);
     void addLike(String commodityid,String forumid,String user, ResultCallback callback);
     void addShoppingCart(String shopcar_commodityid,ResultCallback callback);
+    void buyNow(String commodity_id, String num, String address_id, ResultCallback callback);
+    void buyByShoppingCart(String shopcar, String address_id, ResultCallback callback);
+    void shoppingCartList(ResultCallback callback);
+    void deleteShoppingCart(String shopcar_id, ResultCallback callback);
+    void addPaiPrice(String commodity_id, String price, ResultCallback callback);
 
     void cangList(String page, ResultCallback callback);
     void postDetail(String forum_id, ResultCallback callback);

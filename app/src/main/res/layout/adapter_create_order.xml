@@ -8,23 +8,15 @@
     android:paddingTop="5dp"
     android:paddingBottom="5dp">
 
-    <CheckBox
-        android:layout_marginLeft="15dp"
-        android:layout_centerVertical="true"
-        android:id="@+id/checkbox"
-        android:clickable="false"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
     <ImageView
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:id="@+id/imageView"
-        android:layout_toRightOf="@+id/checkbox"
         android:src="@mipmap/default_first_pai"
-        android:layout_width="84dp"
-        android:layout_height="63dp"/>
+        android:layout_width="112dp"
+        android:layout_height="84dp"/>
     <TextView
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_alignTop="@+id/imageView"
         android:layout_toRightOf="@+id/imageView"
         android:id="@+id/textName"
@@ -34,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         android:layout_alignBottom="@+id/imageView"
         android:layout_toRightOf="@+id/imageView"
         android:id="@+id/textPrice"
@@ -44,13 +36,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <com.htlc.muchong.widget.NumberPicker
-        android:layout_marginRight="10dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignBottom="@+id/textPrice"
-        android:id="@+id/numberPicker"
+    <TextView
+        android:layout_marginRight="80dp"
+        android:id="@+id/textNumber"
+        android:text="数量:  1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:orientation="horizontal"/>
+        android:layout_alignBottom="@+id/textPrice"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 </RelativeLayout>

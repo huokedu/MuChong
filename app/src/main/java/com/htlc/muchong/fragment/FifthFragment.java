@@ -93,17 +93,14 @@ public class FifthFragment extends HomeFragment {
                 case 0:
                     ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
                     if (!App.app.isLogin()) break;
-                    startActivity(new Intent(getActivity(), PaiListActivity.class));
                     return;
                 case 1:
-                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
                     if (!App.app.isLogin()) break;
                     startActivity(new Intent(getActivity(), ShoppingCartActivity.class));
                     return;
                 case 2:
-                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
                     if (!App.app.isLogin()) break;
-                    startActivity(new Intent(getActivity(), TaLikeActivity.class));
+                    TaLikeActivity.goTaLikeActivity(getContext(), LoginUtil.getUser().id);
                     return;
                 case 3:
                     ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);

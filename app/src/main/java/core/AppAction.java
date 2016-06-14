@@ -7,6 +7,7 @@ import java.util.List;
 
 import model.ActivityBean;
 import model.CangBean;
+import model.CreateOrderResultBean;
 import model.GoodsBean;
 import model.GoodsCommentBean;
 import model.GoodsDetailBean;
@@ -23,6 +24,7 @@ import model.PostCommentBean;
 import model.PostDetailBean;
 import model.QiangListBean;
 import model.SchoolBean;
+import model.ShoppingCartItemBean;
 import model.UserBean;
 import model.UserInfoBean;
 
@@ -56,6 +58,11 @@ public interface AppAction {
     void jiaoListBySmallClass(int page, String commodity_smallclass, String order, String commodity_material, ActionCallbackListener<List<JiaoGoodsBean>> listener);
     void addLikeGoods(String commodity_id,ActionCallbackListener<Void> listener);
     void addShoppingCart(String shopcar_commodityid,ActionCallbackListener<Void> listener);
+    void buyNow(String commodity_id, String num, String address_id, ActionCallbackListener<CreateOrderResultBean> listener);
+    void buyByShoppingCart(List<ShoppingCartItemBean> shoppingCartItemBeans, String address_id, ActionCallbackListener<CreateOrderResultBean> listener);
+    void shoppingCartList(ActionCallbackListener<List<ShoppingCartItemBean>> listener);
+    void deleteShoppingCart(List<ShoppingCartItemBean> shoppingCartItemBeans, ActionCallbackListener<Void> listener);
+    void addPaiPrice(String commodity_id, String price, ActionCallbackListener<Void> listener);
 
     void cangList(int page,ActionCallbackListener<List<CangBean>> listener);
     void postDetail(String forum_id,ActionCallbackListener<PostDetailBean> listener);

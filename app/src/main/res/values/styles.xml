@@ -349,10 +349,11 @@
     </style>
 
     <style name="ShoppingCartButton" parent="Base.Widget.AppCompat.Button.Small">
-        <item name="android:minHeight">38dip</item>
-        <item name="android:minWidth">38dip</item>
+        <item name="android:minHeight">30dip</item>
+        <item name="android:minWidth">30dip</item>
         <item name="android:background">@color/bg_gray</item>
         <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/text_color_black_muchong</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
     </style>

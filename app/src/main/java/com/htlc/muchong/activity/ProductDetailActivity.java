@@ -18,11 +18,13 @@ import com.htlc.muchong.util.GoodsUtil;
 import com.htlc.muchong.util.LoginUtil;
 import com.larno.util.ToastUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import model.GoodsCommentBean;
 import model.GoodsDetailBean;
+import model.ShoppingCartItemBean;
 
 /**
  * Created by sks on 2016/5/23.
@@ -42,6 +44,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     private String productId;
+    private GoodsDetailBean data;
 
     protected BannerFragment mBannerFragment;
     protected ListView mCommentListView;
@@ -116,6 +119,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         App.app.appAction.goodsDetail(productId, new BaseActionCallbackListener<GoodsDetailBean>() {
             @Override
             public void onSuccess(GoodsDetailBean data) {
+                ProductDetailActivity.this.data = data;
                 mBannerFragment.setData(Arrays.asList(data.commodity_imgStr.split(SPLIT_FLAG)));
                 textName.setText(data.commodity_name);
                 textLike.setText(data.commodity_likenum);
@@ -147,7 +151,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.textBuy:
                 if (App.app.isLogin()) {
-                    ToastUtil.showToast(App.app, "立即购买");
+                    buyNow();
                 } else {
                     LoginUtil.showLoginTips(this);
                 }
@@ -169,17 +173,30 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    /*立即购买*/
+    private void buyNow() {
+        ArrayList<ShoppingCartItemBean> shoppingCartItemBeans = new ArrayList<>();
+        ShoppingCartItemBean bean = new ShoppingCartItemBean();
+        bean.shopcar_commodityid = productId;
+        bean.num = "1";
+        bean.commodity_panicprice = data.commodity_panicprice;
+        bean.commodity_coverimg = data.commodity_coverimg;
+        bean.commodity_name = data.commodity_name;
+        shoppingCartItemBeans.add(bean);
+        CreateOrderActivity.goCreateOrderActivity(this, shoppingCartItemBeans, false);
+    }
+
     /*加入购物车*/
     private void addCart() {
         App.app.appAction.addShoppingCart(productId, new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {
-                ToastUtil.showToast(App.app,"添加成功");
+                ToastUtil.showToast(App.app, "添加成功");
             }
 
             @Override
             public void onIllegalState(String errorEvent, String message) {
-                ToastUtil.showToast(App.app,message);
+                ToastUtil.showToast(App.app, message);
             }
         });
     }

@@ -6,6 +6,7 @@ import android.util.Pair;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.htlc.muchong.activity.ProductDetailActivity;
 import com.htlc.muchong.util.LoginUtil;
 import com.larno.util.CacheUtil;
 import com.larno.util.EncryptUtil;
@@ -25,6 +26,7 @@ import api.Api;
 import api.ApiImpl;
 import model.ActivityBean;
 import model.CangBean;
+import model.CreateOrderResultBean;
 import model.GoodsBean;
 import model.GoodsCommentBean;
 import model.GoodsDetailBean;
@@ -41,6 +43,7 @@ import model.PostCommentBean;
 import model.PostDetailBean;
 import model.QiangListBean;
 import model.SchoolBean;
+import model.ShoppingCartItemBean;
 import model.UserBean;
 import model.UserInfoBean;
 import okhttp3.Request;
@@ -408,7 +411,7 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void goodsCommentList(String commodity_id,int page, ActionCallbackListener<List<GoodsCommentBean>> listener) {
+    public void goodsCommentList(String commodity_id, int page, ActionCallbackListener<List<GoodsCommentBean>> listener) {
         api.goodsCommentList(commodity_id, String.valueOf(page), new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
@@ -424,8 +427,8 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void addGoodsComment(String commodityeval_commodityid, String commodityeval_content,ActionCallbackListener<Void> listener) {
-        if(TextUtils.isEmpty(commodityeval_content)){
+    public void addGoodsComment(String commodityeval_commodityid, String commodityeval_content, ActionCallbackListener<Void> listener) {
+        if (TextUtils.isEmpty(commodityeval_content)) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "请输入评论内容");
             return;
         }
@@ -473,18 +476,18 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void qiangList(String flag, int page, ActionCallbackListener<QiangListBean> listener) {
-            api.qiangList(flag, String.valueOf(page), new DefaultResultCallback(listener) {
-                @Override
-                public void onResponse(String response) {
-                    JSONObject model = JSON.parseObject(response);
-                    if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
-                        QiangListBean bean = JSON.parseObject(model.getString(KEY_DATA), QiangListBean.class);
-                        listener.onSuccess(bean);
-                    } else {
-                        listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
-                    }
+        api.qiangList(flag, String.valueOf(page), new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    QiangListBean bean = JSON.parseObject(model.getString(KEY_DATA), QiangListBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }
-            });
+            }
+        });
     }
 
     @Override
@@ -521,7 +524,7 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void jiaoListBySmallClass(int page, String commodity_smallclass, String order, String commodity_material, ActionCallbackListener<List<JiaoGoodsBean>> listener) {
-        if(TextUtils.isEmpty(commodity_material)){
+        if (TextUtils.isEmpty(commodity_material)) {
             commodity_material = "";
         }
         api.jiaoListBySmallClass(String.valueOf(page), commodity_smallclass, order, commodity_material, new DefaultResultCallback(listener) {
@@ -569,8 +572,106 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void cangList(int page,ActionCallbackListener<List<CangBean>> listener) {
-        api.cangList(String.valueOf(page),new DefaultResultCallback(listener) {
+    public void buyNow(String commodity_id, String num, String address_id, ActionCallbackListener<CreateOrderResultBean> listener) {
+        if (TextUtils.isEmpty(address_id)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "请选择收获地址");
+            return;
+        }
+        api.buyNow(commodity_id, num, address_id, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    CreateOrderResultBean bean = JSON.parseObject(model.getString(KEY_DATA), CreateOrderResultBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void buyByShoppingCart(List<ShoppingCartItemBean> shoppingCartItemBeans, String address_id, ActionCallbackListener<CreateOrderResultBean> listener) {
+        if (TextUtils.isEmpty(address_id)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "请选择收获地址");
+            return;
+        }
+        String shopcar = JSON.toJSONString(shoppingCartItemBeans);
+        api.buyByShoppingCart(shopcar, address_id, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    CreateOrderResultBean bean = JSON.parseObject(model.getString(KEY_DATA), CreateOrderResultBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void shoppingCartList(ActionCallbackListener<List<ShoppingCartItemBean>> listener) {
+        api.shoppingCartList(new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<ShoppingCartItemBean> bean = JSON.parseArray(model.getString(KEY_DATA), ShoppingCartItemBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void deleteShoppingCart(List<ShoppingCartItemBean> shoppingCartItemBeans, ActionCallbackListener<Void> listener) {
+        if (shoppingCartItemBeans.size() <= 0) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "请选择商品");
+            return;
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for(ShoppingCartItemBean bean : shoppingCartItemBeans){
+            stringBuilder.append(bean.id);
+            stringBuilder.append(ProductDetailActivity.SPLIT_FLAG);
+        }
+        stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(ProductDetailActivity.SPLIT_FLAG));
+
+        api.deleteShoppingCart(stringBuilder.toString(), new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void addPaiPrice(String commodity_id, String price, ActionCallbackListener<Void> listener) {
+        api.addPaiPrice(commodity_id, price, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void cangList(int page, ActionCallbackListener<List<CangBean>> listener) {
+        api.cangList(String.valueOf(page), new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
@@ -618,7 +719,7 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void addPostComment(String forum_backid, String forum_content, ActionCallbackListener<Void> listener) {
-        if(TextUtils.isEmpty(forum_content)){
+        if (TextUtils.isEmpty(forum_content)) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "请输入评论内容");
             return;
         }
@@ -651,7 +752,7 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void publishPostCang(boolean isCangPublish,String forum_title, String forum_content, File coverImageFile, List<File> contentImageFiles, ActionCallbackListener<Void> listener) {
+    public void publishPostCang(boolean isCangPublish, String forum_title, String forum_content, File coverImageFile, List<File> contentImageFiles, ActionCallbackListener<Void> listener) {
         if (coverImageFile == null) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "封面图片不能为空");
             return;
@@ -676,9 +777,9 @@ public class AppActionImpl implements AppAction {
         final String TYPE_CANG = "1";
         final String TYPE_JIAN = "6";
         String publishType;
-        if(isCangPublish){
+        if (isCangPublish) {
             publishType = TYPE_CANG;
-        }else {
+        } else {
             publishType = TYPE_JIAN;
         }
 
