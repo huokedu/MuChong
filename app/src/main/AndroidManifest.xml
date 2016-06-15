@@ -48,6 +48,12 @@
         <activity android:name=".activity.PostPublishActivity"/>
         <activity android:name=".activity.PostDetailActivity"/>
         <activity android:name=".activity.CreateOrderActivity"/>
+
+        <activity android:name=".activity.MyJianListActivity"/>
+        <activity android:name=".activity.MyPostListActivity"/>
+        <activity android:name=".activity.ResetTelActivity"/>
+        <activity android:name=".activity.AddressActivity"/>
+        <activity android:name=".activity.EditAddressActivity"/>
     </application>
 
 </manifest>

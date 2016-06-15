@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.List;
 
 import model.ActivityBean;
+import model.AddressBean;
 import model.CangBean;
 import model.CreateOrderResultBean;
 import model.GoodsBean;
@@ -34,11 +35,17 @@ import model.UserInfoBean;
  */
 public interface AppAction {
     void smsCode(String mobile, ActionCallbackListener<Void> listener);
+    void ensureSmsCode(String user_account, String Verifycode, ActionCallbackListener<Void> listener);
     void register(String user_account,String Verifycode,String user_pwda,String user_pwdb, boolean isAgreeProtocol,ActionCallbackListener<Void> listener);
     void login(String user_account,String user_pwd, ActionCallbackListener<UserBean> listener);
     void getUserInfo(ActionCallbackListener<UserInfoBean> listener);
     void updateUserInfo(String userinfo_nickname,String userinfo_address,File userinfo_headportrait, ActionCallbackListener<Void> listener);
     void resetPassword(String user_account,String Verifycode,String user_pwda,String user_pwdb, ActionCallbackListener<Void> listener);
+    void resetTel(String user_account, ActionCallbackListener<Void> listener);
+    void myAddressList(ActionCallbackListener<List<AddressBean>> listener);
+    void addAddress(String addr_address, String addr_name, String addr_mobile, ActionCallbackListener<Void> listener);
+    void updateAddress(String addr_id, String addr_address, String addr_name, String addr_mobile, ActionCallbackListener<Void> listener);
+    void deleteAddress(String addr_id, ActionCallbackListener<Void> listener);
 
     void home(ActionCallbackListener<HomeBean> listener);
     void getGoodsType(ActionCallbackListener<List<GoodsTypeBean>> listener);
@@ -86,4 +93,5 @@ public interface AppAction {
     void likeListByTypeOfSchool(int page, String id, ActionCallbackListener<List<SchoolBean>> listener);
     void likeListByTypeOfJian(int page, String id, ActionCallbackListener<List<JianBean>> listener);
     void likeListByTypeOfPerson(int page, String id, ActionCallbackListener<List<PersonBean>> listener);
+    void myJianList(int page, String forum_yesorno,  ActionCallbackListener<List<JianBean>> listener);
 }

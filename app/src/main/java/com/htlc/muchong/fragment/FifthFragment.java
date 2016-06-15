@@ -11,6 +11,8 @@ import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.activity.JianListActivity;
 import com.htlc.muchong.activity.LoginActivity;
+import com.htlc.muchong.activity.MyJianListActivity;
+import com.htlc.muchong.activity.MyPostListActivity;
 import com.htlc.muchong.activity.PaiListActivity;
 import com.htlc.muchong.activity.SettingActivity;
 import com.htlc.muchong.activity.ShoppingCartActivity;
@@ -105,7 +107,7 @@ public class FifthFragment extends HomeFragment {
                 case 3:
                     ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
                     if (!App.app.isLogin()) break;
-                    startActivity(new Intent(getActivity(), JianListActivity.class));
+                    startActivity(new Intent(getActivity(), MyJianListActivity.class));
                     return;
                 case 4:
                     ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
@@ -118,9 +120,8 @@ public class FifthFragment extends HomeFragment {
                     startActivity(new Intent(getActivity(), PaiListActivity.class));
                     return;
                 case 6:
-                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
                     if (!App.app.isLogin()) break;
-                    startActivity(new Intent(getActivity(), PaiListActivity.class));
+                    startActivity(new Intent(getActivity(), MyPostListActivity.class));
                     return;
                 case 7:
                     ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
@@ -128,7 +129,6 @@ public class FifthFragment extends HomeFragment {
                     startActivity(new Intent(getActivity(), PaiListActivity.class));
                     return;
                 case 8:
-                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
                     startActivity(new Intent(getActivity(), SettingActivity.class));
                     return;
                 default:

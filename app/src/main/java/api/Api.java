@@ -12,11 +12,17 @@ import java.io.File;
 public interface Api {
     String Host = "http://t15.damaimob.com";
     String SmsCode = Host + "/Home/HomeUser/getVerifyCode";
+    String EnsureSmsCode = Host + "/Home/HomeUser/yanzheng";
     String Register = Host + "/Home/HomeUser/register";
     String Login = Host + "/Home/HomeUser/login";
     String GetUserInfo = Host + "/Home/HomeUser/getUserinfo";
     String UpdateUserInfo = Host + "/Home/HomeUser/updateUserinfo";
     String ResetPassword = Host + "/Home/HomeUser/resetPwd";
+    String ResetTel = Host + "/Home/HomeUser/upmobile";
+    String MyAddressList = Host + "/Home/HomeUser/useraddrlist";
+    String AddAddress = Host + "/Home/HomeUser/addAddress";
+    String UpdateAddress = Host + "/Home/HomeUser/updateAddr";
+    String DeleteAddress = Host + "/Home/HomeUser/deladdr";
 
     String Home = Host + "/Home/HomeCommodity/homepage";
     String GetGoodsType = Host + "/Home/HomeCommodity/smallclasslist";
@@ -51,13 +57,20 @@ public interface Api {
     String CangListByPersonId = Host + "/Home/HomeForum/mycollection";
     String GetPersonInfo = Host + "/Home/HomeForum/collectorinfo";
     String LikeListByType = Host + "/Home/HomeForum/likes";
+    String MyJianList = Host + "/Home/HomeForum/myAppraisal";
 
     void smsCode(String mobile, ResultCallback callback);
+    void ensureSmsCode(String user_account, String Verifycode, ResultCallback callback);
     void register(String user_account,String Verifycode,String user_pwda,String user_pwdb, ResultCallback callback);
     void login(String user_account,String user_pwd,ResultCallback callback);
     void getUserInfo(ResultCallback callback);
     void updateUserInfo(String userinfo_nickname,String userinfo_address,File userinfo_headportrait, ResultCallback callback);
     void resetPassword(String user_account,String Verifycode,String user_pwda,String user_pwdb, ResultCallback callback);
+    void resetTel(String user_account,ResultCallback callback);
+    void myAddressList(ResultCallback callback);
+    void addAddress(String addr_address, String addr_name, String addr_mobile, ResultCallback callback);
+    void updateAddress(String addr_id, String addr_address, String addr_name, String addr_mobile, ResultCallback callback);
+    void deleteAddress(String addr_id, ResultCallback callback);
 
     void home(ResultCallback callback);
     void getGoodsType(ResultCallback callback);
@@ -96,4 +109,5 @@ public interface Api {
     void cangListByPersonId(String page, String user_id,  ResultCallback callback);
     void getPersonInfo(String id,  ResultCallback callback);
     void likeListByType(String page, String id, String type, ResultCallback callback);
+    void myJianList(String page,String forum_yesorno,ResultCallback callback);
 }

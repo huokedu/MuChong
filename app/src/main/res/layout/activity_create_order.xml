@@ -15,11 +15,56 @@
         android:layout_height="match_parent">
         <LinearLayout
             android:id="@+id/linearAddress"
-            android:minHeight="100dp"
+            android:minHeight="90dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:orientation="horizontal"></LinearLayout>
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/textAddressTips"
+                android:paddingLeft="30dp"
+                android:drawableLeft="@mipmap/icon_create_order_add"
+                android:drawablePadding="15dp"
+                android:layout_width="wrap_content"
+                android:text="@string/create_order_add_info"
+                android:textColor="@color/text_color_black_muchong"
+                android:layout_height="wrap_content"/>
+            <RelativeLayout
+                android:id="@+id/relativeAddress"
+                android:visibility="gone"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textName"
+                    android:text="崔丹凤"
+                    android:textColor="@color/text_color_black_muchong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/textTel"
+                    android:text="18812345678"
+                    android:textColor="@color/text_color_black_muchong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_marginTop="15dp"
+                    android:layout_below="@+id/textName"
+                    android:id="@+id/textAddress"
+                    android:text="广州白云区太和镇大源北路30号林安物流城"
+                    android:textColor="@color/text_color_black_muchong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <View
+            android:layout_gravity="bottom"
+            android:layout_below="@+id/linearAddress"
+            android:background="@mipmap/icon_create_order_divider"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
         <ListView
             android:layout_marginTop="10dp"
             android:id="@+id/listView"

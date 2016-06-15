@@ -90,13 +90,17 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
                 startActivityForResult(intent1, Request_Area);
                 break;
             case R.id.relativeTel:
-                ToastUtil.showToast(App.app,"relativeTel");
+                Intent intent2 = new Intent(this, ResetTelActivity.class);
+                startActivity(intent2);
                 break;
             case R.id.relativePassword:
-                ToastUtil.showToast(App.app,"relativePassword");
+                Intent intent3 = new Intent(this, RegisterActivity.class);
+                intent3.putExtra(RegisterActivity.IsResetPassword, true);
+                startActivity(intent3);
                 break;
             case R.id.relativeAddress:
-                ToastUtil.showToast(App.app,"relativeAddress");
+                Intent intent4 = new Intent(this, AddressActivity.class);
+                startActivity(intent4);
                 break;
             case R.id.textButton:
                 commit();

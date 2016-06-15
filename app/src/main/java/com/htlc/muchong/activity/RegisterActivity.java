@@ -20,7 +20,9 @@ import core.ActionCallbackListener;
  */
 public class RegisterActivity extends BaseActivity {
     public static final String IsForgetPassword = "IsForgetPassword";
+    public static final String IsResetPassword = "IsResetPassword";
     private boolean isForgetPassword;
+    private boolean isResetPassword;
     private LinearLayout linearLayout;//用户协议 布局
     private CheckBox checkBox;// 用户协议 checkbox
     private View textProtocol;//用户协议 按钮
@@ -35,6 +37,7 @@ public class RegisterActivity extends BaseActivity {
     @Override
     protected void setupView() {
         isForgetPassword = getIntent().getBooleanExtra(IsForgetPassword, false);
+        isResetPassword = getIntent().getBooleanExtra(IsResetPassword, false);
 
         editUsername = (EditText) findViewById(R.id.editUsername);
         editCode = (EditText) findViewById(R.id.editCode);
@@ -61,7 +64,7 @@ public class RegisterActivity extends BaseActivity {
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isForgetPassword){
+                if(isForgetPassword || isResetPassword){
                     forget();
                 }else {
                     register();
@@ -73,7 +76,11 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        if (isForgetPassword) {
+        if(isResetPassword){
+            mTitleTextView.setText(R.string.user_update_password);
+            linearLayout.setVisibility(View.INVISIBLE);
+            buttonRegister.setText(R.string.commit);
+        } else if (isForgetPassword) {
             mTitleTextView.setText(R.string.title_forget);
             linearLayout.setVisibility(View.INVISIBLE);
             buttonRegister.setText(R.string.commit);

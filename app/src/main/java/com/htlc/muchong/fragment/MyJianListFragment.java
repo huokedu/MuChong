@@ -1,6 +1,5 @@
 package com.htlc.muchong.fragment;
 
-import android.content.Intent;
 import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,34 +14,30 @@ import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.activity.JianDetailActivity;
-import com.htlc.muchong.activity.ProductDetailActivity;
 import com.htlc.muchong.adapter.JianRecyclerViewAdapter;
-import com.htlc.muchong.adapter.QiangRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.base.BaseFragment;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
-import java.util.Arrays;
 import java.util.List;
 
 import core.AppActionImpl;
 import model.JianBean;
-import model.PaiGoodsBean;
 
 /**
  * Created by sks on 2016/5/23.
  */
-public class JianListFragment extends BaseFragment {
+public class MyJianListFragment extends BaseFragment {
     public static final String TYPE_1 = "1";
     public static final String TYPE_2 = "2";
     public static final String TYPE_3 = "3";
     public CharSequence mTitle;
     private String mType;
-    public static JianListFragment newInstance(String title, String type) {
+    public static MyJianListFragment newInstance(String title, String type) {
         try {
-            JianListFragment fragment = JianListFragment.class.newInstance();
+            MyJianListFragment fragment = MyJianListFragment.class.newInstance();
             fragment.mTitle = title;
             fragment.mType = type;
             return fragment;
@@ -127,7 +122,7 @@ public class JianListFragment extends BaseFragment {
     }
 
     private void loadMoreData() {
-        App.app.appAction.jianList(page,mType, ((BaseActivity)getActivity()).new BaseActionCallbackListener<List<JianBean>>() {
+        App.app.appAction.myJianList(page,mType, ((BaseActivity)getActivity()).new BaseActionCallbackListener<List<JianBean>>() {
             @Override
             public void onSuccess(List<JianBean> data) {
                 handleData(data);
@@ -152,7 +147,7 @@ public class JianListFragment extends BaseFragment {
     @Override
     protected void initData() {
         page = 1;
-        App.app.appAction.jianList(page,mType, ((BaseActivity)getActivity()).new BaseActionCallbackListener<List<JianBean>>() {
+        App.app.appAction.myJianList(page, mType, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<JianBean>>() {
             @Override
             public void onSuccess(List<JianBean> data) {
                 handleData(data);
@@ -174,7 +169,6 @@ public class JianListFragment extends BaseFragment {
             }
         });
     }
-
     private void handleData(List<JianBean> data) {
         for(JianBean bean : data){
             bean.forum_yesorno = mType;

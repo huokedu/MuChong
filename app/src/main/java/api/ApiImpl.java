@@ -25,6 +25,15 @@ public class ApiImpl implements Api {
     }
 
     @Override
+    public void ensureSmsCode(String user_account, String Verifycode, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_account", user_account);
+        params.put("Verifycode", Verifycode);
+        String url = Api.EnsureSmsCode;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
     public void register(String user_account, String Verifycode, String user_pwda, String user_pwdb, ResultCallback callback) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("user_account", user_account);
@@ -79,6 +88,72 @@ public class ApiImpl implements Api {
         params.put("user_pwda", user_pwda);
         params.put("user_pwdb", user_pwdb);
         String url = Api.ResetPassword;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void resetTel(String user_account, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
+        params.put("user_account", user_account);
+        String url = Api.ResetTel;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void myAddressList(ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
+        String url = Api.MyAddressList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void addAddress(String addr_address, String addr_name, String addr_mobile, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
+        params.put("addr_address", addr_address);
+        params.put("addr_name", addr_name);
+        params.put("addr_mobile", addr_mobile);
+
+        String url = Api.AddAddress;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void updateAddress(String addr_id, String addr_address, String addr_name, String addr_mobile, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
+        params.put("addr_id", addr_id);
+        params.put("addr_address", addr_address);
+        params.put("addr_name", addr_name);
+        params.put("addr_mobile", addr_mobile);
+
+        String url = Api.UpdateAddress;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void deleteAddress(String addr_id, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
+        params.put("addr_id", addr_id);
+        String url = Api.DeleteAddress;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }
 
@@ -430,6 +505,19 @@ public class ApiImpl implements Api {
         params.put("id", id);
         params.put("type", type);
         String url = Api.LikeListByType;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void myJianList(String page, String forum_yesorno, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
+        params.put("page", page);
+        params.put("forum_yesorno", forum_yesorno);
+        String url = Api.MyJianList;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }
 }

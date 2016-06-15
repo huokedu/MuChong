@@ -8,15 +8,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.htlc.muchong.activity.ProductDetailActivity;
 import com.htlc.muchong.util.LoginUtil;
-import com.larno.util.CacheUtil;
 import com.larno.util.EncryptUtil;
 import com.larno.util.NetworkUtil;
 import com.larno.util.RegexUtils;
-import com.larno.util.okhttp.callback.ResultCallback;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -25,6 +22,7 @@ import java.util.Set;
 import api.Api;
 import api.ApiImpl;
 import model.ActivityBean;
+import model.AddressBean;
 import model.CangBean;
 import model.CreateOrderResultBean;
 import model.GoodsBean;
@@ -46,7 +44,6 @@ import model.SchoolBean;
 import model.ShoppingCartItemBean;
 import model.UserBean;
 import model.UserInfoBean;
-import okhttp3.Request;
 
 
 /**
@@ -85,6 +82,29 @@ public class AppActionImpl implements AppAction {
             return;
         }
         api.smsCode(mobile, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void ensureSmsCode(String user_account, String Verifycode, ActionCallbackListener<Void> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        if (TextUtils.isEmpty(Verifycode)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "验证码不能为空");
+            return;
+        }
+        api.ensureSmsCode(user_account, Verifycode, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
@@ -143,7 +163,7 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void login(String user_account, String user_pwd, ActionCallbackListener<UserBean> listener) {
+    public void login(final String user_account, String user_pwd, ActionCallbackListener<UserBean> listener) {
         if (!NetworkUtil.isNetworkAvailable(context)) {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
             return;
@@ -163,6 +183,7 @@ public class AppActionImpl implements AppAction {
                 JSONObject model = JSON.parseObject(response);
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     UserBean userBean = JSON.parseObject(model.getString(KEY_DATA), UserBean.class);
+                    userBean.user_account = user_account;
                     LoginUtil.setUser(userBean);
                     listener.onSuccess(userBean);
                 } else {
@@ -174,6 +195,10 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void getUserInfo(ActionCallbackListener<UserInfoBean> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
         api.getUserInfo(new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
@@ -190,6 +215,10 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void updateUserInfo(String userinfo_nickname, String userinfo_address, File userinfo_headportrait, ActionCallbackListener<Void> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
         api.updateUserInfo(userinfo_nickname, userinfo_address, userinfo_headportrait, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
@@ -204,7 +233,7 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void resetPassword(String user_account, String Verifycode, String user_pwda, String user_pwdb, ActionCallbackListener<Void> listener) {
+    public void resetPassword(final String user_account, String Verifycode, String user_pwda, String user_pwdb, ActionCallbackListener<Void> listener) {
         if (!NetworkUtil.isNetworkAvailable(context)) {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
             return;
@@ -236,6 +265,152 @@ public class AppActionImpl implements AppAction {
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    String node = model.getJSONObject(KEY_DATA).getString("node");
+                    UserBean bean = new UserBean();
+                    bean.user_token = node;
+                    bean.user_account = user_account;
+                    LoginUtil.setUser(bean);
+                    listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void resetTel(final String user_account, ActionCallbackListener<Void> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        if (TextUtils.isEmpty(user_account)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "手机号不能为空");
+            return;
+        }
+        if (!RegexUtils.isMatchPhoneNum(user_account)) {
+            listener.onFailure(ErrorEvent.PARAM_ILLEGAL, "手机号格式不正确");
+            return;
+        }
+        api.resetTel(user_account, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    String node = model.getJSONObject(KEY_DATA).getString("node");
+                    UserBean bean = new UserBean();
+                    bean.user_token = node;
+                    bean.user_account = user_account;
+                    LoginUtil.setUser(bean);
+                    listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void myAddressList(ActionCallbackListener<List<AddressBean>> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        api.myAddressList(new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<AddressBean> bean = JSON.parseArray(model.getString(KEY_DATA), AddressBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void addAddress(String addr_address, String addr_name, String addr_mobile, ActionCallbackListener<Void> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        if (TextUtils.isEmpty(addr_address)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "收货地址不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(addr_name)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "收货人不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(addr_mobile)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "手机号不能为空");
+            return;
+        }
+        if (!RegexUtils.isMatchPhoneNum(addr_mobile)) {
+            listener.onFailure(ErrorEvent.PARAM_ILLEGAL, "手机号格式不正确");
+            return;
+        }
+        api.addAddress(addr_address, addr_name, addr_mobile, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void updateAddress(String addr_id, String addr_address, String addr_name, String addr_mobile, ActionCallbackListener<Void> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        if (TextUtils.isEmpty(addr_address)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "收货地址不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(addr_name)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "收货人不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(addr_mobile)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "手机号不能为空");
+            return;
+        }
+        if (!RegexUtils.isMatchPhoneNum(addr_mobile)) {
+            listener.onFailure(ErrorEvent.PARAM_ILLEGAL, "手机号格式不正确");
+            return;
+        }
+        api.updateAddress(addr_id, addr_address, addr_name, addr_mobile, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void deleteAddress(String addr_id, ActionCallbackListener<Void> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        api.deleteAddress(addr_id, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     listener.onSuccess(null);
                 } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
@@ -246,6 +421,10 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void home(ActionCallbackListener<HomeBean> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
         api.home(new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
@@ -262,6 +441,10 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void getGoodsType(ActionCallbackListener<List<GoodsTypeBean>> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
         api.getGoodsType(new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
@@ -278,6 +461,10 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void getPointInTimes(ActionCallbackListener<List<PointInTimeBean>> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
         api.getPointInTimes(new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
@@ -296,6 +483,10 @@ public class AppActionImpl implements AppAction {
     public void publishGoods(String commodity_name, String commodity_content, String commodity_type, String commodity_smallclass, String commodity_spec, String commodity_material, String commodity_panicprice,
                              String commodity_starttime, String commodity_limitend, String commodity_buynum, String commodity_price, String commodity_bond,
                              File coverImageFile, List<File> contentImageFiles, ActionCallbackListener<Void> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
         if (coverImageFile == null) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "封面图片不能为空");
             return;
@@ -396,6 +587,10 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void goodsDetail(String commodity_id, ActionCallbackListener<GoodsDetailBean> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
         api.goodsDetail(commodity_id, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
@@ -412,6 +607,10 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void goodsCommentList(String commodity_id, int page, ActionCallbackListener<List<GoodsCommentBean>> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
         api.goodsCommentList(commodity_id, String.valueOf(page), new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
@@ -428,6 +627,10 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void addGoodsComment(String commodityeval_commodityid, String commodityeval_content, ActionCallbackListener<Void> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
         if (TextUtils.isEmpty(commodityeval_content)) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "请输入评论内容");
             return;
@@ -447,6 +650,10 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void qiangTimeList(ActionCallbackListener<List<Pair<String, String>>> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
         api.qiangTimeList(new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
@@ -476,6 +683,10 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void qiangList(String flag, int page, ActionCallbackListener<QiangListBean> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
         api.qiangList(flag, String.valueOf(page), new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
@@ -492,6 +703,10 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void paiList(int page, ActionCallbackListener<List<PaiGoodsBean>> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
         api.paiList(String.valueOf(page), new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
@@ -508,6 +723,10 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void jiaoList(int page, ActionCallbackListener<List<JiaoGoodsBean>> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
         api.jiaoList(String.valueOf(page), new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
@@ -524,6 +743,10 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void jiaoListBySmallClass(int page, String commodity_smallclass, String order, String commodity_material, ActionCallbackListener<List<JiaoGoodsBean>> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
         if (TextUtils.isEmpty(commodity_material)) {
             commodity_material = "";
         }
@@ -543,6 +766,10 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void addLikeGoods(String commodity_id, ActionCallbackListener<Void> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
         api.addLike(commodity_id, "", "", new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
@@ -558,6 +785,10 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void addShoppingCart(String shopcar_commodityid, ActionCallbackListener<Void> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
         api.addShoppingCart(shopcar_commodityid, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
@@ -1025,6 +1256,22 @@ public class AppActionImpl implements AppAction {
                 JSONObject model = JSON.parseObject(response);
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     List<PersonBean> bean = JSON.parseArray(model.getString(KEY_DATA), PersonBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void myJianList(int page, String forum_yesorno, ActionCallbackListener<List<JianBean>> listener) {
+        api.myJianList(String.valueOf(page), forum_yesorno, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<JianBean> bean = JSON.parseArray(model.getString(KEY_DATA), JianBean.class);
                     listener.onSuccess(bean);
                 } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));

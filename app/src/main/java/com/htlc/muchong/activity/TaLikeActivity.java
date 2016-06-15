@@ -29,6 +29,7 @@ import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
 import com.htlc.muchong.fragment.JianListFragment;
 import com.htlc.muchong.fragment.SecondFragment;
+import com.htlc.muchong.util.LoginUtil;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
@@ -107,7 +108,11 @@ public class TaLikeActivity extends BaseActivity {
     }
 
     private void setTitle() {
-        mTitleTextView.setText(String.format(getString(R.string.title_ta_like), getResources().getStringArray(R.array.like_type_array)[currentType]));
+        if(LoginUtil.getUser().id.equals(personId)){
+            mTitleTextView.setText(String.format(getString(R.string.title_my_like), getResources().getStringArray(R.array.like_type_array)[currentType]));
+        }else {
+            mTitleTextView.setText(String.format(getString(R.string.title_ta_like), getResources().getStringArray(R.array.like_type_array)[currentType]));
+        }
         mRecyclerView.removeAllViews();
         mRecyclerView.removeItemDecoration(decor);
         //商品

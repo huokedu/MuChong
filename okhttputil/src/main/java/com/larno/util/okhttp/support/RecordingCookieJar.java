@@ -22,6 +22,9 @@ public final class RecordingCookieJar implements CookieJar {
     @Override
     public List<Cookie> loadForRequest(HttpUrl url) {
         if (responseCookies.isEmpty()) return Collections.emptyList();
-        return responseCookies.removeFirst();
+        if(responseCookies.size()>1){
+            return responseCookies.removeFirst();
+        }
+        return responseCookies.element();
     }
 }

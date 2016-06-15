@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.htlc.muchong.R;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
+import com.htlc.muchong.fragment.JianListFragment;
 import com.htlc.muchong.util.ImageUtil;
 import com.htlc.muchong.util.PersonUtil;
 
@@ -40,6 +41,11 @@ public class JianRecyclerViewAdapter extends BaseRecyclerViewAdapter<JianBean> {
         PersonUtil.setPersonLevel(viewHolder.textLevel, bean.userinfo_grade);
         ImageUtil.setImageByDefault(viewHolder.imageView, R.mipmap.default_first_pai, Uri.parse(bean.forum_coverimg));
         ImageUtil.setCircleImageByDefault(viewHolder.imageHead,R.mipmap.default_third_gird_head,Uri.parse(bean.userinfo_headportrait));
+        if(bean.forum_yesorno.equals(JianListFragment.TYPE_1)){
+            viewHolder.imageFlag.setVisibility(View.VISIBLE);
+        }else {
+            viewHolder.imageFlag.setVisibility(View.INVISIBLE);
+        }
 
     }
 
