@@ -16,6 +16,8 @@ import model.GoodsTypeBean;
 import model.HomeBean;
 import model.JianBean;
 import model.JiaoGoodsBean;
+import model.MessageBean;
+import model.MyPaiBean;
 import model.PaiGoodsBean;
 import model.PersonBean;
 import model.PersonInfoBean;
@@ -46,6 +48,8 @@ public interface AppAction {
     void addAddress(String addr_address, String addr_name, String addr_mobile, ActionCallbackListener<Void> listener);
     void updateAddress(String addr_id, String addr_address, String addr_name, String addr_mobile, ActionCallbackListener<Void> listener);
     void deleteAddress(String addr_id, ActionCallbackListener<Void> listener);
+    void messageList(int page,  ActionCallbackListener<List<MessageBean>> listener);
+    void myPaiList(int page,  ActionCallbackListener<List<MyPaiBean>> listener);
 
     void home(ActionCallbackListener<HomeBean> listener);
     void getGoodsType(ActionCallbackListener<List<GoodsTypeBean>> listener);

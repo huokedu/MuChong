@@ -158,6 +158,30 @@ public class ApiImpl implements Api {
     }
 
     @Override
+    public void messageList(String page, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
+        params.put("page", page);
+        String url = Api.MessageList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void myPaiList(String page, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
+        params.put("page", page);
+        String url = Api.MyPaiList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
     public void home(ResultCallback callback) {
         String url = Api.Home;
         new OkHttpRequest.Builder().url(url).get(callback);

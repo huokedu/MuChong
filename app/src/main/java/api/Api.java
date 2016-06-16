@@ -23,6 +23,9 @@ public interface Api {
     String AddAddress = Host + "/Home/HomeUser/addAddress";
     String UpdateAddress = Host + "/Home/HomeUser/updateAddr";
     String DeleteAddress = Host + "/Home/HomeUser/deladdr";
+    String MessageList = Host + "/Home/HomeMessage/msglist";
+    String MessageDetailHtml = Host + "/Home/HomeMessage/msginfo?user_id=%1$s&user_token=%2$s&msg_id=%3$s";
+    String MyPaiList = Host + "/Home/HomeBid/mybid";
 
     String Home = Host + "/Home/HomeCommodity/homepage";
     String GetGoodsType = Host + "/Home/HomeCommodity/smallclasslist";
@@ -71,6 +74,8 @@ public interface Api {
     void addAddress(String addr_address, String addr_name, String addr_mobile, ResultCallback callback);
     void updateAddress(String addr_id, String addr_address, String addr_name, String addr_mobile, ResultCallback callback);
     void deleteAddress(String addr_id, ResultCallback callback);
+    void messageList(String page, ResultCallback callback);
+    void myPaiList(String page, ResultCallback callback);
 
     void home(ResultCallback callback);
     void getGoodsType(ResultCallback callback);

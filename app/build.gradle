@@ -14,6 +14,15 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
 
+    signingConfigs {
+        release {
+            storeFile file("MuChong.jks")
+            storePassword "mc1qaz"
+            keyAlias "MuChong"
+            keyPassword "mc1qaz"
+        }
+    }
+
     defaultConfig {
         applicationId "com.htlc.muchong"
         minSdkVersion 15
@@ -22,7 +31,12 @@ android {
         versionName "1.0"
     }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+        }
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

@@ -29,12 +29,13 @@ import model.ShoppingCartItemBean;
 
 /**
  * Created by sks on 2016/6/14.
+ * 创建订单  支付界面
  */
 public class CreateOrderActivity extends BaseActivity implements View.OnClickListener {
     public static final String Shopping_Items = "Shopping_Items";
     public static final String Is_Shopping_Cart = "Is_Shopping_Cart";
     private static final int RequestAddressCode = 852;
-    private AddressBean addressBean;
+    private static final int RequestPayCode = 853;
 
     public static void goCreateOrderActivity(Context context, ArrayList<ShoppingCartItemBean> shoppingCartItemBeans, boolean isShoppingCart) {
         Intent intent = new Intent(context, CreateOrderActivity.class);
@@ -50,12 +51,17 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
     private TextView textTel;
     private TextView textAddress;
 
+    private LinearLayout linearPay;
+    private TextView textPayWay;
+
     private ListView listView;
     private CreateOrderAdapter adapter;
     private TextView textTotalPrice;
 
     private ArrayList<ShoppingCartItemBean> shoppingCartItemBeans;
     private boolean isShoppingCart;
+    private AddressBean addressBean;
+    private String payWay;
 
     @Override
     protected int getLayoutId() {
@@ -77,6 +83,10 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
         textTel = (TextView) findViewById(R.id.textTel);
         textAddress = (TextView) findViewById(R.id.textAddress);
 
+        linearPay = (LinearLayout) findViewById(R.id.linearPay);
+        linearPay.setOnClickListener(this);
+        textPayWay = (TextView) findViewById(R.id.textPayWay);
+
         listView = (ListView) findViewById(R.id.listView);
         adapter = new CreateOrderAdapter();
         listView.setAdapter(adapter);
@@ -97,7 +107,7 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
             App.app.appAction.buyByShoppingCart(shoppingCartItemBeans, addressId, new BaseActionCallbackListener<CreateOrderResultBean>() {
                 @Override
                 public void onSuccess(CreateOrderResultBean data) {
-                    ToastUtil.showToast(App.app, "创建   单个商品   订单成功去支付！  " + data.node);
+                    ToastUtil.showToast(App.app, "创建   多个商品   订单成功去支付！  " + data.node);
                 }
 
                 @Override
@@ -140,7 +150,11 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
             case R.id.linearAddress:
                 Intent intent = new Intent(this, AddressActivity.class);
                 intent.putExtra(AddressActivity.Is_Select, true);
-                startActivityForResult(intent,RequestAddressCode);
+                startActivityForResult(intent, RequestAddressCode);
+                break;
+            case R.id.linearPay:
+                Intent intent1 = new Intent(this, PayListActivity.class);
+                startActivityForResult(intent1,RequestPayCode);
                 break;
         }
     }
@@ -156,6 +170,11 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
 
             textAddressTips.setVisibility(View.GONE);
             relativeAddress.setVisibility(View.VISIBLE);
+        }
+        if(resultCode == Activity.RESULT_OK && requestCode == RequestPayCode){
+            int payId = data.getIntExtra(PayListActivity.PayId, 0);
+            textPayWay.setText(PayListActivity.PayNameIds[payId]);
+            payWay = PayListActivity.PayWays[payId];
         }
     }
 

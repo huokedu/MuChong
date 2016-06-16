@@ -54,6 +54,10 @@
         <activity android:name=".activity.ResetTelActivity"/>
         <activity android:name=".activity.AddressActivity"/>
         <activity android:name=".activity.EditAddressActivity"/>
+        <activity android:name=".activity.MyMessageListActivity"/>
+        <activity android:name=".activity.WebActivity"/>
+        <activity android:name=".activity.MyPaiListActivity"/>
+        <activity android:name=".activity.PayListActivity"/>
     </application>
 
 </manifest>

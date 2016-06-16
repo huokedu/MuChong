@@ -27,7 +27,8 @@ import core.ActionCallbackListener;
  * Created by sks on 2016/5/13.
  */
 public abstract class BaseActivity extends AppCompatActivity {
-    public static final String ActivityTitleId = "ActivityTitle";
+    public static final String ActivityTitleId = "ActivityTitleId";
+    public static final String ActivityTitle = "ActivityTitle";
     public static final String ERROR_TOKEN_TIMEOUT = "token失效";
     public static final String ERROR_BOUND_NO_ENOUGH = "保证金不足";
     public Toolbar mToolbar;

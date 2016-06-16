@@ -117,6 +117,14 @@
 
     <string name="title_create_order">填写订单</string>
     <string name="create_order_add_info">请添加收货人信息</string>
+    <string name="create_order_pay_way">支付方式</string>
+    <string name="create_order_pay_way_hint">请选择支付方式</string>
+
+    <string name="title_select_pay_way">选择支付方式</string>
+    <string name="pay_way_1">钱包支付</string>
+    <string name="pay_way_2">银联支付</string>
+    <string name="pay_way_3">微信支付</string>
+    <string name="pay_way_4">支付宝支付</string>
 
 
     <string name="title_user">个人信息</string>

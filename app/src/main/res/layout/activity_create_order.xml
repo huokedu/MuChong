@@ -60,15 +60,43 @@
             </RelativeLayout>
         </LinearLayout>
         <View
+            android:id="@+id/divider"
             android:layout_gravity="bottom"
             android:layout_below="@+id/linearAddress"
             android:background="@mipmap/icon_create_order_divider"
             android:layout_width="match_parent"
             android:layout_height="5dp"/>
+        <LinearLayout
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@android:color/white"
+            android:layout_below="@+id/divider"
+            android:id="@+id/linearPay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:text="@string/create_order_pay_way"
+                android:textColor="@color/text_color_black_muchong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:gravity="end"
+                android:layout_weight="1"
+                android:id="@+id/textPayWay"
+                android:drawablePadding="5dp"
+                android:textColor="@color/text_color_black_muchong"
+                android:drawableRight="@mipmap/icon_create_order_arrow"
+                android:hint="@string/create_order_pay_way_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
         <ListView
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="3dp"
             android:id="@+id/listView"
-            android:layout_below="@+id/linearAddress"
+            android:layout_below="@+id/linearPay"
             android:layout_above="@+id/linearClearing"
             android:dividerHeight="3dp"
             android:divider="@color/bg_gray"
