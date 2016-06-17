@@ -25,6 +25,7 @@ public interface Api {
     String DeleteAddress = Host + "/Home/HomeUser/deladdr";
     String MessageList = Host + "/Home/HomeMessage/msglist";
     String MessageDetailHtml = Host + "/Home/HomeMessage/msginfo?user_id=%1$s&user_token=%2$s&msg_id=%3$s";
+    String DeleteMessage = Host + "/Home/HomeMessage/delmsg";
     String MyPaiList = Host + "/Home/HomeBid/mybid";
 
     String Home = Host + "/Home/HomeCommodity/homepage";
@@ -45,6 +46,7 @@ public interface Api {
     String ShoppingCartList = Host + "/Home/HomeShopCar/queryShopCar";
     String DeleteShoppingCart = Host + "/Home/HomeShopCar/delShopCar";
     String AddPaiPrice = Host + "/Home/HomeBid/addbid";
+    String SearchGoods = Host + "/Home/HomeCommodity/search";
 
     String CangList = Host + "/Home/HomeForum/collectionlist";
     String PostDetail = Host + "/Home/HomeForum/foruminfo";
@@ -75,6 +77,7 @@ public interface Api {
     void updateAddress(String addr_id, String addr_address, String addr_name, String addr_mobile, ResultCallback callback);
     void deleteAddress(String addr_id, ResultCallback callback);
     void messageList(String page, ResultCallback callback);
+    void deleteMessage(String msg_id, ResultCallback callback);
     void myPaiList(String page, ResultCallback callback);
 
     void home(ResultCallback callback);
@@ -94,17 +97,18 @@ public interface Api {
     void jiaoListBySmallClass(String page, String commodity_smallclass,String order, String commodity_material, ResultCallback callback);
     void addLike(String commodityid,String forumid,String user, ResultCallback callback);
     void addShoppingCart(String shopcar_commodityid,ResultCallback callback);
-    void buyNow(String commodity_id, String num, String address_id, ResultCallback callback);
-    void buyByShoppingCart(String shopcar, String address_id, ResultCallback callback);
+    void buyNow(String channel, String commodity_id, String num, String address_id, ResultCallback callback);
+    void buyByShoppingCart(String channel, String shopcar, String address_id, ResultCallback callback);
     void shoppingCartList(ResultCallback callback);
     void deleteShoppingCart(String shopcar_id, ResultCallback callback);
     void addPaiPrice(String commodity_id, String price, ResultCallback callback);
+    void searchGoods(String page, String search, ResultCallback callback);
 
     void cangList(String page, ResultCallback callback);
     void postDetail(String forum_id, ResultCallback callback);
     void postCommentList(String forum_id, String page, ResultCallback callback);
     void addPostComment(String forum_backid, String forum_content, ResultCallback callback);
-    void publishPost(String forum_title, String forum_content,String forum_type, Pair<String,File>[] images,ResultCallback callback);
+    void publishPost(String limitdays, String forum_title, String forum_content,String forum_type, Pair<String,File>[] images,ResultCallback callback);
     void jianList(String page,String forum_yesorno,ResultCallback callback);
     void publishJianResult(String appraisal_forumid,String appraisal_type,String appraisal_content, ResultCallback callback);
     void postList(String user_id, String page, ResultCallback callback);

@@ -154,6 +154,21 @@ public class MyMessageListActivity extends BaseActivity {
             }
         });
     }
+    /*删除消息*/
+    private void deleteMessage(String msgId){
+        App.app.appAction.deleteMessage(msgId, new BaseActionCallbackListener<Void>() {
+            @Override
+            public void onSuccess(Void data) {
+                ToastUtil.showToast(App.app,"删除成功");
+                initData();
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+            }
+        });
+    }
 
     private class MyMessageRecyclerViewAdapter extends BaseRecyclerViewAdapter<MessageBean>{
         @Override
@@ -168,7 +183,7 @@ public class MyMessageListActivity extends BaseActivity {
         public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
             super.onBindViewHolder(holder,position);
             ViewHolder viewHolder = (ViewHolder) holder;
-            MessageBean bean = mList.get(position);
+            final MessageBean bean = mList.get(position);
             ImageUtil.setImageByDefault(viewHolder.imageView, R.mipmap.default_third_gird_head, Uri.parse(bean.msg_coverimg));
             DateFormat.setTextByTime(viewHolder.textTime, bean.msg_ctime);
             viewHolder.textTitle.setText(bean.msg_title);
@@ -176,7 +191,7 @@ public class MyMessageListActivity extends BaseActivity {
             viewHolder.imageDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    deleteMessage(bean.id);
                 }
             });
             viewHolder.imageFlag.setVisibility(bean.isread.equals("1") ? View.VISIBLE : View.INVISIBLE);

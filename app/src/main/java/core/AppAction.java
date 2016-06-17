@@ -49,6 +49,7 @@ public interface AppAction {
     void updateAddress(String addr_id, String addr_address, String addr_name, String addr_mobile, ActionCallbackListener<Void> listener);
     void deleteAddress(String addr_id, ActionCallbackListener<Void> listener);
     void messageList(int page,  ActionCallbackListener<List<MessageBean>> listener);
+    void deleteMessage(String msg_id, ActionCallbackListener<Void> listener);
     void myPaiList(int page,  ActionCallbackListener<List<MyPaiBean>> listener);
 
     void home(ActionCallbackListener<HomeBean> listener);
@@ -69,11 +70,12 @@ public interface AppAction {
     void jiaoListBySmallClass(int page, String commodity_smallclass, String order, String commodity_material, ActionCallbackListener<List<JiaoGoodsBean>> listener);
     void addLikeGoods(String commodity_id,ActionCallbackListener<Void> listener);
     void addShoppingCart(String shopcar_commodityid,ActionCallbackListener<Void> listener);
-    void buyNow(String commodity_id, String num, String address_id, ActionCallbackListener<CreateOrderResultBean> listener);
-    void buyByShoppingCart(List<ShoppingCartItemBean> shoppingCartItemBeans, String address_id, ActionCallbackListener<CreateOrderResultBean> listener);
+    void buyNow(String channel, String commodity_id, String num, String address_id, ActionCallbackListener<CreateOrderResultBean> listener);
+    void buyByShoppingCart(String channel, List<ShoppingCartItemBean> shoppingCartItemBeans, String address_id, ActionCallbackListener<CreateOrderResultBean> listener);
     void shoppingCartList(ActionCallbackListener<List<ShoppingCartItemBean>> listener);
     void deleteShoppingCart(List<ShoppingCartItemBean> shoppingCartItemBeans, ActionCallbackListener<Void> listener);
     void addPaiPrice(String commodity_id, String price, ActionCallbackListener<Void> listener);
+    void searchGoods(int page, String search, ActionCallbackListener<List<GoodsBean>> listener);
 
     void cangList(int page,ActionCallbackListener<List<CangBean>> listener);
     void postDetail(String forum_id,ActionCallbackListener<PostDetailBean> listener);
@@ -81,6 +83,7 @@ public interface AppAction {
     void addPostComment(String forum_backid, String forum_content, ActionCallbackListener<Void> listener);
     void addLikePost(String forum_backid, ActionCallbackListener<Void> listener);
     void publishPostCang(boolean isCangPublish,String forum_title, String forum_content, File coverImageFile, List<File> contentImageFiles,  ActionCallbackListener<Void> listener);
+    void publishPost(String type,String durationTime, String forum_title, String forum_content, File coverImageFile, List<File> contentImageFiles,  ActionCallbackListener<Void> listener);
     void jianList(int page, String forum_yesorno,  ActionCallbackListener<List<JianBean>> listener);
     void publishJianResult(String appraisal_forumid, boolean isTrue, String appraisal_content,  ActionCallbackListener<Void> listener);
     void postList(int page, ActionCallbackListener<List<PostBean>> listener);

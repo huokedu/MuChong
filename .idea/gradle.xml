@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/cptr" />
             <option value="$PROJECT_DIR$/okhttputil" />
+            <option value="$PROJECT_DIR$/pingpp" />
           </set>
         </option>
       </GradleProjectSettings>

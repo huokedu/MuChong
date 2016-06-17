@@ -26,6 +26,7 @@ import com.htlc.muchong.activity.QiangListActivity;
 import com.htlc.muchong.adapter.FirstAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.util.GoodsUtil;
+import com.htlc.muchong.util.ImageUtil;
 import com.htlc.muchong.widget.DaoJiShiView;
 import com.larno.util.ToastUtil;
 import com.squareup.picasso.Picasso;
@@ -42,12 +43,12 @@ import model.PaiGoodsBean;
  */
 public class FirstFragment extends HomeFragment implements View.OnClickListener {
 
-    public static final String[] sampleNetworkImageURLs = {
-            "http://pic55.nipic.com/file/20141208/19462408_171130083000_2.jpg",
-            "http://pic36.nipic.com/20131217/6704106_233034463381_2.jpg",
-            "http://img05.tooopen.com/images/20140604/sy_62331342149.jpg",
-            "http://pic36.nipic.com/20131217/6704106_233034463381_2.jpg"
-    };
+//    public static final String[] sampleNetworkImageURLs = {
+//            "http://pic55.nipic.com/file/20141208/19462408_171130083000_2.jpg",
+//            "http://pic36.nipic.com/20131217/6704106_233034463381_2.jpg",
+//            "http://img05.tooopen.com/images/20140604/sy_62331342149.jpg",
+//            "http://pic36.nipic.com/20131217/6704106_233034463381_2.jpg"
+//    };
 
     protected BannerFragment mBannerFragment;
     protected PtrClassicFrameLayout mPtrFrame;
@@ -82,7 +83,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
     protected void setupView() {
 
         mPtrFrame = findViewById(R.id.rotate_header_list_view_frame);
-       mPtrFrame.setLastUpdateTimeKey(null);
+        mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -117,7 +118,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ProductDetailActivity.goProductActivity(getContext(),((GoodsBean) adapter.getItem(position)).id);
+                ProductDetailActivity.goProductActivity(getContext(), ((GoodsBean) adapter.getItem(position)).id);
             }
         });
 
@@ -140,8 +141,11 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         linearQiang2.setOnClickListener(this);
         linearQiang3.setOnClickListener(this);
         imageQiang1 = findViewById(R.id.imageQiang1);
+        imageQiang1.setVisibility(View.VISIBLE);
         imageQiang2 = findViewById(R.id.imageQiang2);
+        imageQiang2.setVisibility(View.VISIBLE);
         imageQiang3 = findViewById(R.id.imageQiang3);
+        imageQiang3.setVisibility(View.VISIBLE);
         textNameQiang1 = findViewById(R.id.textNameQiang1);
         textNameQiang2 = findViewById(R.id.textNameQiang2);
         textNameQiang3 = findViewById(R.id.textNameQiang3);
@@ -210,38 +214,53 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             daoJiShiView.setData(0, Long.parseLong(homeBean.limittime.timeStr) * 1000);
         }
         if (homeBean.limittime.list.size() >= 1) {
+            linearQiang1.setVisibility(View.VISIBLE);
             GoodsBean goodsBean = homeBean.limittime.list.get(0);
-            Picasso.with(getContext()).load(Uri.parse(goodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_qiang).error(R.mipmap.default_first_qiang).into(imageQiang1);
+            ImageUtil.setImageByDefault(imageQiang1, R.mipmap.default_first_qiang, Uri.parse(goodsBean.commodity_coverimg));
             textNameQiang1.setText(goodsBean.commodity_name);
             GoodsUtil.setPriceBySymbol(textPriceQiang1, goodsBean.commodity_panicprice);
+        }else {
+            linearQiang1.setVisibility(View.INVISIBLE);
         }
         if (homeBean.limittime.list.size() >= 2) {
+            linearQiang2.setVisibility(View.VISIBLE);
             GoodsBean goodsBean = homeBean.limittime.list.get(1);
             Picasso.with(getContext()).load(Uri.parse(goodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_qiang).error(R.mipmap.default_first_qiang).into(imageQiang2);
             textNameQiang2.setText(goodsBean.commodity_name);
             GoodsUtil.setPriceBySymbol(textPriceQiang2, goodsBean.commodity_panicprice);
+        }else {
+            linearQiang2.setVisibility(View.INVISIBLE);
         }
         if (homeBean.limittime.list.size() >= 3) {
+            linearQiang3.setVisibility(View.VISIBLE);
             GoodsBean goodsBean = homeBean.limittime.list.get(2);
             Picasso.with(getContext()).load(Uri.parse(goodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_qiang).error(R.mipmap.default_first_qiang).into(imageQiang3);
             textNameQiang3.setText(goodsBean.commodity_name);
             GoodsUtil.setPriceBySymbol(textPriceQiang3, goodsBean.commodity_panicprice);
+        }else {
+            linearQiang3.setVisibility(View.INVISIBLE);
         }
 
         //刷新竞拍数据
         if (homeBean.bid.size() >= 1) {
+            relativePai1.setVisibility(View.VISIBLE);
             PaiGoodsBean paiGoodsBean = homeBean.bid.get(0);
             Picasso.with(getContext()).load(Uri.parse(paiGoodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_pai).error(R.mipmap.default_first_pai).into(imagePai1);
             GoodsUtil.setImageByPaiType(imageTypePai1, paiGoodsBean.commodity_type);
             textPaiName1.setText(paiGoodsBean.commodity_name);
             GoodsUtil.setPriceBySymbol(textPaiPrice1, paiGoodsBean.commodity_panicprice);
+        }else {
+            relativePai1.setVisibility(View.INVISIBLE);
         }
         if (homeBean.bid.size() >= 2) {
+            relativePai2.setVisibility(View.VISIBLE);
             PaiGoodsBean paiGoodsBean = homeBean.bid.get(1);
             Picasso.with(getContext()).load(Uri.parse(paiGoodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_pai).error(R.mipmap.default_first_pai).into(imagePai2);
             GoodsUtil.setImageByPaiType(imageTypePai2, paiGoodsBean.commodity_type);
             textPaiName2.setText(paiGoodsBean.commodity_name);
             GoodsUtil.setPriceBySymbol(textPaiPrice2, paiGoodsBean.commodity_panicprice);
+        }else {
+            relativePai2.setVisibility(View.INVISIBLE);
         }
 
         //刷新精品数据

@@ -44,7 +44,9 @@
     <ImageView
         android:layout_toLeftOf="@+id/textTime"
         android:layout_alignTop="@+id/textTime"
-        android:layout_marginRight="10dp"
+        android:layout_alignBottom="@+id/textTime"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:id="@+id/imageDelete"
         android:src="@mipmap/icon_message_delete"
         android:layout_width="wrap_content"

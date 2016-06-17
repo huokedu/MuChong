@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@mipmap/bg_toolbar"
+            android:navigationIcon="@mipmap/ic_back"
+            app:navigationIcon="@mipmap/ic_back"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:id="@+id/title_left"
+                style="@style/ToolbarTextSubAppearance"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:gravity="center"
+                android:visibility="gone"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/toolbar_title"
+                style="@style/ToolbarTextAppearance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text=""/>
+
+            <TextView
+                android:id="@+id/title_right"
+                style="@style/ToolbarTextSubAppearance"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:visibility="gone"/>
+            <android.support.v7.widget.SearchView
+                style="@style/SearchView"
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:imeOptions="actionSearch"/>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <com.chanven.lib.cptr.PtrClassicFrameLayout
+        android:id="@+id/rotate_header_list_view_frame"
+        style="@style/PtrFrameLayout">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.chanven.lib.cptr.PtrClassicFrameLayout>
+</LinearLayout>

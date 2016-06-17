@@ -2,6 +2,7 @@ package com.htlc.muchong.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -23,6 +24,7 @@ import com.htlc.muchong.fragment.ThirdFragment;
 import com.htlc.muchong.util.CircleTransform;
 import com.htlc.muchong.util.ImageUtil;
 import com.htlc.muchong.util.LoginUtil;
+import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 import com.squareup.picasso.Picasso;
 
@@ -76,14 +78,19 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         ratingBarLevel = (RatingBar)findViewById(R.id.ratingBarLevel);
         imageHead = (ImageView)findViewById(R.id.imageHead);
 
-
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mViewPager.setOffscreenPageLimit(3);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        Point outSize = new Point();
+        getWindow().getWindowManager().getDefaultDisplay().getSize(outSize);
+        if(outSize.x> CommonUtil.dp2px(this,90)*5){
+            mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+        }
         ArrayList<HomeFragment> pageFragments = new ArrayList<>();
         pageFragments.add(HomeFragment.newInstance(TaFragment.class, getString(R.string.title_ta_one), 0));
         pageFragments.add(HomeFragment.newInstance(TaFragment.class, getString(R.string.title_ta_two), 0));
         pageFragments.add(HomeFragment.newInstance(TaFragment.class, getString(R.string.title_ta_three), 0));
+        pageFragments.add(HomeFragment.newInstance(TaFragment.class, getString(R.string.title_ta_four), 0));
         pageFragments.add(HomeFragment.newInstance(TaFragment.class, getString(R.string.title_ta_four), 0));
 
 

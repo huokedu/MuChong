@@ -6,6 +6,7 @@ import android.util.Pair;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.htlc.muchong.activity.PostPublishActivity;
 import com.htlc.muchong.activity.ProductDetailActivity;
 import com.htlc.muchong.util.LoginUtil;
 import com.larno.util.EncryptUtil;
@@ -442,6 +443,25 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
+    public void deleteMessage(String msg_id, ActionCallbackListener<Void> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        api.deleteMessage(msg_id, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
     public void myPaiList(int page, ActionCallbackListener<List<MyPaiBean>> listener) {
         if (!NetworkUtil.isNetworkAvailable(context)) {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
@@ -845,17 +865,19 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void buyNow(String commodity_id, String num, String address_id, ActionCallbackListener<CreateOrderResultBean> listener) {
+    public void buyNow(String channel, String commodity_id, String num, String address_id, ActionCallbackListener<CreateOrderResultBean> listener) {
         if (TextUtils.isEmpty(address_id)) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "请选择收获地址");
             return;
         }
-        api.buyNow(commodity_id, num, address_id, new DefaultResultCallback(listener) {
+        api.buyNow(channel, commodity_id, num, address_id, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
-                    CreateOrderResultBean bean = JSON.parseObject(model.getString(KEY_DATA), CreateOrderResultBean.class);
+                    String charges = model.getJSONObject(KEY_DATA).getString("charges");
+                    CreateOrderResultBean bean = new CreateOrderResultBean();
+                    bean.charges = charges;
                     listener.onSuccess(bean);
                 } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
@@ -865,18 +887,20 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void buyByShoppingCart(List<ShoppingCartItemBean> shoppingCartItemBeans, String address_id, ActionCallbackListener<CreateOrderResultBean> listener) {
+    public void buyByShoppingCart(String channel, List<ShoppingCartItemBean> shoppingCartItemBeans, String address_id, ActionCallbackListener<CreateOrderResultBean> listener) {
         if (TextUtils.isEmpty(address_id)) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "请选择收获地址");
             return;
         }
         String shopcar = JSON.toJSONString(shoppingCartItemBeans);
-        api.buyByShoppingCart(shopcar, address_id, new DefaultResultCallback(listener) {
+        api.buyByShoppingCart(channel, shopcar, address_id, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
-                    CreateOrderResultBean bean = JSON.parseObject(model.getString(KEY_DATA), CreateOrderResultBean.class);
+                    String charges = model.getJSONObject(KEY_DATA).getString("charges");
+                    CreateOrderResultBean bean = new CreateOrderResultBean();
+                    bean.charges = charges;
                     listener.onSuccess(bean);
                 } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
@@ -935,6 +959,22 @@ public class AppActionImpl implements AppAction {
                 JSONObject model = JSON.parseObject(response);
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void searchGoods(int page, String search, ActionCallbackListener<List<GoodsBean>> listener) {
+        api.searchGoods(String.valueOf(page), search, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<GoodsBean> bean = JSON.parseArray(model.getString(KEY_DATA), GoodsBean.class);
+                    listener.onSuccess(bean);
                 } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }
@@ -1056,7 +1096,61 @@ public class AppActionImpl implements AppAction {
             publishType = TYPE_JIAN;
         }
 
-        api.publishPost(forum_title, forum_content, publishType, imageFiles, new DefaultResultCallback(listener) {
+        api.publishPost("",forum_title, forum_content, publishType, imageFiles, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void publishPost(String type, String durationTime, String forum_title, String forum_content, File coverImageFile, List<File> contentImageFiles, ActionCallbackListener<Void> listener) {
+        if (type.equals(PostPublishActivity.Publish_Types[2]) && TextUtils.isEmpty(durationTime)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "请选择活动天数");
+            return;
+        }
+        if (!type.equals(PostPublishActivity.Publish_Types[2])) {
+           durationTime = "";
+        }
+        if (!type.equals(PostPublishActivity.Publish_Types[0]) && coverImageFile == null) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "封面图片不能为空");
+            return;
+        }
+
+        if (contentImageFiles == null || contentImageFiles.size() == 0) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "内容图片不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(forum_title)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "标题不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(forum_content)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "文本内容不能为空");
+            return;
+        }
+        Pair<String, File>[] imageFiles;
+        if(!type.equals(PostPublishActivity.Publish_Types[0])){
+            imageFiles = new Pair[contentImageFiles.size() + 1];
+            imageFiles[0] = new Pair<>("forum_imgs[0]", coverImageFile);
+            for (int i = 0; i < contentImageFiles.size(); i++) {
+                imageFiles[i + 1] = new Pair<>("forum_imgs[" + (i + 1) + "]", contentImageFiles.get(i));
+            }
+        }else {
+            imageFiles = new Pair[contentImageFiles.size() + 1];
+            imageFiles[0] = new Pair<>("forum_imgs[0]", contentImageFiles.get(0));
+            for (int i = 0; i < contentImageFiles.size(); i++) {
+                imageFiles[i+1] = new Pair<>("forum_imgs[" + (i + 1) + "]", contentImageFiles.get(i));
+            }
+        }
+
+        api.publishPost(durationTime,forum_title, forum_content, type, imageFiles, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);

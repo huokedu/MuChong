@@ -126,14 +126,6 @@ public class MyPaiListActivity extends BaseActivity {
         });
     }
 
-
-//    protected void initData() {
-//        List<MyPaiBean> list = new ArrayList<>();
-//        for(int i=0; i<20; i++){
-//            list.add(new MyPaiBean());
-//        }
-//        adapter.setData(list, false);
-//    }
     @Override
     protected void initData() {
         page = 1;
@@ -172,11 +164,11 @@ public class MyPaiListActivity extends BaseActivity {
         public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
             super.onBindViewHolder(holder,position);
             ViewHolder viewHolder = (ViewHolder) holder;
-//            MyPaiBean bean = mList.get(position);
-//            DateFormat.setTextByTime(viewHolder.textTime, bean.mybid_ctime);
-//            viewHolder.textName.setText(bean.mybid_commodityname);
-//            GoodsUtil.setPriceBySymbol(viewHolder.textPaiPrice, bean.commodity_startprice);
-//            GoodsUtil.setPriceBySymbol(viewHolder.textResultPrice,bean.mybid_money);
+            MyPaiBean bean = mList.get(position);
+            DateFormat.setTextByTime(viewHolder.textTime, bean.mybid_ctime);
+            viewHolder.textName.setText(bean.mybid_commodityname);
+            GoodsUtil.setPriceBySymbol(viewHolder.textPaiPrice, bean.commodity_startprice);
+            GoodsUtil.setPriceBySymbol(viewHolder.textResultPrice,bean.mybid_money);
 
         }
 

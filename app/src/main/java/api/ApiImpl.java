@@ -170,6 +170,18 @@ public class ApiImpl implements Api {
     }
 
     @Override
+    public void deleteMessage(String msg_id, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
+        params.put("msg_id", msg_id);
+        String url = Api.DeleteMessage;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
     public void myPaiList(String page, ResultCallback callback) {
         UserBean user = LoginUtil.getUser();
         Map<String, String> params = new HashMap<String, String>();
@@ -332,12 +344,13 @@ public class ApiImpl implements Api {
     }
 
     @Override
-    public void buyNow(String commodity_id, String num, String address_id, ResultCallback callback) {
+    public void buyNow(String channel, String commodity_id, String num, String address_id, ResultCallback callback) {
         UserBean bean = LoginUtil.getUser();
         Map<String, String> params = new HashMap<String, String>();
         params.put("user_id", bean.id);
         params.put("user_token", bean.user_token);
 
+        params.put("channel", channel);
         params.put("commodity_id", commodity_id);
         params.put("num", num);
         params.put("address_id", address_id);
@@ -346,12 +359,13 @@ public class ApiImpl implements Api {
     }
 
     @Override
-    public void buyByShoppingCart(String shopcar, String address_id, ResultCallback callback) {
+    public void buyByShoppingCart(String channel, String shopcar, String address_id, ResultCallback callback) {
         UserBean bean = LoginUtil.getUser();
         Map<String, String> params = new HashMap<String, String>();
         params.put("user_id", bean.id);
         params.put("user_token", bean.user_token);
 
+        params.put("channel", channel);
         params.put("shopcar", shopcar);
         params.put("address_id", address_id);
         String url = Api.BuyByShoppingCart;
@@ -395,6 +409,16 @@ public class ApiImpl implements Api {
     }
 
     @Override
+    public void searchGoods(String page, String search, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+
+        params.put("page", page);
+        params.put("search", search);
+        String url = Api.SearchGoods;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
     public void cangList(String page,ResultCallback callback) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("page", page);
@@ -433,12 +457,13 @@ public class ApiImpl implements Api {
     }
 
     @Override
-    public void publishPost(String forum_title, String forum_content, String forum_type, Pair<String, File>[] images, ResultCallback callback) {
+    public void publishPost(String limitdays, String forum_title, String forum_content, String forum_type, Pair<String, File>[] images, ResultCallback callback) {
         UserBean user = LoginUtil.getUser();
         Map<String, String> params = new HashMap<String, String>();
         params.put("user_id", user.id);
         params.put("user_token", user.user_token);
 
+        params.put("limitdays", limitdays);
         params.put("forum_title", forum_title);
         params.put("forum_content", forum_content);
 

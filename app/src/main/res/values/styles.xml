@@ -42,6 +42,18 @@
     <style name="ToolbarActionMenuTextAppearance">
         <item name="android:textColor">@android:color/white</item>
     </style>
+    <style name="SearchView" parent="Base.Widget.AppCompat.SearchView">
+        <item name="layout">@layout/abc_search_view</item>
+        <item name="queryBackground">@drawable/abc_textfield_search_material</item>
+        <item name="submitBackground">@drawable/abc_textfield_search_material</item>
+        <item name="closeIcon">@drawable/abc_ic_clear_mtrl_alpha</item>
+        <item name="searchIcon">@drawable/abc_ic_search_api_mtrl_alpha</item>
+        <item name="searchHintIcon">@drawable/abc_ic_search_api_mtrl_alpha</item>
+        <item name="goIcon">@drawable/abc_ic_go_search_api_mtrl_alpha</item>
+        <item name="voiceIcon">@drawable/abc_ic_voice_search_api_mtrl_alpha</item>
+        <item name="commitIcon">@drawable/abc_ic_commit_search_api_mtrl_alpha</item>
+        <item name="suggestionRowLayout">@layout/abc_search_dropdown_item_icons_2line</item>
+    </style>
 
     <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorColor">@android:color/transparent</item>
@@ -213,6 +225,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:visibility">invisible</item>
     </style>
     <!--抢购商品图片-->
     <style name="FirstQiangImage">
@@ -252,6 +265,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:visibility">invisible</item>
     </style>
     <!--竞拍商品图片-->
     <style name="FirstPaiImage">

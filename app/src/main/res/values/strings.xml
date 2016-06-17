@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">木虫</string>
+    <string name="app_name">格物文玩</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
     <string name="publish">发布</string>
@@ -170,6 +170,7 @@
     <string name="publish_child_type">商品种类</string>
     <string name="publish_start_time">开始时间</string>
     <string name="publish_duration_time">限时长度</string>
+    <string name="publish_duration_time_day">活动天数</string>
 
     <string name="publish_buy_count">库存数量</string>
     <string name="publish_buy_count_hint">请输入库存数量</string>
@@ -188,6 +189,16 @@
     <string name="qiang_list_start">%1$s开抢</string>
 
     <string name="title_comment_list">评论</string>
+
+
+    <string name="order_list_no_pay">未支付</string>
+    <string name="order_list_pay">已支付</string>
+    <string name="order_list_finish">已发货</string>
+    <string name="order_list_order_id">订单号: %1$s</string>
+    <string name="order_list_order_name">商品名称:</string>
+    <string name="order_list_order_money">金额:</string>
+
+
 
 
 

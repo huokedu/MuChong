@@ -2,19 +2,25 @@ package com.htlc.muchong.fragment;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
+import com.htlc.muchong.App;
 import com.htlc.muchong.R;
+import com.htlc.muchong.activity.MainActivity;
+import com.htlc.muchong.activity.PostPublishActivity;
 import com.htlc.muchong.adapter.FourthPagerAdapter;
 import com.htlc.muchong.base.BaseActivity;
+import com.htlc.muchong.util.LoginUtil;
 
 import java.util.ArrayList;
 
 /**
  * Created by sks on 2016/5/20.
  */
-public class FourthFragment extends HomeFragment{
+public class FourthFragment extends HomeFragment {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_fourth;
@@ -32,17 +38,16 @@ public class FourthFragment extends HomeFragment{
         pageFragments.add(HomeFragment.newInstance(FourthChildOneFragment.class, getString(R.string.fourth_title_fragment_four), 0));
 
 
-
         FourthPagerAdapter pagerAdapter = new FourthPagerAdapter(getChildFragmentManager(), pageFragments);
         mViewPager.setAdapter(pagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                int position = tab.getPosition();
+                final int position = tab.getPosition();
                 mViewPager.setCurrentItem(position, false);
-                mTitle = mViewPager.getAdapter().getPageTitle(position);
-                ((BaseActivity)getActivity()).mTitleTextView.setText(mTitle);
+                refreshToolbar(position);
+
             }
 
             @Override
@@ -53,10 +58,57 @@ public class FourthFragment extends HomeFragment{
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+        View.OnClickListener rightTextClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (App.app.isLogin()) {
+                    PostPublishActivity.goPostPublishActivity(getContext(), PostPublishActivity.Publish_Types[0], R.string.title_post_publish);
+                } else {
+                    LoginUtil.showLoginTips(getActivity());
+                }
+            }
+        };
+        ((MainActivity) getActivity()).setFourthFragmentOnClickListener(rightTextClickListener);
+    }
+
+    private void refreshToolbar(final int position) {
+        mTitle = mViewPager.getAdapter().getPageTitle(position);
+        if (position == 1) {
+            ((BaseActivity) getActivity()).mTitleRightTextView.setVisibility(View.INVISIBLE);
+            ((BaseActivity) getActivity()).mTitleTextView.setText(mTitle);
+        } else {
+            ((BaseActivity) getActivity()).mTitleTextView.setText(mTitle);
+            ((BaseActivity) getActivity()).mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);
+            ((BaseActivity) getActivity()).mTitleRightTextView.setText("");
+            View.OnClickListener rightTextClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (App.app.isLogin()) {
+                        PostPublishActivity.goPostPublishActivity(getContext(), PostPublishActivity.Publish_Types[position], R.string.title_post_publish);
+                    } else {
+                        LoginUtil.showLoginTips(getActivity());
+                    }
+                }
+            };
+            ((MainActivity) getActivity()).setFourthFragmentOnClickListener(rightTextClickListener);
+            ((BaseActivity) getActivity()).mTitleRightTextView.setOnClickListener(rightTextClickListener);
+            ((BaseActivity) getActivity()).mTitleRightTextView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     protected void initData() {
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 }

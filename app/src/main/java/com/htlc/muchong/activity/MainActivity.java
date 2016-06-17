@@ -30,6 +30,11 @@ public class MainActivity extends BaseActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private View imageViewButton;
+    private View.OnClickListener fourthFragmentOnClickListener;
+
+    public void setFourthFragmentOnClickListener(View.OnClickListener fourthFragmentOnClickListener) {
+        this.fourthFragmentOnClickListener = fourthFragmentOnClickListener;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -64,9 +69,16 @@ public class MainActivity extends BaseActivity {
                 }
             }
         }
+        //init  Tab 0
         mTitleTextView.setText(mViewPager.getAdapter().getPageTitle(0));
         mTitleRightTextView.setBackgroundResource(R.mipmap.icon_search);
         mTitleRightTextView.setText("");
+        mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchActivity.goSearchActivity(MainActivity.this);
+            }
+        });
         mTitleRightTextView.setVisibility(View.VISIBLE);
 
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -82,7 +94,7 @@ public class MainActivity extends BaseActivity {
                     mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ToastUtil.showToast(App.app, "Home Search");
+                            SearchActivity.goSearchActivity(MainActivity.this);
                         }
                     });
                     mTitleLeftTextView.setVisibility(View.INVISIBLE);
@@ -95,7 +107,7 @@ public class MainActivity extends BaseActivity {
                     mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ToastUtil.showToast(App.app, "Shopping Search");
+                            SearchActivity.goSearchActivity(MainActivity.this);
                         }
                     });
                     if (App.app.isLogin() && LoginUtil.getUser().user_role.equals(UserBean.TYPE_MERCHANT)) {
@@ -133,17 +145,7 @@ public class MainActivity extends BaseActivity {
                     setStatusBarColor();
                     mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);
                     mTitleRightTextView.setText("");
-                    mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (App.app.isLogin()) {
-                                startActivity(new Intent(MainActivity.this, PostPublishActivity.class));
-                            } else {
-                                LoginUtil.showLoginTips(MainActivity.this);
-                            }
-                            ToastUtil.showToast(App.app, "论坛 发布");
-                        }
-                    });
+                    mTitleRightTextView.setOnClickListener(fourthFragmentOnClickListener);
                     mTitleLeftTextView.setVisibility(View.INVISIBLE);
                     mTitleRightTextView.setVisibility(View.VISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);

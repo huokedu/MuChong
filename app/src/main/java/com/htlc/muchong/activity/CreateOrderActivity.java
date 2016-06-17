@@ -19,6 +19,7 @@ import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.util.GoodsUtil;
 import com.htlc.muchong.util.ImageUtil;
 import com.larno.util.ToastUtil;
+import com.pingplusplus.android.Pingpp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,12 +103,17 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
             ToastUtil.showToast(App.app, "请选择收获地址");
             return;
         }
+        if(payWay == null){
+            ToastUtil.showToast(App.app, "请选择支付方式");
+            return;
+        }
         String addressId = addressBean.id;
         if (isShoppingCart) {
-            App.app.appAction.buyByShoppingCart(shoppingCartItemBeans, addressId, new BaseActionCallbackListener<CreateOrderResultBean>() {
+            App.app.appAction.buyByShoppingCart(payWay,shoppingCartItemBeans, addressId, new BaseActionCallbackListener<CreateOrderResultBean>() {
                 @Override
                 public void onSuccess(CreateOrderResultBean data) {
-                    ToastUtil.showToast(App.app, "创建   多个商品   订单成功去支付！  " + data.node);
+                    ToastUtil.showToast(App.app, "创建   多个商品   订单成功去支付！  " + data.charges);
+                    Pingpp.createPayment(CreateOrderActivity.this, data.charges);
                 }
 
                 @Override
@@ -117,10 +123,11 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
             });
         } else {
             ShoppingCartItemBean bean = adapter.getData().get(0);
-            App.app.appAction.buyNow(bean.shopcar_commodityid, bean.num, addressId, new BaseActionCallbackListener<CreateOrderResultBean>() {
+            App.app.appAction.buyNow(payWay,bean.shopcar_commodityid, bean.num, addressId, new BaseActionCallbackListener<CreateOrderResultBean>() {
                 @Override
                 public void onSuccess(CreateOrderResultBean data) {
-                    ToastUtil.showToast(App.app, "创建   单个商品   订单成功去支付！  " + data.node);
+                    ToastUtil.showToast(App.app, "创建   单个商品   订单成功去支付！  " + data.charges);
+                    Pingpp.createPayment(CreateOrderActivity.this, data.charges);
                 }
 
                 @Override
@@ -175,6 +182,21 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
             int payId = data.getIntExtra(PayListActivity.PayId, 0);
             textPayWay.setText(PayListActivity.PayNameIds[payId]);
             payWay = PayListActivity.PayWays[payId];
+        }
+        //支付页面返回处理
+        if (requestCode == Pingpp.REQUEST_CODE_PAYMENT) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getExtras().getString("pay_result");
+                /* 处理返回值
+                 * "success" - payment succeed
+                 * "fail"    - payment failed
+                 * "cancel"  - user canceld
+                 * "invalid" - payment plugin not installed
+                 */
+                String errorMsg = data.getExtras().getString("error_msg"); // 错误信息
+                String extraMsg = data.getExtras().getString("extra_msg"); // 错误信息
+                ToastUtil.showToast(App.app, errorMsg+"--------"+extraMsg);
+            }
         }
     }
 

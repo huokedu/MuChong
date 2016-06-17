@@ -19,48 +19,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <!--标题-->
-            <LinearLayout
-                style="@style/PublishLinear"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:paddingBottom="15dp"
-                android:paddingTop="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:text="@string/publish_title"
-                    android:textColor="@color/text_color_black_muchong"
-                    android:textSize="14sp"/>
-
-                <EditText
-                    android:id="@+id/editTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:background="@null"
-                    android:hint="@string/publish_title_hint"
-                    android:textColor="@color/text_color_black_muchong"
-                    android:textSize="14sp"/>
-            </LinearLayout>
-            <!--描述-->
-            <EditText
-                android:id="@+id/editContent"
-                android:layout_marginTop="10dp"
-                style="@style/PublishLinear"
-                android:gravity="start"
-                android:hint="@string/publish_content_hint"
-                android:textColor="@color/text_color_black_muchong"
-                android:minLines="5"
-                android:textSize="14sp"/>
-
             <!--封面-->
             <LinearLayout
+                android:id="@+id/linearCover"
                 style="@style/PublishLinear"
-                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 >
@@ -109,6 +71,71 @@
                     android:numColumns="4"
                     android:verticalSpacing="10dp"
                     />
+            </LinearLayout>
+
+            <!--标题-->
+            <LinearLayout
+                style="@style/PublishLinear"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/publish_title"
+                    android:textColor="@color/text_color_black_muchong"
+                    android:textSize="14sp"/>
+
+                <EditText
+                    android:id="@+id/editTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@null"
+                    android:hint="@string/publish_title_hint"
+                    android:textColor="@color/text_color_black_muchong"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+            <!--描述-->
+            <EditText
+                android:id="@+id/editContent"
+                android:layout_marginTop="10dp"
+                style="@style/PublishLinear"
+                android:gravity="start"
+                android:hint="@string/publish_content_hint"
+                android:textColor="@color/text_color_black_muchong"
+                android:minLines="5"
+                android:textSize="14sp"/>
+
+            <!--选择列表-->
+            <LinearLayout
+                android:id="@+id/LinearSelect"
+                android:visibility="visible"
+                style="@style/PublishLinear"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="8dp">
+                <!--限时长度-->
+                <LinearLayout
+                    android:id="@+id/linearDurationTime"
+                    style="@style/PublishLinearItem">
+
+                    <TextView
+                        android:id="@+id/textDurationTime"
+                        style="@style/PublishTextItem"
+                        android:text="@string/publish_duration_time_day"
+                        />
+
+                    <View
+                        style="@style/DividerHorizontal.Thin"
+                        android:layout_marginTop="10dp"/>
+                </LinearLayout>
             </LinearLayout>
             <Button
                 android:layout_marginTop="40dp"
