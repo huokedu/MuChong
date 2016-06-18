@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso;
  */
 public class ImageUtil {
     public static void setImageByDefault(ImageView imageView, int defaultImageId, Uri uri){
+        int densityDpi = imageView.getResources().getDisplayMetrics().densityDpi;
         int intrinsicWidth = imageView.getResources().getDrawable(defaultImageId).getIntrinsicWidth();
         int intrinsicHeight = imageView.getResources().getDrawable(defaultImageId).getIntrinsicHeight();
         Picasso.with(imageView.getContext()).load(uri).placeholder(defaultImageId).error(defaultImageId).resize(intrinsicWidth,intrinsicHeight).into(imageView);

@@ -194,6 +194,44 @@ public class ApiImpl implements Api {
     }
 
     @Override
+    public void myOrderList(String page, String flag, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
+        params.put("page", page);
+        params.put("flag", flag);
+        String url = Api.MyOrderList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void pay(String order_id, String channel, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
+        params.put("order_id", order_id);
+        params.put("channel", channel);
+        String url = Api.Pay;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void myOrderDetail(String order_id, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
+        params.put("order_id", order_id);
+        String url = Api.MyOrderDetail;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
     public void home(ResultCallback callback) {
         String url = Api.Home;
         new OkHttpRequest.Builder().url(url).get(callback);

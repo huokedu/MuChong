@@ -15,10 +15,13 @@ import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
+import com.htlc.muchong.activity.CreateOrderActivity;
 import com.htlc.muchong.adapter.ThirdRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.base.BaseFragment;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
+import com.htlc.muchong.util.DateFormat;
+import com.htlc.muchong.util.GoodsUtil;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
@@ -26,14 +29,15 @@ import java.util.List;
 
 import core.AppActionImpl;
 import model.JianBean;
+import model.OrderBean;
 
 /**
  * Created by sks on 2016/5/23.
  */
 public class OrderListFragment extends BaseFragment {
-    public static final String TYPE_1 = "1";
-    public static final String TYPE_2 = "2";
-    public static final String TYPE_3 = "3";
+    public static final String TYPE_1 = "2";//未付款
+    public static final String TYPE_2 = "3";//已付款
+    public static final String TYPE_3 = "1";//已发货
     public CharSequence mTitle;
     private String mType;
 
@@ -104,6 +108,7 @@ public class OrderListFragment extends BaseFragment {
         adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                CreateOrderActivity.goCreateOrderActivity(getContext(),adapter.getData().get(position).id, !TYPE_1.equals(mType));
             }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -112,10 +117,9 @@ public class OrderListFragment extends BaseFragment {
     }
 
     private void loadMoreData() {
-        App.app.appAction.jianList(page, mType, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<JianBean>>() {
+        App.app.appAction.myOrderList(page, mType, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<OrderBean>>() {
             @Override
-            public void onSuccess(List<JianBean> data) {
-                handleData(data);
+            public void onSuccess(List<OrderBean> data) {
                 adapter.setData(data, true);
                 if (data.size() < AppActionImpl.PAGE_SIZE) {
                     mPtrFrame.loadMoreComplete(false);
@@ -137,10 +141,9 @@ public class OrderListFragment extends BaseFragment {
     @Override
     protected void initData() {
         page = 1;
-        App.app.appAction.jianList(page, mType, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<JianBean>>() {
+        App.app.appAction.myOrderList(page, mType, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<OrderBean>>() {
             @Override
-            public void onSuccess(List<JianBean> data) {
-                handleData(data);
+            public void onSuccess(List<OrderBean> data) {
                 mPtrFrame.refreshComplete();
                 adapter.setData(data, false);
                 if (data.size() < AppActionImpl.PAGE_SIZE) {
@@ -160,13 +163,8 @@ public class OrderListFragment extends BaseFragment {
         });
     }
 
-    private void handleData(List<JianBean> data) {
-        for (JianBean bean : data) {
-            bean.forum_yesorno = mType;
-        }
-    }
 
-    public class OrderRecyclerViewAdapter extends BaseRecyclerViewAdapter<JianBean> {
+    public class OrderRecyclerViewAdapter extends BaseRecyclerViewAdapter<OrderBean> {
 
 
         @Override
@@ -181,11 +179,11 @@ public class OrderListFragment extends BaseFragment {
         public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
             super.onBindViewHolder(holder,position);
             ViewHolder viewHolder = (ViewHolder) holder;
-//            MyPaiBean bean = mList.get(position);
-//            DateFormat.setTextByTime(viewHolder.textTime, bean.mybid_ctime);
-//            viewHolder.textName.setText(bean.mybid_commodityname);
-//            GoodsUtil.setPriceBySymbol(viewHolder.textPaiPrice, bean.commodity_startprice);
-//            GoodsUtil.setPriceBySymbol(viewHolder.textResultPrice,bean.mybid_money);
+            OrderBean bean = mList.get(position);
+            DateFormat.setTextByTime(viewHolder.textTime, bean.order_ctime);
+            viewHolder.textName.setText(getString(R.string.order_list_order_id,bean.order_no));
+            viewHolder.textPaiPrice.setText(bean.commodity_name);
+            GoodsUtil.setPriceBySymbol(viewHolder.textResultPrice,bean.order_money);
 
         }
 

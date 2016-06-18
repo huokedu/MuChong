@@ -116,6 +116,7 @@
     <string name="shopping_cart_total_number">共%1$s件</string>
 
     <string name="title_create_order">填写订单</string>
+    <string name="title_order_detail">订单详情</string>
     <string name="create_order_add_info">请添加收货人信息</string>
     <string name="create_order_pay_way">支付方式</string>
     <string name="create_order_pay_way_hint">请选择支付方式</string>

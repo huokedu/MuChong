@@ -42,8 +42,7 @@ public class ThirdRecyclerViewAdapter extends BaseRecyclerViewAdapter<CangBean> 
         viewHolder.textName.setText(bean.userinfo_nickname);
 
         ImageUtil.setImageByDefault(viewHolder.imageView,R.mipmap.default_first_pai, Uri.parse(bean.forum_coverimg));
-        ImageUtil.setImageByDefault(viewHolder.imageHead,R.mipmap.default_third_gird_head, Uri.parse(bean.userinfo_headportrait));
-
+        ImageUtil.setCircleImageByDefault(viewHolder.imageHead,R.mipmap.default_third_gird_head, Uri.parse(bean.userinfo_headportrait));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

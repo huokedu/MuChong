@@ -5,4 +5,5 @@ package model;
  */
 public class CreateOrderResultBean {
     public String charges;
+    public String order_id;
 }

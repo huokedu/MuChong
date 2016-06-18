@@ -162,7 +162,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         App.app.appAction.postDetail(postId, new BaseActionCallbackListener<PostDetailBean>() {
             @Override
             public void onSuccess(PostDetailBean data) {
-                ImageUtil.setImageByDefault(imageHead, R.mipmap.default_third_gird_head, Uri.parse(data.userinfo_headportrait));
+                ImageUtil.setCircleImageByDefault(imageHead, R.mipmap.default_third_gird_head, Uri.parse(data.userinfo_headportrait));
                 textName.setText(data.userinfo_nickname);
                 PersonUtil.setPersonLevel(textLevel, data.userinfo_grade);
                 DateFormat.setTextByTime(textTime, data.forum_ctime);

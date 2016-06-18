@@ -18,6 +18,8 @@ import model.JianBean;
 import model.JiaoGoodsBean;
 import model.MessageBean;
 import model.MyPaiBean;
+import model.OrderBean;
+import model.OrderDetailBean;
 import model.PaiGoodsBean;
 import model.PersonBean;
 import model.PersonInfoBean;
@@ -51,6 +53,9 @@ public interface AppAction {
     void messageList(int page,  ActionCallbackListener<List<MessageBean>> listener);
     void deleteMessage(String msg_id, ActionCallbackListener<Void> listener);
     void myPaiList(int page,  ActionCallbackListener<List<MyPaiBean>> listener);
+    void myOrderList(int page, String flag, ActionCallbackListener<List<OrderBean>> listener);
+    void pay(String order_id, String channel, ActionCallbackListener<CreateOrderResultBean> listener);
+    void myOrderDetail(String order_id, ActionCallbackListener<OrderDetailBean> listener);
 
     void home(ActionCallbackListener<HomeBean> listener);
     void getGoodsType(ActionCallbackListener<List<GoodsTypeBean>> listener);

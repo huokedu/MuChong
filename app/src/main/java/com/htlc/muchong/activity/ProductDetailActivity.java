@@ -102,6 +102,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         textAddCar.setOnClickListener(this);
 
         mCommentListView = (ListView) findViewById(R.id.commentListView);
+        mCommentListView.setFocusable(false);
         adapter = new CommentAdapter();
         mCommentListView.setAdapter(adapter);
 

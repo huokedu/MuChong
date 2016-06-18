@@ -35,6 +35,8 @@ import model.JianBean;
 import model.JiaoGoodsBean;
 import model.MessageBean;
 import model.MyPaiBean;
+import model.OrderBean;
+import model.OrderDetailBean;
 import model.PaiGoodsBean;
 import model.PersonBean;
 import model.PersonInfoBean;
@@ -482,6 +484,70 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
+    public void myOrderList(int page, String flag, ActionCallbackListener<List<OrderBean>> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        api.myOrderList(String.valueOf(page), flag, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<OrderBean> bean = JSON.parseArray(model.getString(KEY_DATA), OrderBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void pay(String order_id, String channel, ActionCallbackListener<CreateOrderResultBean> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        api.pay(order_id, channel, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    String charges = model.getJSONObject(KEY_DATA).getString("charges");
+                    String order_id = model.getJSONObject(KEY_DATA).getString("order_id");
+                    CreateOrderResultBean bean = new CreateOrderResultBean();
+                    bean.charges = charges;
+                    bean.order_id = order_id;
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void myOrderDetail(String order_id, ActionCallbackListener<OrderDetailBean> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        api.myOrderDetail(order_id, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    OrderDetailBean bean = JSON.parseObject(model.getString(KEY_DATA), OrderDetailBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
     public void home(ActionCallbackListener<HomeBean> listener) {
         if (!NetworkUtil.isNetworkAvailable(context)) {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
@@ -876,8 +942,10 @@ public class AppActionImpl implements AppAction {
                 JSONObject model = JSON.parseObject(response);
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     String charges = model.getJSONObject(KEY_DATA).getString("charges");
+                    String order_id = model.getJSONObject(KEY_DATA).getString("order_id");
                     CreateOrderResultBean bean = new CreateOrderResultBean();
                     bean.charges = charges;
+                    bean.order_id = order_id;
                     listener.onSuccess(bean);
                 } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
@@ -899,8 +967,10 @@ public class AppActionImpl implements AppAction {
                 JSONObject model = JSON.parseObject(response);
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     String charges = model.getJSONObject(KEY_DATA).getString("charges");
+                    String order_id = model.getJSONObject(KEY_DATA).getString("order_id");
                     CreateOrderResultBean bean = new CreateOrderResultBean();
                     bean.charges = charges;
+                    bean.order_id = order_id;
                     listener.onSuccess(bean);
                 } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));

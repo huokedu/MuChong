@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -196,7 +197,7 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
         App.app.appAction.postDetail(postId, new BaseActionCallbackListener<PostDetailBean>() {
             @Override
             public void onSuccess(PostDetailBean data) {
-                ImageUtil.setImageByDefault(imageHead, R.mipmap.default_third_gird_head, Uri.parse(data.userinfo_headportrait));
+                ImageUtil.setCircleImageByDefault(imageHead, R.mipmap.default_third_gird_head, Uri.parse(data.userinfo_headportrait));
                 textName.setText(data.userinfo_nickname);
                 PersonUtil.setPersonLevel(textLevel, data.userinfo_grade);
                 DateFormat.setTextByTime(textTime, data.forum_ctime);
@@ -252,6 +253,10 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
             public void onSuccess(Void data) {
                 ToastUtil.showToast(App.app, "评论成功");
                 editComment.setText("");
+                InputMethodManager inputMethodManager =  (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                if(inputMethodManager!=null){
+                    inputMethodManager.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(),0);
+                }
                 initData();
             }
 

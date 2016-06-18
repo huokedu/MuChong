@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -22,10 +23,12 @@ import com.larno.util.ToastUtil;
 import com.pingplusplus.android.Pingpp;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import model.AddressBean;
 import model.CreateOrderResultBean;
+import model.OrderDetailBean;
 import model.ShoppingCartItemBean;
 
 /**
@@ -35,6 +38,8 @@ import model.ShoppingCartItemBean;
 public class CreateOrderActivity extends BaseActivity implements View.OnClickListener {
     public static final String Shopping_Items = "Shopping_Items";
     public static final String Is_Shopping_Cart = "Is_Shopping_Cart";
+    public static final String Is_Pay = "Is_Pay";
+    public static final String Order_Id = "Order_Id";
     private static final int RequestAddressCode = 852;
     private static final int RequestPayCode = 853;
 
@@ -42,6 +47,13 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
         Intent intent = new Intent(context, CreateOrderActivity.class);
         intent.putParcelableArrayListExtra(Shopping_Items, shoppingCartItemBeans);
         intent.putExtra(Is_Shopping_Cart, isShoppingCart);
+        context.startActivity(intent);
+    }
+
+    public static void goCreateOrderActivity(Context context, String orderId, boolean isPay) {
+        Intent intent = new Intent(context, CreateOrderActivity.class);
+        intent.putExtra(Order_Id, orderId);
+        intent.putExtra(Is_Pay, isPay);
         context.startActivity(intent);
     }
 
@@ -57,12 +69,19 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
 
     private ListView listView;
     private CreateOrderAdapter adapter;
-    private TextView textTotalPrice;
 
-    private ArrayList<ShoppingCartItemBean> shoppingCartItemBeans;
-    private boolean isShoppingCart;
-    private AddressBean addressBean;
-    private String payWay;
+    private TextView textTotalPrice;
+    private TextView textBuy;
+    private LinearLayout linearClearing;
+
+    private ArrayList<ShoppingCartItemBean> shoppingCartItemBeans;//商品条目
+    private boolean isShoppingCart;//是购物车创建订单
+    private AddressBean addressBean;//地址信息
+    private String payWay;//支付方式
+
+
+    private String orderId;//订单id
+    private boolean isPay;//是否已经支付 true 是
 
     @Override
     protected int getLayoutId() {
@@ -74,10 +93,10 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
         shoppingCartItemBeans = getIntent().getParcelableArrayListExtra(Shopping_Items);
         isShoppingCart = getIntent().getBooleanExtra(Is_Shopping_Cart, false);
 
-        mTitleTextView.setText(R.string.title_create_order);
+        orderId = getIntent().getStringExtra(Order_Id);
+        isPay = getIntent().getBooleanExtra(Is_Pay, true);
 
         linearAddress = (LinearLayout) findViewById(R.id.linearAddress);
-        linearAddress.setOnClickListener(this);
         textAddressTips = (TextView) findViewById(R.id.textAddressTips);
         relativeAddress = (RelativeLayout) findViewById(R.id.relativeAddress);
         textName = (TextView) findViewById(R.id.textName);
@@ -92,27 +111,76 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
         adapter = new CreateOrderAdapter();
         listView.setAdapter(adapter);
 
-        findViewById(R.id.textBuy).setOnClickListener(this);
+        linearClearing = (LinearLayout) findViewById(R.id.linearClearing);
+        textBuy = (TextView) findViewById(R.id.textBuy);
+        textBuy.setOnClickListener(this);
         textTotalPrice = (TextView) findViewById(R.id.textTotalPrice);
+
+        //创建订单
+        if (TextUtils.isEmpty(orderId)) {
+            mTitleTextView.setText(R.string.title_create_order);
+            linearAddress.setOnClickListener(this);
+            //订单详情
+        } else {
+            mTitleTextView.setText(R.string.title_order_detail);
+            if (isPay) {
+//                linearClearing.setVisibility(View.GONE);
+                textBuy.setVisibility(View.INVISIBLE);
+                linearPay.setVisibility(View.GONE);
+            }
+        }
         initData();
     }
 
-    /*创建订单*/
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (!TextUtils.isEmpty(orderId)) {
+            linearAddress.setOnClickListener(null);
+        }
+    }
+
     private void buy() {
-        if(addressBean == null){
+        if (TextUtils.isEmpty(orderId)) {
+            createOrderAndBuy();
+        } else {
+            buyFromOrderDetail();
+        }
+
+    }
+
+    /*根据订单id支付*/
+    private void buyFromOrderDetail() {
+        App.app.appAction.pay(orderId, payWay, new BaseActionCallbackListener<CreateOrderResultBean>() {
+            @Override
+            public void onSuccess(CreateOrderResultBean data) {
+                Pingpp.createPayment(CreateOrderActivity.this, data.charges);
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+            }
+        });
+    }
+
+    /*创建订单并支付*/
+    private void createOrderAndBuy() {
+        if (addressBean == null) {
             ToastUtil.showToast(App.app, "请选择收获地址");
             return;
         }
-        if(payWay == null){
+        if (payWay == null) {
             ToastUtil.showToast(App.app, "请选择支付方式");
             return;
         }
         String addressId = addressBean.id;
         if (isShoppingCart) {
-            App.app.appAction.buyByShoppingCart(payWay,shoppingCartItemBeans, addressId, new BaseActionCallbackListener<CreateOrderResultBean>() {
+            App.app.appAction.buyByShoppingCart(payWay, shoppingCartItemBeans, addressId, new BaseActionCallbackListener<CreateOrderResultBean>() {
                 @Override
                 public void onSuccess(CreateOrderResultBean data) {
                     ToastUtil.showToast(App.app, "创建   多个商品   订单成功去支付！  " + data.charges);
+                    CreateOrderActivity.this.orderId = data.order_id;
                     Pingpp.createPayment(CreateOrderActivity.this, data.charges);
                 }
 
@@ -123,10 +191,11 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
             });
         } else {
             ShoppingCartItemBean bean = adapter.getData().get(0);
-            App.app.appAction.buyNow(payWay,bean.shopcar_commodityid, bean.num, addressId, new BaseActionCallbackListener<CreateOrderResultBean>() {
+            App.app.appAction.buyNow(payWay, bean.shopcar_commodityid, bean.num, addressId, new BaseActionCallbackListener<CreateOrderResultBean>() {
                 @Override
                 public void onSuccess(CreateOrderResultBean data) {
                     ToastUtil.showToast(App.app, "创建   单个商品   订单成功去支付！  " + data.charges);
+                    CreateOrderActivity.this.orderId = data.order_id;
                     Pingpp.createPayment(CreateOrderActivity.this, data.charges);
                 }
 
@@ -140,12 +209,44 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initData() {
-        adapter.setData(shoppingCartItemBeans, false);
-        Double totalPrice = 0.0;
-        for (ShoppingCartItemBean bean : shoppingCartItemBeans) {
-            totalPrice += Double.parseDouble(bean.commodity_panicprice) * Integer.parseInt(bean.num);
+        if (TextUtils.isEmpty(orderId)) {
+            adapter.setData(shoppingCartItemBeans, false);
+            Double totalPrice = 0.0;
+            for (ShoppingCartItemBean bean : shoppingCartItemBeans) {
+                totalPrice += Double.parseDouble(bean.commodity_panicprice) * Integer.parseInt(bean.num);
+            }
+            GoodsUtil.setPriceBySymbol(textTotalPrice, String.valueOf(totalPrice));
+        } else {
+            getOrderDetail();
         }
-        textTotalPrice.setText(String.valueOf(totalPrice));
+
+    }
+
+    /*获取订单详情*/
+    private void getOrderDetail() {
+        App.app.appAction.myOrderDetail(orderId, new BaseActionCallbackListener<OrderDetailBean>() {
+            @Override
+            public void onSuccess(OrderDetailBean data) {
+                adapter.setData(data.list, false);
+                GoodsUtil.setPriceBySymbol(textTotalPrice, data.order_money);
+                //设置地址
+                addressBean = new AddressBean();
+                addressBean.addr_address = data.order_address.address;
+                addressBean.addr_name = data.order_address.name;
+                addressBean.addr_mobile = data.order_address.mobile;
+                refreshAddress();
+                //设置支付方式
+                int payId = Arrays.asList(PayListActivity.PayWays).indexOf(data.order_payment);
+                payWay = data.order_payment;
+                textPayWay.setText(PayListActivity.PayNameIds[payId]);
+
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+            }
+        });
     }
 
     @Override
@@ -161,7 +262,7 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.linearPay:
                 Intent intent1 = new Intent(this, PayListActivity.class);
-                startActivityForResult(intent1,RequestPayCode);
+                startActivityForResult(intent1, RequestPayCode);
                 break;
         }
     }
@@ -169,16 +270,11 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK && requestCode == RequestAddressCode){
+        if (resultCode == Activity.RESULT_OK && requestCode == RequestAddressCode) {
             addressBean = data.getParcelableExtra(AddressActivity.AddressBean);
-            textName.setText(addressBean.addr_name);
-            textAddress.setText(addressBean.addr_address);
-            textTel.setText(addressBean.addr_mobile);
-
-            textAddressTips.setVisibility(View.GONE);
-            relativeAddress.setVisibility(View.VISIBLE);
+            refreshAddress();
         }
-        if(resultCode == Activity.RESULT_OK && requestCode == RequestPayCode){
+        if (resultCode == Activity.RESULT_OK && requestCode == RequestPayCode) {
             int payId = data.getIntExtra(PayListActivity.PayId, 0);
             textPayWay.setText(PayListActivity.PayNameIds[payId]);
             payWay = PayListActivity.PayWays[payId];
@@ -195,9 +291,18 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
                  */
                 String errorMsg = data.getExtras().getString("error_msg"); // 错误信息
                 String extraMsg = data.getExtras().getString("extra_msg"); // 错误信息
-                ToastUtil.showToast(App.app, errorMsg+"--------"+extraMsg);
+                ToastUtil.showToast(App.app, result + ":::::" + errorMsg + "--------" + extraMsg);
             }
         }
+    }
+
+    private void refreshAddress() {
+        textName.setText(addressBean.addr_name);
+        textAddress.setText(addressBean.addr_address);
+        textTel.setText(addressBean.addr_mobile);
+
+        textAddressTips.setVisibility(View.GONE);
+        relativeAddress.setVisibility(View.VISIBLE);
     }
 
     public class CreateOrderAdapter extends BaseAdapter {

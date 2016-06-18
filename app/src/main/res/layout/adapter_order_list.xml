@@ -39,8 +39,10 @@
         android:layout_alignBottom="@+id/textLabelPai"
         android:id="@+id/textPaiPrice"
         android:textSize="14sp"
-        android:text="￥8899"
-        android:textColor="@color/text_color_red"
+        android:text=""
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textColor="@color/text_color_black_muchong"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
@@ -57,7 +59,7 @@
         android:layout_alignBottom="@+id/textLabelResult"
         android:id="@+id/textResultPrice"
         android:textSize="14sp"
-        android:text="￥8899"
+        android:text=""
         android:textColor="@color/text_color_red"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

@@ -27,6 +27,9 @@ public interface Api {
     String MessageDetailHtml = Host + "/Home/HomeMessage/msginfo?user_id=%1$s&user_token=%2$s&msg_id=%3$s";
     String DeleteMessage = Host + "/Home/HomeMessage/delmsg";
     String MyPaiList = Host + "/Home/HomeBid/mybid";
+    String MyOrderList = Host + "/Home/HomeOrder/myorder";
+    String Pay = Host + "/Home/HomePay/payOrder";
+    String MyOrderDetail = Host + "/Home/HomeOrder/orderinfo";
 
     String Home = Host + "/Home/HomeCommodity/homepage";
     String GetGoodsType = Host + "/Home/HomeCommodity/smallclasslist";
@@ -79,6 +82,9 @@ public interface Api {
     void messageList(String page, ResultCallback callback);
     void deleteMessage(String msg_id, ResultCallback callback);
     void myPaiList(String page, ResultCallback callback);
+    void myOrderList(String page, String flag, ResultCallback callback);
+    void pay(String order_id, String channel, ResultCallback callback);
+    void myOrderDetail(String order_id, ResultCallback callback);
 
     void home(ResultCallback callback);
     void getGoodsType(ResultCallback callback);
