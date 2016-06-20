@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.htlc.muchong.R;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
 import com.htlc.muchong.util.GoodsUtil;
+import com.htlc.muchong.util.ImageUtil;
 import com.htlc.muchong.util.PersonUtil;
 import com.squareup.picasso.Picasso;
 
@@ -36,7 +37,7 @@ public class CommentRecyclerViewAdapter extends BaseRecyclerViewAdapter<GoodsCom
         ViewHolder currentHolder = (ViewHolder) holder;
         GoodsCommentBean bean = mList.get(position);
 
-        Picasso.with(currentHolder.imageView.getContext()).load(Uri.parse(bean.userinfo_headportrait)).placeholder(R.mipmap.default_first_pai).error(R.mipmap.default_first_pai).into(currentHolder.imageView);
+        ImageUtil.setCircleImageByDefault(currentHolder.imageView,R.mipmap.default_third_gird_head, Uri.parse(bean.userinfo_headportrait));
         currentHolder.textName.setText(bean.userinfo_nickname);
         PersonUtil.setPersonLevel(currentHolder.textLevel,bean.userinfo_grade);
         currentHolder.textComment.setText(bean.commodityeval_content);
