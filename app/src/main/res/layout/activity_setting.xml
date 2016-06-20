@@ -23,8 +23,9 @@
             <LinearLayout
                 style="@style/UserLinear"
                 android:layout_marginTop="15dp">
-                <!--修改密码-->
+                <!--意见反馈-->
                 <RelativeLayout
+                    android:id="@+id/relativeFeedback"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -49,8 +50,9 @@
                     style="@style/DividerHorizontal.Thin"
                     android:layout_marginBottom="12dp"
                     android:layout_marginTop="12dp"/>
-                <!--更换手机-->
+                <!--清除缓存-->
                 <RelativeLayout
+                    android:id="@+id/relativeCache"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -71,17 +73,13 @@
                 </RelativeLayout>
             </LinearLayout>
 
-            <TextView
+            <Button
                 android:id="@+id/textLogout"
-                android:padding="12dp"
-                android:background="@android:color/white"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
                 android:layout_marginTop="30dp"
-                android:textSize="16sp"
-                android:gravity="center"
                 android:text="@string/setting_logout"
-                android:textColor="@color/text_color_black_muchong"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                style="@style/Button"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

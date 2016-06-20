@@ -548,6 +548,57 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
+    public void feedback(String feedback_content, ActionCallbackListener<Void> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        if (TextUtils.isEmpty(feedback_content)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "请输入您的意见");
+            return;
+        }
+        api.feedback(feedback_content, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void payForAccount(String money, String channel, ActionCallbackListener<CreateOrderResultBean> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        if (TextUtils.isEmpty(money)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "请输入充值金额");
+            return;
+        }
+        api.payForAccount(money, channel, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    String charges = model.getJSONObject(KEY_DATA).getString("charges");
+                    String order_id = model.getJSONObject(KEY_DATA).getString("order_id");
+                    CreateOrderResultBean bean = new CreateOrderResultBean();
+                    bean.charges = charges;
+                    bean.order_id = order_id;
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
     public void home(ActionCallbackListener<HomeBean> listener) {
         if (!NetworkUtil.isNetworkAvailable(context)) {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);

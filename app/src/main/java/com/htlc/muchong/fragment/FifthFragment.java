@@ -17,6 +17,7 @@ import com.htlc.muchong.activity.MyPaiListActivity;
 import com.htlc.muchong.activity.MyPostListActivity;
 import com.htlc.muchong.activity.OrderListActivity;
 import com.htlc.muchong.activity.PaiListActivity;
+import com.htlc.muchong.activity.PayActivity;
 import com.htlc.muchong.activity.SettingActivity;
 import com.htlc.muchong.activity.ShoppingCartActivity;
 import com.htlc.muchong.activity.TaLikeActivity;
@@ -98,6 +99,7 @@ public class FifthFragment extends HomeFragment {
                 case 0:
                     ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
                     if (!App.app.isLogin()) break;
+                    startActivity(new Intent(getActivity(), PayActivity.class));
                     return;
                 case 1:
                     if (!App.app.isLogin()) break;

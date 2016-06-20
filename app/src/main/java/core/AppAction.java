@@ -56,6 +56,8 @@ public interface AppAction {
     void myOrderList(int page, String flag, ActionCallbackListener<List<OrderBean>> listener);
     void pay(String order_id, String channel, ActionCallbackListener<CreateOrderResultBean> listener);
     void myOrderDetail(String order_id, ActionCallbackListener<OrderDetailBean> listener);
+    void feedback(String feedback_content, ActionCallbackListener<Void> listener);
+    void payForAccount(String money, String channel, ActionCallbackListener<CreateOrderResultBean> listener);
 
     void home(ActionCallbackListener<HomeBean> listener);
     void getGoodsType(ActionCallbackListener<List<GoodsTypeBean>> listener);

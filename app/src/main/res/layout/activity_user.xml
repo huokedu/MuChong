@@ -191,17 +191,13 @@
                     android:layout_centerVertical="true"
                     android:src="@mipmap/icon_fourth_two_arrow"/>
             </RelativeLayout>
-            <TextView
+            <Button
                 android:id="@+id/textButton"
-                android:padding="12dp"
-                android:background="@android:color/white"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
                 android:layout_marginTop="30dp"
-                android:textSize="16sp"
-                android:gravity="center"
                 android:text="@string/user_save"
-                android:textColor="@color/text_color_black_muchong"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                style="@style/Button"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

@@ -109,9 +109,9 @@
         <item name="android:layout_height">44dp</item>
         <item name="android:layout_marginRight">30dp</item>
         <item name="android:layout_marginLeft">30dp</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">@mipmap/bg_button</item>
+        <item name="android:background">@mipmap/bg_toolbar</item>
     </style>
 
     <!--<style name="DialogAppCompat" parent="@android:style/Theme.Dialog">-->

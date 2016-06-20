@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_layout"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editMoney"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@android:color/white"
+                android:hint="@string/hint_pay_money"
+                android:inputType="number"
+                android:padding="12dp"
+                android:textSize="14sp"
+                android:textColor="@color/text_color_black_muchong"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="@string/create_order_pay_way_hint"
+                android:textColor="@color/text_color_black_muchong"/>
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:background="@android:color/white"
+                android:layout_height="wrap_content">
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:background="@android:color/white"
+                        android:id="@+id/radioPayWeixin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:button="@drawable/jian_result_radio_selector"
+                        android:checked="true"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@mipmap/icon_pay_3"
+                        android:text="@string/pay_way_3"
+                        android:textSize="14sp"/>
+                    <View
+                        style="@style/DividerHorizontal.Thin"/>
+                    <RadioButton
+                        android:background="@android:color/white"
+                        android:id="@+id/radioPayUnion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:button="@drawable/jian_result_radio_selector"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@mipmap/icon_pay_2"
+                        android:text="@string/pay_way_2"
+                        android:textSize="14sp"/>
+                    <View
+                        style="@style/DividerHorizontal.Thin"/>
+                    <RadioButton
+                        android:background="@android:color/white"
+                        android:id="@+id/radioPayAli"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:button="@drawable/jian_result_radio_selector"
+                        android:drawablePadding="10dp"
+                        android:drawableLeft="@mipmap/icon_pay_4"
+                        android:text="@string/pay_way_4"
+                        android:textSize="14sp"/>
+                </RadioGroup>
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/button"
+                style="@style/Button"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/fifth_chong"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

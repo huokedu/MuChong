@@ -232,6 +232,31 @@ public class ApiImpl implements Api {
     }
 
     @Override
+    public void feedback(String feedback_content, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
+        params.put("feedback_content", feedback_content);
+        String url = Api.Feedback;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void payForAccount(String money, String channel, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
+        params.put("money", money);
+        params.put("channel", channel);
+        String url = Api.PayForAccount;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
     public void home(ResultCallback callback) {
         String url = Api.Home;
         new OkHttpRequest.Builder().url(url).get(callback);

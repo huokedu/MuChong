@@ -25,19 +25,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
+                android:minLines="8"
+                android:hint="请输入您的意见..."
+                android:gravity="start"
                 android:background="@android:color/white"
                 android:id="@+id/editText"
                 android:textSize="14sp"
                 android:textColor="@color/text_color_black_muchong"
                 android:layout_gravity="center_horizontal"/>
 
-            <Button
+            <TextView
                 android:id="@+id/textButton"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
+                android:padding="12dp"
+                android:background="@android:color/white"
                 android:layout_marginTop="30dp"
-                android:text="@string/confirm"
-                style="@style/Button"/>
+                android:textSize="16sp"
+                android:gravity="center"
+                android:text="@string/commit"
+                android:textColor="@color/text_color_black_muchong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>
