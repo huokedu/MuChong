@@ -39,6 +39,7 @@ import model.OrderBean;
 import model.OrderDetailBean;
 import model.PaiGoodsBean;
 import model.PersonBean;
+import model.PersonCommentBean;
 import model.PersonInfoBean;
 import model.PointInTimeBean;
 import model.PostBean;
@@ -1529,6 +1530,22 @@ public class AppActionImpl implements AppAction {
                 JSONObject model = JSON.parseObject(response);
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     List<JianBean> bean = JSON.parseArray(model.getString(KEY_DATA), JianBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void personCommentList(int page, String user_id, ActionCallbackListener<List<PersonCommentBean>> listener) {
+        api.personCommentList(String.valueOf(page), user_id, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<PersonCommentBean> bean = JSON.parseArray(model.getString(KEY_DATA), PersonCommentBean.class);
                     listener.onSuccess(bean);
                 } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));

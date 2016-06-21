@@ -47,8 +47,8 @@ public class ProductListFragment extends BaseFragment {
     public static final String ORDER_NORMAL = "1";
     public static final String ORDER_SALES_DOWN = "2";
     public static final String ORDER_SALES_UP = "5";
-    public static final String ORDER_PRICE_DOWN = "3";
-    public static final String ORDER_PRICE_UP = "4";
+    public static final String ORDER_PRICE_DOWN = "4";
+    public static final String ORDER_PRICE_UP = "3";
 
 
     public CharSequence mTitle;
@@ -183,6 +183,8 @@ public class ProductListFragment extends BaseFragment {
     @Override
     public void initData() {
         if(mType.equals(TYPE_4)){
+            mPtrFrame.refreshComplete();
+            mPtrFrame.setLoadMoreEnable(false);
             return;
         }
         String order = getOderType();

@@ -22,6 +22,7 @@ import model.OrderBean;
 import model.OrderDetailBean;
 import model.PaiGoodsBean;
 import model.PersonBean;
+import model.PersonCommentBean;
 import model.PersonInfoBean;
 import model.PointInTimeBean;
 import model.PostBean;
@@ -108,4 +109,5 @@ public interface AppAction {
     void likeListByTypeOfJian(int page, String id, ActionCallbackListener<List<JianBean>> listener);
     void likeListByTypeOfPerson(int page, String id, ActionCallbackListener<List<PersonBean>> listener);
     void myJianList(int page, String forum_yesorno,  ActionCallbackListener<List<JianBean>> listener);
+    void personCommentList(int page, String user_id, ActionCallbackListener<List<PersonCommentBean>> listener);
 }

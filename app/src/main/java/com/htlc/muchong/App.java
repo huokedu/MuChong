@@ -41,7 +41,7 @@ public class App extends Application {
     }
 
     private void initHttp() {
-        OkHttpClientManager.init(this,true);
+        OkHttpClientManager.init(this,false);
     }
 
     private void initBugTags() {

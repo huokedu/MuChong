@@ -97,7 +97,6 @@ public class FifthFragment extends HomeFragment {
         public void onItemClick(int position) {
             switch (position) {
                 case 0:
-                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
                     if (!App.app.isLogin()) break;
                     startActivity(new Intent(getActivity(), PayActivity.class));
                     return;

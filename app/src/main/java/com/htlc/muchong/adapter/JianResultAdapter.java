@@ -60,7 +60,7 @@ public class JianResultAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         JianResultBean bean = list.get(position);
-        ImageUtil.setImageByDefault(holder.imageView,R.mipmap.default_third_gird_head, Uri.parse(bean.userinfo_headportrait));
+        ImageUtil.setCircleImageByDefault(holder.imageView,R.mipmap.default_third_gird_head, Uri.parse(bean.userinfo_headportrait));
         holder.textName.setText(bean.userinfo_nickname+":");
         setTextResultByType(holder.textResult,bean.appraisal_type);
 

@@ -68,6 +68,7 @@ public interface Api {
     String GetPersonInfo = Host + "/Home/HomeForum/collectorinfo";
     String LikeListByType = Host + "/Home/HomeForum/likes";
     String MyJianList = Host + "/Home/HomeForum/myAppraisal";
+    String PersonCommentList = Host + "/Home/HomeForum/allevalList";
 
     void smsCode(String mobile, ResultCallback callback);
     void ensureSmsCode(String user_account, String Verifycode, ResultCallback callback);
@@ -129,4 +130,5 @@ public interface Api {
     void getPersonInfo(String id,  ResultCallback callback);
     void likeListByType(String page, String id, String type, ResultCallback callback);
     void myJianList(String page,String forum_yesorno,ResultCallback callback);
+    void personCommentList(String page,String user_id,ResultCallback callback);
 }

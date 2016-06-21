@@ -69,7 +69,7 @@ public class QiangListFragment extends BaseFragment {
     @Override
     protected void setupView() {
         mPtrFrame = findViewById(R.id.rotate_header_list_view_frame);
-       mPtrFrame.setLastUpdateTimeKey(null);
+        mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -95,6 +95,7 @@ public class QiangListFragment extends BaseFragment {
         });
 
         daoJiShiView = (DaoJiShiView) findViewById(R.id.daoJiShiView);
+        daoJiShiView.setData(0, 0);
         textView = (TextView) findViewById(R.id.textView);
 
         mRecyclerView = findViewById(R.id.recyclerView);

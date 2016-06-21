@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:drawableRight="@mipmap/icon_jian_result"
         android:drawablePadding="5dp"
         android:gravity="center"
         android:text="@string/jian_detail_result"

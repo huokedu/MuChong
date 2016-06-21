@@ -104,6 +104,7 @@
     <string name="title_ta_one">他的藏品</string>
     <string name="title_ta_two">他的学堂</string>
     <string name="title_ta_three">他的故事</string>
+    <string name="title_ta_new">他的评论</string>
     <string name="title_ta_four">他的喜欢</string>
 
     <string name="title_ta_like">他的喜欢-%1$s</string>

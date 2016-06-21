@@ -21,6 +21,7 @@ import com.htlc.muchong.activity.PostDetailActivity;
 import com.htlc.muchong.adapter.CangPersonRecyclerViewAdapter;
 import com.htlc.muchong.adapter.FourthFourRecyclerViewAdapter;
 import com.htlc.muchong.adapter.FourthOneRecyclerViewAdapter;
+import com.htlc.muchong.adapter.PersonCommentRecyclerViewAdapter;
 import com.htlc.muchong.adapter.ThirdRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
@@ -32,6 +33,7 @@ import java.util.List;
 import core.AppActionImpl;
 import model.CangBean;
 import model.JianBean;
+import model.PersonCommentBean;
 import model.PostBean;
 import model.SchoolBean;
 
@@ -53,9 +55,9 @@ public class TaFragment extends HomeFragment {
 
     @Override
     protected void setupView() {
-        personId = ((PersonActivity)getActivity()).getPersonId();
+        personId = ((PersonActivity) getActivity()).getPersonId();
         mPtrFrame = findViewById(R.id.rotate_header_list_view_frame);
-       mPtrFrame.setLastUpdateTimeKey(null);
+        mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -136,7 +138,7 @@ public class TaFragment extends HomeFragment {
             adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    JianBean  bean = (JianBean) adapter.getData().get(position);
+                    JianBean bean = (JianBean) adapter.getData().get(position);
                     CangDetailActivity.goCangDetailActivity(getContext(), bean.id, R.string.title_cang_detail);
 
                 }
@@ -145,6 +147,19 @@ public class TaFragment extends HomeFragment {
             //他的喜欢
         } else if (mTitle.equals(getString(R.string.title_ta_four))) {
 
+            //他的评论
+        } else if (mTitle.equals(getString(R.string.title_ta_new))) {
+            adapter = new PersonCommentRecyclerViewAdapter();
+            mAdapter = new RecyclerAdapterWithHF(adapter);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+                private int space = CommonUtil.dp2px(getContext(), 10);
+
+                @Override
+                public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                    outRect.bottom = space;
+                }
+            });
             //他的学堂
         } else if (mTitle.equals(getString(R.string.title_ta_two))) {
             adapter = new FourthFourRecyclerViewAdapter();
@@ -176,8 +191,11 @@ public class TaFragment extends HomeFragment {
             initDataTwo();
         } else if (mTitle.equals(getString(R.string.title_ta_three))) {
             initDataThree();
+        } else if (mTitle.equals(getString(R.string.title_ta_new))) {
+            initDataComment();
         } else if (mTitle.equals(getString(R.string.title_ta_four))) {
-
+            mPtrFrame.refreshComplete();
+            mPtrFrame.setLoadMoreEnable(false);
         }
     }
 
@@ -188,9 +206,34 @@ public class TaFragment extends HomeFragment {
             loadMoreDataTwo();
         } else if (mTitle.equals(getString(R.string.title_ta_three))) {
             loadMoreDataThree();
+        } else if (mTitle.equals(getString(R.string.title_ta_new))) {
+            loadMoreDataComment();
         } else if (mTitle.equals(getString(R.string.title_ta_four))) {
 
         }
+    }
+
+    private void loadMoreDataComment() {
+        App.app.appAction.personCommentList(page, personId, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<PersonCommentBean>>() {
+            @Override
+            public void onSuccess(List<PersonCommentBean> data) {
+                mPtrFrame.loadMoreComplete(true);
+                adapter.setData(data, true);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setNoMoreData();
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setFail();
+            }
+        });
     }
 
 
@@ -218,7 +261,7 @@ public class TaFragment extends HomeFragment {
     }
 
     private void loadMoreDataTwo() {
-        App.app.appAction.schoolListByPersonId(page,personId, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<SchoolBean>>() {
+        App.app.appAction.schoolListByPersonId(page, personId, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<SchoolBean>>() {
             @Override
             public void onSuccess(List<SchoolBean> data) {
                 mPtrFrame.loadMoreComplete(true);
@@ -241,7 +284,7 @@ public class TaFragment extends HomeFragment {
     }
 
     private void loadMoreDataOne() {
-        App.app.appAction.cangListByPersonId(page, personId,((BaseActivity) getActivity()).new BaseActionCallbackListener<List<JianBean>>() {
+        App.app.appAction.cangListByPersonId(page, personId, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<JianBean>>() {
             @Override
             public void onSuccess(List<JianBean> data) {
 
@@ -265,10 +308,33 @@ public class TaFragment extends HomeFragment {
     }
 
 
+    private void initDataComment() {
+        page = 1;
+        App.app.appAction.personCommentList(page, personId, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<PersonCommentBean>>() {
+            @Override
+            public void onSuccess(List<PersonCommentBean> data) {
+                mPtrFrame.refreshComplete();
+                adapter.setData(data, false);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setLoadMoreEnable(false);
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setLoadMoreEnable(false);
+            }
+        });
+    }
 
     private void initDataThree() {
         page = 1;
-        App.app.appAction.postListByPersonId(page,personId, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<PostBean>>() {
+        App.app.appAction.postListByPersonId(page, personId, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<PostBean>>() {
             @Override
             public void onSuccess(List<PostBean> data) {
                 mPtrFrame.refreshComplete();
@@ -317,24 +383,24 @@ public class TaFragment extends HomeFragment {
     private void initDataOne() {
         page = 1;
         App.app.appAction.cangListByPersonId(page, personId, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<JianBean>>() {
-              @Override
-              public void onSuccess(List<JianBean> data) {
-                  mPtrFrame.refreshComplete();
-                  adapter.setData(data, false);
-                  if (data.size() < AppActionImpl.PAGE_SIZE) {
-                      mPtrFrame.setLoadMoreEnable(false);
-                  } else {
-                      mPtrFrame.setLoadMoreEnable(true);
-                  }
-                  page++;
-              }
+            @Override
+            public void onSuccess(List<JianBean> data) {
+                mPtrFrame.refreshComplete();
+                adapter.setData(data, false);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setLoadMoreEnable(false);
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
 
-              @Override
-              public void onIllegalState(String errorEvent, String message) {
-                  ToastUtil.showToast(App.app, message);
-                  mPtrFrame.refreshComplete();
-                  mPtrFrame.setLoadMoreEnable(false);
-              }
-          });
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setLoadMoreEnable(false);
+            }
+        });
     }
 }

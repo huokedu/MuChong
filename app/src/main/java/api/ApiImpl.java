@@ -632,4 +632,14 @@ public class ApiImpl implements Api {
         String url = Api.MyJianList;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }
+
+    @Override
+    public void personCommentList(String page, String user_id, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+
+        params.put("page", page);
+        params.put("user_id", user_id);
+        String url = Api.PersonCommentList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
 }

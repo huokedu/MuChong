@@ -84,7 +84,7 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
         int activityTitleId = getIntent().getIntExtra(ActivityTitleId, 0);
         mTitleTextView.setText(activityTitleId);
         mTitleRightTextView.setBackgroundResource(R.mipmap.icon_share);
-        mTitleRightTextView.setVisibility(View.VISIBLE);
+        mTitleRightTextView.setVisibility(View.INVISIBLE);
         mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

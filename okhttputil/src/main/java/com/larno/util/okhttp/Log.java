@@ -4,7 +4,7 @@ package com.larno.util.okhttp;
  * Created by zhy on 15/11/6.
  */
 public class Log {
-    public static boolean debug = true;
+    public static boolean debug = false;
 
     public static void e(String msg) {
         if (debug) {

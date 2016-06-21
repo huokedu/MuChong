@@ -32,6 +32,7 @@ import java.util.List;
 import core.AppActionImpl;
 import model.PostCommentBean;
 import model.PostDetailBean;
+import model.UserBean;
 
 /**
  * Created by sks on 2016/5/24.
@@ -87,7 +88,7 @@ public class JianDetailActivity extends BaseActivity implements View.OnClickList
         isOver = getIntent().getBooleanExtra(Is_Over,false);
         mTitleTextView.setText(R.string.title_jian_detail);
         mTitleRightTextView.setText(R.string.jian_detail_jian);
-        mTitleRightTextView.setVisibility(isOver ? View.INVISIBLE:View.VISIBLE);
+        mTitleRightTextView.setVisibility(!isOver && App.app.isLogin() && LoginUtil.getUser().user_role.equals(UserBean.TYPE_EXPERT) ? View.VISIBLE:View.INVISIBLE);
         mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,7 +184,7 @@ public class JianDetailActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onSuccess(PostDetailBean data) {
                 //作者
-                ImageUtil.setImageByDefault(imageHead, R.mipmap.default_third_gird_head, Uri.parse(data.userinfo_headportrait));
+                ImageUtil.setCircleImageByDefault(imageHead, R.mipmap.default_third_gird_head, Uri.parse(data.userinfo_headportrait));
                 textName.setText(data.userinfo_nickname);
                 PersonUtil.setPersonLevel(textLevel, data.userinfo_grade);
                 DateFormat.setTextByTime(textTime, data.forum_ctime);
@@ -245,11 +246,14 @@ public class JianDetailActivity extends BaseActivity implements View.OnClickList
     private void setResultByType(TextView textView, String type){
         textView.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
         if(JianListFragment.TYPE_1.equals(type)){
-            textView.setText(getString(R.string.jian_detail_result) + "  真");
+//            textView.setText(getString(R.string.jian_detail_result));
+            textView.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.icon_jian_result,0);
         }else  if(JianListFragment.TYPE_2.equals(type)){
-            textView.setText(getString(R.string.jian_detail_result) + "  假");
+//            textView.setText(getString(R.string.jian_detail_result));
+            textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_jian_result_false, 0);
         }else  if(JianListFragment.TYPE_3.equals(type)){
-            textView.setText(getString(R.string.jian_detail_result) + "  进行中...");
+//            textView.setText(getString(R.string.jian_detail_result));
+            textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_jian_result_unfinish, 0);
         }
     }
 }

@@ -90,7 +90,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         pageFragments.add(HomeFragment.newInstance(TaFragment.class, getString(R.string.title_ta_one), 0));
         pageFragments.add(HomeFragment.newInstance(TaFragment.class, getString(R.string.title_ta_two), 0));
         pageFragments.add(HomeFragment.newInstance(TaFragment.class, getString(R.string.title_ta_three), 0));
-        pageFragments.add(HomeFragment.newInstance(TaFragment.class, getString(R.string.title_ta_four), 0));
+        pageFragments.add(HomeFragment.newInstance(TaFragment.class, getString(R.string.title_ta_new), 0));
         pageFragments.add(HomeFragment.newInstance(TaFragment.class, getString(R.string.title_ta_four), 0));
 
 
@@ -102,7 +102,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
-                if (position == 3) {
+                if (position == 4) {
                     mLastSelectTab.select();
                     TaLikeActivity.goTaLikeActivity(PersonActivity.this, personId);
                 } else {

@@ -20,6 +20,7 @@ import com.htlc.muchong.adapter.CommentAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.fragment.BannerFragment;
 import com.htlc.muchong.util.GoodsUtil;
+import com.htlc.muchong.util.ImageUtil;
 import com.htlc.muchong.util.LoginUtil;
 import com.htlc.muchong.util.PersonUtil;
 import com.htlc.muchong.widget.DaoJiShiView;
@@ -97,7 +98,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
         productId = getIntent().getStringExtra(Product_Id);
         mTitleTextView.setText(R.string.title_pai_detail);
         mTitleRightTextView.setBackgroundResource(R.mipmap.icon_share);
-        mTitleRightTextView.setVisibility(View.VISIBLE);
+        mTitleRightTextView.setVisibility(View.INVISIBLE);
         mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,10 +200,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
                 textName.setText(data.userinfo_nickname);
                 PersonUtil.setPersonLevel(textLevel, data.userinfo_grade);
                 ratingBarLevel.setRating(Float.parseFloat(data.userinfo_grade));
-                int intrinsicWidth = getResources().getDrawable(R.mipmap.default_third_gird_head).getIntrinsicWidth();
-                int intrinsicHeight = getResources().getDrawable(R.mipmap.default_third_gird_head).getIntrinsicHeight();
-                Picasso.with(PaiDetailActivity.this).load(Uri.parse(data.userinfo_headportrait)).placeholder(R.mipmap.default_third_gird_head).error(R.mipmap.default_third_gird_head)
-                        .resize(intrinsicWidth, intrinsicHeight).into(imageHead);
+                ImageUtil.setCircleImageByDefault(imageHead,R.mipmap.default_third_gird_head,Uri.parse(data.userinfo_headportrait));
                 String[] images = data.commodity_imgStr.split(ProductDetailActivity.SPLIT_FLAG);
                 mBannerFragment.setData(Arrays.asList(images));
                 textGoodsName.setText(getString(R.string.pai_name, data.commodity_name));

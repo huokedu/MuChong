@@ -78,7 +78,6 @@ public class TaLikeActivity extends BaseActivity {
         mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(App.app, "share。。。。。。。。。。");
                 selectLikeType();
             }
         });

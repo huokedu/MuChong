@@ -14,7 +14,7 @@
 
     <TextView
         android:id="@+id/textComment"
-        android:text="@string/product_detail_comment"
+        android:text="评价&#160;&#160;(0)"
         android:textSize="16sp"
         android:textColor="@color/text_color_black_muchong"
         android:layout_width="wrap_content"
