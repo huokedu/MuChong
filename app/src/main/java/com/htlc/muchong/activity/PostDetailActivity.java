@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -23,12 +24,14 @@ import com.htlc.muchong.util.DateFormat;
 import com.htlc.muchong.util.ImageUtil;
 import com.htlc.muchong.util.LoginUtil;
 import com.htlc.muchong.util.PersonUtil;
+import com.htlc.muchong.util.ShareSdkUtil;
 import com.htlc.muchong.widget.LoadMoreScrollView;
 import com.larno.util.ToastUtil;
 
 import java.util.Arrays;
 import java.util.List;
 
+import api.Api;
 import core.AppActionImpl;
 import model.PostCommentBean;
 import model.PostDetailBean;
@@ -66,6 +69,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     private boolean hasMore = false;
     private boolean isLoading = true;
     private int page = 2;
+    private PostDetailBean data;
 
     @Override
     protected int getLayoutId() {
@@ -82,7 +86,9 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(App.app, "share。。。。。。。。。。");
+                if(data!=null){
+                    ShareSdkUtil.shareByShareSDK(PostDetailActivity.this, textName.getText().toString(), textContent.getText().toString(), String.format(Api.SharePostUrl, postId), data.forum_coverimg);
+                }
             }
         });
 
@@ -162,6 +168,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         App.app.appAction.postDetail(postId, new BaseActionCallbackListener<PostDetailBean>() {
             @Override
             public void onSuccess(PostDetailBean data) {
+                PostDetailActivity.this.data = data;
                 ImageUtil.setCircleImageByDefault(imageHead, R.mipmap.default_third_gird_head, Uri.parse(data.userinfo_headportrait));
                 textName.setText(data.userinfo_nickname);
                 PersonUtil.setPersonLevel(textLevel, data.userinfo_grade);

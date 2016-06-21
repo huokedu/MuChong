@@ -2,6 +2,10 @@ package com.htlc.muchong.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,12 +20,22 @@ import com.htlc.muchong.fragment.BannerFragment;
 import com.htlc.muchong.fragment.FirstFragment;
 import com.htlc.muchong.util.GoodsUtil;
 import com.htlc.muchong.util.LoginUtil;
+import com.htlc.muchong.util.ShareSdkUtil;
 import com.larno.util.ToastUtil;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import api.Api;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 import model.GoodsCommentBean;
 import model.GoodsDetailBean;
 import model.ShoppingCartItemBean;
@@ -72,7 +86,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(App.app, "share。。。。。。。。。。");
+                if(data!=null){
+                    ShareSdkUtil.shareByShareSDK(ProductDetailActivity.this, textName.getText().toString(), textDescription.getText().toString(), String.format(Api.ShareGoodsUrl,productId),data.commodity_coverimg);
+                }
             }
         });
         mBannerFragment = (BannerFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentBanner);

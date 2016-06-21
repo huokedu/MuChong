@@ -11,6 +11,9 @@ import java.io.File;
  */
 public interface Api {
     String Host = "http://t15.damaimob.com";
+    String ShareGoodsUrl = Host + "/Home/HomeCommodity/share?commodity_id=%1$s";
+    String SharePostUrl = Host + "/Home/HomeForum/share?forum_id=%1$s";
+
     String SmsCode = Host + "/Home/HomeUser/getVerifyCode";
     String EnsureSmsCode = Host + "/Home/HomeUser/yanzheng";
     String Register = Host + "/Home/HomeUser/register";
