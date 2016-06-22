@@ -29,6 +29,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import cn.jpush.android.api.JPushInterface;
 import core.AppAction;
 import core.AppActionImpl;
 
@@ -56,7 +57,13 @@ public class App extends Application {
         initHttp();
         initPicasso();
         initBugTags();
+        initJpush();
         LeakCanary.install(this);
+    }
+
+    private void initJpush() {
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
     }
 
     private void initHttp() {
@@ -71,40 +78,16 @@ public class App extends Application {
                 trackingUserSteps(true).//是否收集用户操作步骤，默认 true
                 trackingNetworkURLFilter("(.*)").//自定义网络请求跟踪的 url 规则，默认 null
                 build();
-        //BTGInvocationEventNone BTGInvocationEventShake   BTGInvocationEventBubble
         Bugtags.start(Constant.BugTags_App_Key, this, Bugtags.BTGInvocationEventNone, options);
     }
 
     private void initPicasso() {
         Picasso.Builder builder = new Picasso.Builder(this);
-//        builder.addRequestHandler(new RequestHandler() {
-//            @Override
-//            public boolean canHandleRequest(Request data) {
-//                return false;
-//            }
-//
-//            @Override
-//            public Result load(Request request, int networkPolicy) throws IOException {
-//                return null;
-//            }
-//        });
-//        builder.downloader(new OkHttpDownloader(this));
-//        builder.listener(new Picasso.Listener() {
-//            @Override
-//            public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
-//
-//            }
-//        });
+
         builder.defaultBitmapConfig(Bitmap.Config.ALPHA_8);
         builder.indicatorsEnabled(Log.debug);
         builder.loggingEnabled(Log.debug);
-//        builder.memoryCache(new LruCache(this));
-//        builder.requestTransformer(new Picasso.RequestTransformer() {
-//            @Override
-//            public Request transformRequest(Request request) {
-//                return null;
-//            }
-//        });
+
        Picasso.setSingletonInstance(builder.build());
     }
 }

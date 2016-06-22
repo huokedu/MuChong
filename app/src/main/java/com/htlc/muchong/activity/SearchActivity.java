@@ -61,7 +61,6 @@ public class SearchActivity extends BaseActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchKey = query;
-                ToastUtil.showToast(App.app,searchKey+"setOnQueryTextListener");
                 initData();
                 return true;
             }
