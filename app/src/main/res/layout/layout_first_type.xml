@@ -54,7 +54,7 @@
     </LinearLayout>
     <!--夺宝-->
     <LinearLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/linearDuo"
         style="@style/FirstHeaderLinear">
 

@@ -23,6 +23,7 @@ import com.htlc.muchong.activity.PaiDetailActivity;
 import com.htlc.muchong.activity.PaiListActivity;
 import com.htlc.muchong.activity.ProductDetailActivity;
 import com.htlc.muchong.activity.QiangListActivity;
+import com.htlc.muchong.activity.WebActivity;
 import com.htlc.muchong.adapter.FirstAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.util.GoodsUtil;
@@ -33,6 +34,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 
+import api.Api;
 import model.GoodsBean;
 import model.HomeBean;
 import model.PaiGoodsBean;
@@ -285,7 +287,8 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
                 startActivity(new Intent(getActivity(), JianListActivity.class));
                 break;
             case R.id.linearDuo:
-                ToastUtil.showToast(App.app, "linearDuo");
+//                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(Api.DuoBao)));
+                WebActivity.goWebActivity(getContext(),getString(R.string.first_header_duo),Api.DuoBao);
                 break;
             case R.id.textJiaoMore:
                 startActivity(new Intent(getActivity(), JiaoListActivity.class));
