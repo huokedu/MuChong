@@ -97,12 +97,12 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
                 return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
             }
         });
-        mPtrFrame.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mPtrFrame.autoRefresh();
-            }
-        }, 500);
+//        mPtrFrame.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                mPtrFrame.autoRefresh();
+//            }
+//        }, 500);
 
         mBannerFragment = (BannerFragment) getChildFragmentManager().findFragmentById(R.id.fragmentBanner);
         mBannerFragment.setRecycle(true);
@@ -167,6 +167,8 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         textPaiName2 = findViewById(R.id.textPaiName2);
         textPaiPrice1 = findViewById(R.id.textPaiPrice1);
         textPaiPrice2 = findViewById(R.id.textPaiPrice2);
+
+        initData();
     }
 
     protected void initLinearType() {

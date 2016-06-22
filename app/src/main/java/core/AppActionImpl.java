@@ -700,8 +700,12 @@ public class AppActionImpl implements AppAction {
             return;
         }
         if (TextUtils.isEmpty(commodity_panicprice)) {
-            listener.onFailure(ErrorEvent.PARAM_NULL, "(商品)价格不能为空");
-            return;
+            if("4".endsWith(commodity_type)){
+                commodity_panicprice = "0";
+            }else {
+                listener.onFailure(ErrorEvent.PARAM_NULL, "(商品)价格不能为空");
+                return;
+            }
         }
         if ("1".equals(commodity_type)) {
             commodity_starttime = "";

@@ -39,6 +39,7 @@ public class GoodsDetailBean {
     public String userinfo_grade;
     public String userinfo_headportrait;
     public String decpricetime;
+    public List<JiaPriceBean> jiajia;
 
 
     public String commodity_userid;
@@ -49,4 +50,8 @@ public class GoodsDetailBean {
     public String commodity_isgrounding;
     public String commodity_ctime;
     public String commodity_utime;
+
+    public class JiaPriceBean{
+        public String constant_num;
+    }
 }

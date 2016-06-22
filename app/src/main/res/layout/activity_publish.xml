@@ -303,6 +303,7 @@
                 </RelativeLayout>
                 <!--价格-->
                 <RelativeLayout
+                    android:id="@+id/relativePrice"
                     style="@style/PublishRelativeItem">
 
                     <TextView

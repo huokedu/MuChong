@@ -26,6 +26,10 @@ public class GoodsUtil {
     public static void setPriceBySymbol(TextView textView, String price) {
         textView.setText("￥"+price);
     }
+    /*设置商品价格为：100元*/
+    public static void setPriceByYuan(TextView textView, String price) {
+        textView.setText(price+"元");
+    }
     /*如果flag=1，则为true*/
     public static boolean isTrue(String flag){
         return IS_TRUE.equals(flag);

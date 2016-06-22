@@ -70,6 +70,7 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
     private RelativeLayout relativeCount;
     private RelativeLayout relativeMarketPrice;
     private RelativeLayout relativeDeposit;
+    private RelativeLayout relativePrice;
 
 
     private List<GoodsTypeBean> goodsTypes;
@@ -118,6 +119,7 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
         relativeCount = (RelativeLayout) findViewById(R.id.relativeCount);
         relativeMarketPrice = (RelativeLayout) findViewById(R.id.relativeMarketPrice);
         relativeDeposit = (RelativeLayout) findViewById(R.id.relativeDeposit);
+        relativePrice = (RelativeLayout) findViewById(R.id.relativePrice);
         editCount = (EditText) findViewById(R.id.editCount);
         editMarketPrice = (EditText) findViewById(R.id.editMarketPrice);
         editDeposit = (EditText) findViewById(R.id.editDeposit);
@@ -321,30 +323,35 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
                 relativeCount.setVisibility(View.GONE);
                 relativeMarketPrice.setVisibility(View.GONE);
                 relativeDeposit.setVisibility(View.GONE);
+                relativePrice.setVisibility(View.VISIBLE);
             } else if (position == 1) {
                 linearStartTime.setVisibility(View.VISIBLE);
                 linearDurationTime.setVisibility(View.GONE);
                 relativeCount.setVisibility(View.VISIBLE);
                 relativeMarketPrice.setVisibility(View.VISIBLE);
                 relativeDeposit.setVisibility(View.GONE);
+                relativePrice.setVisibility(View.VISIBLE);
             } else if (position == 2) {
                 linearStartTime.setVisibility(View.VISIBLE);
                 linearDurationTime.setVisibility(View.VISIBLE);
                 relativeCount.setVisibility(View.GONE);
                 relativeMarketPrice.setVisibility(View.VISIBLE);
                 relativeDeposit.setVisibility(View.VISIBLE);
+                relativePrice.setVisibility(View.VISIBLE);
             } else if (position == 3) {
                 linearStartTime.setVisibility(View.VISIBLE);
                 linearDurationTime.setVisibility(View.VISIBLE);
                 relativeCount.setVisibility(View.GONE);
                 relativeMarketPrice.setVisibility(View.VISIBLE);
                 relativeDeposit.setVisibility(View.VISIBLE);
+                relativePrice.setVisibility(View.GONE);
             } else if (position == 4) {
                 linearStartTime.setVisibility(View.VISIBLE);
                 linearDurationTime.setVisibility(View.VISIBLE);
                 relativeCount.setVisibility(View.GONE);
                 relativeMarketPrice.setVisibility(View.VISIBLE);
                 relativeDeposit.setVisibility(View.VISIBLE);
+                relativePrice.setVisibility(View.VISIBLE);
             }
         } else if (clickView == linearChildType) {
             childType = goodsTypes.get(position).id;

@@ -27,16 +27,21 @@ import com.htlc.muchong.widget.DaoJiShiView;
 import com.larno.util.ToastUtil;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import model.GoodsDetailBean;
 import model.PaiGoodsBean;
+import model.ShoppingCartItemBean;
 
 /**
  * Created by sks on 2016/5/23.
  */
 public class PaiDetailActivity extends BaseActivity implements View.OnClickListener {
     public static final String Product_Id = "Product_Id";
+    public static final int REFRESH_TIME_T = 10000;
 
     /*去商品详情*/
     public static void goPaiActivity(Context context, String goodsId) {
@@ -87,6 +92,8 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
     private CommentAdapter adapter;
     private String productId;
     private CountDownTimer timer;
+    private GoodsDetailBean data;
+    private Timer refreshDataTimer;
 
     @Override
     protected int getLayoutId() {
@@ -97,12 +104,12 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
     protected void setupView() {
         productId = getIntent().getStringExtra(Product_Id);
         mTitleTextView.setText(R.string.title_pai_detail);
-        mTitleRightTextView.setBackgroundResource(R.mipmap.icon_share);
-        mTitleRightTextView.setVisibility(View.INVISIBLE);
+        mTitleRightTextView.setText(R.string.refresh);
+        mTitleRightTextView.setVisibility(View.VISIBLE);
         mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(App.app, "share。。。。。。。。。。");
+                initData();
             }
         });
 
@@ -197,19 +204,23 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
         App.app.appAction.goodsDetail(productId, new BaseActionCallbackListener<GoodsDetailBean>() {
             @Override
             public void onSuccess(GoodsDetailBean data) {
-                textName.setText(data.userinfo_nickname);
-                PersonUtil.setPersonLevel(textLevel, data.userinfo_grade);
-                ratingBarLevel.setRating(Float.parseFloat(data.userinfo_grade));
-                ImageUtil.setCircleImageByDefault(imageHead,R.mipmap.default_third_gird_head,Uri.parse(data.userinfo_headportrait));
-                String[] images = data.commodity_imgStr.split(ProductDetailActivity.SPLIT_FLAG);
-                mBannerFragment.setData(Arrays.asList(images));
-                textGoodsName.setText(getString(R.string.pai_name, data.commodity_name));
-                textMaterial.setText(getString(R.string.pai_detail_material, data.commodity_material, data.commodity_spec));
-                textDescription.setText(data.commodity_content);
+                if (PaiDetailActivity.this.data == null) {
+                    PaiDetailActivity.this.data = data;
+
+                    textName.setText(data.userinfo_nickname);
+                    PersonUtil.setPersonLevel(textLevel, data.userinfo_grade);
+                    ratingBarLevel.setRating(Float.parseFloat(data.userinfo_grade));
+                    ImageUtil.setCircleImageByDefault(imageHead, R.mipmap.default_third_gird_head, Uri.parse(data.userinfo_headportrait));
+                    String[] images = data.commodity_imgStr.split(ProductDetailActivity.SPLIT_FLAG);
+                    mBannerFragment.setData(Arrays.asList(images));
+                    textGoodsName.setText(getString(R.string.pai_name, data.commodity_name));
+                    textMaterial.setText(getString(R.string.pai_detail_material, data.commodity_material, data.commodity_spec));
+                    textDescription.setText(data.commodity_content);
+                    GoodsUtil.setPriceBySymbol(textMarketPrice, data.commodity_price);
+                    GoodsUtil.setPriceBySymbol(textDeposit, data.commodity_bond);
+                }
                 textComment.setText(getString(R.string.product_detail_comment, data.evalcount));
                 adapter.setData(data.evallist, false);
-                GoodsUtil.setPriceBySymbol(textMarketPrice, data.commodity_price);
-                GoodsUtil.setPriceBySymbol(textDeposit, data.commodity_bond);
                 if (PaiGoodsBean.TYPE_DAO.equals(data.commodity_type)) {
                     GoodsUtil.setPriceBySymbol(textPrice, data.commodity_panicprice);
                     textDaoPaiTips.setText(getString(R.string.pai_dao_pai_tips, Double.parseDouble(data.decpricetime) / 60));
@@ -237,6 +248,8 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
                     } else if (PaiGoodsBean.STATE_STARTING.equals(data.state)) {
                         startEndTimer(Long.parseLong(data.timeStr) * 1000);
                     }
+                    GoodsUtil.setPriceByYuan(textAddPriceSmall, data.jiajia.get(0).constant_num);
+                    GoodsUtil.setPriceByYuan(textAddPriceBig, data.jiajia.get(1).constant_num);
                     textPaiPrice.setVisibility(View.VISIBLE);
                     GoodsUtil.setPriceBySymbol(textPaiPrice, data.commodity_startprice);
                     paiPriceLabel.setVisibility(View.VISIBLE);
@@ -252,6 +265,20 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
                 ToastUtil.showToast(App.app, message);
             }
         });
+        refreshDataByTimer();
+    }
+    /*定时刷新*/
+    private void refreshDataByTimer(){
+        if(refreshDataTimer == null){
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    initData();
+                }
+            };
+            refreshDataTimer = new Timer();
+            refreshDataTimer.schedule(timerTask,REFRESH_TIME_T,REFRESH_TIME_T);
+        }
     }
 
     private void startStartTimer(long millisInFutureStart, final long millisInFutureEnd) {
@@ -303,6 +330,9 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
         if (timer != null) {
             timer.cancel();
         }
+        if(refreshDataTimer != null){
+            refreshDataTimer.cancel();
+        }
     }
 
     @Override
@@ -318,7 +348,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
                 commitComment();
                 break;
             case R.id.textBuy:
-                ToastUtil.showToast(App.app, "立即购买");
+                buyNow();
                 break;
             case R.id.textCommentMore:
                 CommentListActivity.goCommentListActivity(this, productId);
@@ -327,11 +357,32 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    /*立即购买*/
+    private void buyNow() {
+        if (!App.app.isLogin()) {
+            LoginUtil.showLoginTips(this);
+            return;
+        }
+        ArrayList<ShoppingCartItemBean> shoppingCartItemBeans = new ArrayList<>();
+        ShoppingCartItemBean bean = new ShoppingCartItemBean();
+        bean.shopcar_commodityid = productId;
+        bean.num = "1";
+        bean.commodity_panicprice = data.commodity_panicprice;
+        bean.commodity_coverimg = data.commodity_coverimg;
+        bean.commodity_name = data.commodity_name;
+        shoppingCartItemBeans.add(bean);
+        CreateOrderActivity.goCreateOrderActivity(this, shoppingCartItemBeans, false);
+    }
+
     /*竞价  isBig 高档追加价格*/
     private void addPrice(boolean isBig) {
-        int bigPrice = 200;
-        int smallPrice = 100;
-        int addPrice = isBig ? bigPrice : smallPrice;
+        if (!App.app.isLogin()) {
+            LoginUtil.showLoginTips(this);
+            return;
+        }
+        String bigPrice = data.jiajia.get(1).constant_num;
+        String smallPrice = data.jiajia.get(0).constant_num;
+        String addPrice = isBig ? bigPrice : smallPrice;
         App.app.appAction.addPaiPrice(productId, String.valueOf(addPrice), new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {
@@ -340,7 +391,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
 
             @Override
             public void onIllegalState(String errorEvent, String message) {
-                if(message.equals(ERROR_BOUND_NO_ENOUGH)){
+                if (message.equals(ERROR_BOUND_NO_ENOUGH)) {
                     showTips();
                     return;
                 }
