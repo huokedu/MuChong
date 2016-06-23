@@ -269,6 +269,12 @@ public class ApiImpl implements Api {
     }
 
     @Override
+    public void getGoodsMaterials(ResultCallback callback) {
+        String url = Api.GetGoodsMaterials;
+        new OkHttpRequest.Builder().url(url).get(callback);
+    }
+
+    @Override
     public void getPointInTimes(ResultCallback callback) {
         String url = Api.GetPaiStartTimes;
         new OkHttpRequest.Builder().url(url).get(callback);
@@ -370,12 +376,13 @@ public class ApiImpl implements Api {
     }
 
     @Override
-    public void jiaoListBySmallClass(String page, String commodity_smallclass, String order, String commodity_material, ResultCallback callback) {
+    public void jiaoListBySmallClass(String page, String commodity_smallclass, String order, String commodity_material, String price, ResultCallback callback) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("page", page);
         params.put("commodity_smallclass", commodity_smallclass);
         params.put("order", order);
         params.put("commodity_material", commodity_material);
+        params.put("price", price);
         String url = Api.JiaoList;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }

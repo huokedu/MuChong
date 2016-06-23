@@ -50,6 +50,19 @@ public class ProductListActivity extends BaseActivity {
     private String smallClassId;
     private String smallClassName;
     private String material;
+    private String price;
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
 
     public String getMaterial() {
         return material;
@@ -113,7 +126,10 @@ public class ProductListActivity extends BaseActivity {
                 } else if (position == 2) {
                     textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, priceOrderIsDown ? R.mipmap.icon_order_down : R.mipmap.icon_order_up, 0);
                 }
-
+                if(position!=3){
+                    ProductListFragment fragment = (ProductListFragment) pagerAdapter.getItem(position);
+                    fragment.initData();
+                }
             }
 
             @Override
@@ -135,12 +151,14 @@ public class ProductListActivity extends BaseActivity {
                 if (position == 1) {
                     salesOrderIsDown = !salesOrderIsDown;
                     textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, salesOrderIsDown ? R.mipmap.icon_order_down : R.mipmap.icon_order_up, 0);
+                    ProductListFragment fragment = (ProductListFragment) pagerAdapter.getItem(position);
+                    fragment.initData();
                 } else if (position == 2) {
                     priceOrderIsDown = !priceOrderIsDown;
                     textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, priceOrderIsDown ? R.mipmap.icon_order_down : R.mipmap.icon_order_up, 0);
+                    ProductListFragment fragment = (ProductListFragment) pagerAdapter.getItem(position);
+                    fragment.initData();
                 }
-                ProductListFragment fragment = (ProductListFragment) pagerAdapter.getItem(position);
-                fragment.initData();
             }
         });
     }

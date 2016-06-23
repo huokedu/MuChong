@@ -145,6 +145,21 @@
                         style="@style/DividerHorizontal.Thin"
                         android:layout_marginTop="10dp"/>
                 </LinearLayout>
+                <!--材质-->
+                <LinearLayout
+                    android:id="@+id/linearMaterial"
+                    style="@style/PublishLinearItem">
+
+                    <TextView
+                        android:id="@+id/textMaterial"
+                        style="@style/PublishTextItem"
+                        android:text="@string/publish_material"
+                        />
+
+                    <View
+                        style="@style/DividerHorizontal.Thin"
+                        android:layout_marginTop="10dp"/>
+                </LinearLayout>
                 <!--开始时间-->
                 <LinearLayout
                     android:visibility="gone"
@@ -278,27 +293,6 @@
                     <View
                         style="@style/DividerHorizontal.Thin"
                         android:layout_below="@+id/labelSize"
-                        android:layout_marginTop="10dp"/>
-                </RelativeLayout>
-                <!--材质-->
-                <RelativeLayout
-                    style="@style/PublishRelativeItem">
-
-                    <TextView
-                        android:id="@+id/labelMaterial"
-                        style="@style/PublishRelativeItemText"
-                        android:text="@string/publish_material"
-                        />
-
-                    <EditText
-                        android:id="@+id/editMaterial"
-                        style="@style/PublishRelativeItemEdit"
-                        android:layout_toRightOf="@+id/labelMaterial"
-                        android:hint="@string/publish_material_hint"/>
-
-                    <View
-                        style="@style/DividerHorizontal.Thin"
-                        android:layout_below="@+id/labelMaterial"
                         android:layout_marginTop="10dp"/>
                 </RelativeLayout>
                 <!--价格-->

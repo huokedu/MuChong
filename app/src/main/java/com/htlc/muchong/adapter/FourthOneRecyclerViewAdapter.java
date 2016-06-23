@@ -32,7 +32,7 @@ public class FourthOneRecyclerViewAdapter extends com.htlc.muchong.base.BaseRecy
         super.onBindViewHolder(holder,position);
         ViewHolder viewHolder = (ViewHolder) holder;
         PostBean bean = mList.get(position);
-        ImageUtil.setImageByDefault(viewHolder.imageHead, R.mipmap.default_third_gird_head, Uri.parse(bean.userinfo_headportrait));
+        ImageUtil.setCircleImageByDefault(viewHolder.imageHead, R.mipmap.default_third_gird_head, Uri.parse(bean.userinfo_headportrait));
         viewHolder.textName.setText(bean.userinfo_nickname);
         PersonUtil.setPersonLevel(viewHolder.textLevel, bean.userinfo_grade);
         DateFormat.setTextByTime(viewHolder.textTime, bean.forum_ctime);

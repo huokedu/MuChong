@@ -33,6 +33,7 @@ import model.GoodsTypeBean;
 import model.HomeBean;
 import model.JianBean;
 import model.JiaoGoodsBean;
+import model.MaterialBean;
 import model.MessageBean;
 import model.MyPaiBean;
 import model.OrderBean;
@@ -640,6 +641,26 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
+    public void getGoodsMaterials(ActionCallbackListener<List<MaterialBean>> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        api.getGoodsMaterials(new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<MaterialBean> bean = JSON.parseArray(model.getString(KEY_DATA), MaterialBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
     public void getPointInTimes(ActionCallbackListener<List<PointInTimeBean>> listener) {
         if (!NetworkUtil.isNetworkAvailable(context)) {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
@@ -926,7 +947,7 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void jiaoListBySmallClass(int page, String commodity_smallclass, String order, String commodity_material, ActionCallbackListener<List<JiaoGoodsBean>> listener) {
+    public void jiaoListBySmallClass(int page, String commodity_smallclass, String order, String commodity_material, String price, ActionCallbackListener<List<JiaoGoodsBean>> listener) {
         if (!NetworkUtil.isNetworkAvailable(context)) {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
             return;
@@ -934,7 +955,10 @@ public class AppActionImpl implements AppAction {
         if (TextUtils.isEmpty(commodity_material)) {
             commodity_material = "";
         }
-        api.jiaoListBySmallClass(String.valueOf(page), commodity_smallclass, order, commodity_material, new DefaultResultCallback(listener) {
+        if (TextUtils.isEmpty(price)) {
+            price = "";
+        }
+        api.jiaoListBySmallClass(String.valueOf(page), commodity_smallclass, order, commodity_material,price, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);

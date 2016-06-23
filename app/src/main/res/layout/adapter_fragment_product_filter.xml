@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="@android:color/white"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/textName"
+        android:text="材质"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:textColor="@color/text_color_black_muchong"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <View
+       style="@style/DividerHorizontal.Thin"/>
+    <com.htlc.muchong.widget.NoScrollGridView
+
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:horizontalSpacing="5dp"
+        android:verticalSpacing="5dp"
+        android:id="@+id/gridView"
+        android:choiceMode="singleChoice"
+        android:numColumns="3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

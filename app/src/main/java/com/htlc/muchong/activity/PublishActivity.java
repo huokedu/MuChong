@@ -34,6 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import model.GoodsTypeBean;
+import model.MaterialBean;
 import model.PointInTimeBean;
 import model.TimeBoxingBean;
 
@@ -54,9 +55,11 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
 
     private LinearLayout linearType;
     private LinearLayout linearChildType;
+    private LinearLayout linearMaterial;
     private LinearLayout linearStartTime;
     private LinearLayout linearDurationTime;
     private TextView textType;
+    private TextView textMaterial;
     private TextView textChildType;
     private TextView textStartTime;
     private TextView textDurationTime;
@@ -65,7 +68,6 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
     private EditText editDeposit;
     private EditText editCount;
     private EditText editPrice;
-    private EditText editMaterial;
     private EditText editSize;
     private RelativeLayout relativeCount;
     private RelativeLayout relativeMarketPrice;
@@ -74,6 +76,7 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
 
 
     private List<GoodsTypeBean> goodsTypes;
+    private List<MaterialBean> materials;
     private List<PointInTimeBean> pointInTimes;
     private List<Pair<String, String>> qiangDays;
 
@@ -81,6 +84,7 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
     private String childType;
     private String pointInTime;
     private String timeboxing;
+    private String material;
     private ProgressDialog progressDialog;
 
 
@@ -105,14 +109,17 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
 
         linearType = (LinearLayout) findViewById(R.id.linearType);
         linearChildType = (LinearLayout) findViewById(R.id.linearChildType);
+        linearMaterial = (LinearLayout) findViewById(R.id.linearMaterial);
         linearStartTime = (LinearLayout) findViewById(R.id.linearStartTime);
         linearDurationTime = (LinearLayout) findViewById(R.id.linearDurationTime);
         textType = (TextView) findViewById(R.id.textType);
         textChildType = (TextView) findViewById(R.id.textChildType);
+        textMaterial = (TextView) findViewById(R.id.textMaterial);
         textStartTime = (TextView) findViewById(R.id.textStartTime);
         textDurationTime = (TextView) findViewById(R.id.textDurationTime);
         linearType.setOnClickListener(this);
         linearChildType.setOnClickListener(this);
+        linearMaterial.setOnClickListener(this);
         linearStartTime.setOnClickListener(this);
         linearDurationTime.setOnClickListener(this);
 
@@ -124,7 +131,6 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
         editMarketPrice = (EditText) findViewById(R.id.editMarketPrice);
         editDeposit = (EditText) findViewById(R.id.editDeposit);
         editSize = (EditText) findViewById(R.id.editSize);
-        editMaterial = (EditText) findViewById(R.id.editMaterial);
         editPrice = (EditText) findViewById(R.id.editPrice);
 
         findViewById(R.id.buttonCommit).setOnClickListener(this);
@@ -135,8 +141,24 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
     @Override
     protected void initData() {
         getGoodsType();
+        getMaterials();
         getPointInTime();
         getQiangDays();
+    }
+
+    /*获取材质列表*/
+    private void getMaterials() {
+        App.app.appAction.getGoodsMaterials(new BaseActionCallbackListener<List<MaterialBean>>() {
+            @Override
+            public void onSuccess(List<MaterialBean> data) {
+                materials = data;
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+            }
+        });
     }
 
     /*获取抢购可选日期*/
@@ -215,9 +237,18 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
                     showPopupWindow(v, Arrays.asList(goodsTypesArray));
                 }
                 break;
+            case R.id.linearMaterial:
+                if (materials != null) {
+                    String[] materialsArray = new String[materials.size()];
+                    for (int i = 0; i < materials.size(); i++) {
+                        materialsArray[i] = materials.get(i).name;
+                    }
+                    showPopupWindow(v, Arrays.asList(materialsArray));
+                }
+                break;
             case R.id.linearStartTime:
                 if (TYPE_ARRAY_VALUE[1].equals(type)) {
-                    if(qiangDays!=null){
+                    if (qiangDays != null) {
                         String[] qiangDaysArray = new String[qiangDays.size()];
                         for (int i = 0; i < qiangDays.size(); i++) {
                             qiangDaysArray[i] = qiangDays.get(i).second;
@@ -251,7 +282,7 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
         progressDialog.show();
         boolean exists = coverImageFile.exists();
         App.app.appAction.publishGoods(editTitle.getText().toString().trim(), editContent.getText().toString().trim(),
-                type, childType, editSize.getText().toString().trim(), editMaterial.getText().toString().trim(), editPrice.getText().toString(),
+                type, childType, editSize.getText().toString().trim(), material, editPrice.getText().toString(),
                 pointInTime, timeboxing, editCount.getText().toString(), editMarketPrice.getText().toString(), editDeposit.getText().toString(),
                 coverImageFile, adapter.getData(), new BaseActionCallbackListener<Void>() {
                     @Override
@@ -358,12 +389,16 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
             childType = goodsTypes.get(position).id;
             String preStr = getString(R.string.publish_child_type);
             textChildType.setText(preStr + "\t\t" + goodsTypes.get(position).constant_name);
+        } else if (clickView == linearMaterial) {
+            material = materials.get(position).id;
+            String preStr = getString(R.string.publish_material);
+            textMaterial.setText(preStr + "\t\t" + materials.get(position).name);
         } else if (clickView == linearStartTime) {
-            if(TYPE_ARRAY_VALUE[1].equals(type)){
+            if (TYPE_ARRAY_VALUE[1].equals(type)) {
                 pointInTime = qiangDays.get(position).second;
                 String preStr = getString(R.string.publish_start_time);
                 textStartTime.setText(preStr + "\t\t" + qiangDays.get(position).second);
-            }else {
+            } else {
                 pointInTime = pointInTimes.get(position).constant_time;
                 String preStr = getString(R.string.publish_start_time);
                 textStartTime.setText(preStr + "\t\t" + pointInTimes.get(position).constant_time);

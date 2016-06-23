@@ -39,6 +39,7 @@ public interface Api {
 
     String Home = Host + "/Home/HomeCommodity/homepage";
     String GetGoodsType = Host + "/Home/HomeCommodity/smallclasslist";
+    String GetGoodsMaterials = Host + "/Home/HomeCommodity/material";
     String GetPaiStartTimes = Host + "/Home/HomeCommodity/getbidtimelist";
     String PublishGoods = Host + "/Home/HomeCommodity/publishCommodity";
     String GoodsDetail = Host + "/Home/HomeCommodity/commodityinfo";
@@ -97,6 +98,7 @@ public interface Api {
 
     void home(ResultCallback callback);
     void getGoodsType(ResultCallback callback);
+    void getGoodsMaterials(ResultCallback callback);
     void getPointInTimes(ResultCallback callback);
     void publishGoods(String commodity_name,String commodity_content,
                       String commodity_type,String commodity_smallclass,String commodity_spec,String commodity_material,String commodity_panicprice,
@@ -109,7 +111,7 @@ public interface Api {
     void qiangList(String flag, String page, ResultCallback callback);
     void paiList(String page, ResultCallback callback);
     void jiaoList(String page, ResultCallback callback);
-    void jiaoListBySmallClass(String page, String commodity_smallclass,String order, String commodity_material, ResultCallback callback);
+    void jiaoListBySmallClass(String page, String commodity_smallclass,String order, String commodity_material, String price, ResultCallback callback);
     void addLike(String commodityid,String forumid,String user, ResultCallback callback);
     void addShoppingCart(String shopcar_commodityid,ResultCallback callback);
     void buyNow(String channel, String commodity_id, String num, String address_id, ResultCallback callback);

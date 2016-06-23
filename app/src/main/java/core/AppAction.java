@@ -16,6 +16,7 @@ import model.GoodsTypeBean;
 import model.HomeBean;
 import model.JianBean;
 import model.JiaoGoodsBean;
+import model.MaterialBean;
 import model.MessageBean;
 import model.MyPaiBean;
 import model.OrderBean;
@@ -62,6 +63,7 @@ public interface AppAction {
 
     void home(ActionCallbackListener<HomeBean> listener);
     void getGoodsType(ActionCallbackListener<List<GoodsTypeBean>> listener);
+    void getGoodsMaterials(ActionCallbackListener<List<MaterialBean>> listener);
     void getPointInTimes(ActionCallbackListener<List<PointInTimeBean>> listener);
     void publishGoods(String commodity_name, String commodity_content,
                       String commodity_type, String commodity_smallclass, String commodity_spec, String commodity_material, String commodity_panicprice,
@@ -75,7 +77,7 @@ public interface AppAction {
     void qiangList(String flag, int page,ActionCallbackListener<QiangListBean> listener);
     void paiList(int page, ActionCallbackListener<List<PaiGoodsBean>> listener);
     void jiaoList(int page, ActionCallbackListener<List<JiaoGoodsBean>> listener);
-    void jiaoListBySmallClass(int page, String commodity_smallclass, String order, String commodity_material, ActionCallbackListener<List<JiaoGoodsBean>> listener);
+    void jiaoListBySmallClass(int page, String commodity_smallclass, String order, String commodity_material, String price, ActionCallbackListener<List<JiaoGoodsBean>> listener);
     void addLikeGoods(String commodity_id,ActionCallbackListener<Void> listener);
     void addShoppingCart(String shopcar_commodityid,ActionCallbackListener<Void> listener);
     void buyNow(String channel, String commodity_id, String num, String address_id, ActionCallbackListener<CreateOrderResultBean> listener);
