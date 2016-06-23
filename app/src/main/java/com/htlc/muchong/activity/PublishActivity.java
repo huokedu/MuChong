@@ -260,6 +260,7 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
                             progressDialog.dismiss();
                         }
                         ToastUtil.showToast(App.app, "提交成功");
+                        finish();
                     }
 
                     @Override

@@ -1,5 +1,6 @@
 package com.htlc.muchong.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -42,6 +43,7 @@ import model.ShoppingCartItemBean;
 public class PaiDetailActivity extends BaseActivity implements View.OnClickListener {
     public static final String Product_Id = "Product_Id";
     public static final int REFRESH_TIME_T = 10000;
+    private ProgressDialog progressDialog;
 
     /*去商品详情*/
     public static void goPaiActivity(Context context, String goodsId) {
@@ -67,6 +69,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
     private TextView paiPriceLabel;
     private TextView textPaiPrice;
     private TextView textMarketPrice;
+    private TextView depositLabel;
     private TextView textDeposit;
 
     //倒拍
@@ -109,6 +112,9 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
         mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog = new ProgressDialog(PaiDetailActivity.this);
+                progressDialog.setMessage("请稍等...");
+                progressDialog.show();
                 initData();
             }
         });
@@ -123,7 +129,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
         mBannerFragment.setListener(new BannerFragment.onItemClickListener() {
             @Override
             public void onItemClickListener(int position) {
-                ToastUtil.showToast(App.app, "banner position = " + position);
+                ImageActivity.goImageActivity(PaiDetailActivity.this, mBannerFragment.getData().get(position));
             }
         });
         textGoodsName = (TextView) findViewById(R.id.textGoodsName);
@@ -137,6 +143,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
         paiPriceLabel = (TextView) findViewById(R.id.paiPriceLabel);
         textPaiPrice = (TextView) findViewById(R.id.textPaiPrice);
         textMarketPrice = (TextView) findViewById(R.id.textMarketPrice);
+        depositLabel = (TextView) findViewById(R.id.depositLabel);
         textDeposit = (TextView) findViewById(R.id.textDeposit);
 
         //倒拍
@@ -253,16 +260,28 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
                     textPaiPrice.setVisibility(View.VISIBLE);
                     GoodsUtil.setPriceBySymbol(textPaiPrice, data.commodity_startprice);
                     paiPriceLabel.setVisibility(View.VISIBLE);
+
+                    depositLabel.setVisibility(View.VISIBLE);
+                    textDeposit.setVisibility(View.VISIBLE);
+
                     linearDaoPai.setVisibility(View.GONE);
                     relativeBuy.setVisibility(View.GONE);
                     linearJingPai.setVisibility(View.VISIBLE);
                     relativeInput.setVisibility(View.VISIBLE);
                 }
+
+                if(progressDialog!=null){
+                    progressDialog.dismiss();
+                }
             }
 
             @Override
             public void onIllegalState(String errorEvent, String message) {
+                if(progressDialog!=null){
+                    progressDialog.dismiss();
+                }
                 ToastUtil.showToast(App.app, message);
+
             }
         });
         refreshDataByTimer();

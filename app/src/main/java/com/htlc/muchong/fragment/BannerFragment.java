@@ -109,6 +109,10 @@ public class BannerFragment extends Fragment implements OnPageChangeListener {
         }
     }
 
+    public List<String> getData() {
+        return list;
+    }
+
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 

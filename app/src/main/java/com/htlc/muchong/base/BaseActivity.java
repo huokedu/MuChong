@@ -31,6 +31,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static final String ActivityTitle = "ActivityTitle";
     public static final String ERROR_TOKEN_TIMEOUT = "token失效";
     public static final String ERROR_BOUND_NO_ENOUGH = "保证金不足";
+    public static final String ERROR_NO_ENOUGH_DATA = "没有更多数据";
     public Toolbar mToolbar;
     public TextView mTitleTextView, mTitleRightTextView, mTitleLeftTextView;
 

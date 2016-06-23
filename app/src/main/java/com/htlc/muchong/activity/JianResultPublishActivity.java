@@ -91,6 +91,7 @@ public class JianResultPublishActivity extends BaseActivity implements View.OnCl
                     progressDialog.dismiss();
                 }
                 ToastUtil.showToast(App.app, "鉴定成功！");
+                finish();
             }
 
             @Override

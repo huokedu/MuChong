@@ -60,6 +60,7 @@ public class WebActivity extends BaseActivity {
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);//缓存
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL); //支持内容重新布局
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);//不显示滚动条
+        webView.getSettings().setDefaultTextEncodingName("UTF -8");
         //运行js代码
         webView.getSettings().setJavaScriptEnabled(true);
         javaScriptBridge = new JavaScriptBridge();
@@ -81,6 +82,10 @@ public class WebActivity extends BaseActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 //                view.loadUrl(url);
+                if(url.contains("baidu.com")){
+                    webView.loadData("<h1>这是Larno的博客</h1>", "text/html; charset=UTF-8", null);
+                    return true;
+                }
                 return false;
             }
 

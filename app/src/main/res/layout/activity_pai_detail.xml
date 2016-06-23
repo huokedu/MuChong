@@ -166,6 +166,7 @@
                         android:text="￥8899"/>
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/depositLabel"
                         style="@style/PaiDetailPriceLabelTextView"
                         android:layout_below="@+id/paiMarketPriceLabel"
@@ -174,6 +175,7 @@
                         android:text="@string/pai_deposit"/>
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/textDeposit"
                         style="@style/PaiDetailPriceTextView"
                         android:layout_alignBottom="@+id/depositLabel"

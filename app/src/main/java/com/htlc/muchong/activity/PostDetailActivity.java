@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -122,7 +123,13 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         imageListView = (ListView) findViewById(R.id.imageListView);
         imageAdapter = new DetailImageAdapter();
         imageListView.setAdapter(imageAdapter);
+        imageListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ImageActivity.goImageActivity(PostDetailActivity.this, (String) imageAdapter.getItem(position));
 
+            }
+        });
 
         textComment = (TextView) findViewById(R.id.textComment);
         textCommentMore = (TextView) findViewById(R.id.textCommentMore);

@@ -109,7 +109,16 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         mBannerFragment.setListener(new BannerFragment.onItemClickListener() {
             @Override
             public void onItemClickListener(int position) {
-                ToastUtil.showToast(App.app, "banner position = " + position);
+                String banner_type = homeBean.banner.get(position).banner_type;
+                String banner_title = homeBean.banner.get(position).banner_title;
+                String id = homeBean.banner.get(position).id;
+                if("6".equals(banner_type)){
+                    WebActivity.goWebActivity(getContext(), banner_title, id);
+                }else  if("3".equals(banner_type) || "4".equals(banner_type) ||"5".equals(banner_type)){
+                    PaiDetailActivity.goPaiActivity(getContext(), id);
+                }else if("1".equals(banner_type) || "2".equals(banner_type)){
+                    ProductDetailActivity.goProductActivity(getContext(), id);
+                }
             }
         });
 
@@ -229,7 +238,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         if (homeBean.limittime.list.size() >= 2) {
             linearQiang2.setVisibility(View.VISIBLE);
             GoodsBean goodsBean = homeBean.limittime.list.get(1);
-            Picasso.with(getContext()).load(Uri.parse(goodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_qiang).error(R.mipmap.default_first_qiang).into(imageQiang2);
+            ImageUtil.setImageByDefault(imageQiang2, R.mipmap.default_first_qiang, Uri.parse(goodsBean.commodity_coverimg));
             textNameQiang2.setText(goodsBean.commodity_name);
             GoodsUtil.setPriceBySymbol(textPriceQiang2, goodsBean.commodity_panicprice);
         }else {
@@ -238,7 +247,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         if (homeBean.limittime.list.size() >= 3) {
             linearQiang3.setVisibility(View.VISIBLE);
             GoodsBean goodsBean = homeBean.limittime.list.get(2);
-            Picasso.with(getContext()).load(Uri.parse(goodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_qiang).error(R.mipmap.default_first_qiang).into(imageQiang3);
+            ImageUtil.setImageByDefault(imageQiang3, R.mipmap.default_first_qiang, Uri.parse(goodsBean.commodity_coverimg));
             textNameQiang3.setText(goodsBean.commodity_name);
             GoodsUtil.setPriceBySymbol(textPriceQiang3, goodsBean.commodity_panicprice);
         }else {
@@ -249,7 +258,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         if (homeBean.bid.size() >= 1) {
             relativePai1.setVisibility(View.VISIBLE);
             PaiGoodsBean paiGoodsBean = homeBean.bid.get(0);
-            Picasso.with(getContext()).load(Uri.parse(paiGoodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_pai).error(R.mipmap.default_first_pai).into(imagePai1);
+            ImageUtil.setImageByDefault(imagePai1, R.mipmap.default_first_pai, Uri.parse(paiGoodsBean.commodity_coverimg));
             GoodsUtil.setImageByPaiType(imageTypePai1, paiGoodsBean.commodity_type);
             textPaiName1.setText(paiGoodsBean.commodity_name);
             GoodsUtil.setPriceBySymbol(textPaiPrice1, paiGoodsBean.commodity_panicprice);
@@ -259,7 +268,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         if (homeBean.bid.size() >= 2) {
             relativePai2.setVisibility(View.VISIBLE);
             PaiGoodsBean paiGoodsBean = homeBean.bid.get(1);
-            Picasso.with(getContext()).load(Uri.parse(paiGoodsBean.commodity_coverimg)).placeholder(R.mipmap.default_first_pai).error(R.mipmap.default_first_pai).into(imagePai2);
+            ImageUtil.setImageByDefault(imagePai2, R.mipmap.default_first_pai, Uri.parse(paiGoodsBean.commodity_coverimg));
             GoodsUtil.setImageByPaiType(imageTypePai2, paiGoodsBean.commodity_type);
             textPaiName2.setText(paiGoodsBean.commodity_name);
             GoodsUtil.setPriceBySymbol(textPaiPrice2, paiGoodsBean.commodity_panicprice);

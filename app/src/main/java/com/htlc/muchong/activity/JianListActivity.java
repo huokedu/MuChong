@@ -19,6 +19,8 @@ import com.larno.util.ToastUtil;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import model.UserBean;
+
 /**
  * Created by sks on 2016/5/24.
  */
@@ -34,7 +36,7 @@ public class JianListActivity extends BaseActivity {
     protected void setupView() {
         mTitleTextView.setText(R.string.first_header_jian);
         mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);
-        mTitleRightTextView.setVisibility(View.VISIBLE);
+        mTitleRightTextView.setVisibility(LoginUtil.getUser().user_role.equals(UserBean.TYPE_EXPERT)?View.INVISIBLE:View.VISIBLE);
         mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

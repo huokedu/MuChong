@@ -96,7 +96,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         mBannerFragment.setListener(new BannerFragment.onItemClickListener() {
             @Override
             public void onItemClickListener(int position) {
-                ToastUtil.showToast(App.app, "banner position = " + position);
+                ImageActivity.goImageActivity(ProductDetailActivity.this, mBannerFragment.getData().get(position));
             }
         });
 

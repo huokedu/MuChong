@@ -1,5 +1,6 @@
 package com.htlc.muchong.fragment;
 
+import android.app.ProgressDialog;
 import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
+import com.htlc.muchong.activity.PaiDetailActivity;
 import com.htlc.muchong.activity.ProductDetailActivity;
 import com.htlc.muchong.adapter.QiangRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
@@ -42,6 +44,8 @@ public class QiangListFragment extends BaseFragment {
     private String mType;
     private DaoJiShiView daoJiShiView;
     private TextView textView;
+    private TextView textNoDataTips;
+    private ProgressDialog progressDialog;
 
     public static QiangListFragment newInstance(String title, String type) {
         try {
@@ -81,6 +85,17 @@ public class QiangListFragment extends BaseFragment {
                 return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
             }
         });
+        textNoDataTips = (TextView)findViewById(R.id.textNoDataTips);
+        textNoDataTips.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressDialog = new ProgressDialog(getContext());
+                progressDialog.setMessage("请稍等...");
+                progressDialog.show();
+                initData();
+            }
+        });
+
         mPtrFrame.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -162,6 +177,10 @@ public class QiangListFragment extends BaseFragment {
         App.app.appAction.qiangList(mType, page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<QiangListBean>() {
             @Override
             public void onSuccess(QiangListBean data) {
+                if(progressDialog!=null){
+                    progressDialog.dismiss();
+                }
+                textNoDataTips.setVisibility(View.INVISIBLE);
                 mPtrFrame.refreshComplete();
                 adapter.setData(data.list, false);
                 if(data.list.size()< AppActionImpl.PAGE_SIZE){
@@ -175,6 +194,13 @@ public class QiangListFragment extends BaseFragment {
 
             @Override
             public void onIllegalState(String errorEvent, String message) {
+                if(progressDialog!=null){
+                    progressDialog.dismiss();
+                }
+                if(BaseActivity.ERROR_NO_ENOUGH_DATA.equals(message)){
+                    textNoDataTips.setVisibility(View.VISIBLE);
+                    return;
+                }
                 ToastUtil.showToast(App.app, message);
                 mPtrFrame.refreshComplete();
                 mPtrFrame.setLoadMoreEnable(false);
@@ -183,6 +209,7 @@ public class QiangListFragment extends BaseFragment {
     }
 
     private void refreshView(QiangListBean data) {
+        daoJiShiView.setVisibility(View.VISIBLE);
         //刷新抢购数据
         if (PaiGoodsBean.STATE_NO_START.equals(data.state)) {
             daoJiShiView.setData(Long.parseLong(data.timeStr) * 1000, Long.parseLong(data.timeend) * 1000);

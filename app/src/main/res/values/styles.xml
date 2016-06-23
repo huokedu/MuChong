@@ -242,8 +242,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
         <item name="android:gravity">center</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
         <item name="android:background">@color/bg_gray</item>
     </style>
     <!--抢购商品名字-->
@@ -251,13 +251,13 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/text_color_black_muchong</item>
     </style>
     <!--抢购商品价格-->
     <style name="FirstQiangLinearTextPrice" parent="FirstQiangLinearTextName">
         <item name="android:textColor">@color/text_color_red</item>
-        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <!--竞拍的一个商品Relative-->

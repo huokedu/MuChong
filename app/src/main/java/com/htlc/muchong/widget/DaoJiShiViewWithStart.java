@@ -14,45 +14,23 @@ import com.htlc.muchong.R;
 /**
  * Created by sks on 2016/5/19.
  */
-public class DaoJiShiView extends LinearLayout {
-    public static final long T = 1000;
-    protected TextView textHour;
-    protected TextView textMinute;
-    protected TextView textSecond;
-    protected LinearLayout linearTime;
-    protected TextView textLabel;
-
-    protected long millisInFutureStart;
-    protected long millisInFutureEnd;
-    protected CountDownTimer startTimer;
-    protected CountDownTimer endTimer;
-
-
-
-    public DaoJiShiView(Context context) {
+public class DaoJiShiViewWithStart extends DaoJiShiView {
+    public DaoJiShiViewWithStart(Context context) {
         this(context, null);
     }
 
-    public DaoJiShiView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DaoJiShiViewWithStart(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public DaoJiShiView(Context context, AttributeSet attrs) {
+    public DaoJiShiViewWithStart(Context context, AttributeSet attrs) {
         this(context, attrs,0);
         setupView();
     }
 
-    protected void setupView() {
-        LayoutInflater.from(getContext()).inflate(R.layout.layout_dao_ji_shi_text_view,this,true);
-        textLabel = (TextView) findViewById(R.id.textLabel);
-        linearTime = (LinearLayout) findViewById(R.id.linearTime);
-        textHour = (TextView) findViewById(R.id.textHour);
-        textMinute = (TextView) findViewById(R.id.textMinute);
-        textSecond = (TextView) findViewById(R.id.textSecond);
-    }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public DaoJiShiView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public DaoJiShiViewWithStart(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
     public void setData(long millisInFutureStart, long millisInFutureEnd){
@@ -76,7 +54,8 @@ public class DaoJiShiView extends LinearLayout {
      * 开始倒计时
      */
     private void startStartTimer() {
-        textLabel.setText(R.string.first_header_start);
+        textLabel.setText(R.string.first_header_qiang);
+        linearTime.setVisibility(INVISIBLE);
         startTimer = new CountDownTimer(millisInFutureStart, T) {
             public void onTick(long millisUntilFinished) {
                 long hour = millisUntilFinished / 3600000;
@@ -110,7 +89,8 @@ public class DaoJiShiView extends LinearLayout {
      * 结束倒计时
      */
     private void startEndTimer(){
-        textLabel.setText(R.string.first_header_end);
+        textLabel.setText(R.string.first_header_qiang);
+        linearTime.setVisibility(VISIBLE);
         endTimer = new CountDownTimer(millisInFutureEnd, T) {
             public void onTick(long millisUntilFinished) {
                 long hour = millisUntilFinished / 3600000;
@@ -134,7 +114,7 @@ public class DaoJiShiView extends LinearLayout {
             }
 
             public void onFinish() {
-                textLabel.setText(R.string.first_header_over);
+                textLabel.setText(R.string.first_header_qiang);
                 textHour.setText(String.valueOf("00"));
                 textMinute.setText(String.valueOf("00"));
                 textSecond.setText(String.valueOf("00"));

@@ -105,6 +105,7 @@ public class CangPublishActivity extends BaseActivity implements AdapterView.OnI
                     progressDialog.dismiss();
                 }
                 ToastUtil.showToast(App.app,"发布成功！");
+                finish();
             }
 
             @Override
