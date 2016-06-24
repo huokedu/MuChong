@@ -4,6 +4,8 @@
               android:background="@android:color/white"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+    <View
+        style="@style/DividerHorizontal.Thin"/>
     <TextView
         android:id="@+id/textName"
         android:text="材质"
@@ -15,7 +17,8 @@
     <View
        style="@style/DividerHorizontal.Thin"/>
     <com.htlc.muchong.widget.NoScrollGridView
-
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:horizontalSpacing="5dp"
