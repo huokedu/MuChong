@@ -74,8 +74,14 @@ public class ThirdFragment extends HomeFragment {
         mRecyclerView = findViewById(R.id.recyclerView);
         adapter = new ThirdRecyclerViewAdapter();
         mAdapter = new RecyclerAdapterWithHF(adapter);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2) {
+        final GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return (mAdapter.isHeader(position) || mAdapter.isFooter(position)) ? gridLayoutManager.getSpanCount() : 1;
+            }
         });
+        mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration(){
             private int space = CommonUtil.dp2px(getContext(),10);

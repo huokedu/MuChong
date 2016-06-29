@@ -154,11 +154,11 @@ public class RecyclerAdapterWithHF extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolderHF(ViewHolder vh, int position) {
         mAdapter.onBindViewHolder(vh, position);
     }
-    private boolean isHeader(int position) {
+    public boolean isHeader(int position) {
         return (position < mHeaders.size());
     }
 
-    private boolean isFooter(int position) {
+    public boolean isFooter(int position) {
         return (position >= mHeaders.size() + getItemCountHF());
     }
     public int getItemCountHF() {

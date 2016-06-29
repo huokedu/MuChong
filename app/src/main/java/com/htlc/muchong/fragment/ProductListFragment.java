@@ -134,7 +134,7 @@ public class ProductListFragment extends BaseFragment {
         });
 
         mRecyclerView = findViewById(R.id.recyclerView);
-        if (mType.equals(TYPE_4)) {
+        if (TYPE_4.equals(mType)) {
             filterAdapter = new FilterRecyclerAdapter();
             mAdapter = new RecyclerAdapterWithHF(filterAdapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()) {
@@ -201,7 +201,7 @@ public class ProductListFragment extends BaseFragment {
 
     @Override
     public void initData() {
-        if (mType.equals(TYPE_4)) {
+        if (TYPE_4.equals(mType)) {
             /*获取材质列表*/
             App.app.appAction.getGoodsMaterials(activity.new BaseActionCallbackListener<List<MaterialBean>>() {
                 @Override
@@ -255,15 +255,15 @@ public class ProductListFragment extends BaseFragment {
     @NonNull
     private String getOderType() {
         String order = ORDER_NORMAL;
-        if (mType.equals(TYPE_1)) {
+        if (TYPE_1.equals(mType)) {
             order = ORDER_NORMAL;
-        } else if (mType.equals(TYPE_2) && activity.isSalesOrderIsDown()) {
+        } else if (TYPE_2.equals(mType) && activity.isSalesOrderIsDown()) {
             order = ORDER_SALES_DOWN;
-        } else if (mType.equals(TYPE_3) && activity.isPriceOrderIsDown()) {
+        } else if (TYPE_3.equals(mType) && activity.isPriceOrderIsDown()) {
             order = ORDER_PRICE_DOWN;
-        } else if (mType.equals(TYPE_3) && !(activity.isPriceOrderIsDown())) {
+        } else if (TYPE_3.equals(mType) && !(activity.isPriceOrderIsDown())) {
             order = ORDER_PRICE_UP;
-        } else if (mType.equals(TYPE_2) && !(activity.isSalesOrderIsDown())) {
+        } else if (TYPE_2.equals(mType) && !(activity.isSalesOrderIsDown())) {
             order = ORDER_SALES_UP;
         }
         return order;

@@ -153,7 +153,7 @@
 
     <string name="title_address_edit">编辑收货地址</string>
     <string name="address_edit_name_hint">请输入收货人姓名</string>
-    <string name="address_edit_tel_hint">请输入收货电话人</string>
+    <string name="address_edit_tel_hint">请输入收货人电话</string>
     <string name="address_edit_address_hint">请输入收货地址</string>
 
     <string name="setting_feedback">意见反馈</string>

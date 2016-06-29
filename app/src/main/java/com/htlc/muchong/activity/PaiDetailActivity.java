@@ -191,7 +191,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
                 if (alertDialog != null) {
                     alertDialog.dismiss();
                 }
-                ToastUtil.showToast(App.app, "去充值咯!");
+                startActivity(new Intent(PaiDetailActivity.this,PayActivity.class));
             }
         });
         view.findViewById(R.id.negativeButton).setOnClickListener(new View.OnClickListener() {

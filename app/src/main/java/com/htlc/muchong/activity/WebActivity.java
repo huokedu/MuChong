@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
@@ -33,6 +34,24 @@ public class WebActivity extends BaseActivity {
     private String url;
 
     private WebView webView;
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(webView!=null && webView.canGoBack()){
+            webView.goBack();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(webView!=null && webView.canGoBack()){
+            webView.goBack();
+            return;
+        }
+        super.onBackPressed();
+    }
 
     @Override
     protected int getLayoutId() {

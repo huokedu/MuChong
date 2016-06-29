@@ -67,7 +67,7 @@ public class App extends Application {
     }
 
     private void initHttp() {
-        OkHttpClientManager.init(this,false);
+        OkHttpClientManager.init(this, false);
     }
 
     private void initBugTags() {
@@ -88,6 +88,6 @@ public class App extends Application {
         builder.indicatorsEnabled(Log.debug);
         builder.loggingEnabled(Log.debug);
 
-       Picasso.setSingletonInstance(builder.build());
+        Picasso.setSingletonInstance(builder.build());
     }
 }

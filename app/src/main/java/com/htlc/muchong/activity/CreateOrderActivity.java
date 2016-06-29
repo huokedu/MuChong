@@ -1,6 +1,7 @@
 package com.htlc.muchong.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -42,6 +43,7 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
     public static final String Order_Id = "Order_Id";
     private static final int RequestAddressCode = 852;
     private static final int RequestPayCode = 853;
+    private ProgressDialog progressDialog;
 
     public static void goCreateOrderActivity(Context context, ArrayList<ShoppingCartItemBean> shoppingCartItemBeans, boolean isShoppingCart) {
         Intent intent = new Intent(context, CreateOrderActivity.class);
@@ -141,6 +143,14 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        if(progressDialog!=null){
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
     protected void initData() {
         if (TextUtils.isEmpty(orderId)) {
             adapter.setData(shoppingCartItemBeans, false);
@@ -228,6 +238,9 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
     /*调用ping++进行支付*/
     private void payByPingPlus(CreateOrderResultBean data) {
         if (!payWay.equals(PayListActivity.PayWays[0])) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("正在支付中，请稍等...");
+            progressDialog.show();
             Pingpp.createPayment(CreateOrderActivity.this, data.charges);
         } else {
             ToastUtil.showToast(App.app, "付款成功");
@@ -301,6 +314,9 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
         }
         //支付页面返回处理
         if (requestCode == Pingpp.REQUEST_CODE_PAYMENT) {
+            if(progressDialog!=null){
+                progressDialog.dismiss();
+            }
             if (resultCode == Activity.RESULT_OK) {
                 String result = data.getExtras().getString("pay_result");
                 /* 处理返回值

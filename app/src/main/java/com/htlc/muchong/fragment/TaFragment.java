@@ -112,7 +112,13 @@ public class TaFragment extends HomeFragment {
         } else if (mTitle.equals(getString(R.string.title_ta_one))) {
             adapter = new CangPersonRecyclerViewAdapter();
             mAdapter = new RecyclerAdapterWithHF(adapter);
-            mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2) {
+            final GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+            mRecyclerView.setLayoutManager(gridLayoutManager);
+            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return (mAdapter.isHeader(position) || mAdapter.isFooter(position)) ? gridLayoutManager.getSpanCount() : 1;
+                }
             });
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {

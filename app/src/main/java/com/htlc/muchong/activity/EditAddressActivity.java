@@ -74,6 +74,7 @@ public class EditAddressActivity extends BaseActivity {
                 @Override
                 public void onSuccess(Void data) {
                     ToastUtil.showToast(App.app, "保存成功");
+                    finish();
                 }
 
                 @Override
@@ -86,6 +87,7 @@ public class EditAddressActivity extends BaseActivity {
                 @Override
                 public void onSuccess(Void data) {
                     ToastUtil.showToast(App.app, "保存成功");
+                    finish();
                 }
 
                 @Override
