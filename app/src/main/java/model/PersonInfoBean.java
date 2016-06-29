@@ -10,4 +10,5 @@ public class PersonInfoBean {
     public String userinfo_grade;
     public String userinfo_headportrait;
     public String userinfo_likenum;
+    public String islike;
 }

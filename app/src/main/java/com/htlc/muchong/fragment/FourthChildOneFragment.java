@@ -154,7 +154,7 @@ public class FourthChildOneFragment extends HomeFragment {
                 @Override
                 public void onItemClick(View view, int position) {
                     SchoolBean bean = (SchoolBean) adapter.getData().get(position);
-                    PostDetailActivity.goPostDetailActivity(getContext(), bean.id, R.string.detail);
+                    PostDetailActivity.goPostDetailActivity(getContext(), bean.id, R.string.detail, true);
                 }
             });
         }

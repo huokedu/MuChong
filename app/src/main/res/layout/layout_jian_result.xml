@@ -6,22 +6,47 @@
     android:layout_height="wrap_content"
     android:background="@android:color/white"
     tools:showIn="@layout/activity_jian_detail">
-
-    <TextView
-        android:id="@+id/textResult"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearTextResult"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:drawablePadding="5dp"
-        android:gravity="center"
-        android:text="@string/jian_detail_result"
-        android:textColor="@color/text_color_black_muchong"
-        android:textSize="14sp"/>
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/textResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:text="@string/jian_detail_result"
+            android:textColor="@color/text_color_black_muchong"
+            android:textSize="14sp"/>
+        <Space
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:background="@mipmap/bg_button_code"
+            android:id="@+id/textLike"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:layout_marginRight="10dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/like"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            />
+    </LinearLayout>
+
 
     <View
         android:id="@+id/dividerResult"
         style="@style/DividerHorizontal.Thin"
-        android:layout_below="@+id/textResult"/>
+        android:layout_below="@+id/linearTextResult"/>
 
     <com.htlc.muchong.widget.NoScrollListView
         android:id="@+id/resultListView"

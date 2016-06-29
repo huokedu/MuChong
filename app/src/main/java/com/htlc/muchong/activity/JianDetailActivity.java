@@ -55,6 +55,7 @@ public class JianDetailActivity extends BaseActivity implements View.OnClickList
     private PostCommentAdapter commentAdapter;
     private ProfessorCommentAdapter professorCommentAdapter;
     private TextView textResult;
+    private TextView textLike;
 
     private ImageView imageHead;
     private TextView textName;
@@ -76,6 +77,7 @@ public class JianDetailActivity extends BaseActivity implements View.OnClickList
     private boolean hasMore = false;
     private boolean isLoading = true;
     private int page = 2;
+    private boolean isLike;
 
     @Override
     protected int getLayoutId() {
@@ -85,16 +87,16 @@ public class JianDetailActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void setupView() {
         postId = getIntent().getStringExtra(Post_Id);
-        isOver = getIntent().getBooleanExtra(Is_Over,false);
+        isOver = getIntent().getBooleanExtra(Is_Over, false);
         mTitleTextView.setText(R.string.title_jian_detail);
         mTitleRightTextView.setText(R.string.jian_detail_jian);
-        mTitleRightTextView.setVisibility(!isOver && App.app.isLogin() && LoginUtil.getUser().user_role.equals(UserBean.TYPE_EXPERT) ? View.VISIBLE:View.INVISIBLE);
+        mTitleRightTextView.setVisibility(!isOver && App.app.isLogin() && LoginUtil.getUser().user_role.equals(UserBean.TYPE_EXPERT) ? View.VISIBLE : View.INVISIBLE);
         mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(App.app.isLogin()){
-                    JianResultPublishActivity.goJianResultPublishActivity(JianDetailActivity.this,postId);
-                }else {
+                if (App.app.isLogin()) {
+                    JianResultPublishActivity.goJianResultPublishActivity(JianDetailActivity.this, postId);
+                } else {
                     LoginUtil.showLoginTips(JianDetailActivity.this);
                 }
             }
@@ -131,6 +133,8 @@ public class JianDetailActivity extends BaseActivity implements View.OnClickList
         imageListView.setAdapter(imageAdapter);
 //鉴定结果
         textResult = (TextView) findViewById(R.id.textResult);
+        textLike = (TextView) findViewById(R.id.textLike);
+        textLike.setOnClickListener(this);
         resultListView = (ListView) findViewById(R.id.resultListView);
         jianResultAdapter = new JianResultAdapter();
         resultListView.setAdapter(jianResultAdapter);
@@ -193,9 +197,10 @@ public class JianDetailActivity extends BaseActivity implements View.OnClickList
                 imageAdapter.setData(Arrays.asList(images), false);
                 textContent.setText(data.forum_content);
                 //专家鉴定
-                setResultByType(textResult,data.forum_yesorno);
+                setResultByType(textResult, data.forum_yesorno);
+                setIsLike("1".equals(data.islike));
                 jianResultAdapter.setData(data.appraisal, false);
-                professorCommentAdapter.setData(data.appraisal,false);
+                professorCommentAdapter.setData(data.appraisal, false);
 
                 //评论
                 textComment.setText(getString(R.string.product_detail_comment, data.evalcount));
@@ -223,7 +228,25 @@ public class JianDetailActivity extends BaseActivity implements View.OnClickList
             case R.id.textButton:
                 commitComment();
                 break;
+            case R.id.textLike:
+                addLike();
+                break;
         }
+    }
+
+    /*添加或取消喜欢*/
+    private void addLike() {
+        App.app.appAction.addLikePost(postId, new BaseActionCallbackListener<Void>() {
+            @Override
+            public void onSuccess(Void data) {
+                setIsLike(!isLike);
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+            }
+        });
     }
 
     /*提交评论*/
@@ -242,18 +265,23 @@ public class JianDetailActivity extends BaseActivity implements View.OnClickList
             }
         });
     }
+
     /*设置鉴定结果*/
-    private void setResultByType(TextView textView, String type){
-        textView.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0);
-        if(JianListFragment.TYPE_1.equals(type)){
-//            textView.setText(getString(R.string.jian_detail_result));
-            textView.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.icon_jian_result,0);
-        }else  if(JianListFragment.TYPE_2.equals(type)){
-//            textView.setText(getString(R.string.jian_detail_result));
+    private void setResultByType(TextView textView, String type) {
+        textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        if (JianListFragment.TYPE_1.equals(type)) {
+
+            textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_jian_result, 0);
+        } else if (JianListFragment.TYPE_2.equals(type)) {
             textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_jian_result_false, 0);
-        }else  if(JianListFragment.TYPE_3.equals(type)){
-//            textView.setText(getString(R.string.jian_detail_result));
+        } else if (JianListFragment.TYPE_3.equals(type)) {
             textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_jian_result_unfinish, 0);
         }
+    }
+
+    /*设置当前喜欢状态*/
+    public void setIsLike(boolean isLike) {
+        this.isLike = isLike;
+        textLike.setText(isLike ? R.string.un_like : R.string.like);
     }
 }

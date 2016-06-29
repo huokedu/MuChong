@@ -498,7 +498,11 @@ public class ApiImpl implements Api {
 
     @Override
     public void postDetail(String forum_id, ResultCallback callback) {
+        UserBean bean = LoginUtil.getUser();
         Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", bean.id);
+        params.put("user_token", bean.user_token);
+
         params.put("forum_id", forum_id);
         String url = Api.PostDetail;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);

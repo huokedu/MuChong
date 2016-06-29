@@ -54,6 +54,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     private ImageView imageHead;
 
     private String personId;
+    private boolean isLike;
 
     public String getPersonId() {
         return personId;
@@ -73,6 +74,9 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 
         textFollow = (TextView)findViewById(R.id.textFollow);
         textFollow.setOnClickListener(this);
+        if(personId.equals(LoginUtil.getUser().id)){
+            textFollow.setVisibility(View.INVISIBLE);
+        }
         textName = (TextView)findViewById(R.id.textName);
         textFans = (TextView)findViewById(R.id.textFans);
         ratingBarLevel = (RatingBar)findViewById(R.id.ratingBarLevel);
@@ -129,6 +133,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         App.app.appAction.getPersonInfo(personId, new BaseActionCallbackListener<PersonInfoBean>() {
             @Override
             public void onSuccess(PersonInfoBean data) {
+                setIsLike("1".equals(data.islike));
                 textFans.setText("粉丝  " + data.userinfo_likenum);
                 ImageUtil.setCircleImageByDefault(imageHead, R.mipmap.default_fourth_two_head, Uri.parse(data.userinfo_headportrait));
                 textName.setText(data.userinfo_nickname);
@@ -140,6 +145,12 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 ToastUtil.showToast(App.app, message);
             }
         });
+    }
+
+    /*设置当前喜欢状态*/
+    public void setIsLike(boolean isLike) {
+        this.isLike = isLike;
+        textFollow.setText(isLike ? R.string.un_follow : R.string.follow);
     }
 
 
@@ -156,7 +167,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         App.app.appAction.addLikePerson(personId, new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {
-                ToastUtil.showToast(App.app, "喜欢成功！");
+                setIsLike(!isLike);
             }
 
             @Override

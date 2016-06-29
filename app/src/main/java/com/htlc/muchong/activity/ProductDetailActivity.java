@@ -59,6 +59,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
     private String productId;
     private GoodsDetailBean data;
+    private boolean isLike;
 
     protected BannerFragment mBannerFragment;
     protected ListView mCommentListView;
@@ -86,8 +87,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(data!=null){
-                    ShareSdkUtil.shareByShareSDK(ProductDetailActivity.this, textName.getText().toString(), textDescription.getText().toString(), String.format(Api.ShareGoodsUrl,productId),data.commodity_coverimg);
+                if (data != null) {
+                    ShareSdkUtil.shareByShareSDK(ProductDetailActivity.this, textName.getText().toString(), textDescription.getText().toString(), String.format(Api.ShareGoodsUrl, productId), data.commodity_coverimg);
                 }
             }
         });
@@ -140,8 +141,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 mBannerFragment.setData(Arrays.asList(data.commodity_imgStr.split(SPLIT_FLAG)));
                 textName.setText(data.commodity_name);
                 textLike.setText(data.commodity_likenum);
-                //喜欢过设置为不可点击
-                textLike.setEnabled(!GoodsUtil.isTrue(data.islike));
+
+                setIsLike(GoodsUtil.isTrue(data.islike));
+
                 imageRenZheng.setVisibility(GoodsUtil.isTrue(data.userinfo_sincerity) ? View.VISIBLE : View.INVISIBLE);
                 GoodsUtil.setPriceBySymbol(textPrice, data.commodity_panicprice);
                 textDescription.setText(data.commodity_content);
@@ -156,8 +158,12 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 ToastUtil.showToast(App.app, message);
             }
         });
+    }
 
-
+    /*设置当前喜欢状态*/
+    public void setIsLike(boolean isLike) {
+        this.isLike = isLike;
+        textLike.setSelected(isLike);
     }
 
     @Override
@@ -223,9 +229,12 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         App.app.appAction.addLikeGoods(productId, new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {
-                ToastUtil.showToast(App.app, "喜欢成功");
-                textLike.setEnabled(false);
-                textLike.setText(String.valueOf((Integer.parseInt(textLike.getText().toString()) + 1)));
+                setIsLike(!isLike);
+                if (isLike) {
+                    textLike.setText(String.valueOf((Integer.parseInt(textLike.getText().toString()) + 1)));
+                } else {
+                    textLike.setText(String.valueOf((Integer.parseInt(textLike.getText().toString()) - 1)));
+                }
             }
 
             @Override

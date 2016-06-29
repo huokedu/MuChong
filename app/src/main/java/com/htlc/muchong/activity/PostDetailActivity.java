@@ -42,6 +42,7 @@ import model.PostDetailBean;
  */
 public class PostDetailActivity extends BaseActivity implements View.OnClickListener {
     public static final String Post_Id = "Post_Id";
+    public static final String Is_School = "Is_School";
     private ImageView imageHead;
     private TextView textName;
     private TextView textLevel;
@@ -54,11 +55,20 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     private LoadMoreScrollView scrollView;
     private Button textButton;
     private EditText editComment;
+    private TextView textLike;
 
     public static void goPostDetailActivity(Context context, String id, int titleId) {
         Intent intent = new Intent(context, PostDetailActivity.class);
         intent.putExtra(BaseActivity.ActivityTitleId, titleId);
         intent.putExtra(Post_Id, id);
+        context.startActivity(intent);
+    }
+
+    public static void goPostDetailActivity(Context context, String id, int titleId, boolean isSchool) {
+        Intent intent = new Intent(context, PostDetailActivity.class);
+        intent.putExtra(BaseActivity.ActivityTitleId, titleId);
+        intent.putExtra(Post_Id, id);
+        intent.putExtra(Is_School, isSchool);
         context.startActivity(intent);
     }
 
@@ -71,6 +81,8 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     private boolean isLoading = true;
     private int page = 2;
     private PostDetailBean data;
+    private boolean isSchool;
+    private boolean isLike;
 
     @Override
     protected int getLayoutId() {
@@ -80,6 +92,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void setupView() {
         postId = getIntent().getStringExtra(Post_Id);
+        isSchool = getIntent().getBooleanExtra(Is_School, false);
         int activityTitleId = getIntent().getIntExtra(ActivityTitleId, 0);
         mTitleTextView.setText(activityTitleId);
         mTitleRightTextView.setBackgroundResource(R.mipmap.icon_share);
@@ -88,7 +101,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
                 if(data!=null){
-                    ShareSdkUtil.shareByShareSDK(PostDetailActivity.this, textName.getText().toString(), textContent.getText().toString(), String.format(Api.SharePostUrl, postId), data.forum_coverimg);
+                    ShareSdkUtil.shareByShareSDK(PostDetailActivity.this, textPostTitle.getText().toString(), textContent.getText().toString(), String.format(Api.SharePostUrl, postId), data.forum_coverimg);
                 }
             }
         });
@@ -130,6 +143,12 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
             }
         });
+
+        textLike = (TextView) findViewById(R.id.textLike);
+        textLike.setOnClickListener(this);
+        if(isSchool){
+            textLike.setVisibility(View.VISIBLE);
+        }
 
         textComment = (TextView) findViewById(R.id.textComment);
         textCommentMore = (TextView) findViewById(R.id.textCommentMore);
@@ -186,6 +205,8 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
                 textPostTitle.setText(data.forum_title);
                 textContent.setText(data.forum_content);
 
+                setIsLike("1".equals(data.islike));
+
                 textComment.setText(getString(R.string.product_detail_comment, data.evalcount));
                 textCommentMore.setVisibility(View.INVISIBLE);
                 if (data.evallist.size() < AppActionImpl.PAGE_SIZE) {
@@ -212,7 +233,35 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
             case R.id.textButton:
                     commitComment();
                 break;
+            case R.id.textLike:
+                addLike();
+                break;
         }
+    }
+
+    /*添加喜欢*/
+    private void addLike() {
+        if (!App.app.isLogin()) {
+            LoginUtil.showLoginTips(this);
+            return;
+        }
+        App.app.appAction.addLikePost(postId, new BaseActionCallbackListener<Void>() {
+            @Override
+            public void onSuccess(Void data) {
+                setIsLike(!isLike);
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+            }
+        });
+    }
+
+    /*设置当前喜欢状态*/
+    public void setIsLike(boolean isLike) {
+        this.isLike = isLike;
+        textLike.setText(isLike ? R.string.un_collect : R.string.collect);
     }
 
     /*提交评论*/

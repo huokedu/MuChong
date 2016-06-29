@@ -20,6 +20,7 @@ public class PostDetailBean {
     public String forum_looknum;
     public String forum_type;
     public String forum_ctime;//创建时间
+    public String islike;//是否喜欢
 
     public String evalcount;
     public List<PostCommentBean> evallist;

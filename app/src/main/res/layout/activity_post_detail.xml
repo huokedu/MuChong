@@ -41,6 +41,18 @@
                 <View style="@style/DividerHorizontal.Thin"/>
             </LinearLayout>
         </com.htlc.muchong.widget.LoadMoreScrollView>
+        <TextView
+            android:id="@+id/textLike"
+            android:visibility="invisible"
+            android:layout_gravity="bottom|end|right"
+            android:text="@string/like"
+            android:textSize="14sp"
+            android:background="@drawable/bg_school_like_shape"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:layout_marginBottom="80dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
         <!--输入框-->
         <include layout="@layout/layout_input"/>
     </FrameLayout>

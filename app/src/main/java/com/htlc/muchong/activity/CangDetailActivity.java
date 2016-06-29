@@ -73,6 +73,7 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
     private boolean hasMore = false;
     private boolean isLoading = true;
     private int page = 2;
+    private boolean isLike;
 
     @Override
     protected int getLayoutId() {
@@ -215,6 +216,8 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
                 textPostTitle.setText(data.forum_title);
                 textContent.setText(data.forum_content);
 
+                setIsLike("1".equals(data.islike));
+
                 textComment.setText(getString(R.string.product_detail_comment, data.evalcount));
                 textCommentMore.setVisibility(View.INVISIBLE);
                 if (data.evallist.size() < AppActionImpl.PAGE_SIZE) {
@@ -233,6 +236,12 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
                 isLoading = false;
             }
         });
+    }
+
+    /*设置当前喜欢状态*/
+    public void setIsLike(boolean isLike) {
+        this.isLike = isLike;
+        textLikeButton.setSelected(isLike);
     }
 
     @Override
@@ -295,7 +304,7 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
         App.app.appAction.addLikePost(postId, new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {
-                ToastUtil.showToast(App.app, "喜欢成功");
+                setIsLike(!isLike);
             }
 
             @Override
