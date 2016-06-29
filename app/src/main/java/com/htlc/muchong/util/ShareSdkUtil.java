@@ -50,13 +50,18 @@ public class ShareSdkUtil {
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
         oks.disableSSOWhenAuthorize();
+        //隐藏编辑页面
+        oks.setSilent(true);
 
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
         oks.setTitle(title);
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
         oks.setTitleUrl(url);
         // text是分享文本，所有平台都需要这个字段
-        oks.setText(content);
+        if(content.length()>40){
+            content = content.substring(0,39);
+        }
+        oks.setText(content+url);
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -82,7 +87,7 @@ public class ShareSdkUtil {
         // site是分享此内容的网站名称，仅在QQ空间使用
         oks.setSite(context.getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl("http://www.muchong.com.cn/");
+        oks.setSiteUrl(url);
         // 启动分享GUI
         oks.show(context);
     }
