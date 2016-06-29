@@ -112,15 +112,16 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                  */
                 String errorMsg = data.getExtras().getString("error_msg"); // 错误信息
                 String extraMsg = data.getExtras().getString("extra_msg"); // 错误信息
-                ToastUtil.showToast(App.app, result + ":::::" + errorMsg + "--------" + extraMsg);
+//                ToastUtil.showToast(App.app, result + ":::::" + errorMsg + "--------" + extraMsg);
                 if("success".equals(result)){
                     ToastUtil.showToast(App.app, "支付成功！");
+                    finish();
                 }else if("cancel".equals(result)){
                     ToastUtil.showToast(App.app, "支付取消！");
                 }else if("fail".equals(result)){
                     ToastUtil.showToast(App.app, "支付失败！");
                 }else {
-
+                    ToastUtil.showToast(App.app, "支付异常！");
                 }
             }
         }
