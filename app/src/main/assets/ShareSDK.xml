@@ -37,9 +37,9 @@
     <SinaWeibo
         Id="1"
         SortId="1"
-        AppKey="568898243"
-        AppSecret="38a4f8204cc784f81f9f0daaf31e02e3"
-        RedirectUrl="http://www.sharesdk.cn"
+        AppKey="2124660723"
+        AppSecret="5a0a66ca473f906574a7200e336d277e"
+        RedirectUrl="http://t15.damaimob.com/Home/HomeWeibo/backurl"
         ShareByAppClient="true"
         Enable="true" />
     <QZone

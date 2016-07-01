@@ -14,8 +14,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.onekeyshare.ShareContentCustomizeCallback;
 
 /**
  * Created by sks on 2016/6/21.
@@ -27,14 +29,14 @@ public class ShareSdkUtil {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 File file = new File(context.getExternalCacheDir(), imageUrl);
-                share(context, title, content, url, imageUrl,file,bitmap);
+                share(context, title, content, url, imageUrl, file, bitmap);
             }
 
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
                 File file = new File(context.getExternalCacheDir(), "ic_launcher.png");
                 Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
-                share(context, title, content, url, imageUrl,file,bitmap);
+                share(context, title, content, url, imageUrl, file, bitmap);
             }
 
             @Override
@@ -45,49 +47,60 @@ public class ShareSdkUtil {
 
     }
 
-    private static void share(Context context, String title, String content, String url, String imageUrl, File file, Bitmap bitmap) {
+    private static void share(final Context context, final String title, final String content, final String url, final String imageUrl, final File file, final Bitmap bitmap) {
         ShareSDK.initSDK(context);
-        OnekeyShare oks = new OnekeyShare();
+        final OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
         oks.disableSSOWhenAuthorize();
         //隐藏编辑页面
         oks.setSilent(true);
+        oks.setShareContentCustomizeCallback(new ShareContentCustomizeCallback() {
+            @Override
+            public void onShare(Platform platform, Platform.ShareParams paramsToShare) {
+                if (platform.getName().equals("SinaWeibo")) {
 
-        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle(title);
-        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        oks.setTitleUrl(url);
-        // text是分享文本，所有平台都需要这个字段
-        if(content.length()>40){
-            content = content.substring(0,39);
-        }
-        oks.setText(content+url);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-                FileOutputStream fos = null;
-                if (!file.exists()) {
-                    file.createNewFile();
+                } else {
+                    // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+                    paramsToShare.setTitle(title);
+                    // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+                    paramsToShare.setTitleUrl(url);
+                    // url仅在微信（包括好友和朋友圈）中使用
+                    paramsToShare.setUrl(url);
+                    // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+                    paramsToShare.setComment("真的不错哦！快来看看吧");
+                    // site是分享此内容的网站名称，仅在QQ空间使用
+                    paramsToShare.setSite(context.getString(R.string.app_name));
+                    // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+                    paramsToShare.setSiteUrl(url);
                 }
-                fos = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            } catch (IOException e) {
-                e.printStackTrace();
+                // text是分享文本，所有平台都需要这个字段
+                String contentFinal = content;
+                if (contentFinal.length() > 40) {
+                    contentFinal = contentFinal.substring(0, 39);
+                }
+                paramsToShare.setText(contentFinal + url);
+                //imageUrl是图片的网络路径，新浪微博、人人网、QQ空间和Linked-In支持此字段
+                paramsToShare.setImageUrl(imageUrl);
+
+                if (!file.exists()) {
+                    try {
+                        file.createNewFile();
+                        FileOutputStream fos = null;
+                        if (!file.exists()) {
+                            file.createNewFile();
+                        }
+                        fos = new FileOutputStream(file);
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+                if (file.exists()) {
+                    paramsToShare.setImagePath(file.getAbsolutePath());//确保SDcard下面存在此张图片
+                }
             }
-        }
-        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        if(file.exists()){
-            oks.setImagePath(file.getAbsolutePath());//确保SDcard下面存在此张图片
-        }
-        oks.setImageUrl(imageUrl);//确保SDcard下面存在此张图片
-        // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl(url);
-        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-        oks.setComment("真的不错哦！快来看看吧");
-        // site是分享此内容的网站名称，仅在QQ空间使用
-        oks.setSite(context.getString(R.string.app_name));
-        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl(url);
+        });
         // 启动分享GUI
         oks.show(context);
     }
