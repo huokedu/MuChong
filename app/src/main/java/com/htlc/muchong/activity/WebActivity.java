@@ -112,9 +112,12 @@ public class WebActivity extends BaseActivity {
             onReceiveError
             onReceivedHttpAuthRequest*/
 
-//        url = Api.TestISpring;
         String username = String.valueOf(Math.random());
-        CookieManager.getInstance().setCookie(Api.TestISpringPost, "username="+username);
+        url = String.format(Api.TestISpringGet,"ZXF"+username);
+        CookieManager.getInstance().setAcceptCookie(true);
+
+        CookieManager.getInstance().setCookie(Api.TestISpringPost, "usernameCookie="+username);
+
 
 
         webView.setWebViewClient(new WebViewClient() {

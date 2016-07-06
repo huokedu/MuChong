@@ -100,7 +100,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(data!=null){
+                if (data != null) {
                     ShareSdkUtil.shareByShareSDK(PostDetailActivity.this, textPostTitle.getText().toString(), textContent.getText().toString(), String.format(Api.SharePostUrl, postId), data.forum_coverimg);
                 }
             }
@@ -146,8 +146,10 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
         textLike = (TextView) findViewById(R.id.textLike);
         textLike.setOnClickListener(this);
-        if(isSchool){
+        if (isSchool) {
             textLike.setVisibility(View.VISIBLE);
+        } else {
+            textLike.setVisibility(View.INVISIBLE);
         }
 
         textComment = (TextView) findViewById(R.id.textComment);
@@ -231,7 +233,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.textButton:
-                    commitComment();
+                commitComment();
                 break;
             case R.id.textLike:
                 addLike();

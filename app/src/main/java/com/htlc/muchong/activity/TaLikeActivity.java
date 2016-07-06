@@ -210,7 +210,7 @@ public class TaLikeActivity extends BaseActivity {
                 @Override
                 public void onItemClick(View view, int position) {
                     SchoolBean bean = (SchoolBean) adapter.getData().get(position);
-                    PostDetailActivity.goPostDetailActivity(TaLikeActivity.this, bean.id, R.string.detail);
+                    PostDetailActivity.goPostDetailActivity(TaLikeActivity.this, bean.id, R.string.detail, true);
                 }
             });
             //鉴定

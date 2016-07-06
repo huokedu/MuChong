@@ -43,7 +43,7 @@
         </com.htlc.muchong.widget.LoadMoreScrollView>
         <TextView
             android:id="@+id/textLike"
-            android:visibility="visible"
+            android:visibility="invisible"
             android:layout_gravity="bottom|end|right"
             android:text="@string/like"
             android:textSize="14sp"

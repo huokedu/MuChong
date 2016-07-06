@@ -109,17 +109,14 @@ public class FifthFragment extends HomeFragment {
                     TaLikeActivity.goTaLikeActivity(getContext(), LoginUtil.getUser().id);
                     return;
                 case 3:
-                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
                     if (!App.app.isLogin()) break;
                     startActivity(new Intent(getActivity(), MyJianListActivity.class));
                     return;
                 case 4:
-                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
                     if (!App.app.isLogin()) break;
                     startActivity(new Intent(getActivity(), OrderListActivity.class));
                     return;
                 case 5:
-                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
                     if (!App.app.isLogin()) break;
                     startActivity(new Intent(getActivity(), MyPaiListActivity.class));
                     return;
@@ -128,7 +125,6 @@ public class FifthFragment extends HomeFragment {
                     startActivity(new Intent(getActivity(), MyPostListActivity.class));
                     return;
                 case 7:
-                    ToastUtil.showToast(App.app, FifthRecyclerViewAdapter.nameArray[position]);
                     if (!App.app.isLogin()) break;
                     startActivity(new Intent(getActivity(), MyMessageListActivity.class));
                     return;

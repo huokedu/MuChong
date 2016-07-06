@@ -16,6 +16,7 @@ public interface Api {
     String DuoBao = "http://t5.damaimob.com";
 
     String TestISpring = "http://t15.damaimob.com/aa/index.html";
+    String TestISpringGet = "http://t15.damaimob.com/aa/test.php?username=%1$s";
     String TestISpringPost = "http://t15.damaimob.com/aa/index.php";
 
     String SmsCode = Host + "/Home/HomeUser/getVerifyCode";
