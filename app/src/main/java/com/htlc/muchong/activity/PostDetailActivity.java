@@ -268,6 +268,10 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
     /*提交评论*/
     private void commitComment() {
+        if(!App.app.isLogin()){
+            LoginUtil.showLoginTips(this);
+            return;
+        }
         App.app.appAction.addPostComment(postId, editComment.getText().toString().trim(), new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {

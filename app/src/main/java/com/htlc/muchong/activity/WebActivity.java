@@ -113,10 +113,10 @@ public class WebActivity extends BaseActivity {
             onReceivedHttpAuthRequest*/
 
         String username = String.valueOf(Math.random());
-        url = String.format(Api.TestISpringGet,"ZXF"+username);
+//        url = String.format(Api.TestISpringGet,"ZXF"+username);
         CookieManager.getInstance().setAcceptCookie(true);
 
-        CookieManager.getInstance().setCookie(Api.TestISpringPost, "usernameCookie="+username);
+//        CookieManager.getInstance().setCookie(Api.TestISpringPost, "usernameCookie="+username);
 
 
 
