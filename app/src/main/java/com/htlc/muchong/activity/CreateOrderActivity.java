@@ -288,7 +288,7 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
         App.app.appAction.buyByShoppingCart(payWay, shoppingCartItemBeans, addressId, new BaseActionCallbackListener<CreateOrderResultBean>() {
             @Override
             public void onSuccess(CreateOrderResultBean data) {
-                ToastUtil.showToast(App.app, "创建   多个商品   订单成功去支付！  " + data.charges);
+//                ToastUtil.showToast(App.app, "创建   多个商品   订单成功去支付！  " + data.charges);
                 CreateOrderActivity.this.orderId = data.order_id;
                 payByPingPlus(data);
             }

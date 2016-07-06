@@ -28,6 +28,7 @@
                 android:background="@android:color/white"
                 android:id="@+id/editName"
                 android:textSize="14sp"
+                android:singleLine="true"
                 android:hint="@string/address_edit_name_hint"
                 android:textColor="@color/text_color_black_muchong"
                />
@@ -39,6 +40,7 @@
                 android:background="@android:color/white"
                 android:id="@+id/editTel"
                 android:textSize="14sp"
+                android:singleLine="true"
                 android:hint="@string/address_edit_tel_hint"
                 android:textColor="@color/text_color_black_muchong"
                />

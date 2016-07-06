@@ -41,9 +41,12 @@
 
                     <TextView
                         android:id="@+id/textName"
+                        android:layout_alignParentLeft="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
                         android:text="檀木林"
+                        android:layout_toLeftOf="@+id/textLike"
                         android:textColor="@color/text_color_black_muchong"
                         android:textSize="16sp"/>
 

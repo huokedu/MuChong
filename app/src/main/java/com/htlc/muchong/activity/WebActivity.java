@@ -5,16 +5,31 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.os.Message;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.HttpAuthHandler;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.base.BaseActivity;
+import com.larno.util.ToastUtil;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.HashMap;
+
+import api.Api;
+import okhttp3.OkHttpClient;
 
 /**
  * Created by sks on 2016/6/16.
@@ -37,7 +52,7 @@ public class WebActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(webView!=null && webView.canGoBack()){
+        if (webView != null && webView.canGoBack()) {
             webView.goBack();
             return true;
         }
@@ -46,7 +61,7 @@ public class WebActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if(webView!=null && webView.canGoBack()){
+        if (webView != null && webView.canGoBack()) {
             webView.goBack();
             return;
         }
@@ -96,21 +111,39 @@ public class WebActivity extends BaseActivity {
             onPageFinish
             onReceiveError
             onReceivedHttpAuthRequest*/
+
+//        url = Api.TestISpring;
+        String username = String.valueOf(Math.random());
+        CookieManager.getInstance().setCookie(Api.TestISpringPost, "username="+username);
+
+
         webView.setWebViewClient(new WebViewClient() {
             //当点击链接时,希望覆盖而不是打开新窗口
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                view.loadUrl(url);
-                if(url.contains("baidu.com")){
-                    webView.loadData("<h1>这是Larno的博客</h1>", "text/html; charset=UTF-8", null);
-                    return true;
-                }
-                return false;
+//                webView.loadData("<h1>这是Larno的博客</h1>", "text/html; charset=UTF-8", null);
+                return super.shouldOverrideUrlLoading(view,url);
+            }
+
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+                return super.shouldInterceptRequest(view, url);
+            }
+
+
+            @Override
+            public void onLoadResource(WebView view, String url) {
+                super.onLoadResource(view, url);
+            }
+
+            @Override
+            public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
+                super.onReceivedHttpAuthRequest(view, handler, host, realm);
             }
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-
+                super.onPageStarted(view, url, favicon);
             }
 
             @Override
@@ -131,12 +164,20 @@ public class WebActivity extends BaseActivity {
             onProgressChanged
             onReceivedIcon
             onReceivedTitle*/
-        webView.setWebChromeClient(new WebChromeClient());
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                setProgress(newProgress);
+            }
+        });
     }
 
     @Override
     protected void initData() {
-        webView.loadUrl(url);
+        HashMap<String, String> headers = new HashMap<>();
+//        headers.put("username", "username");
+//        headers.put("password", "password");
+        webView.loadUrl(url, headers);
     }
 
     /*与HTML交互接口*/

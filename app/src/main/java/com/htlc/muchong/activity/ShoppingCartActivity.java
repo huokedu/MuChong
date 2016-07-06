@@ -44,6 +44,12 @@ public class ShoppingCartActivity extends BaseActivity{
     private double price;
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        initData();
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.activity_shopping_cart;
     }
@@ -96,7 +102,6 @@ public class ShoppingCartActivity extends BaseActivity{
         });
         textTotalNumber = (TextView) findViewById(R.id.textTotalNumber);
         textTotalPrice = (TextView) findViewById(R.id.textTotalPrice);
-        initBottomData();
 
         initData();
     }
@@ -173,6 +178,9 @@ public class ShoppingCartActivity extends BaseActivity{
 
     @Override
     protected void initData() {
+        listView.clearChoices();
+        checkbox.setChecked(false);
+        initBottomData();
         App.app.appAction.shoppingCartList(new BaseActionCallbackListener<List<ShoppingCartItemBean>>() {
             @Override
             public void onSuccess(List<ShoppingCartItemBean> data) {

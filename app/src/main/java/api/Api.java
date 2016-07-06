@@ -15,6 +15,9 @@ public interface Api {
     String SharePostUrl = Host + "/Home/HomeForum/share?forum_id=%1$s";
     String DuoBao = "http://t5.damaimob.com";
 
+    String TestISpring = "http://t15.damaimob.com/aa/index.html";
+    String TestISpringPost = "http://t15.damaimob.com/aa/index.php";
+
     String SmsCode = Host + "/Home/HomeUser/getVerifyCode";
     String EnsureSmsCode = Host + "/Home/HomeUser/yanzheng";
     String Register = Host + "/Home/HomeUser/register";

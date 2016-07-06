@@ -615,7 +615,11 @@ public class ApiImpl implements Api {
 
     @Override
     public void getPersonInfo(String id, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
         Map<String, String> params = new HashMap<String, String>();
+        params.put("user_id", user.id);
+        params.put("user_token", user.user_token);
+
         params.put("id", id);
         String url = Api.GetPersonInfo;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);

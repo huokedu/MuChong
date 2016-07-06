@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.htlc.muchong.R;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
 import com.htlc.muchong.util.GoodsUtil;
+import com.htlc.muchong.util.ImageUtil;
 import com.htlc.muchong.util.PersonUtil;
 import com.squareup.picasso.Picasso;
 
@@ -41,9 +42,8 @@ public class ProductRecyclerViewAdapter extends BaseRecyclerViewAdapter<JiaoGood
         viewHolder.textLike.setText(bean.commodity_likenum);
         viewHolder.textLook.setText(bean.commodity_looknum);
         viewHolder.imageFlag.setVisibility(GoodsUtil.isTrue(bean.userinfo_sincerity) ? View.VISIBLE : View.INVISIBLE);
-        int intrinsicWidth = viewHolder.imageView.getResources().getDrawable(R.mipmap.default_first_pai).getIntrinsicWidth();
-        int intrinsicHeight = viewHolder.imageView.getResources().getDrawable(R.mipmap.default_first_pai).getIntrinsicHeight();
-        Picasso.with(viewHolder.itemView.getContext()).load(Uri.parse(bean.commodity_coverimg)).placeholder(R.mipmap.default_first_pai).error(R.mipmap.default_first_pai).resize(intrinsicWidth,intrinsicHeight).into(viewHolder.imageView);
+        ImageUtil.setImageByDefault(viewHolder.imageView, R.mipmap.default_first_pai, Uri.parse(bean.commodity_coverimg));
+        ImageUtil.setCircleImageByDefault(viewHolder.imageHead, R.mipmap.default_third_gird_head, Uri.parse(bean.userinfo_headportrait));
     }
 
 

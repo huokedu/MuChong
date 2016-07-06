@@ -37,7 +37,8 @@ import model.PersonInfoBean;
  */
 public class PersonActivity extends BaseActivity implements View.OnClickListener {
     public static final String Person_Id = "Person_Id";
-    public static void goPersonActivity(Context context, String personId){
+
+    public static void goPersonActivity(Context context, String personId) {
         Intent intent = new Intent(context, PersonActivity.class);
         intent.putExtra(Person_Id, personId);
         context.startActivity(intent);
@@ -65,6 +66,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         return R.layout.activity_person;
     }
 
+
     @Override
     protected void setupView() {
         personId = getIntent().getStringExtra(Person_Id);
@@ -72,22 +74,20 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         setStatusBarColor(R.mipmap.bg_status_bar);
         mToolbar.setBackgroundResource(0);
 
-        textFollow = (TextView)findViewById(R.id.textFollow);
+        textFollow = (TextView) findViewById(R.id.textFollow);
         textFollow.setOnClickListener(this);
-        if(personId.equals(LoginUtil.getUser().id)){
-            textFollow.setVisibility(View.INVISIBLE);
-        }
-        textName = (TextView)findViewById(R.id.textName);
-        textFans = (TextView)findViewById(R.id.textFans);
-        ratingBarLevel = (RatingBar)findViewById(R.id.ratingBarLevel);
-        imageHead = (ImageView)findViewById(R.id.imageHead);
+
+        textName = (TextView) findViewById(R.id.textName);
+        textFans = (TextView) findViewById(R.id.textFans);
+        ratingBarLevel = (RatingBar) findViewById(R.id.ratingBarLevel);
+        imageHead = (ImageView) findViewById(R.id.imageHead);
 
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mViewPager.setOffscreenPageLimit(3);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
         Point outSize = new Point();
         getWindow().getWindowManager().getDefaultDisplay().getSize(outSize);
-        if(outSize.x> CommonUtil.dp2px(this,90)*5){
+        if (outSize.x > CommonUtil.dp2px(this, 90) * 5) {
             mTabLayout.setTabMode(TabLayout.MODE_FIXED);
         }
         ArrayList<HomeFragment> pageFragments = new ArrayList<>();
@@ -127,6 +127,15 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         initData();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        initData();
+
+        if (personId.equals(LoginUtil.getUser().id)) {
+            textFollow.setVisibility(View.INVISIBLE);
+        }
+    }
 
     @Override
     protected void initData() {
@@ -156,7 +165,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.textFollow:
                 addLike();
                 break;
@@ -164,6 +173,10 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void addLike() {
+        if (!App.app.isLogin()) {
+            LoginUtil.showLoginTips(this);
+            return;
+        }
         App.app.appAction.addLikePerson(personId, new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {

@@ -69,6 +69,7 @@ public class EditAddressActivity extends BaseActivity {
 
     /*保存收货地址*/
     private void commit() {
+        mTitleRightTextView.setEnabled(false);
         if (bean == null) {
             App.app.appAction.addAddress(editAddress.getText().toString().trim(), editName.getText().toString().trim(), editTel.getText().toString(), new BaseActionCallbackListener<Void>() {
                 @Override
@@ -80,6 +81,7 @@ public class EditAddressActivity extends BaseActivity {
                 @Override
                 public void onIllegalState(String errorEvent, String message) {
                     ToastUtil.showToast(App.app, message);
+                    mTitleRightTextView.setEnabled(true);
                 }
             });
         } else {
@@ -93,6 +95,7 @@ public class EditAddressActivity extends BaseActivity {
                 @Override
                 public void onIllegalState(String errorEvent, String message) {
                     ToastUtil.showToast(App.app, message);
+                    mTitleRightTextView.setEnabled(true);
                 }
             });
         }
