@@ -263,6 +263,8 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
             Pingpp.createPayment(CreateOrderActivity.this, data.charges);
         } else {
             ToastUtil.showToast(App.app, "付款成功");
+            OrderListActivity.goOrderListActivity(this, OrderListActivity.PAY_FINISH_TAB);
+            finish();
         }
     }
 
@@ -350,6 +352,7 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
                 String extraMsg = data.getExtras().getString("extra_msg"); // 错误信息
                 if("success".equals(result)){
                     ToastUtil.showToast(App.app, "支付成功！");
+                    OrderListActivity.goOrderListActivity(this, OrderListActivity.PAY_FINISH_TAB);
                     finish();
                 }else if("cancel".equals(result)){
                     ToastUtil.showToast(App.app, "支付取消！");

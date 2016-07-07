@@ -1,6 +1,8 @@
 package com.htlc.muchong.fragment;
 
+import android.content.DialogInterface;
 import android.graphics.Rect;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -59,6 +61,8 @@ public class OrderListFragment extends BaseFragment {
     private OrderRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
+    private View noDataView;
+
     int page = 1;
 
     @Override
@@ -68,6 +72,7 @@ public class OrderListFragment extends BaseFragment {
 
     @Override
     protected void setupView() {
+        noDataView =  findViewById(R.id.noDataView);
         mPtrFrame = findViewById(R.id.rotate_header_list_view_frame);
         mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
@@ -109,7 +114,7 @@ public class OrderListFragment extends BaseFragment {
         adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                CreateOrderActivity.goCreateOrderActivity(getContext(),adapter.getData().get(position).id, !TYPE_1.equals(mType));
+                CreateOrderActivity.goCreateOrderActivity(getContext(), adapter.getData().get(position).id, !TYPE_1.equals(mType));
             }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -153,6 +158,7 @@ public class OrderListFragment extends BaseFragment {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
                 page++;
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
 
             @Override
@@ -160,8 +166,35 @@ public class OrderListFragment extends BaseFragment {
                 ToastUtil.showToast(App.app, message);
                 mPtrFrame.refreshComplete();
                 mPtrFrame.setLoadMoreEnable(false);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
         });
+    }
+
+    private void showDeleteDialog(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogAppCompat);
+        builder.setItems(R.array.order_operation_array, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                if (which == 0) {
+                    deleteOrderById(position);
+                } else {
+                    CreateOrderActivity.goCreateOrderActivity(getContext(), adapter.getData().get(position).id, !TYPE_1.equals(mType));
+                }
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    /**
+     * 根据订单id删除订单
+     *
+     * @param position
+     */
+    private void deleteOrderById(int position) {
+        initData();
     }
 
 
@@ -177,27 +210,36 @@ public class OrderListFragment extends BaseFragment {
         }
 
         @Override
-        public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-            super.onBindViewHolder(holder,position);
+        public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+            super.onBindViewHolder(holder, position);
+            if (mType.equals(TYPE_1)) {
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        showDeleteDialog(position);
+                        return true;
+                    }
+                });
+            }
             ViewHolder viewHolder = (ViewHolder) holder;
             OrderBean bean = mList.get(position);
             DateFormat.setTextByTime(viewHolder.textTime, bean.order_ctime);
-            viewHolder.textName.setText(getString(R.string.order_list_order_id,bean.order_no));
+            viewHolder.textName.setText(getString(R.string.order_list_order_id, bean.order_no));
             viewHolder.textPaiPrice.setText(bean.commodity_name);
-            GoodsUtil.setPriceBySymbol(viewHolder.textResultPrice,bean.order_money);
+            GoodsUtil.setPriceBySymbol(viewHolder.textResultPrice, bean.order_money);
 
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            public TextView textTime, textName, textStatus,textPaiPrice,textResultPrice;
+            public TextView textTime, textName, textStatus, textPaiPrice, textResultPrice;
 
             public ViewHolder(View view) {
                 super(view);
-                textTime = (TextView)  view.findViewById(R.id.textTime);
-                textName = (TextView)  view.findViewById(R.id.textName);
-                textStatus = (TextView)  view.findViewById(R.id.textStatus);
-                textPaiPrice = (TextView)  view.findViewById(R.id.textPaiPrice);
-                textResultPrice = (TextView)  view.findViewById(R.id.textResultPrice);
+                textTime = (TextView) view.findViewById(R.id.textTime);
+                textName = (TextView) view.findViewById(R.id.textName);
+                textStatus = (TextView) view.findViewById(R.id.textStatus);
+                textPaiPrice = (TextView) view.findViewById(R.id.textPaiPrice);
+                textResultPrice = (TextView) view.findViewById(R.id.textResultPrice);
             }
         }
     }

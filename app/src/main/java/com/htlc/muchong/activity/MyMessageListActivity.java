@@ -45,6 +45,7 @@ public class MyMessageListActivity extends BaseActivity {
     private MyMessageRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
+    private View noDataView;
 
     int page = 1;
 
@@ -56,6 +57,8 @@ public class MyMessageListActivity extends BaseActivity {
     @Override
     protected void setupView() {
         mTitleTextView.setText(R.string.fifth_xiao);
+
+        noDataView =  findViewById(R.id.noDataView);
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
        mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
@@ -145,6 +148,7 @@ public class MyMessageListActivity extends BaseActivity {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
                 page++;
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
 
             @Override
@@ -152,6 +156,7 @@ public class MyMessageListActivity extends BaseActivity {
                 ToastUtil.showToast(App.app, message);
                 mPtrFrame.refreshComplete();
                 mPtrFrame.setLoadMoreEnable(false);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
         });
     }

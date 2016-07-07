@@ -1076,6 +1076,10 @@ public class PtrFrameLayout extends ViewGroup {
             }
         }else if(hasInitLoadMoreView && isLoadMoreEnable){
             mLoadMoreView.showNormal();
+        }else {
+            if(mLoadMoreView!=null){
+                mLoadMoreView.hideLoadView();
+            }
         }
     }
 

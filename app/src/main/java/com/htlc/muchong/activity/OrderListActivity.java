@@ -1,5 +1,6 @@
 package com.htlc.muchong.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -21,8 +22,19 @@ import java.util.ArrayList;
  * 个人中心---我的交易
  */
 public class OrderListActivity extends BaseActivity {
+    public static final int NO_PAY_TAB = 0;
+    public static final int PAY_FINISH_TAB = 1;
+    public static final int ON_THE_WAY_TAB = 2;
+    public static final String TAB = "TAB";
+    public static void goOrderListActivity(Context context, int tab){
+        Intent intent = new Intent(context, OrderListActivity.class);
+        intent.putExtra(TAB,tab);
+        context.startActivity(intent);
+    }
+
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_order_list;
@@ -45,6 +57,9 @@ public class OrderListActivity extends BaseActivity {
         OrderListPagerAdapter pagerAdapter = new OrderListPagerAdapter(getSupportFragmentManager(), pageFragments);
         mViewPager.setAdapter(pagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        int tab = getIntent().getIntExtra(TAB, 0);
+        mViewPager.setCurrentItem(tab,false);
     }
 
     @Override

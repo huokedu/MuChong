@@ -21,13 +21,7 @@
                 android:background="@color/bg_gray"/>
         </com.chanven.lib.cptr.PtrClassicFrameLayout>
     </LinearLayout>
-    <TextView
-        android:id="@+id/textNoDataTips"
-        android:background="@color/bg_gray"
-        android:layout_width="match_parent"
-        android:visibility="invisible"
-        android:gravity="center"
-        android:textSize="14sp"
-        android:text="@string/tips_no_data"
-        android:layout_height="match_parent"/>
+    <ImageView
+        style="@style/NoDataImageView"
+        android:id="@+id/noDataView"/>
 </RelativeLayout>

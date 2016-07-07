@@ -46,6 +46,8 @@ public class TaFragment extends HomeFragment {
     private BaseRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
+    private View noDataView;
+
     private int page;
     private String personId;
 
@@ -57,6 +59,8 @@ public class TaFragment extends HomeFragment {
     @Override
     protected void setupView() {
         personId = ((PersonActivity) getActivity()).getPersonId();
+
+        noDataView =  findViewById(R.id.noDataView);
         mPtrFrame = findViewById(R.id.rotate_header_list_view_frame);
         mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
@@ -328,6 +332,7 @@ public class TaFragment extends HomeFragment {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
                 page++;
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
 
             @Override
@@ -335,6 +340,7 @@ public class TaFragment extends HomeFragment {
                 ToastUtil.showToast(App.app, message);
                 mPtrFrame.refreshComplete();
                 mPtrFrame.setLoadMoreEnable(false);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
         });
     }
@@ -352,6 +358,7 @@ public class TaFragment extends HomeFragment {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
                 page++;
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
 
             @Override
@@ -359,6 +366,7 @@ public class TaFragment extends HomeFragment {
                 ToastUtil.showToast(App.app, message);
                 mPtrFrame.refreshComplete();
                 mPtrFrame.setLoadMoreEnable(false);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
         });
     }
@@ -376,6 +384,7 @@ public class TaFragment extends HomeFragment {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
                 page++;
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
 
             @Override
@@ -383,6 +392,7 @@ public class TaFragment extends HomeFragment {
                 ToastUtil.showToast(App.app, message);
                 mPtrFrame.refreshComplete();
                 mPtrFrame.setLoadMoreEnable(false);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
         });
     }
@@ -400,6 +410,7 @@ public class TaFragment extends HomeFragment {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
                 page++;
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
 
             @Override
@@ -407,6 +418,7 @@ public class TaFragment extends HomeFragment {
                 ToastUtil.showToast(App.app, message);
                 mPtrFrame.refreshComplete();
                 mPtrFrame.setLoadMoreEnable(false);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
         });
     }

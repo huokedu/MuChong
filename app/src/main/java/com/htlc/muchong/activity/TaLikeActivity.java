@@ -51,7 +51,7 @@ public class TaLikeActivity extends BaseActivity {
     private int page = 1;
     private RecyclerView.ItemDecoration decor;
 
-    public static void goTaLikeActivity(Context context, String personId){
+    public static void goTaLikeActivity(Context context, String personId) {
         Intent intent = new Intent(context, TaLikeActivity.class);
         intent.putExtra(Person_Id, personId);
         context.startActivity(intent);
@@ -61,6 +61,7 @@ public class TaLikeActivity extends BaseActivity {
     private BaseRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
+    private View noDataView;
 
     private int currentType = 0;
     private String personId;
@@ -83,8 +84,9 @@ public class TaLikeActivity extends BaseActivity {
             }
         });
 
+        noDataView =  findViewById(R.id.noDataView);
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
-       mPtrFrame.setLastUpdateTimeKey(null);
+        mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -108,15 +110,15 @@ public class TaLikeActivity extends BaseActivity {
     }
 
     private void setTitle() {
-        if(LoginUtil.getUser().id.equals(personId)){
+        if (LoginUtil.getUser().id.equals(personId)) {
             mTitleTextView.setText(String.format(getString(R.string.title_my_like), getResources().getStringArray(R.array.like_type_array)[currentType]));
-        }else {
+        } else {
             mTitleTextView.setText(String.format(getString(R.string.title_ta_like), getResources().getStringArray(R.array.like_type_array)[currentType]));
         }
         mRecyclerView.removeAllViews();
         mRecyclerView.removeItemDecoration(decor);
         //商品
-        if(currentType == 0){
+        if (currentType == 0) {
             mRecyclerView.setBackgroundResource(android.R.color.white);
             adapter = new FirstRecyclerViewAdapter();
             mAdapter = new RecyclerAdapterWithHF(adapter);
@@ -153,7 +155,7 @@ public class TaLikeActivity extends BaseActivity {
                 }
             });
             //藏品
-        }else if(currentType == 1){
+        } else if (currentType == 1) {
             mRecyclerView.setBackgroundResource(R.color.bg_gray);
             adapter = new CangPersonRecyclerViewAdapter();
             mAdapter = new RecyclerAdapterWithHF(adapter);
@@ -191,7 +193,7 @@ public class TaLikeActivity extends BaseActivity {
                 }
             });
             //学堂
-        }else if(currentType == 2){
+        } else if (currentType == 2) {
             mRecyclerView.setBackgroundResource(R.color.bg_gray);
             adapter = new FourthFourRecyclerViewAdapter();
             mAdapter = new RecyclerAdapterWithHF(adapter);
@@ -215,7 +217,7 @@ public class TaLikeActivity extends BaseActivity {
                 }
             });
             //鉴定
-        }else if(currentType == 3){
+        } else if (currentType == 3) {
             mRecyclerView.setBackgroundResource(R.color.bg_gray);
             adapter = new JianRecyclerViewAdapter();
             mAdapter = new RecyclerAdapterWithHF(adapter);
@@ -251,7 +253,7 @@ public class TaLikeActivity extends BaseActivity {
                 }
             });
             //藏家
-        }else if(currentType == 4){
+        } else if (currentType == 4) {
             mRecyclerView.setBackgroundResource(R.color.bg_gray);
             adapter = new FourthTwoRecyclerViewAdapter();
             mAdapter = new RecyclerAdapterWithHF(adapter);
@@ -276,12 +278,12 @@ public class TaLikeActivity extends BaseActivity {
     }
 
     private void selectLikeType() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.DialogAppCompat);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogAppCompat);
         builder.setItems(R.array.like_type_array, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                if(which!=currentType){
+                if (which != currentType) {
                     currentType = which;
                     setTitle();
                 }
@@ -292,7 +294,7 @@ public class TaLikeActivity extends BaseActivity {
     }
 
     private void loadMoreData() {
-        if(currentType == 0){
+        if (currentType == 0) {
             App.app.appAction.likeListByTypeOfProduct(page, personId, new BaseActionCallbackListener<List<GoodsBean>>() {
                 @Override
                 public void onSuccess(List<GoodsBean> data) {
@@ -314,7 +316,7 @@ public class TaLikeActivity extends BaseActivity {
                     mPtrFrame.setFail();
                 }
             });
-        }else  if(currentType == 1){
+        } else if (currentType == 1) {
             App.app.appAction.cangListByPersonId(page, personId, new BaseActionCallbackListener<List<JianBean>>() {
                 @Override
                 public void onSuccess(List<JianBean> data) {
@@ -336,28 +338,28 @@ public class TaLikeActivity extends BaseActivity {
                     mPtrFrame.setFail();
                 }
             });
-        }else if(currentType == 2){
+        } else if (currentType == 2) {
             App.app.appAction.likeListByTypeOfSchool(page, personId, new BaseActionCallbackListener<List<SchoolBean>>() {
-                 @Override
-                 public void onSuccess(List<SchoolBean> data) {
-                     mPtrFrame.loadMoreComplete(true);
-                     adapter.setData(data, true);
-                     if (data.size() < AppActionImpl.PAGE_SIZE) {
-                         mPtrFrame.setNoMoreData();
-                     } else {
-                         mPtrFrame.setLoadMoreEnable(true);
-                     }
-                     page++;
-                 }
+                @Override
+                public void onSuccess(List<SchoolBean> data) {
+                    mPtrFrame.loadMoreComplete(true);
+                    adapter.setData(data, true);
+                    if (data.size() < AppActionImpl.PAGE_SIZE) {
+                        mPtrFrame.setNoMoreData();
+                    } else {
+                        mPtrFrame.setLoadMoreEnable(true);
+                    }
+                    page++;
+                }
 
-                 @Override
-                 public void onIllegalState(String errorEvent, String message) {
-                     ToastUtil.showToast(App.app, message);
-                     mPtrFrame.refreshComplete();
-                     mPtrFrame.setFail();
-                 }
-             });
-        }else if(currentType == 3){
+                @Override
+                public void onIllegalState(String errorEvent, String message) {
+                    ToastUtil.showToast(App.app, message);
+                    mPtrFrame.refreshComplete();
+                    mPtrFrame.setFail();
+                }
+            });
+        } else if (currentType == 3) {
             App.app.appAction.likeListByTypeOfJian(page, personId, new BaseActionCallbackListener<List<JianBean>>() {
                 @Override
                 public void onSuccess(List<JianBean> data) {
@@ -377,7 +379,7 @@ public class TaLikeActivity extends BaseActivity {
                     mPtrFrame.setFail();
                 }
             });
-        }else if(currentType == 4){
+        } else if (currentType == 4) {
             App.app.appAction.likeListByTypeOfPerson(page, personId, new BaseActionCallbackListener<List<PersonBean>>() {
                 @Override
                 public void onSuccess(List<PersonBean> data) {
@@ -403,7 +405,7 @@ public class TaLikeActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        if(currentType == 0){
+        if (currentType == 0) {
             page = 1;
             App.app.appAction.likeListByTypeOfProduct(page, personId, new BaseActionCallbackListener<List<GoodsBean>>() {
                 @Override
@@ -416,6 +418,7 @@ public class TaLikeActivity extends BaseActivity {
                         mPtrFrame.setLoadMoreEnable(true);
                     }
                     page++;
+                    showOrHiddenNoDataView(adapter.getData(), noDataView);
                 }
 
                 @Override
@@ -423,9 +426,10 @@ public class TaLikeActivity extends BaseActivity {
                     ToastUtil.showToast(App.app, message);
                     mPtrFrame.refreshComplete();
                     mPtrFrame.setLoadMoreEnable(false);
+                    showOrHiddenNoDataView(adapter.getData(), noDataView);
                 }
             });
-        }else  if(currentType == 1){
+        } else if (currentType == 1) {
             page = 1;
             App.app.appAction.likeListByTypeOfCang(page, personId, new BaseActionCallbackListener<List<JianBean>>() {
                 @Override
@@ -438,6 +442,7 @@ public class TaLikeActivity extends BaseActivity {
                         mPtrFrame.setLoadMoreEnable(true);
                     }
                     page++;
+                    showOrHiddenNoDataView(adapter.getData(), noDataView);
                 }
 
                 @Override
@@ -445,9 +450,10 @@ public class TaLikeActivity extends BaseActivity {
                     ToastUtil.showToast(App.app, message);
                     mPtrFrame.refreshComplete();
                     mPtrFrame.setLoadMoreEnable(false);
+                    showOrHiddenNoDataView(adapter.getData(), noDataView);
                 }
             });
-        }else if(currentType == 2){
+        } else if (currentType == 2) {
             page = 1;
             App.app.appAction.likeListByTypeOfSchool(page, personId, new BaseActionCallbackListener<List<SchoolBean>>() {
                 @Override
@@ -460,6 +466,7 @@ public class TaLikeActivity extends BaseActivity {
                         mPtrFrame.setLoadMoreEnable(true);
                     }
                     page++;
+                    showOrHiddenNoDataView(adapter.getData(), noDataView);
                 }
 
                 @Override
@@ -467,9 +474,10 @@ public class TaLikeActivity extends BaseActivity {
                     ToastUtil.showToast(App.app, message);
                     mPtrFrame.refreshComplete();
                     mPtrFrame.setLoadMoreEnable(false);
+                    showOrHiddenNoDataView(adapter.getData(), noDataView);
                 }
             });
-        }else if(currentType == 3){
+        } else if (currentType == 3) {
             page = 1;
             App.app.appAction.likeListByTypeOfJian(page, personId, new BaseActionCallbackListener<List<JianBean>>() {
                 @Override
@@ -482,6 +490,7 @@ public class TaLikeActivity extends BaseActivity {
                         mPtrFrame.setLoadMoreEnable(true);
                     }
                     page++;
+                    showOrHiddenNoDataView(adapter.getData(), noDataView);
                 }
 
                 @Override
@@ -489,9 +498,10 @@ public class TaLikeActivity extends BaseActivity {
                     ToastUtil.showToast(App.app, message);
                     mPtrFrame.refreshComplete();
                     mPtrFrame.setLoadMoreEnable(false);
+                    showOrHiddenNoDataView(adapter.getData(), noDataView);
                 }
             });
-        }else if(currentType == 4){
+        } else if (currentType == 4) {
             page = 1;
             App.app.appAction.likeListByTypeOfPerson(page, personId, new BaseActionCallbackListener<List<PersonBean>>() {
                 @Override
@@ -504,6 +514,7 @@ public class TaLikeActivity extends BaseActivity {
                         mPtrFrame.setLoadMoreEnable(true);
                     }
                     page++;
+                    showOrHiddenNoDataView(adapter.getData(), noDataView);
                 }
 
                 @Override
@@ -511,6 +522,7 @@ public class TaLikeActivity extends BaseActivity {
                     ToastUtil.showToast(App.app, message);
                     mPtrFrame.refreshComplete();
                     mPtrFrame.setLoadMoreEnable(false);
+                    showOrHiddenNoDataView(adapter.getData(), noDataView);
                 }
             });
         }

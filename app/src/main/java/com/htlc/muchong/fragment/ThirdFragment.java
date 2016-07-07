@@ -1,6 +1,5 @@
 package com.htlc.muchong.fragment;
 
-import android.content.Intent;
 import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,12 +19,10 @@ import com.htlc.muchong.base.BaseActivity;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
-import java.util.Arrays;
 import java.util.List;
 
 import core.AppActionImpl;
 import model.CangBean;
-import model.PaiGoodsBean;
 
 /**
  * Created by sks on 2016/1/27.
@@ -36,6 +33,7 @@ public class ThirdFragment extends HomeFragment {
     private ThirdRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
+    private View noDataView;
 
     private int page = 1;
 
@@ -46,6 +44,7 @@ public class ThirdFragment extends HomeFragment {
 
     @Override
     protected void setupView() {
+        noDataView =  findViewById(R.id.noDataView);
         mPtrFrame = findViewById(R.id.rotate_header_list_view_frame);
         mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
@@ -146,6 +145,9 @@ public class ThirdFragment extends HomeFragment {
         App.app.appAction.cangList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<CangBean>>() {
             @Override
             public void onSuccess(List<CangBean> data) {
+                if(data ==null || data.size()<=0){
+                    mRecyclerView.setBackgroundResource(R.mipmap.bg_no_data);
+                }
                 mPtrFrame.refreshComplete();
                 adapter.setData(data, false);
                 if (data.size() < AppActionImpl.PAGE_SIZE) {
@@ -154,6 +156,7 @@ public class ThirdFragment extends HomeFragment {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
                 page++;
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
 
             @Override
@@ -161,6 +164,7 @@ public class ThirdFragment extends HomeFragment {
                 ToastUtil.showToast(App.app, message);
                 mPtrFrame.refreshComplete();
                 mPtrFrame.setLoadMoreEnable(false);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
         });
     }

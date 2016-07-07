@@ -49,6 +49,7 @@ public class FourthChildOneFragment extends HomeFragment {
     private BaseRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
+    private View noDataView;
     private int page = 1;
 
     @Override
@@ -58,8 +59,9 @@ public class FourthChildOneFragment extends HomeFragment {
 
     @Override
     protected void setupView() {
+        noDataView = findViewById(R.id.noDataView);
         mPtrFrame = findViewById(R.id.rotate_header_list_view_frame);
-       mPtrFrame.setLastUpdateTimeKey(null);
+        mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -257,25 +259,25 @@ public class FourthChildOneFragment extends HomeFragment {
 
     private void loadMoreDataOne() {
         App.app.appAction.postList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<PostBean>>() {
-              @Override
-              public void onSuccess(List<PostBean> data) {
-                  mPtrFrame.loadMoreComplete(true);
-                  adapter.setData(data, true);
-                  if (data.size() < AppActionImpl.PAGE_SIZE) {
-                      mPtrFrame.setNoMoreData();
-                  } else {
-                      mPtrFrame.setLoadMoreEnable(true);
-                  }
-                  page++;
-              }
+            @Override
+            public void onSuccess(List<PostBean> data) {
+                mPtrFrame.loadMoreComplete(true);
+                adapter.setData(data, true);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setNoMoreData();
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
 
-              @Override
-              public void onIllegalState(String errorEvent, String message) {
-                  ToastUtil.showToast(App.app, message);
-                  mPtrFrame.refreshComplete();
-                  mPtrFrame.setFail();
-              }
-          });
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setFail();
+            }
+        });
     }
 
 
@@ -292,6 +294,7 @@ public class FourthChildOneFragment extends HomeFragment {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
                 page++;
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
 
             @Override
@@ -299,6 +302,7 @@ public class FourthChildOneFragment extends HomeFragment {
                 ToastUtil.showToast(App.app, message);
                 mPtrFrame.refreshComplete();
                 mPtrFrame.setLoadMoreEnable(false);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
         });
     }
@@ -316,6 +320,7 @@ public class FourthChildOneFragment extends HomeFragment {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
                 page++;
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
 
             @Override
@@ -323,6 +328,7 @@ public class FourthChildOneFragment extends HomeFragment {
                 ToastUtil.showToast(App.app, message);
                 mPtrFrame.refreshComplete();
                 mPtrFrame.setLoadMoreEnable(false);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
         });
     }
@@ -340,6 +346,7 @@ public class FourthChildOneFragment extends HomeFragment {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
                 page++;
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
 
             @Override
@@ -347,13 +354,14 @@ public class FourthChildOneFragment extends HomeFragment {
                 ToastUtil.showToast(App.app, message);
                 mPtrFrame.refreshComplete();
                 mPtrFrame.setLoadMoreEnable(false);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
         });
     }
 
     private void initDataOne() {
         page = 1;
-        App.app.appAction.postList(page, ((BaseActivity)getActivity()).new BaseActionCallbackListener<List<PostBean>>() {
+        App.app.appAction.postList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<PostBean>>() {
             @Override
             public void onSuccess(List<PostBean> data) {
                 mPtrFrame.refreshComplete();
@@ -364,6 +372,7 @@ public class FourthChildOneFragment extends HomeFragment {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
                 page++;
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
 
             @Override
@@ -371,6 +380,7 @@ public class FourthChildOneFragment extends HomeFragment {
                 ToastUtil.showToast(App.app, message);
                 mPtrFrame.refreshComplete();
                 mPtrFrame.setLoadMoreEnable(false);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
         });
     }

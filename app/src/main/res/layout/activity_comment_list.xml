@@ -20,6 +20,8 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/white"/>
         </com.chanven.lib.cptr.PtrClassicFrameLayout>
+        <ImageView
+            style="@style/NoDataImageView"/>
         <include
             android:layout_height="wrap_content"
             android:layout_width="match_parent"

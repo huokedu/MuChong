@@ -45,7 +45,7 @@ public class QiangListFragment extends BaseFragment {
     private String mType;
     private DaoJiShiView daoJiShiView;
     private TextView textView;
-    private TextView textNoDataTips;
+    private View noDataView;
     private ProgressDialog progressDialog;
 
     public static QiangListFragment newInstance(String title, String type) {
@@ -71,6 +71,7 @@ public class QiangListFragment extends BaseFragment {
     protected int getLayoutId() {
         return R.layout.fragment_qiang_list;
     }
+
     @Override
     protected void setupView() {
         mPtrFrame = findViewById(R.id.rotate_header_list_view_frame);
@@ -86,23 +87,23 @@ public class QiangListFragment extends BaseFragment {
                 return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
             }
         });
-        textNoDataTips = (TextView)findViewById(R.id.textNoDataTips);
-        textNoDataTips.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressDialog = new ProgressDialog(getContext());
-                progressDialog.setMessage("请稍等...");
-                progressDialog.show();
-                initData();
-            }
-        });
+        noDataView = findViewById(R.id.noDataView);
+//        noDataView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                progressDialog = new ProgressDialog(getContext());
+//                progressDialog.setMessage("请稍等...");
+//                progressDialog.show();
+//                initData();
+//            }
+//        });
 
-        mPtrFrame.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mPtrFrame.autoRefresh();
-            }
-        }, 500);
+//        mPtrFrame.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                mPtrFrame.autoRefresh();
+//            }
+//        }, 500);
         mPtrFrame.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void loadMore() {
@@ -117,7 +118,7 @@ public class QiangListFragment extends BaseFragment {
         mRecyclerView = findViewById(R.id.recyclerView);
         adapter = new QiangRecyclerViewAdapter();
         mAdapter = new RecyclerAdapterWithHF(adapter);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),2) {
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2) {
         });
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -141,11 +142,11 @@ public class QiangListFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 GoodsBean bean = adapter.getData().get(position);
-                ProductDetailActivity.goProductActivity(getContext(),bean.id);
+                ProductDetailActivity.goProductActivity(getContext(), bean.id);
             }
         });
 
-
+        initData();
     }
 
     private void loadMoreData() {
@@ -154,9 +155,9 @@ public class QiangListFragment extends BaseFragment {
             public void onSuccess(QiangListBean data) {
                 mPtrFrame.refreshComplete();
                 adapter.setData(data.list, true);
-                if(data.list.size()< AppActionImpl.PAGE_SIZE){
+                if (data.list.size() < AppActionImpl.PAGE_SIZE) {
                     mPtrFrame.setNoMoreData();
-                }else {
+                } else {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
                 refreshView(data);
@@ -178,32 +179,30 @@ public class QiangListFragment extends BaseFragment {
         App.app.appAction.qiangList(mType, page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<QiangListBean>() {
             @Override
             public void onSuccess(QiangListBean data) {
-                if(progressDialog!=null){
+                if (progressDialog != null) {
                     progressDialog.dismiss();
                 }
-                textNoDataTips.setVisibility(View.INVISIBLE);
                 mPtrFrame.refreshComplete();
+                noDataView.setVisibility(View.GONE);
                 adapter.setData(data.list, false);
-                if(data.list.size()< AppActionImpl.PAGE_SIZE){
+                if (data.list.size() < AppActionImpl.PAGE_SIZE) {
                     mPtrFrame.setLoadMoreEnable(false);
-                }else {
+                } else {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
                 refreshView(data);
                 page++;
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
 
             @Override
             public void onIllegalState(String errorEvent, String message) {
-                if(progressDialog!=null){
+                mPtrFrame.refreshComplete();
+                if (progressDialog != null) {
                     progressDialog.dismiss();
                 }
-                if(BaseActivity.ERROR_NO_ENOUGH_DATA.equals(message)){
-                    textNoDataTips.setVisibility(View.VISIBLE);
-                    return;
-                }
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
                 ToastUtil.showToast(App.app, message);
-                mPtrFrame.refreshComplete();
                 mPtrFrame.setLoadMoreEnable(false);
             }
         });
@@ -219,6 +218,6 @@ public class QiangListFragment extends BaseFragment {
         } else if (PaiGoodsBean.STATE_STARTING.equals(data.state)) {
             daoJiShiView.setData(0, Long.parseLong(data.timeStr) * 1000);
         }
-        textView.setText(getString(R.string.qiang_list_start,data.buytime));
+        textView.setText(getString(R.string.qiang_list_start, data.buytime));
     }
 }

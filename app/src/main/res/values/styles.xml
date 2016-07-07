@@ -154,6 +154,16 @@
         <item name="android:background">@color/divider_white_color</item>
     </style>
 
+    <style name="NoDataImageView">
+        <item name="android:layout_width">103.33dp</item>
+        <item name="android:layout_height">106.33dp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:src">@mipmap/bg_no_data</item>
+        <item name="android:id">@id/noDataView</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
     <style name="PtrFrameLayout">
         <item name="android:id">@id/rotate_header_list_view_frame</item>
         <item name="android:layout_width">match_parent</item>

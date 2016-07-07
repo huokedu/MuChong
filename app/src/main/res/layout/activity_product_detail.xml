@@ -144,5 +144,12 @@
                 android:textColor="@android:color/white"
                 android:textSize="16sp"/>
         </RelativeLayout>
+        <ImageView
+            android:id="@+id/imageShoppingCart"
+            android:layout_marginLeft="5dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="bottom"
+            android:src="@mipmap/icon_shopping_cart"/>
     </FrameLayout>
 </LinearLayout>

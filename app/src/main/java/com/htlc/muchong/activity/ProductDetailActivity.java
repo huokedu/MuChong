@@ -50,6 +50,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     private TextView textCommentMore;
     private TextView textBuy;
     private TextView textAddCar;
+    private ImageView imageShoppingCart;
 
     /*去商品详情*/
     public static void goProductActivity(Context context, String goodId) {
@@ -118,6 +119,8 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         textBuy.setOnClickListener(this);
         textAddCar = (TextView) findViewById(R.id.textAddCar);
         textAddCar.setOnClickListener(this);
+        imageShoppingCart = (ImageView) findViewById(R.id.imageShoppingCart);
+        imageShoppingCart.setOnClickListener(this);
 
         mCommentListView = (ListView) findViewById(R.id.commentListView);
         mCommentListView.setFocusable(false);
@@ -183,6 +186,13 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
             case R.id.textAddCar:
                 if (App.app.isLogin()) {
                     addCart();
+                } else {
+                    LoginUtil.showLoginTips(this);
+                }
+                break;
+            case R.id.imageShoppingCart:
+                if (App.app.isLogin()) {
+                    startActivity(new Intent(this, ShoppingCartActivity.class));
                 } else {
                     LoginUtil.showLoginTips(this);
                 }

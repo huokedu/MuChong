@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 /**
  * Created by sks on 2016/5/13.
  * 所有Fragment的父类
@@ -49,4 +51,16 @@ public abstract class BaseFragment extends Fragment {
      * 初始化数据
      */
     protected abstract void initData();
+
+    /**
+     * 判断是否显示 没有数据的图片
+     * @param list
+     */
+    protected void showOrHiddenNoDataView(List list, View noDataView){
+        if(list==null || list.size()<=0){
+            noDataView.setVisibility(View.VISIBLE);
+        }else {
+            noDataView.setVisibility(View.GONE);
+        }
+    }
 }

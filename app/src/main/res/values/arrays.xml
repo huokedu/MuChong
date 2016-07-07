@@ -7,4 +7,8 @@
         <item>鉴定</item>
         <item>藏家</item>
     </string-array>
+    <string-array name="order_operation_array">
+        <item>删除订单</item>
+        <item>查看订单</item>
+    </string-array>
 </resources>

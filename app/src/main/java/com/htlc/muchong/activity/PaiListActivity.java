@@ -1,9 +1,7 @@
 package com.htlc.muchong.activity;
 
-import android.content.Intent;
 import android.graphics.Rect;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -16,19 +14,15 @@ import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.adapter.PaiRecyclerViewAdapter;
-import com.htlc.muchong.adapter.QiangRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
-import com.htlc.muchong.fragment.SecondFragment;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
-import java.util.Arrays;
 import java.util.List;
 
 import core.AppActionImpl;
 import model.PaiGoodsBean;
-import model.QiangListBean;
 
 /**
  * Created by sks on 2016/5/23.
@@ -39,6 +33,8 @@ public class PaiListActivity extends BaseActivity {
     private PaiRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
+    private View noDataView;
+
 
     int page = 1;
 
@@ -50,6 +46,7 @@ public class PaiListActivity extends BaseActivity {
     @Override
     protected void setupView() {
         mTitleTextView.setText(R.string.first_header_pai);
+        noDataView = findViewById(R.id.noDataView);
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
         mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
@@ -75,7 +72,6 @@ public class PaiListActivity extends BaseActivity {
                 loadMoreData();
             }
         });
-
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         adapter = new PaiRecyclerViewAdapter();
@@ -148,6 +144,7 @@ public class PaiListActivity extends BaseActivity {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
                 page++;
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
 
             @Override
@@ -155,6 +152,7 @@ public class PaiListActivity extends BaseActivity {
                 ToastUtil.showToast(App.app, message);
                 mPtrFrame.refreshComplete();
                 mPtrFrame.setLoadMoreEnable(false);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
         });
     }

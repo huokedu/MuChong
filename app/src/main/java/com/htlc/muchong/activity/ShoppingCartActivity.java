@@ -40,6 +40,7 @@ public class ShoppingCartActivity extends BaseActivity{
     private CheckBox checkbox;
     private TextView textTotalNumber;
     private TextView textTotalPrice;
+    private View noDataView;
 
     private int number;
     private double price;
@@ -67,6 +68,7 @@ public class ShoppingCartActivity extends BaseActivity{
             }
         });
 
+        noDataView =  findViewById(R.id.noDataView);
         listView = (ListView) findViewById(R.id.listView);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
         adapter = new ShoppingCartAdapter();
@@ -186,11 +188,13 @@ public class ShoppingCartActivity extends BaseActivity{
             @Override
             public void onSuccess(List<ShoppingCartItemBean> data) {
                 adapter.setData(data, false);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
 
             @Override
             public void onIllegalState(String errorEvent, String message) {
                 ToastUtil.showToast(App.app, message);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
         });
     }

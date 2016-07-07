@@ -93,6 +93,16 @@ public class ProductListActivity extends BaseActivity {
         smallClassName = intent.getStringExtra(Small_Class_Name);
 
         mTitleTextView.setText(smallClassName);
+        mTitleRightTextView.setText(R.string.confirm);
+        mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProductListFragment fragment =  (ProductListFragment) pagerAdapter.getItem(mViewPager.getCurrentItem());
+                fragment.setFilter();
+                ((ProductListFragment) pagerAdapter.getItem(0)).initData();
+                mViewPager.setCurrentItem(0, false);
+            }
+        });
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mViewPager.setOffscreenPageLimit(3);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -128,8 +138,13 @@ public class ProductListActivity extends BaseActivity {
                     textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, priceOrderIsDown ? R.mipmap.icon_order_down : R.mipmap.icon_order_up, 0);
                 }
                 if(position!=3){
+                    mTitleRightTextView.setVisibility(View.INVISIBLE);
                     ProductListFragment fragment = (ProductListFragment) pagerAdapter.getItem(position);
                     fragment.initData();
+                }else {
+                    mTitleRightTextView.setVisibility(View.VISIBLE);
+                    ProductListFragment fragment = (ProductListFragment) pagerAdapter.getItem(position);
+                    fragment.notifyFilterDataSetChanged();
                 }
             }
 

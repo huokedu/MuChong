@@ -36,6 +36,7 @@ public class MyJianListFragment extends BaseFragment {
     public static final String TYPE_3 = "3";
     public CharSequence mTitle;
     private String mType;
+
     public static MyJianListFragment newInstance(String title, String type) {
         try {
             MyJianListFragment fragment = MyJianListFragment.class.newInstance();
@@ -53,16 +54,19 @@ public class MyJianListFragment extends BaseFragment {
     private JianRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
+    private View noDataView;
     int page = 1;
 
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_jian_list;
     }
+
     @Override
     protected void setupView() {
+        noDataView = findViewById(R.id.noDataView);
         mPtrFrame = findViewById(R.id.rotate_header_list_view_frame);
-       mPtrFrame.setLastUpdateTimeKey(null);
+        mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -90,7 +94,7 @@ public class MyJianListFragment extends BaseFragment {
         mRecyclerView = findViewById(R.id.recyclerView);
         adapter = new JianRecyclerViewAdapter();
         mAdapter = new RecyclerAdapterWithHF(adapter);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),2) {
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2) {
         });
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -107,7 +111,7 @@ public class MyJianListFragment extends BaseFragment {
                     outRect.right = space;
                     outRect.left = space / 2;
                 }
-                if(parent.getChildAdapterPosition(view) < 2){
+                if (parent.getChildAdapterPosition(view) < 2) {
                     outRect.top = space;
                 }
             }
@@ -115,7 +119,7 @@ public class MyJianListFragment extends BaseFragment {
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                JianDetailActivity.goJianDetailActivity(getContext(),adapter.getData().get(position).id,!mType.equals(TYPE_3));
+                JianDetailActivity.goJianDetailActivity(getContext(), adapter.getData().get(position).id, !mType.equals(TYPE_3));
             }
         });
 
@@ -123,7 +127,7 @@ public class MyJianListFragment extends BaseFragment {
     }
 
     private void loadMoreData() {
-        App.app.appAction.myJianList(page,mType, ((BaseActivity)getActivity()).new BaseActionCallbackListener<List<JianBean>>() {
+        App.app.appAction.myJianList(page, mType, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<JianBean>>() {
             @Override
             public void onSuccess(List<JianBean> data) {
                 handleData(data);
@@ -160,6 +164,7 @@ public class MyJianListFragment extends BaseFragment {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
                 page++;
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
 
             @Override
@@ -167,11 +172,13 @@ public class MyJianListFragment extends BaseFragment {
                 ToastUtil.showToast(App.app, message);
                 mPtrFrame.refreshComplete();
                 mPtrFrame.setLoadMoreEnable(false);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
         });
     }
+
     private void handleData(List<JianBean> data) {
-        for(JianBean bean : data){
+        for (JianBean bean : data) {
             bean.forum_yesorno = mType;
         }
     }

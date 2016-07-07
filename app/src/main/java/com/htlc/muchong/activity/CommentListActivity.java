@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.htlc.muchong.adapter.CommentRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
 import com.htlc.muchong.util.LoginUtil;
+import com.htlc.muchong.util.SoftInputUtil;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
@@ -49,6 +51,7 @@ public class CommentListActivity extends BaseActivity {
     private CommentRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
+    private View noDataView;
 
     int page = 1;
 
@@ -62,6 +65,7 @@ public class CommentListActivity extends BaseActivity {
         productId = getIntent().getStringExtra(Product_Id);
 
         mTitleTextView.setText(R.string.title_comment_list);
+        noDataView =  findViewById(R.id.noDataView);
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
         mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
@@ -101,6 +105,14 @@ public class CommentListActivity extends BaseActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         adapter = new CommentRecyclerViewAdapter();
+        adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                SoftInputUtil.showToggleSoftInput(editComment);
+                GoodsCommentBean goodsCommentBean = adapter.getData().get(position);
+                editComment.setText("@"+goodsCommentBean.userinfo_nickname+"  ");
+            }
+        });
         mAdapter = new RecyclerAdapterWithHF(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this) {
         });
@@ -167,6 +179,7 @@ public class CommentListActivity extends BaseActivity {
                     mPtrFrame.setLoadMoreEnable(true);
                 }
                 page++;
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
 
             @Override
@@ -174,6 +187,7 @@ public class CommentListActivity extends BaseActivity {
                 ToastUtil.showToast(App.app, message);
                 mPtrFrame.refreshComplete();
                 mPtrFrame.setLoadMoreEnable(false);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
         });
     }

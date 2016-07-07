@@ -60,9 +60,9 @@ public class ProductListFragment extends BaseFragment {
     public static final String ORDER_PRICE_DOWN = "4";
     public static final String ORDER_PRICE_UP = "3";
 
-    public static final String[] Titles = {"材质","价格"};
-    public static final String[] Prices = {"全部","0-500","500-1000","1000-3000","3000-5000","5000以上"};
-    public static final String[] PricesId = {"","0-500","500-1000","1000-3000","3000-5000","5000"};
+    public static final String[] Titles = {"材质", "价格"};
+    public static final String[] Prices = {"全部", "0-500", "500-1000", "1000-3000", "3000-5000", "5000以上"};
+    public static final String[] PricesId = {"", "0-500", "500-1000", "1000-3000", "3000-5000", "5000"};
 
 
     public CharSequence mTitle;
@@ -70,7 +70,13 @@ public class ProductListFragment extends BaseFragment {
     public String mType;
     private int page = 1;
     private ProductListActivity activity;
-    private List<MaterialBean> materials;
+    private List<MaterialBean> materials;//材质列表
+    private String materialId;
+    private String priceId;
+    private int materialPosition;
+    private int pricePosition;
+    private int materialPositionSelected;
+    private int pricePositionSelected;
 
     public static ProductListFragment newInstance(int iconId, String title, String type) {
         try {
@@ -99,6 +105,7 @@ public class ProductListFragment extends BaseFragment {
     private FilterRecyclerAdapter filterAdapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
+    private View noDataView;
 
     @Override
     protected int getLayoutId() {
@@ -108,6 +115,8 @@ public class ProductListFragment extends BaseFragment {
     @Override
     protected void setupView() {
         activity = (ProductListActivity) getActivity();
+
+        noDataView = findViewById(R.id.noDataView);
         mPtrFrame = findViewById(R.id.rotate_header_list_view_frame);
         mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
@@ -144,8 +153,14 @@ public class ProductListFragment extends BaseFragment {
         } else {
             adapter = new ProductRecyclerViewAdapter();
             mAdapter = new RecyclerAdapterWithHF(adapter);
-            mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2) {
+            final GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return (mAdapter.isHeader(position) || mAdapter.isFooter(position)) ? gridLayoutManager.getSpanCount() : 1;
+                }
             });
+            mRecyclerView.setLayoutManager(gridLayoutManager);
             mRecyclerView.setAdapter(mAdapter);
             mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
                 private int space = CommonUtil.dp2px(getContext(), 10);
@@ -179,7 +194,7 @@ public class ProductListFragment extends BaseFragment {
 
     private void loadMoreData() {
         String order = getOderType();
-        App.app.appAction.jiaoListBySmallClass(page, activity.getSmallClassId(), order, activity.getMaterial(),activity.getPrice(), activity.new BaseActionCallbackListener<List<JiaoGoodsBean>>() {
+        App.app.appAction.jiaoListBySmallClass(page, activity.getSmallClassId(), order, activity.getMaterial(), activity.getPrice(), activity.new BaseActionCallbackListener<List<JiaoGoodsBean>>() {
             @Override
             public void onSuccess(List<JiaoGoodsBean> data) {
                 adapter.setData(data, true);
@@ -211,13 +226,13 @@ public class ProductListFragment extends BaseFragment {
                     mPtrFrame.setLoadMoreEnable(false);
                     materials = data;
                     List<MaterialBean> prices = new ArrayList<MaterialBean>();
-                    for(int i=0; i<Prices.length; i++){
+                    for (int i = 0; i < Prices.length; i++) {
                         MaterialBean materialBean = new MaterialBean();
                         materialBean.name = Prices[i];
                         materialBean.id = PricesId[i];
                         prices.add(materialBean);
                     }
-                    filterAdapter.setData(materials,prices);
+                    filterAdapter.setData(materials, prices);
                 }
 
                 @Override
@@ -230,7 +245,7 @@ public class ProductListFragment extends BaseFragment {
         } else {
             String order = getOderType();
             page = 1;
-            App.app.appAction.jiaoListBySmallClass(page, activity.getSmallClassId(), order, activity.getMaterial(),activity.getPrice(), activity.new BaseActionCallbackListener<List<JiaoGoodsBean>>() {
+            App.app.appAction.jiaoListBySmallClass(page, activity.getSmallClassId(), order, activity.getMaterial(), activity.getPrice(), activity.new BaseActionCallbackListener<List<JiaoGoodsBean>>() {
                 @Override
                 public void onSuccess(List<JiaoGoodsBean> data) {
                     mPtrFrame.refreshComplete();
@@ -241,6 +256,7 @@ public class ProductListFragment extends BaseFragment {
                         mPtrFrame.setLoadMoreEnable(true);
                     }
                     page++;
+                    showOrHiddenNoDataView(adapter.getData(), noDataView);
                 }
 
                 @Override
@@ -248,6 +264,7 @@ public class ProductListFragment extends BaseFragment {
                     ToastUtil.showToast(App.app, message);
                     mPtrFrame.refreshComplete();
                     mPtrFrame.setLoadMoreEnable(false);
+                    showOrHiddenNoDataView(adapter.getData(), noDataView);
                 }
             });
         }
@@ -270,24 +287,43 @@ public class ProductListFragment extends BaseFragment {
         return order;
     }
 
-    public class FilterBean{
+    /**
+     * 设置筛选条件
+     */
+    public void setFilter() {
+        activity.setMaterial(materialId);
+        activity.setPrice(priceId);
+        materialPositionSelected = materialPosition;
+        pricePositionSelected = pricePosition;
+    }
+
+    public void notifyFilterDataSetChanged() {
+        if (filterAdapter != null) {
+            filterAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public class FilterBean {
         public String title;
         public List<MaterialBean> list;
     }
+
     /*筛选分类*/
-    public class FilterRecyclerAdapter extends RecyclerView.Adapter{
+    public class FilterRecyclerAdapter extends RecyclerView.Adapter {
         private FilterBean[] array = new FilterBean[2];
+
         public FilterRecyclerAdapter() {
-            for(int i=0; i<array.length; i++){
+            for (int i = 0; i < array.length; i++) {
                 FilterBean filterBean = new FilterBean();
                 filterBean.title = Titles[i];
                 filterBean.list = new ArrayList<>();
                 array[i] = filterBean;
             }
         }
-        public void setData(List<MaterialBean> materials, List<MaterialBean> prices){
+
+        public void setData(List<MaterialBean> materials, List<MaterialBean> prices) {
             array[0].list.clear();
-            MaterialBean materialBean  = new MaterialBean();
+            MaterialBean materialBean = new MaterialBean();
             materialBean.id = "";
             materialBean.name = "全部";
             array[0].list.add(materialBean);
@@ -311,9 +347,11 @@ public class ProductListFragment extends BaseFragment {
             viewHolder.textName.setText(filterBean.title);
             FilterGridAdapter filterGridAdapter = new FilterGridAdapter(filterBean.list);
             viewHolder.gridView.setAdapter(filterGridAdapter);
-            viewHolder.gridView.setOnItemClickListener(new GridViewOnItemClickListener(position,array, filterGridAdapter));
-            viewHolder.gridView.setSelection(filterGridAdapter.getCheckPosition());
-            viewHolder.gridView.setItemChecked(filterGridAdapter.getCheckPosition(), true);
+            viewHolder.gridView.setOnItemClickListener(new GridViewOnItemClickListener(position, array, filterGridAdapter));
+//            viewHolder.gridView.setSelection(filterGridAdapter.getCheckPosition());
+//            viewHolder.gridView.setItemChecked(filterGridAdapter.getCheckPosition(), true);
+            viewHolder.gridView.setSelection(position == 0 ? materialPositionSelected : pricePositionSelected);
+            viewHolder.gridView.setItemChecked(position == 0 ? materialPositionSelected : pricePositionSelected, true);
         }
 
         @Override
@@ -324,6 +362,7 @@ public class ProductListFragment extends BaseFragment {
         public class ViewHolder extends RecyclerView.ViewHolder {
             public TextView textName;
             public GridView gridView;
+
             public ViewHolder(View view) {
                 super(view);
                 textName = (TextView) view.findViewById(R.id.textName);
@@ -332,11 +371,13 @@ public class ProductListFragment extends BaseFragment {
             }
         }
     }
+
     /*GridView 点击*/
-    public class GridViewOnItemClickListener implements AdapterView.OnItemClickListener{
+    public class GridViewOnItemClickListener implements AdapterView.OnItemClickListener {
         private int position;
         private FilterBean[] array;
         private FilterGridAdapter filterGridAdapter;
+
         public GridViewOnItemClickListener(int position, FilterBean[] array, FilterGridAdapter filterGridAdapter) {
             this.position = position;
             this.array = array;
@@ -345,18 +386,21 @@ public class ProductListFragment extends BaseFragment {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-            int checkedItemPosition = ((GridView)parent).getCheckedItemPosition();
-            if(position == 0){
-                activity.setMaterial(array[0].list.get(checkedItemPosition).id);
-            }else {
-                activity.setPrice(array[1].list.get(checkedItemPosition).id);
+            int checkedItemPosition = ((GridView) parent).getCheckedItemPosition();
+            if (position == 0) {
+                materialPosition = checkedItemPosition;
+                materialId = array[0].list.get(checkedItemPosition).id;
+            } else {
+                pricePosition = checkedItemPosition;
+                priceId = array[1].list.get(checkedItemPosition).id;
             }
             filterGridAdapter.setCheckPosition(checkedItemPosition);
             filterGridAdapter.notifyDataSetChanged();
         }
     }
+
     /*GridView Adapter*/
-    public class FilterGridAdapter extends BaseAdapter{
+    public class FilterGridAdapter extends BaseAdapter {
         private List<MaterialBean> list;
         private int checkPosition;
 
@@ -389,11 +433,11 @@ public class ProductListFragment extends BaseFragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if(convertView == null){
-                convertView = View.inflate(parent.getContext(), R.layout.adapter_fragment_product_grid_filter,null);
+            if (convertView == null) {
+                convertView = View.inflate(parent.getContext(), R.layout.adapter_fragment_product_grid_filter, null);
             }
             CheckTextView textView = (CheckTextView) convertView;
-            if(position == checkPosition){
+            if (position == checkPosition) {
                 textView.setChecked(true);
             }
             textView.setText(list.get(position).name);

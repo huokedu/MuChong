@@ -58,6 +58,11 @@ public interface ILoadViewMoreFactory {
         public void showLoading();
 
         /**
+         * 隐藏加载更多view（当从加载更多切换为不加载更多时）
+         */
+        public void hideLoadView();
+
+        /**
          * 显示加载失败的布局
          *
          * @param e

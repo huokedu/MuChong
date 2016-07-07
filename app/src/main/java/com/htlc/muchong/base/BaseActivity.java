@@ -21,6 +21,8 @@ import com.htlc.muchong.activity.LoginActivity;
 import com.htlc.muchong.util.LoginUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import java.util.List;
+
 import core.ActionCallbackListener;
 
 /**
@@ -163,6 +165,18 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 初始化数据
      */
     protected abstract void initData();
+
+    /**
+     * 判断是否显示 没有数据的图片
+     * @param list
+     */
+    protected void showOrHiddenNoDataView(List list, View noDataView){
+        if(list==null || list.size()<=0){
+            noDataView.setVisibility(View.VISIBLE);
+        }else {
+            noDataView.setVisibility(View.GONE);
+        }
+    }
 
     /**
      * 基类ActionCallbackListener，用于对通用失败状态的处理，如登录过期
