@@ -35,6 +35,7 @@ import core.AppActionImpl;
 
 /**
  * Created by sks on 2016/5/13.
+ * Application类是为了那些需要保存全局变量设计的基本类
  */
 public class App extends Application {
     public static App app;

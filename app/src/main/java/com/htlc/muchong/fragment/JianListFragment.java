@@ -33,6 +33,7 @@ import model.PaiGoodsBean;
 
 /**
  * Created by sks on 2016/5/23.
+ * 专家鉴定列表的Fragment
  */
 public class JianListFragment extends BaseFragment {
     public static final String TYPE_1 = "1";

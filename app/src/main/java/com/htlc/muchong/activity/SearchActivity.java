@@ -29,6 +29,7 @@ import model.GoodsBean;
 
 /**
  * Created by sks on 2016/5/24.
+ * 商品搜索Activity
  */
 public class SearchActivity extends BaseActivity {
     private int page = 1;

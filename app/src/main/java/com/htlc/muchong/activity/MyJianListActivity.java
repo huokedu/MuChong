@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 /**
  * Created by sks on 2016/5/24.
+ * 个人中心---我的鉴定
  */
 public class MyJianListActivity extends BaseActivity {
     private ViewPager mViewPager;

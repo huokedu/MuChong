@@ -16,6 +16,7 @@ import com.larno.util.ToastUtil;
 
 /**
  * Created by sks on 2016/5/27.
+ * 更换新手机Activity
  */
 public class ResetTelActivity extends BaseActivity implements View.OnClickListener {
 

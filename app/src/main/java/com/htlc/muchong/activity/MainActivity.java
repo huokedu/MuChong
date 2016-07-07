@@ -26,6 +26,9 @@ import java.util.ArrayList;
 
 import model.UserBean;
 
+/**
+ * 主界面
+ */
 public class MainActivity extends BaseActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;

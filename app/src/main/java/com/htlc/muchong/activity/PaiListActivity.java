@@ -32,6 +32,7 @@ import model.QiangListBean;
 
 /**
  * Created by sks on 2016/5/23.
+ * 竞拍列表
  */
 public class PaiListActivity extends BaseActivity {
     private PtrClassicFrameLayout mPtrFrame;
@@ -50,7 +51,7 @@ public class PaiListActivity extends BaseActivity {
     protected void setupView() {
         mTitleTextView.setText(R.string.first_header_pai);
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
-       mPtrFrame.setLastUpdateTimeKey(null);
+        mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {

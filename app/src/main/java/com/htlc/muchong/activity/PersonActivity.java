@@ -34,6 +34,7 @@ import model.PersonInfoBean;
 
 /**
  * Created by sks on 2016/5/16.
+ * 藏家信息Activity
  */
 public class PersonActivity extends BaseActivity implements View.OnClickListener {
     public static final String Person_Id = "Person_Id";

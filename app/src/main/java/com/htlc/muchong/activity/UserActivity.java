@@ -22,6 +22,7 @@ import model.UserInfoBean;
 
 /**
  * Created by sks on 2016/5/27.
+ * 用户信息Activity
  */
 public class UserActivity extends BaseActivity implements View.OnClickListener {
     private static final int Request_Name = 101;

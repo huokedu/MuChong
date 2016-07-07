@@ -23,6 +23,7 @@ import model.UserBean;
 
 /**
  * Created by sks on 2016/5/24.
+ * 专家鉴定列表Activity
  */
 public class JianListActivity extends BaseActivity {
     private ViewPager mViewPager;

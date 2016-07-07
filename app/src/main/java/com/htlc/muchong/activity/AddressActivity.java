@@ -21,6 +21,7 @@ import model.AddressBean;
 
 /**
  * Created by sks on 2016/6/14.
+ * 个人中心---个人信息---收货地址列表Activity
  */
 public class AddressActivity extends BaseActivity {
     public static final String Is_Select = "Is_Select";
@@ -29,7 +30,7 @@ public class AddressActivity extends BaseActivity {
     private ListView listView;
     private AddressAdapter adapter;
 
-    private boolean isSelect;
+    private boolean isSelect;//判断开启该界面是选择地址，还是查看；true为选择
 
     @Override
     protected int getLayoutId() {
@@ -54,6 +55,7 @@ public class AddressActivity extends BaseActivity {
             });
         }
 
+        //新增收获地址按钮
         findViewById(R.id.buttonAddAddress).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

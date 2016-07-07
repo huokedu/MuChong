@@ -31,6 +31,7 @@ import model.GoodsCommentBean;
 
 /**
  * Created by sks on 2016/5/23.
+ * 评论列表Activity
  */
 public class CommentListActivity extends BaseActivity {
     public static final String Product_Id = "Product_Id";
@@ -62,7 +63,7 @@ public class CommentListActivity extends BaseActivity {
 
         mTitleTextView.setText(R.string.title_comment_list);
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
-       mPtrFrame.setLastUpdateTimeKey(null);
+        mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -109,14 +110,14 @@ public class CommentListActivity extends BaseActivity {
 
     /*提交评论*/
     private void commitComment() {
-        if(!App.app.isLogin()){
+        if (!App.app.isLogin()) {
             LoginUtil.showLoginTips(this);
             return;
         }
         App.app.appAction.addGoodsComment(productId, editComment.getText().toString().trim(), new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {
-                ToastUtil.showToast(App.app,"评论成功！");
+                ToastUtil.showToast(App.app, "评论成功！");
                 editComment.setText("");
                 editComment.clearFocus();
                 initData();
@@ -124,7 +125,7 @@ public class CommentListActivity extends BaseActivity {
 
             @Override
             public void onIllegalState(String errorEvent, String message) {
-                ToastUtil.showToast(App.app,message);
+                ToastUtil.showToast(App.app, message);
             }
         });
     }

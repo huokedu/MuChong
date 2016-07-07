@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 /**
  * Created by sks on 2016/5/13.
+ * 所有Fragment的父类
  */
 public abstract class BaseFragment extends Fragment {
 

@@ -14,6 +14,7 @@ import com.larno.util.ToastUtil;
 
 /**
  * Created by sks on 2016/5/27.
+ * 专拣用户发布鉴定结果
  */
 public class JianResultPublishActivity extends BaseActivity implements View.OnClickListener {
     public static final String Post_Id = "Post_Id";

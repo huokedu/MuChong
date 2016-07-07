@@ -23,7 +23,7 @@ import model.ShoppingCartItemBean;
 
 /**
  * Created by sks on 2016/6/14.
- * 创建订单  支付界面
+ * 创建订单  支付列表选择Activity
  */
 public class PayListActivity extends BaseActivity implements AdapterView.OnItemClickListener {
     public static final int[] PayNameIds = {R.string.pay_way_1,R.string.pay_way_2,R.string.pay_way_3,R.string.pay_way_4};

@@ -39,6 +39,7 @@ import model.SchoolBean;
 
 /**
  * Created by sks on 2016/5/20.
+ * 藏家信息Fragment
  */
 public class TaFragment extends HomeFragment {
     private PtrClassicFrameLayout mPtrFrame;

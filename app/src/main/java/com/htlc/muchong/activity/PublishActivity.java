@@ -40,45 +40,46 @@ import model.TimeBoxingBean;
 
 /**
  * Created by sks on 2016/5/27.
+ * 商品发布Activity
  */
 public class PublishActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     public static final String[] TYPE_ARRAY = {"精品交易", "限时抢购", "倒拍", "无底价", "有底价"};
     public static final String[] TYPE_ARRAY_VALUE = {"1", "2", "3", "4", "5"};
-    private ImageView imageViewCover;
-    private GridView gridView;
-    private PublishAdapter adapter;
-    private SelectPhotoDialogHelper selectPhotoDialogHelper;
-    private File coverImageFile;
-    private boolean isPickCover;
-    private EditText editContent;
-    private EditText editTitle;
+    private ImageView imageViewCover;//封面图
+    private GridView gridView;//商品内容图gridview
+    private PublishAdapter adapter;//商品内容图adapter
+    private SelectPhotoDialogHelper selectPhotoDialogHelper;//选择图片工具类
+    private File coverImageFile;//封面图file
+    private boolean isPickCover;//是否当前是选择封面图
+    private EditText editContent;//商品内容
+    private EditText editTitle;//商品标题
 
-    private LinearLayout linearType;
-    private LinearLayout linearChildType;
-    private LinearLayout linearMaterial;
-    private LinearLayout linearStartTime;
-    private LinearLayout linearDurationTime;
-    private TextView textType;
-    private TextView textMaterial;
-    private TextView textChildType;
-    private TextView textStartTime;
-    private TextView textDurationTime;
+    private LinearLayout linearType;//商品类型（抢购等)
+    private LinearLayout linearChildType;//商品小类（手串等）
+    private LinearLayout linearMaterial;//商品材质
+    private LinearLayout linearStartTime;//商品开始时间
+    private LinearLayout linearDurationTime;//商品持续时间
+    private TextView textType;//商品类型TextView
+    private TextView textMaterial;//商品材质TextView
+    private TextView textChildType;//商品小类TextView
+    private TextView textStartTime;//商品开始时间TextView
+    private TextView textDurationTime;//商品持续时间TextView
 
-    private EditText editMarketPrice;
-    private EditText editDeposit;
-    private EditText editCount;
-    private EditText editPrice;
-    private EditText editSize;
+    private EditText editMarketPrice;//商品市场价
+    private EditText editDeposit;//商品保证金
+    private EditText editCount;//商品数量
+    private EditText editPrice;//商品价格
+    private EditText editSize;//商品规格
     private RelativeLayout relativeCount;
     private RelativeLayout relativeMarketPrice;
     private RelativeLayout relativeDeposit;
     private RelativeLayout relativePrice;
 
 
-    private List<GoodsTypeBean> goodsTypes;
-    private List<MaterialBean> materials;
-    private List<PointInTimeBean> pointInTimes;
-    private List<Pair<String, String>> qiangDays;
+    private List<GoodsTypeBean> goodsTypes;//商品小类列表
+    private List<MaterialBean> materials;//商品材质列表
+    private List<PointInTimeBean> pointInTimes;//商品竞拍时间点列表
+    private List<Pair<String, String>> qiangDays;//商品抢购日期列表
 
     private String type;
     private String childType;

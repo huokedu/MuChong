@@ -38,6 +38,7 @@ import model.UserBean;
 
 /**
  * Created by sks on 2016/5/23.
+ * 个人中心---消息中心
  */
 public class MyMessageListActivity extends BaseActivity {
     private PtrClassicFrameLayout mPtrFrame;

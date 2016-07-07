@@ -42,6 +42,7 @@ import model.SchoolBean;
 
 /**
  * Created by sks on 2016/5/20.
+ * 论坛的四个Fragment
  */
 public class FourthChildOneFragment extends HomeFragment {
     private PtrClassicFrameLayout mPtrFrame;

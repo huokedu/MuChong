@@ -34,6 +34,7 @@ import model.QiangListBean;
 
 /**
  * Created by sks on 2016/5/23.
+ * 抢购列表Fragment
  */
 public class QiangListFragment extends BaseFragment {
     public static final String TYPE_1 = "1";

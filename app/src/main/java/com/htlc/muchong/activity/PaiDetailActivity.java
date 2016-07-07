@@ -39,6 +39,7 @@ import model.ShoppingCartItemBean;
 
 /**
  * Created by sks on 2016/5/23.
+ * 竞拍详情
  */
 public class PaiDetailActivity extends BaseActivity implements View.OnClickListener {
     public static final String Product_Id = "Product_Id";

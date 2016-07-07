@@ -45,6 +45,12 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
     private static final int RequestPayCode = 853;
     private ProgressDialog progressDialog;
 
+    /**
+     * 创建订单
+     * @param context
+     * @param shoppingCartItemBeans
+     * @param isShoppingCart
+     */
     public static void goCreateOrderActivity(Context context, ArrayList<ShoppingCartItemBean> shoppingCartItemBeans, boolean isShoppingCart) {
         Intent intent = new Intent(context, CreateOrderActivity.class);
         intent.putParcelableArrayListExtra(Shopping_Items, shoppingCartItemBeans);
@@ -52,6 +58,12 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
         context.startActivity(intent);
     }
 
+    /**
+     * 从订单列表进入
+     * @param context
+     * @param orderId
+     * @param isPay
+     */
     public static void goCreateOrderActivity(Context context, String orderId, boolean isPay) {
         Intent intent = new Intent(context, CreateOrderActivity.class);
         intent.putExtra(Order_Id, orderId);
@@ -59,6 +71,7 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
         context.startActivity(intent);
     }
 
+    //地址模块
     private LinearLayout linearAddress;
     private TextView textAddressTips;
     private RelativeLayout relativeAddress;
@@ -66,12 +79,15 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
     private TextView textTel;
     private TextView textAddress;
 
+    //支付方式模块
     private LinearLayout linearPay;
     private TextView textPayWay;
 
+    //订单商品列表模块
     private ListView listView;
     private CreateOrderAdapter adapter;
 
+    //底部总价，支付模块
     private TextView textTotalPrice;
     private TextView textBuy;
     private LinearLayout linearClearing;
@@ -137,6 +153,7 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onRestart() {
         super.onRestart();
+        //如果订单生成，地址不能修改
         if (!TextUtils.isEmpty(orderId)) {
             linearAddress.setOnClickListener(null);
         }
@@ -152,6 +169,7 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initData() {
+        //如果没有订单，商品由上个界面传递进来
         if (TextUtils.isEmpty(orderId)) {
             adapter.setData(shoppingCartItemBeans, false);
             Double totalPrice = 0.0;
@@ -160,6 +178,7 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
             }
             GoodsUtil.setPriceBySymbol(textTotalPrice, String.valueOf(totalPrice));
         } else {
+            //有订单，根据订单id获取商品
             getOrderDetail();
         }
 
@@ -303,10 +322,12 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //选择收获地址
         if (resultCode == Activity.RESULT_OK && requestCode == RequestAddressCode) {
             addressBean = data.getParcelableExtra(AddressActivity.AddressBean);
             refreshAddress();
         }
+        //选择支付方式
         if (resultCode == Activity.RESULT_OK && requestCode == RequestPayCode) {
             int payId = data.getIntExtra(PayListActivity.PayId, 0);
             textPayWay.setText(PayListActivity.PayNameIds[payId]);
@@ -341,6 +362,9 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+    /**
+     * 刷新地址模块
+     */
     private void refreshAddress() {
         textName.setText(addressBean.addr_name);
         textAddress.setText(addressBean.addr_address);
@@ -349,6 +373,7 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
         textAddressTips.setVisibility(View.GONE);
         relativeAddress.setVisibility(View.VISIBLE);
     }
+
 
     public class CreateOrderAdapter extends BaseAdapter {
         private List<ShoppingCartItemBean> list = new ArrayList<>();

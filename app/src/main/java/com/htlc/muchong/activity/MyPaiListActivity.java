@@ -38,6 +38,7 @@ import model.UserBean;
 
 /**
  * Created by sks on 2016/5/23.
+ * 消息中心---我的竞拍
  */
 public class MyPaiListActivity extends BaseActivity {
     private PtrClassicFrameLayout mPtrFrame;
@@ -56,7 +57,7 @@ public class MyPaiListActivity extends BaseActivity {
     protected void setupView() {
         mTitleTextView.setText(R.string.fifth_jing);
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
-       mPtrFrame.setLastUpdateTimeKey(null);
+        mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -151,7 +152,7 @@ public class MyPaiListActivity extends BaseActivity {
         });
     }
 
-    private class MyPaiRecyclerViewAdapter extends BaseRecyclerViewAdapter<MyPaiBean>{
+    private class MyPaiRecyclerViewAdapter extends BaseRecyclerViewAdapter<MyPaiBean> {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = View.inflate(parent.getContext(), R.layout.adapter_my_pai, null);
@@ -162,26 +163,26 @@ public class MyPaiListActivity extends BaseActivity {
 
         @Override
         public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-            super.onBindViewHolder(holder,position);
+            super.onBindViewHolder(holder, position);
             ViewHolder viewHolder = (ViewHolder) holder;
             MyPaiBean bean = mList.get(position);
             DateFormat.setTextByTime(viewHolder.textTime, bean.mybid_ctime);
             viewHolder.textName.setText(bean.mybid_commodityname);
             GoodsUtil.setPriceBySymbol(viewHolder.textPaiPrice, bean.commodity_startprice);
-            GoodsUtil.setPriceBySymbol(viewHolder.textResultPrice,bean.mybid_money);
+            GoodsUtil.setPriceBySymbol(viewHolder.textResultPrice, bean.mybid_money);
 
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            public TextView textTime, textName, textStatus,textPaiPrice,textResultPrice;
+            public TextView textTime, textName, textStatus, textPaiPrice, textResultPrice;
 
             public ViewHolder(View view) {
                 super(view);
-                textTime = (TextView)  view.findViewById(R.id.textTime);
-                textName = (TextView)  view.findViewById(R.id.textName);
-                textStatus = (TextView)  view.findViewById(R.id.textStatus);
-                textPaiPrice = (TextView)  view.findViewById(R.id.textPaiPrice);
-                textResultPrice = (TextView)  view.findViewById(R.id.textResultPrice);
+                textTime = (TextView) view.findViewById(R.id.textTime);
+                textName = (TextView) view.findViewById(R.id.textName);
+                textStatus = (TextView) view.findViewById(R.id.textStatus);
+                textPaiPrice = (TextView) view.findViewById(R.id.textPaiPrice);
+                textResultPrice = (TextView) view.findViewById(R.id.textResultPrice);
             }
         }
     }

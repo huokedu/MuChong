@@ -20,6 +20,7 @@ import java.io.File;
 
 /**
  * Created by sks on 2016/5/27.
+ * 个人中心---设置
  */
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
     private TextView textLogout;

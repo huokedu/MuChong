@@ -36,6 +36,7 @@ import model.TimeBoxingBean;
 
 /**
  * Created by sks on 2016/5/27.
+ * 论坛帖子发布Activity
  */
 public class PostPublishActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     public static final String Publish_Type = "Publish_Type";

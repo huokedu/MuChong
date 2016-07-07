@@ -23,6 +23,7 @@ import java.util.Arrays;
 
 /**
  * Created by sks on 2016/5/27.
+ * 非专家用户发布待鉴定物品Activity
  */
 public class JianPublishActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     private ImageView imageViewCover;

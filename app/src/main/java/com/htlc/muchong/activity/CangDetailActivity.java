@@ -38,24 +38,25 @@ import model.PostDetailBean;
 
 /**
  * Created by sks on 2016/5/24.
+ * 藏品专区详情Activity
  */
 public class CangDetailActivity extends BaseActivity implements View.OnClickListener {
     public static final String Post_Id = "Post_Id";
-    private ImageView imageHead;
-    private TextView textName;
-    private TextView textLevel;
-    private TextView textTime;
-    private TextView textPostTitle;
-    private TextView textContent;
-    private TextView textComment;
-    private TextView textCommentMore;
+    private ImageView imageHead;//用户头像
+    private TextView textName;//用户名字
+    private TextView textLevel;//用户等级
+    private TextView textTime;//发布时间
+    private TextView textPostTitle;//帖子标题
+    private TextView textContent;//帖子内容
+    private TextView textComment;//帖子评论标签，显示评论总数
+    private TextView textCommentMore;//查看评论列表
 
     private LoadMoreScrollView scrollView;
-    private RelativeLayout relativeInput;
-    private Button textButton;
-    private EditText editComment;
-    private TextView textCommentButton;
-    private TextView textLikeButton;
+    private RelativeLayout relativeInput;//评论输入view
+    private Button textButton;//发布评论按钮
+    private EditText editComment;//评论输入编辑框
+    private TextView textCommentButton;//评论按钮，点击显示评论输入view
+    private TextView textLikeButton;//喜欢按钮
     private LinearLayout linearBottom;
 
     public static void goCangDetailActivity(Context context, String id, int titleId) {
@@ -65,15 +66,15 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
         context.startActivity(intent);
     }
 
-    private ListView imageListView, mCommentListView;
+    private ListView imageListView, mCommentListView;//帖子内容图片列表，帖子最近评论列表
     private DetailImageAdapter imageAdapter;
     private PostCommentAdapter commentAdapter;
 
-    private String postId;
+    private String postId;//当前帖子id
     private boolean hasMore = false;
     private boolean isLoading = true;
     private int page = 2;
-    private boolean isLike;
+    private boolean isLike;//查看帖子的用户，是否喜欢该帖子
 
     @Override
     protected int getLayoutId() {
@@ -106,6 +107,7 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
 
             }
 
+            //当Scrollview滚动到底部，加载第2，3....页的评论
             @Override
             public void onScrollBottom() {
                 if (hasMore && !isLoading) {

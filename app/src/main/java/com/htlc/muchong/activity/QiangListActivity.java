@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * Created by sks on 2016/5/23.
+ * 限时抢购列表Activity
  */
 public class QiangListActivity extends BaseActivity {
     private ViewPager mViewPager;

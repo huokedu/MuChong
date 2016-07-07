@@ -25,6 +25,7 @@ import core.ActionCallbackListener;
 
 /**
  * Created by sks on 2016/5/13.
+ * 所有Activity的父类
  */
 public abstract class BaseActivity extends AppCompatActivity {
     public static final String ActivityTitleId = "ActivityTitleId";
@@ -184,6 +185,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         public abstract void onIllegalState(String errorEvent, String message);
     }
+
     private void showTips() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.DialogAppCompat);
         builder.setCancelable(true);

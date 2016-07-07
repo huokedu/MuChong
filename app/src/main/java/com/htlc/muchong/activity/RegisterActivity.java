@@ -17,6 +17,7 @@ import core.ActionCallbackListener;
 
 /**
  * Created by sks on 2016/5/21.
+ * 注册Activity
  */
 public class RegisterActivity extends BaseActivity {
     public static final String IsForgetPassword = "IsForgetPassword";

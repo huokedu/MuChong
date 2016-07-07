@@ -44,6 +44,7 @@ import model.SchoolBean;
 
 /**
  * Created by sks on 2016/5/24.
+ * 喜欢列表Activity
  */
 public class TaLikeActivity extends BaseActivity {
     public static final String Person_Id = "Person_Id";

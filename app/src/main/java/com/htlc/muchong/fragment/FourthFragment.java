@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 /**
  * Created by sks on 2016/5/20.
+ * 论坛Fragment
  */
 public class FourthFragment extends HomeFragment {
     private ViewPager mViewPager;

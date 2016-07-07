@@ -47,6 +47,7 @@ import model.PaiGoodsBean;
 
 /**
  * Created by sks on 2015/12/29.
+ * 商城---分类商品列表Fragment
  */
 public class ProductListFragment extends BaseFragment {
     public static final String TYPE_1 = "1";

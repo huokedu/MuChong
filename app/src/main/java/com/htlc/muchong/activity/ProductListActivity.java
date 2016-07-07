@@ -30,6 +30,7 @@ import java.util.ArrayList;
 
 /**
  * Created by sks on 2016/5/24.
+ * 主页商城---按分类的商品列表
  */
 public class ProductListActivity extends BaseActivity {
     private static final String Small_Class_Id  = "Small_Class_Id";

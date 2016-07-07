@@ -31,6 +31,7 @@ import model.PostBean;
 
 /**
  * Created by sks on 2016/5/23.
+ * 个人中心---我的论坛
  */
 public class MyPostListActivity extends BaseActivity {
     private PtrClassicFrameLayout mPtrFrame;

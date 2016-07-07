@@ -32,6 +32,7 @@ import model.UserInfoBean;
 
 /**
  * Created by sks on 2016/1/27.
+ * 个人中心Fragment
  */
 public class FifthFragment extends HomeFragment {
     private FifthRecyclerViewAdapter adapter;

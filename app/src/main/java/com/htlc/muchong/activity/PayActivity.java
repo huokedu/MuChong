@@ -19,6 +19,7 @@ import model.CreateOrderResultBean;
 
 /**
  * Created by sks on 2016/2/15.
+ * 个人中心---充值
  */
 public class PayActivity extends BaseActivity implements View.OnClickListener {
 

@@ -23,16 +23,17 @@ import java.util.Arrays;
 
 /**
  * Created by sks on 2016/5/27.
+ * 藏品专区-----藏品发布Activity
  */
 public class CangPublishActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
-    private ImageView imageViewCover;
-    private GridView gridView;
-    private PublishAdapter adapter;
-    private SelectPhotoDialogHelper selectPhotoDialogHelper;
+    private ImageView imageViewCover;//封面图
+    private GridView gridView;//内容图列表
+    private PublishAdapter adapter;//内容图列表Adatper
+    private SelectPhotoDialogHelper selectPhotoDialogHelper;//选择或拍摄图片工具类
     private File coverImageFile;
     private boolean isPickCover;
-    private EditText editContent;
-    private EditText editTitle;
+    private EditText editContent;//帖子内容
+    private EditText editTitle;//帖子标题
 
     private ProgressDialog progressDialog;
 

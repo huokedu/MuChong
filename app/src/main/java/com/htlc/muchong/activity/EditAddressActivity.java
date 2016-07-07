@@ -27,7 +27,7 @@ public class EditAddressActivity extends BaseActivity {
 
     private EditText editName,editTel,editAddress;
 
-    private AddressBean bean;
+    private AddressBean bean;//开启Activity传递的bean，如果有值则为修改地址，没有则为添加新地址
 
     @Override
     protected int getLayoutId() {

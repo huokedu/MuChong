@@ -15,6 +15,7 @@ import model.UserBean;
 
 /**
  * Created by sks on 2016/5/21.
+ * 登录界面
  */
 public class LoginActivity extends BaseActivity {
     private EditText editUsername, editPassword;

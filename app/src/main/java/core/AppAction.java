@@ -37,7 +37,7 @@ import model.UserInfoBean;
 
 /**
  * 接收app层的各种Action
- *
+ * 对数据进行判断后调用Api
  */
 public interface AppAction {
     void smsCode(String mobile, ActionCallbackListener<Void> listener);

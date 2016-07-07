@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 /**
  * Created by sks on 2016/5/24.
+ * 个人中心---我的交易
  */
 public class OrderListActivity extends BaseActivity {
     private ViewPager mViewPager;

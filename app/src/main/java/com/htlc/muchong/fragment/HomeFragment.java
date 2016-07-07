@@ -11,6 +11,7 @@ import com.htlc.muchong.base.BaseFragment;
 
 /**
  * Created by sks on 2015/12/29.
+ * 主页四个Fragment的父类
  */
 public abstract class HomeFragment extends BaseFragment {
     public CharSequence mTitle;

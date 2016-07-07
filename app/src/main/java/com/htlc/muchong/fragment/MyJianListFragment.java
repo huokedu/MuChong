@@ -28,6 +28,7 @@ import model.JianBean;
 
 /**
  * Created by sks on 2016/5/23.
+ * 我的鉴定列表
  */
 public class MyJianListFragment extends BaseFragment {
     public static final String TYPE_1 = "1";

@@ -42,6 +42,7 @@ import model.ShoppingCartItemBean;
 
 /**
  * Created by sks on 2016/5/23.
+ * 商品详情Activity
  */
 public class ProductDetailActivity extends BaseActivity implements View.OnClickListener {
     public static final String SPLIT_FLAG = ",";

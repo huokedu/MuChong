@@ -28,6 +28,7 @@ import model.PaiGoodsBean;
 
 /**
  * Created by sks on 2016/5/23.
+ * 首页---精品交易列表Activity
  */
 public class JiaoListActivity extends BaseActivity {
     private PtrClassicFrameLayout mPtrFrame;
@@ -46,7 +47,7 @@ public class JiaoListActivity extends BaseActivity {
     protected void setupView() {
         mTitleTextView.setText(R.string.first_header_jiao);
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
-       mPtrFrame.setLastUpdateTimeKey(null);
+        mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {

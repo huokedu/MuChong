@@ -20,6 +20,7 @@ import model.UserBean;
 
 /**
  * Created by sks on 2016/5/21.
+ * 查看大图Activity
  */
 public class ImageActivity extends BaseActivity {
     private static final String Image_Uri = "Image_Uri";

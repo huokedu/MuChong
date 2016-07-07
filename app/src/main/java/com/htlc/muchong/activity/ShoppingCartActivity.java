@@ -31,6 +31,7 @@ import model.ShoppingCartItemBean;
 
 /**
  * Created by sks on 2016/5/26.
+ * 购物车Activity
  */
 public class ShoppingCartActivity extends BaseActivity{
 

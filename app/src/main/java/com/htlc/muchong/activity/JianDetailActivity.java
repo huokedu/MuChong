@@ -36,6 +36,7 @@ import model.UserBean;
 
 /**
  * Created by sks on 2016/5/24.
+ * 专家鉴定----鉴定列表----鉴定详情
  */
 public class JianDetailActivity extends BaseActivity implements View.OnClickListener {
     private static final String Post_Id = "Post_Id";

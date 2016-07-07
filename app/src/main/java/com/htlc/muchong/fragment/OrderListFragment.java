@@ -33,6 +33,7 @@ import model.OrderBean;
 
 /**
  * Created by sks on 2016/5/23.
+ * 我的订单列表
  */
 public class OrderListFragment extends BaseFragment {
     public static final String TYPE_1 = "2";//未付款

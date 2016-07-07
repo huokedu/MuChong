@@ -42,29 +42,24 @@ import model.PaiGoodsBean;
 
 /**
  * Created by sks on 2016/1/27.
+ * 首页Fragment
  */
 public class FirstFragment extends HomeFragment implements View.OnClickListener {
 
-//    public static final String[] sampleNetworkImageURLs = {
-//            "http://pic55.nipic.com/file/20141208/19462408_171130083000_2.jpg",
-//            "http://pic36.nipic.com/20131217/6704106_233034463381_2.jpg",
-//            "http://img05.tooopen.com/images/20140604/sy_62331342149.jpg",
-//            "http://pic36.nipic.com/20131217/6704106_233034463381_2.jpg"
-//    };
 
-    protected BannerFragment mBannerFragment;
+    protected BannerFragment mBannerFragment;//banner
     protected PtrClassicFrameLayout mPtrFrame;
-    protected GridView mGridView;
-    protected LinearLayout mlinearTypeContainer;
-    private LinearLayout linearQiang, linearPai, linearJian, linearDuo;
-    protected View textQiangMore, textPaiMore, textJiaoMore;
+    protected GridView mGridView;//精品交易gridview
+    protected LinearLayout mlinearTypeContainer;//banner下边的分类容器
+    private LinearLayout linearQiang, linearPai, linearJian, linearDuo;//首页的分类
+    protected View textQiangMore, textPaiMore, textJiaoMore;//首页的 还有更多+
 
-    protected View linearQiang1, linearQiang2, linearQiang3;
+    protected View linearQiang1, linearQiang2, linearQiang3;//限时抢购的三个条目
     protected ImageView imageQiang1, imageQiang2, imageQiang3;
     protected TextView textNameQiang1, textNameQiang2, textNameQiang3;
     protected TextView textPriceQiang1, textPriceQiang2, textPriceQiang3;
 
-    protected View relativePai1, relativePai2;
+    protected View relativePai1, relativePai2;//竞拍 的两个条目
     protected ImageView imagePai1, imagePai2;
     protected ImageView imageTypePai1, imageTypePai2;
     protected TextView textPaiName1, textPaiName2;
@@ -112,11 +107,11 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
                 String banner_type = homeBean.banner.get(position).banner_type;
                 String banner_title = homeBean.banner.get(position).banner_title;
                 String id = homeBean.banner.get(position).id;
-                if("6".equals(banner_type)){
+                if ("6".equals(banner_type)) {
                     WebActivity.goWebActivity(getContext(), banner_title, id);
-                }else  if("3".equals(banner_type) || "4".equals(banner_type) ||"5".equals(banner_type)){
+                } else if ("3".equals(banner_type) || "4".equals(banner_type) || "5".equals(banner_type)) {
                     PaiDetailActivity.goPaiActivity(getContext(), id);
-                }else if("1".equals(banner_type) || "2".equals(banner_type)){
+                } else if ("1".equals(banner_type) || "2".equals(banner_type)) {
                     ProductDetailActivity.goProductActivity(getContext(), id);
                 }
             }
@@ -232,7 +227,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             ImageUtil.setImageByDefault(imageQiang1, R.mipmap.default_first_qiang, Uri.parse(goodsBean.commodity_coverimg));
             textNameQiang1.setText(goodsBean.commodity_name);
             GoodsUtil.setPriceBySymbol(textPriceQiang1, goodsBean.commodity_panicprice);
-        }else {
+        } else {
             linearQiang1.setVisibility(View.INVISIBLE);
         }
         if (homeBean.limittime.list.size() >= 2) {
@@ -241,7 +236,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             ImageUtil.setImageByDefault(imageQiang2, R.mipmap.default_first_qiang, Uri.parse(goodsBean.commodity_coverimg));
             textNameQiang2.setText(goodsBean.commodity_name);
             GoodsUtil.setPriceBySymbol(textPriceQiang2, goodsBean.commodity_panicprice);
-        }else {
+        } else {
             linearQiang2.setVisibility(View.INVISIBLE);
         }
         if (homeBean.limittime.list.size() >= 3) {
@@ -250,7 +245,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             ImageUtil.setImageByDefault(imageQiang3, R.mipmap.default_first_qiang, Uri.parse(goodsBean.commodity_coverimg));
             textNameQiang3.setText(goodsBean.commodity_name);
             GoodsUtil.setPriceBySymbol(textPriceQiang3, goodsBean.commodity_panicprice);
-        }else {
+        } else {
             linearQiang3.setVisibility(View.INVISIBLE);
         }
 
@@ -262,7 +257,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             GoodsUtil.setImageByPaiType(imageTypePai1, paiGoodsBean.commodity_type);
             textPaiName1.setText(paiGoodsBean.commodity_name);
             GoodsUtil.setPriceBySymbol(textPaiPrice1, paiGoodsBean.commodity_panicprice);
-        }else {
+        } else {
             relativePai1.setVisibility(View.INVISIBLE);
         }
         if (homeBean.bid.size() >= 2) {
@@ -272,7 +267,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             GoodsUtil.setImageByPaiType(imageTypePai2, paiGoodsBean.commodity_type);
             textPaiName2.setText(paiGoodsBean.commodity_name);
             GoodsUtil.setPriceBySymbol(textPaiPrice2, paiGoodsBean.commodity_panicprice);
-        }else {
+        } else {
             relativePai2.setVisibility(View.INVISIBLE);
         }
 
@@ -280,7 +275,6 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         adapter.setData(homeBean.jingpin, false);
 
     }
-
 
 
     @Override
@@ -299,39 +293,38 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
                 break;
             case R.id.linearDuo:
 //                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(Api.DuoBao)));
-                WebActivity.goWebActivity(getContext(),getString(R.string.first_header_duo),Api.DuoBao);
+                WebActivity.goWebActivity(getContext(), getString(R.string.first_header_duo), Api.DuoBao);
                 break;
             case R.id.textJiaoMore:
                 startActivity(new Intent(getActivity(), JiaoListActivity.class));
                 break;
             case R.id.linearQiang1:
-                if (homeBean!=null&&homeBean.limittime.list.size() >= 1) {
+                if (homeBean != null && homeBean.limittime.list.size() >= 1) {
                     ProductDetailActivity.goProductActivity(getContext(), homeBean.limittime.list.get(0).id);
                 }
                 break;
             case R.id.linearQiang2:
-                if (homeBean!=null&&homeBean.limittime.list.size() >= 2) {
+                if (homeBean != null && homeBean.limittime.list.size() >= 2) {
                     ProductDetailActivity.goProductActivity(getContext(), homeBean.limittime.list.get(1).id);
                 }
                 break;
             case R.id.linearQiang3:
-                if (homeBean!=null&&homeBean.limittime.list.size() >= 3) {
+                if (homeBean != null && homeBean.limittime.list.size() >= 3) {
                     ProductDetailActivity.goProductActivity(getContext(), homeBean.limittime.list.get(2).id);
                 }
                 break;
             case R.id.relativePai1:
-                if (homeBean!=null&&homeBean.bid.size() >= 1) {
+                if (homeBean != null && homeBean.bid.size() >= 1) {
                     PaiDetailActivity.goPaiActivity(getContext(), homeBean.bid.get(0).id);
                 }
                 break;
             case R.id.relativePai2:
-                if (homeBean!=null&&homeBean.bid.size() >= 2) {
-                    PaiDetailActivity.goPaiActivity(getContext(),homeBean.bid.get(1).id);
+                if (homeBean != null && homeBean.bid.size() >= 2) {
+                    PaiDetailActivity.goPaiActivity(getContext(), homeBean.bid.get(1).id);
                 }
                 break;
         }
     }
-
 
 
 }

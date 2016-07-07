@@ -13,6 +13,7 @@ import com.larno.util.ToastUtil;
 
 /**
  * Created by sks on 2016/5/31.
+ * 编辑用户信息Activity
  */
 public class UpdateInfoActivity extends BaseActivity{
     public static final String Hint  = "Hint";

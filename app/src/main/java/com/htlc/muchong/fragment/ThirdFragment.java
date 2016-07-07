@@ -29,6 +29,7 @@ import model.PaiGoodsBean;
 
 /**
  * Created by sks on 2016/1/27.
+ * 藏品专区Fragment
  */
 public class ThirdFragment extends HomeFragment {
     private PtrClassicFrameLayout mPtrFrame;
@@ -46,7 +47,7 @@ public class ThirdFragment extends HomeFragment {
     @Override
     protected void setupView() {
         mPtrFrame = findViewById(R.id.rotate_header_list_view_frame);
-       mPtrFrame.setLastUpdateTimeKey(null);
+        mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -83,20 +84,21 @@ public class ThirdFragment extends HomeFragment {
         });
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration(){
-            private int space = CommonUtil.dp2px(getContext(),10);
+        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            private int space = CommonUtil.dp2px(getContext(), 10);
+
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                if(parent.getChildAdapterPosition(view)%2 == 0){
+                if (parent.getChildAdapterPosition(view) % 2 == 0) {
                     outRect.bottom = space;
                     outRect.left = space;
-                    outRect.right = space/2;
-                }else {
+                    outRect.right = space / 2;
+                } else {
                     outRect.bottom = space;
                     outRect.right = space;
-                    outRect.left = space/2;
+                    outRect.left = space / 2;
                 }
-                if(parent.getChildAdapterPosition(view) < 2){
+                if (parent.getChildAdapterPosition(view) < 2) {
                     outRect.top = space;
                 }
 
@@ -107,7 +109,7 @@ public class ThirdFragment extends HomeFragment {
             public void onItemClick(View view, int position) {
                 List<CangBean> data = adapter.getData();
                 CangBean bean = data.get(position);
-                CangDetailActivity.goCangDetailActivity(getContext(),bean.id,R.string.title_cang_detail);
+                CangDetailActivity.goCangDetailActivity(getContext(), bean.id, R.string.title_cang_detail);
             }
         });
 
@@ -115,7 +117,7 @@ public class ThirdFragment extends HomeFragment {
     }
 
     private void loadMoreData() {
-        App.app.appAction.cangList(page, ((BaseActivity)getActivity()).new BaseActionCallbackListener<List<CangBean>>() {
+        App.app.appAction.cangList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<CangBean>>() {
             @Override
             public void onSuccess(List<CangBean> data) {
 

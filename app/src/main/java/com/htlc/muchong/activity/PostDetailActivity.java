@@ -39,6 +39,7 @@ import model.PostDetailBean;
 
 /**
  * Created by sks on 2016/5/24.
+ * 主页论坛---论坛详情
  */
 public class PostDetailActivity extends BaseActivity implements View.OnClickListener {
     public static final String Post_Id = "Post_Id";

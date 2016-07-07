@@ -1,8 +1,5 @@
 package com.htlc.muchong.activity;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
@@ -11,10 +8,9 @@ import com.htlc.muchong.R;
 import com.htlc.muchong.base.BaseActivity;
 import com.larno.util.ToastUtil;
 
-import model.OrderDetailBean;
-
 /**
  * Created by sks on 2016/5/31.
+ * 个人中心---设置---意见反馈界面
  */
 public class FeedbackActivity extends BaseActivity{
 
@@ -38,6 +34,9 @@ public class FeedbackActivity extends BaseActivity{
         });
     }
 
+    /**
+     * 提交意见
+     */
     private void confirm() {
         String value = editText.getText().toString().trim();
         App.app.appAction.feedback(value, new BaseActionCallbackListener<Void>() {
