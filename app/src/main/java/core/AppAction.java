@@ -60,6 +60,7 @@ public interface AppAction {
     void myOrderDetail(String order_id, ActionCallbackListener<OrderDetailBean> listener);
     void feedback(String feedback_content, ActionCallbackListener<Void> listener);
     void payForAccount(String money, String channel, ActionCallbackListener<CreateOrderResultBean> listener);
+    void deleteOrderById(String orderno, ActionCallbackListener<Void> listener);
 
     void home(ActionCallbackListener<HomeBean> listener);
     void getGoodsType(ActionCallbackListener<List<GoodsTypeBean>> listener);

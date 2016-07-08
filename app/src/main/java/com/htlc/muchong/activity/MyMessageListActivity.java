@@ -58,9 +58,9 @@ public class MyMessageListActivity extends BaseActivity {
     protected void setupView() {
         mTitleTextView.setText(R.string.fifth_xiao);
 
-        noDataView =  findViewById(R.id.noDataView);
+        noDataView = findViewById(R.id.noDataView);
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
-       mPtrFrame.setLastUpdateTimeKey(null);
+        mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -104,7 +104,7 @@ public class MyMessageListActivity extends BaseActivity {
             public void onItemClick(View view, int position) {
                 MessageBean bean = adapter.getData().get(position);
                 UserBean user = LoginUtil.getUser();
-                String url = String.format(Api.MessageDetailHtml,user.id,user.user_token,bean.id);
+                String url = String.format(Api.MessageDetailHtml, user.id, user.user_token, bean.id);
                 WebActivity.goWebActivity(MyMessageListActivity.this, bean.msg_title, url);
             }
         });
@@ -160,12 +160,13 @@ public class MyMessageListActivity extends BaseActivity {
             }
         });
     }
+
     /*删除消息*/
-    private void deleteMessage(String msgId){
+    private void deleteMessage(String msgId) {
         App.app.appAction.deleteMessage(msgId, new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {
-                ToastUtil.showToast(App.app,"删除成功");
+                ToastUtil.showToast(App.app, "删除成功");
                 initData();
             }
 
@@ -176,7 +177,7 @@ public class MyMessageListActivity extends BaseActivity {
         });
     }
 
-    private class MyMessageRecyclerViewAdapter extends BaseRecyclerViewAdapter<MessageBean>{
+    private class MyMessageRecyclerViewAdapter extends BaseRecyclerViewAdapter<MessageBean> {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = View.inflate(parent.getContext(), R.layout.adapter_my_message, null);
@@ -187,7 +188,7 @@ public class MyMessageListActivity extends BaseActivity {
 
         @Override
         public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-            super.onBindViewHolder(holder,position);
+            super.onBindViewHolder(holder, position);
             ViewHolder viewHolder = (ViewHolder) holder;
             final MessageBean bean = mList.get(position);
             ImageUtil.setImageByDefault(viewHolder.imageView, R.mipmap.default_third_gird_head, Uri.parse(bean.msg_coverimg));
@@ -206,17 +207,17 @@ public class MyMessageListActivity extends BaseActivity {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            public ImageView imageView,imageFlag,imageDelete;
+            public ImageView imageView, imageFlag, imageDelete;
             public TextView textTime, textTitle, textDescription;
 
             public ViewHolder(View view) {
                 super(view);
-                imageView = (ImageView)  view.findViewById(R.id.imageView);
-                imageFlag = (ImageView)  view.findViewById(R.id.imageFlag);
-                imageDelete = (ImageView)  view.findViewById(R.id.imageDelete);
-                textTime = (TextView)  view.findViewById(R.id.textTime);
-                textTitle = (TextView)  view.findViewById(R.id.textTitle);
-                textDescription = (TextView)  view.findViewById(R.id.textDescription);
+                imageView = (ImageView) view.findViewById(R.id.imageView);
+                imageFlag = (ImageView) view.findViewById(R.id.imageFlag);
+                imageDelete = (ImageView) view.findViewById(R.id.imageDelete);
+                textTime = (TextView) view.findViewById(R.id.textTime);
+                textTitle = (TextView) view.findViewById(R.id.textTitle);
+                textDescription = (TextView) view.findViewById(R.id.textDescription);
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.htlc.muchong.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.activity.CreateOrderActivity;
+import com.htlc.muchong.activity.PayActivity;
 import com.htlc.muchong.adapter.ThirdRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.base.BaseFragment;
@@ -27,6 +29,7 @@ import com.htlc.muchong.util.GoodsUtil;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
+import java.util.Collections;
 import java.util.List;
 
 import core.AppActionImpl;
@@ -146,6 +149,7 @@ public class OrderListFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        adapter.setData(Collections.<OrderBean>emptyList(), false);
         page = 1;
         App.app.appAction.myOrderList(page, mType, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<OrderBean>>() {
             @Override
@@ -172,20 +176,45 @@ public class OrderListFragment extends BaseFragment {
     }
 
     private void showDeleteDialog(final int position) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogAppCompat);
+//        builder.setItems(R.array.order_operation_array, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//                if (which == 0) {
+//                    deleteOrderById(position);
+//                } else {
+//                    CreateOrderActivity.goCreateOrderActivity(getContext(), adapter.getData().get(position).id, !TYPE_1.equals(mType));
+//                }
+//            }
+//        });
+//        AlertDialog alertDialog = builder.create();
+//        alertDialog.show();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogAppCompat);
-        builder.setItems(R.array.order_operation_array, new DialogInterface.OnClickListener() {
+        View view = View.inflate(getContext(), R.layout.dialog_layout, null);
+        builder.setView(view);
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        TextView textMessage = (TextView) view.findViewById(R.id.textMessage);
+        textMessage.setText(R.string.order_delete_tips);
+        view.findViewById(R.id.positiveButton).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                if (which == 0) {
-                    deleteOrderById(position);
-                } else {
-                    CreateOrderActivity.goCreateOrderActivity(getContext(), adapter.getData().get(position).id, !TYPE_1.equals(mType));
+            public void onClick(View v) {
+                if (alertDialog != null) {
+                    alertDialog.dismiss();
+                }
+                deleteOrderById(position);
+            }
+        });
+        view.findViewById(R.id.negativeButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (alertDialog != null) {
+                    alertDialog.dismiss();
                 }
             }
         });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
     }
 
     /**
@@ -194,7 +223,20 @@ public class OrderListFragment extends BaseFragment {
      * @param position
      */
     private void deleteOrderById(int position) {
-        initData();
+        OrderBean orderBean = adapter.getData().get(position);
+        App.app.appAction.deleteOrderById(orderBean.order_no, ((BaseActivity) getActivity()).new BaseActionCallbackListener<Void>() {
+            @Override
+            public void onSuccess(Void data) {
+                ToastUtil.showToast(App.app, "删除成功");
+                initData();
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+            }
+        });
+
     }
 
 

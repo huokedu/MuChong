@@ -208,6 +208,7 @@
     <string name="order_list_order_id">订单号: %1$s</string>
     <string name="order_list_order_name">商品名称:</string>
     <string name="order_list_order_money">金额:</string>
+    <string name="order_delete_tips">你确认要删除未支付的订单吗?</string>
 
 
 

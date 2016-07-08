@@ -2,11 +2,12 @@ package com.htlc.muchong.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,13 +24,13 @@ import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
 import com.htlc.muchong.util.LoginUtil;
 import com.htlc.muchong.util.SoftInputUtil;
-import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
 import java.util.List;
 
 import core.AppActionImpl;
 import model.GoodsCommentBean;
+import model.PostCommentBean;
 
 /**
  * Created by sks on 2016/5/23.
@@ -40,6 +41,8 @@ public class CommentListActivity extends BaseActivity {
     private String productId;
     private EditText editComment;
     private TextView textButton;
+
+    private String reply = "";//当前要回复人的昵称
 
     public static void goCommentListActivity(Context context, String goodsId) {
         Intent intent = new Intent(context, CommentListActivity.class);
@@ -95,10 +98,35 @@ public class CommentListActivity extends BaseActivity {
         //评论部分
         editComment = (EditText) findViewById(R.id.editComment);
         textButton = (TextView) findViewById(R.id.textButton);
+        textButton.setText(R.string.cancel);
+        editComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().trim().length() < 1) {
+                    textButton.setText(R.string.cancel);
+                } else {
+                    textButton.setText(R.string.comment);
+                }
+            }
+        });
         textButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                commitComment();
+                if (textButton.getText().toString().equals(getString(R.string.cancel))) {
+                    showInput(false);
+                } else {
+                    commitComment();
+                }
             }
         });
 
@@ -108,9 +136,9 @@ public class CommentListActivity extends BaseActivity {
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SoftInputUtil.showToggleSoftInput(editComment);
                 GoodsCommentBean goodsCommentBean = adapter.getData().get(position);
-                editComment.setText("@"+goodsCommentBean.userinfo_nickname+"  ");
+                reply = "@"+goodsCommentBean.userinfo_nickname+"  ";
+                showInput(true);
             }
         });
         mAdapter = new RecyclerAdapterWithHF(adapter);
@@ -120,18 +148,34 @@ public class CommentListActivity extends BaseActivity {
 
     }
 
+    /*显示输入框与隐藏输入框*/
+    private void showInput(boolean flag) {
+        if (flag) {
+            SoftInputUtil.showSoftInput(editComment);
+        } else {
+            reply = "";
+            editComment.setText("");
+            SoftInputUtil.hideSoftInput(editComment);
+        }
+    }
+
+
     /*提交评论*/
     private void commitComment() {
         if (!App.app.isLogin()) {
             LoginUtil.showLoginTips(this);
             return;
         }
-        App.app.appAction.addGoodsComment(productId, editComment.getText().toString().trim(), new BaseActionCallbackListener<Void>() {
+        String comment = editComment.getText().toString().trim();
+        if(TextUtils.isEmpty(comment)){
+            ToastUtil.showToast(App.app, "评论内容不能为空");
+            return;
+        }
+        App.app.appAction.addGoodsComment(productId, reply+ comment, new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {
                 ToastUtil.showToast(App.app, "评论成功！");
-                editComment.setText("");
-                editComment.clearFocus();
+                showInput(false);
                 initData();
             }
 

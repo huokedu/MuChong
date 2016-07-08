@@ -6,7 +6,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +28,7 @@ import com.htlc.muchong.util.GoodsUtil;
 import com.htlc.muchong.util.ImageUtil;
 import com.htlc.muchong.util.LoginUtil;
 import com.htlc.muchong.util.PersonUtil;
+import com.htlc.muchong.util.SoftInputUtil;
 import com.htlc.muchong.widget.DaoJiShiView;
 import com.larno.util.ToastUtil;
 import com.squareup.picasso.Picasso;
@@ -33,6 +38,7 @@ import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import model.GoodsCommentBean;
 import model.GoodsDetailBean;
 import model.PaiGoodsBean;
 import model.ShoppingCartItemBean;
@@ -98,6 +104,8 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
     private CountDownTimer timer;
     private GoodsDetailBean data;
     private Timer refreshDataTimer;
+
+    private String reply = "";//当前要回复人的昵称
 
     @Override
     protected int getLayoutId() {
@@ -169,11 +177,40 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
         editComment = (EditText) findViewById(R.id.editComment);
         textButton = (TextView) findViewById(R.id.textButton);
         textButton.setOnClickListener(this);
+        textButton.setText(R.string.cancel);
+        editComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().trim().length() < 1) {
+                    textButton.setText(R.string.cancel);
+                } else {
+                    textButton.setText(R.string.comment);
+                }
+            }
+        });
 
         mCommentListView = (ListView) findViewById(R.id.commentListView);
         mCommentListView.setFocusable(false);
         adapter = new CommentAdapter();
         mCommentListView.setAdapter(adapter);
+        mCommentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                GoodsCommentBean goodsCommentBean = (GoodsCommentBean) adapter.getItem(position);
+                reply = "@"+goodsCommentBean.userinfo_nickname+"  ";
+                showInput(true);
+            }
+        });
         initData();
     }
 
@@ -365,7 +402,11 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
                 addPrice(false);
                 break;
             case R.id.textButton:
-                commitComment();
+                if (textButton.getText().toString().equals(getString(R.string.cancel))) {
+                    showInput(false);
+                } else {
+                    commitComment();
+                }
                 break;
             case R.id.textBuy:
                 buyNow();
@@ -374,6 +415,17 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
                 CommentListActivity.goCommentListActivity(this, productId);
                 break;
 
+        }
+    }
+
+    /*显示输入框与隐藏输入框*/
+    private void showInput(boolean flag) {
+        if (flag) {
+            SoftInputUtil.showSoftInput(editComment);
+        } else {
+            reply = "";
+            editComment.setText("");
+            SoftInputUtil.hideSoftInput(editComment);
         }
     }
 
@@ -425,11 +477,16 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
             LoginUtil.showLoginTips(this);
             return;
         }
-        App.app.appAction.addGoodsComment(productId, editComment.getText().toString().trim(), new BaseActionCallbackListener<Void>() {
+        String comment = editComment.getText().toString().trim();
+        if(TextUtils.isEmpty(comment)){
+            ToastUtil.showToast(App.app, "评论内容不能为空");
+            return;
+        }
+        App.app.appAction.addGoodsComment(productId, reply+ comment, new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {
                 ToastUtil.showToast(App.app, "评论成功");
-                editComment.setText("");
+                showInput(false);
                 initData();
             }
 

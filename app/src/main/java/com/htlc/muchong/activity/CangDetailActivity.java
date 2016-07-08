@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -26,6 +26,7 @@ import com.htlc.muchong.util.DateFormat;
 import com.htlc.muchong.util.ImageUtil;
 import com.htlc.muchong.util.LoginUtil;
 import com.htlc.muchong.util.PersonUtil;
+import com.htlc.muchong.util.SoftInputUtil;
 import com.htlc.muchong.widget.LoadMoreScrollView;
 import com.larno.util.ToastUtil;
 
@@ -75,6 +76,7 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
     private boolean isLoading = true;
     private int page = 2;
     private boolean isLike;//查看帖子的用户，是否喜欢该帖子
+    private String reply = "";//当前要回复人的昵称
 
     @Override
     protected int getLayoutId() {
@@ -138,6 +140,15 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
         textComment = (TextView) findViewById(R.id.textComment);
         textCommentMore = (TextView) findViewById(R.id.textCommentMore);
         mCommentListView = (ListView) findViewById(R.id.commentListView);
+        mCommentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PostCommentBean postCommentBean = (PostCommentBean) commentAdapter.getItem(position);
+                reply = "@"+postCommentBean.userinfo_nickname+"  ";
+                showInput(true);
+                SoftInputUtil.showSoftInput(editComment);
+            }
+        });
         commentAdapter = new PostCommentAdapter();
         mCommentListView.setAdapter(commentAdapter);
 
@@ -267,19 +278,22 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
 
     /*提交评论*/
     private void commitComment() {
-        if(!App.app.isLogin()){
+        if (!App.app.isLogin()) {
             LoginUtil.showLoginTips(this);
             return;
         }
-        App.app.appAction.addPostComment(postId, editComment.getText().toString().trim(), new BaseActionCallbackListener<Void>() {
+        String comment = editComment.getText().toString().trim();
+        if(TextUtils.isEmpty(comment)){
+            ToastUtil.showToast(App.app, "评论内容不能为空");
+            return;
+        }
+        App.app.appAction.addPostComment(postId, reply+ comment, new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {
                 ToastUtil.showToast(App.app, "评论成功");
                 editComment.setText("");
-                InputMethodManager inputMethodManager =  (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                if(inputMethodManager!=null){
-                    inputMethodManager.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(),0);
-                }
+                reply = "";
+                SoftInputUtil.hideSoftInput(editComment);
                 initData();
             }
 
@@ -296,6 +310,8 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
             relativeInput.setVisibility(View.VISIBLE);
             linearBottom.setVisibility(View.GONE);
         } else {
+            reply = "";
+            SoftInputUtil.hideSoftInput(editComment);
             relativeInput.setVisibility(View.GONE);
             linearBottom.setVisibility(View.VISIBLE);
         }

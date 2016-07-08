@@ -40,6 +40,7 @@ public interface Api {
     String MyOrderDetail = Host + "/Home/HomeOrder/orderinfo";
     String Feedback = Host + "/Home/HomeUser/feedback";
     String PayForAccount = Host + "/Home/HomePay/recharge";
+    String DeleteOrderById = Host + "/Home/HomeOrder/deleteOrder";
 
     String Home = Host + "/Home/HomeCommodity/homepage";
     String GetGoodsType = Host + "/Home/HomeCommodity/smallclasslist";
@@ -99,6 +100,7 @@ public interface Api {
     void myOrderDetail(String order_id, ResultCallback callback);
     void feedback(String feedback_content, ResultCallback callback);
     void payForAccount(String money, String channel, ResultCallback callback);
+    void deleteOrderById(String orderno, ResultCallback callback);
 
     void home(ResultCallback callback);
     void getGoodsType(ResultCallback callback);
