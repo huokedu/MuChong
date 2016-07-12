@@ -9,7 +9,7 @@
         <!-- 状态栏 颜色-->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <!--整个当前Activity的字体的默认 颜色-->
-        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/secondary_text_dark</item>
         <!--CheckBox，RadioButton，SwitchCompat等控件的点击选中颜色-->
         <item name="colorAccent">@color/colorAccent</item>
         <!--整个当前Activity的窗口的默认 颜色-->

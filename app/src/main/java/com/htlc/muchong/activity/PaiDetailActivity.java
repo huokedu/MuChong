@@ -207,7 +207,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 GoodsCommentBean goodsCommentBean = (GoodsCommentBean) adapter.getItem(position);
-                reply = "@"+goodsCommentBean.userinfo_nickname+"  ";
+                reply = goodsCommentBean.commodityeval_userid;
                 showInput(true);
             }
         });
@@ -482,18 +482,36 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
             ToastUtil.showToast(App.app, "评论内容不能为空");
             return;
         }
-        App.app.appAction.addGoodsComment(productId, reply+ comment, new BaseActionCallbackListener<Void>() {
-            @Override
-            public void onSuccess(Void data) {
-                ToastUtil.showToast(App.app, "评论成功");
-                showInput(false);
-                initData();
-            }
 
-            @Override
-            public void onIllegalState(String errorEvent, String message) {
-                ToastUtil.showToast(App.app, message);
-            }
-        });
+        if(TextUtils.isEmpty(reply)){
+            App.app.appAction.addGoodsComment(productId, comment, new BaseActionCallbackListener<Void>() {
+                @Override
+                public void onSuccess(Void data) {
+                    ToastUtil.showToast(App.app, "评论成功");
+                    showInput(false);
+                    initData();
+                }
+
+                @Override
+                public void onIllegalState(String errorEvent, String message) {
+                    ToastUtil.showToast(App.app, message);
+                }
+            });
+        }else {
+            App.app.appAction.replayGoodsComment(productId, comment, reply, new BaseActionCallbackListener<Void>() {
+                @Override
+                public void onSuccess(Void data) {
+                    ToastUtil.showToast(App.app, "评论成功");
+                    showInput(false);
+                    initData();
+                }
+
+                @Override
+                public void onIllegalState(String errorEvent, String message) {
+                    ToastUtil.showToast(App.app, message);
+                }
+            });
+        }
+
     }
 }

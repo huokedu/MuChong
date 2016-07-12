@@ -873,6 +873,29 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
+    public void replayGoodsComment(String commodityeval_commodityid, String commodityeval_content, String replayID, ActionCallbackListener<Void> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        if (TextUtils.isEmpty(commodityeval_content)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "请输入评论内容");
+            return;
+        }
+        api.replayGoodsComment(commodityeval_commodityid, commodityeval_content, replayID, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
     public void qiangTimeList(ActionCallbackListener<List<Pair<String, String>>> listener) {
         if (!NetworkUtil.isNetworkAvailable(context)) {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
@@ -1200,12 +1223,12 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void addPostComment(String forum_backid, String forum_content, ActionCallbackListener<Void> listener) {
+    public void addPostComment(String forum_backid, String forum_content, String replayid, ActionCallbackListener<Void> listener) {
         if (TextUtils.isEmpty(forum_content)) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "请输入评论内容");
             return;
         }
-        api.addPostComment(forum_backid, forum_content, new DefaultResultCallback(listener) {
+        api.addPostComment(forum_backid, forum_content,replayid, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);

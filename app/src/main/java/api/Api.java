@@ -50,6 +50,7 @@ public interface Api {
     String GoodsDetail = Host + "/Home/HomeCommodity/commodityinfo";
     String GoodsCommentList = Host + "/Home/HomeCommodity/evallist";
     String AddGoodsComment = Host + "/Home/HomeCommodity/addeval";
+    String ReplayGoodsComment = Host + "/Home/HomeCommodity/replayCommodity";
     String QiangTimeList = Host + "/Home/HomeCommodity/fourtime";
     String QiangList = Host + "/Home/HomeCommodity/buylimit";
     String PaiList = Host + "/Home/HomeCommodity/bidlist";
@@ -113,6 +114,7 @@ public interface Api {
     void goodsDetail(String commodity_id,ResultCallback callback);
     void goodsCommentList(String commodity_id,String page,ResultCallback callback);
     void addGoodsComment(String commodityeval_commodityid, String commodityeval_content, ResultCallback callback);
+    void replayGoodsComment(String commodityeval_commodityid, String commodityeval_content, String replayID, ResultCallback callback);
     void qiangTimeList(ResultCallback callback);
     void qiangList(String flag, String page, ResultCallback callback);
     void paiList(String page, ResultCallback callback);
@@ -130,7 +132,7 @@ public interface Api {
     void cangList(String page, ResultCallback callback);
     void postDetail(String forum_id, ResultCallback callback);
     void postCommentList(String forum_id, String page, ResultCallback callback);
-    void addPostComment(String forum_backid, String forum_content, ResultCallback callback);
+    void addPostComment(String forum_backid, String forum_content, String replayid, ResultCallback callback);
     void publishPost(String limitdays, String forum_title, String forum_content,String forum_type, Pair<String,File>[] images,ResultCallback callback);
     void jianList(String page,String forum_yesorno,ResultCallback callback);
     void publishJianResult(String appraisal_forumid,String appraisal_type,String appraisal_content, ResultCallback callback);

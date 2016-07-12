@@ -1,5 +1,6 @@
 package api;
 
+import android.text.TextUtils;
 import android.util.Pair;
 
 import com.htlc.muchong.util.LoginUtil;
@@ -357,6 +358,20 @@ public class ApiImpl implements Api {
     }
 
     @Override
+    public void replayGoodsComment(String commodityeval_commodityid, String commodityeval_content, String replayID, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("userID", user.id);
+        params.put("user_token", user.user_token);
+
+        params.put("commodityID", commodityeval_commodityid);
+        params.put("content", commodityeval_content);
+        params.put("replayID", replayID);
+        String url = Api.ReplayGoodsComment;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
     public void qiangTimeList(ResultCallback callback) {
         String url = Api.QiangTimeList;
         new OkHttpRequest.Builder().url(url).get(callback);
@@ -530,7 +545,7 @@ public class ApiImpl implements Api {
     }
 
     @Override
-    public void addPostComment(String forum_backid, String forum_content, ResultCallback callback) {
+    public void addPostComment(String forum_backid, String forum_content, String replayid,  ResultCallback callback) {
         UserBean bean = LoginUtil.getUser();
         Map<String, String> params = new HashMap<String, String>();
         params.put("user_id", bean.id);
@@ -538,6 +553,9 @@ public class ApiImpl implements Api {
 
         params.put("forum_backid", forum_backid);
         params.put("forum_content", forum_content);
+        if(!TextUtils.isEmpty(replayid)){
+            params.put("replayid", replayid);
+        }
         String url = Api.AddPostComment;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }

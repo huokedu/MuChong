@@ -17,7 +17,7 @@ public class SoftInputUtil {
     public static void showSoftInput(EditText editText){
         editText.requestFocus();
         InputMethodManager inputMethodManager = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+        inputMethodManager.showSoftInput(editText,InputMethodManager.SHOW_FORCED);
     }
 
     public static void hideSoftInput(EditText editText){

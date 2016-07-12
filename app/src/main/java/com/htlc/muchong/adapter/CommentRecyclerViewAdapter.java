@@ -2,6 +2,7 @@ package com.htlc.muchong.adapter;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -40,7 +41,12 @@ public class CommentRecyclerViewAdapter extends BaseRecyclerViewAdapter<GoodsCom
         ImageUtil.setCircleImageByDefault(currentHolder.imageView,R.mipmap.default_third_gird_head, Uri.parse(bean.userinfo_headportrait));
         currentHolder.textName.setText(bean.userinfo_nickname);
         PersonUtil.setPersonLevel(currentHolder.textLevel,bean.userinfo_grade);
-        currentHolder.textComment.setText(bean.commodityeval_content);
+        if(GoodsCommentBean.IS_REPLAY.equals(bean.isreplay)){
+            String html = String.format(GoodsCommentBean.HTML,bean.replayuser, bean.commodityeval_content);
+            currentHolder.textComment.setText(Html.fromHtml(html));
+        }else {
+            currentHolder.textComment.setText(bean.commodityeval_content);
+        }
     }
 
 

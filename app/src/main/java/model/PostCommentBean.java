@@ -10,4 +10,7 @@ public class PostCommentBean {
     public String userinfo_nickname;
     public String userinfo_grade;
     public String userinfo_headportrait;
+
+    public String isreplay;//是否是回复 1是
+    public String replayuser;//被回复人的昵称
 }

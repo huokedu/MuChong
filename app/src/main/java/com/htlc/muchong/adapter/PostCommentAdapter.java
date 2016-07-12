@@ -1,6 +1,7 @@
 package com.htlc.muchong.adapter;
 
 import android.net.Uri;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -69,7 +70,13 @@ public class PostCommentAdapter extends BaseAdapter {
                 .transform(new CircleTransform()).into(holder.imageView);
         holder.textName.setText(bean.userinfo_nickname);
         PersonUtil.setPersonLevel(holder.textLevel,bean.userinfo_grade);
-        holder.textComment.setText(bean.forum_content);
+
+        if(GoodsCommentBean.IS_REPLAY.equals(bean.isreplay)){
+            String html = String.format(GoodsCommentBean.HTML,bean.replayuser, bean.forum_content);
+            holder.textComment.setText(Html.fromHtml(html));
+        }else {
+            holder.textComment.setText(bean.forum_content);
+        }
         return convertView;
     }
     public class ViewHolder{

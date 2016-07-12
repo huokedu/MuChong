@@ -74,6 +74,7 @@ public interface AppAction {
     void goodsDetail(String commodity_id,ActionCallbackListener<GoodsDetailBean> listener);
     void goodsCommentList(String commodity_id,int page, ActionCallbackListener<List<GoodsCommentBean>> listener);
     void addGoodsComment(String commodityeval_commodityid, String commodityeval_content, ActionCallbackListener<Void> listener);
+    void replayGoodsComment(String commodityeval_commodityid, String commodityeval_content, String replayID, ActionCallbackListener<Void> listener);
     void qiangTimeList(ActionCallbackListener<List<Pair<String,String>>> listener);
     void qiangList(String flag, int page,ActionCallbackListener<QiangListBean> listener);
     void paiList(int page, ActionCallbackListener<List<PaiGoodsBean>> listener);
@@ -91,7 +92,7 @@ public interface AppAction {
     void cangList(int page,ActionCallbackListener<List<CangBean>> listener);
     void postDetail(String forum_id,ActionCallbackListener<PostDetailBean> listener);
     void postCommentList(String forum_id, int page, ActionCallbackListener<List<PostCommentBean>> listener);
-    void addPostComment(String forum_backid, String forum_content, ActionCallbackListener<Void> listener);
+    void addPostComment(String forum_backid, String forum_content, String replayid, ActionCallbackListener<Void> listener);
     void addLikePost(String forum_backid, ActionCallbackListener<Void> listener);
     void publishPostCang(boolean isCangPublish,String forum_title, String forum_content, File coverImageFile, List<File> contentImageFiles,  ActionCallbackListener<Void> listener);
     void publishPost(String type,String durationTime, String forum_title, String forum_content, File coverImageFile, List<File> contentImageFiles,  ActionCallbackListener<Void> listener);

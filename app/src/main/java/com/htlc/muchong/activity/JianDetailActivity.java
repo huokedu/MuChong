@@ -3,7 +3,10 @@ package com.htlc.muchong.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,6 +26,7 @@ import com.htlc.muchong.util.DateFormat;
 import com.htlc.muchong.util.ImageUtil;
 import com.htlc.muchong.util.LoginUtil;
 import com.htlc.muchong.util.PersonUtil;
+import com.htlc.muchong.util.SoftInputUtil;
 import com.htlc.muchong.widget.LoadMoreScrollView;
 import com.larno.util.ToastUtil;
 
@@ -30,6 +34,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import core.AppActionImpl;
+import model.GoodsCommentBean;
 import model.PostCommentBean;
 import model.PostDetailBean;
 import model.UserBean;
@@ -79,6 +84,8 @@ public class JianDetailActivity extends BaseActivity implements View.OnClickList
     private boolean isLoading = true;
     private int page = 2;
     private boolean isLike;
+
+    private String reply;
 
     @Override
     protected int getLayoutId() {
@@ -149,13 +156,62 @@ public class JianDetailActivity extends BaseActivity implements View.OnClickList
         mCommentListView = (ListView) findViewById(R.id.commentListView);
         commentAdapter = new PostCommentAdapter();
         mCommentListView.setAdapter(commentAdapter);
+        mCommentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PostCommentBean postCommentBean = (PostCommentBean) commentAdapter.getItem(position);
+                reply = postCommentBean.userinfo_id;
+                showInput(true);
+            }
+        });
 //输入
         relativeInput = (RelativeLayout) findViewById(R.id.relativeInput);
         textButton = (Button) findViewById(R.id.textButton);
         editComment = (EditText) findViewById(R.id.editComment);
-        textButton.setOnClickListener(this);
+        textButton.setText(R.string.cancel);
+        editComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().trim().length() < 1) {
+                    textButton.setText(R.string.cancel);
+                } else {
+                    textButton.setText(R.string.comment);
+                }
+            }
+        });
+        textButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (textButton.getText().toString().equals(getString(R.string.cancel))) {
+                    showInput(false);
+                } else {
+                    commitComment();
+                }
+            }
+        });
 
         initData();
+    }
+
+    /*显示输入框与隐藏输入框*/
+    private void showInput(boolean flag) {
+        if (flag) {
+            SoftInputUtil.showSoftInput(editComment);
+        } else {
+            reply = "";
+            editComment.setText("");
+            SoftInputUtil.hideSoftInput(editComment);
+        }
     }
 
     /*获取评论列表*/
@@ -252,15 +308,15 @@ public class JianDetailActivity extends BaseActivity implements View.OnClickList
 
     /*提交评论*/
     private void commitComment() {
-        if(!App.app.isLogin()){
+        if (!App.app.isLogin()) {
             LoginUtil.showLoginTips(this);
             return;
         }
-        App.app.appAction.addPostComment(postId, editComment.getText().toString().trim(), new BaseActionCallbackListener<Void>() {
+        App.app.appAction.addPostComment(postId, editComment.getText().toString().trim(), reply, new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {
                 ToastUtil.showToast(App.app, "评论成功");
-                editComment.setText("");
+                showInput(false);
                 initData();
             }
 

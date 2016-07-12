@@ -26,6 +26,7 @@ import com.htlc.muchong.util.ImageUtil;
 import com.htlc.muchong.util.LoginUtil;
 import com.htlc.muchong.util.PersonUtil;
 import com.htlc.muchong.util.ShareSdkUtil;
+import com.htlc.muchong.util.SoftInputUtil;
 import com.htlc.muchong.widget.LoadMoreScrollView;
 import com.larno.util.ToastUtil;
 
@@ -57,6 +58,8 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     private Button textButton;
     private EditText editComment;
     private TextView textLike;
+
+    private String reply = "";//当前要回复人的昵称
 
     public static void goPostDetailActivity(Context context, String id, int titleId) {
         Intent intent = new Intent(context, PostDetailActivity.class);
@@ -158,12 +161,61 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         mCommentListView = (ListView) findViewById(R.id.commentListView);
         commentAdapter = new PostCommentAdapter();
         mCommentListView.setAdapter(commentAdapter);
+        mCommentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PostCommentBean postCommentBean = (PostCommentBean) commentAdapter.getItem(position);
+                reply = postCommentBean.userinfo_id;
+                showInput(true);
+            }
+        });
 
         textButton = (Button) findViewById(R.id.textButton);
         editComment = (EditText) findViewById(R.id.editComment);
-        textButton.setOnClickListener(this);
+        textButton.setText(R.string.cancel);
+        editComment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().trim().length() < 1) {
+                    textButton.setText(R.string.cancel);
+                } else {
+                    textButton.setText(R.string.comment);
+                }
+            }
+        });
+        textButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (textButton.getText().toString().equals(getString(R.string.cancel))) {
+                    showInput(false);
+                } else {
+                    commitComment();
+                }
+            }
+        });
 
         initData();
+    }
+
+    /*显示输入框与隐藏输入框*/
+    private void showInput(boolean flag) {
+        if (flag) {
+            SoftInputUtil.showSoftInput(editComment);
+        } else {
+            reply = "";
+            editComment.setText("");
+            SoftInputUtil.hideSoftInput(editComment);
+        }
     }
 
     /*获取评论列表*/
@@ -273,11 +325,11 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
             LoginUtil.showLoginTips(this);
             return;
         }
-        App.app.appAction.addPostComment(postId, editComment.getText().toString().trim(), new BaseActionCallbackListener<Void>() {
+        App.app.appAction.addPostComment(postId, editComment.getText().toString().trim(),reply, new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {
                 ToastUtil.showToast(App.app, "评论成功");
-                editComment.setText("");
+                showInput(false);
                 initData();
             }
 
