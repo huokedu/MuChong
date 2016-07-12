@@ -48,10 +48,10 @@ public class ProductListActivity extends BaseActivity {
 
     private boolean priceOrderIsDown;
     private boolean salesOrderIsDown;
-    private String smallClassId;
-    private String smallClassName;
-    private String material;
-    private String price;
+    private String smallClassId;//商品小类Id
+    private String smallClassName;//商品小类 名字
+    private String material;//筛选条件 材质
+    private String price;//筛选条件 价格
 
     public void setMaterial(String material) {
         this.material = material;

@@ -65,18 +65,18 @@ public class ProductListFragment extends BaseFragment {
     public static final String[] PricesId = {"", "0-500", "500-1000", "1000-3000", "3000-5000", "5000"};
 
 
-    public CharSequence mTitle;
-    public int mIconId;
-    public String mType;
+    public CharSequence mTitle;//标题  综合，价格等
+    public int mIconId;//标题图标资源id
+    public String mType;//当前Fragment类型  综合，价格等
     private int page = 1;
-    private ProductListActivity activity;
+    private ProductListActivity activity;//getActivity的返回值
     private List<MaterialBean> materials;//材质列表
-    private String materialId;
-    private String priceId;
-    private int materialPosition;
-    private int pricePosition;
-    private int materialPositionSelected;
-    private int pricePositionSelected;
+    private String materialId;//当前选择的材质id
+    private String priceId;//当前选择的价格id
+    private int materialPosition;//当前选择的材质在gridview的位置
+    private int pricePosition;//当前选择的价格在gridview的位置
+    private int materialPositionSelected;//确认选择的材质在gridview的位置
+    private int pricePositionSelected;//确认选择的价格在gridview的位置
 
     public static ProductListFragment newInstance(int iconId, String title, String type) {
         try {
