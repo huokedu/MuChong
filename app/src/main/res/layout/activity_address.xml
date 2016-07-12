@@ -4,29 +4,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context="com.htlc.muchong.activity.MainActivity">
+
     <include layout="@layout/toolbar_layout"/>
+
     <RelativeLayout
-        android:background="@color/bg_gray"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/bg_gray">
+
         <ListView
-            android:layout_marginTop="10dp"
             android:id="@+id/listView"
-            android:layout_above="@+id/buttonAddAddress"
-            android:dividerHeight="3dp"
-            android:divider="@color/bg_gray"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></ListView>
-            <Button
-                android:id="@+id/buttonAddAddress"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:text="@string/address_add"
-                android:layout_alignParentBottom="true"
-                style="@style/Button"/>
+            android:layout_height="match_parent"
+            android:layout_above="@+id/buttonAddAddress"
+            android:layout_marginTop="10dp"
+            android:divider="@color/bg_gray"
+            android:dividerHeight="3dp"></ListView>
+
+        <ImageView
+            android:id="@+id/noDataView"
+            style="@style/NoDataImageView"/>
+
+        <Button
+            android:id="@+id/buttonAddAddress"
+            style="@style/Button"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:text="@string/address_add"/>
     </RelativeLayout>
 </LinearLayout>

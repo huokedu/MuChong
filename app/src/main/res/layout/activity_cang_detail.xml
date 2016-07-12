@@ -57,7 +57,7 @@
                 android:paddingLeft="20dp"
                 android:text="@string/comment"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="43dp"/>
             <TextView
                 android:id="@+id/textLikeButton"
                 android:drawableLeft="@drawable/is_like_cang_selector"
@@ -71,7 +71,7 @@
                 android:background="@mipmap/bg_button_code"
                 android:gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="43dp"/>
         </LinearLayout>
     </FrameLayout>
 </LinearLayout>

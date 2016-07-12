@@ -15,6 +15,7 @@ import com.htlc.muchong.base.BaseActivity;
 import com.larno.util.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import model.AddressBean;
@@ -29,6 +30,7 @@ public class AddressActivity extends BaseActivity {
 
     private ListView listView;
     private AddressAdapter adapter;
+    private View noDataView;
 
     private boolean isSelect;//判断开启该界面是选择地址，还是查看；true为选择
 
@@ -43,6 +45,7 @@ public class AddressActivity extends BaseActivity {
 
         mTitleTextView.setText(isSelect ? R.string.title_address: R.string.user_address);
 
+        noDataView = findViewById(R.id.noDataView);
         listView = (ListView) findViewById(R.id.listView);
         adapter = new AddressAdapter();
         listView.setAdapter(adapter);
@@ -81,15 +84,18 @@ public class AddressActivity extends BaseActivity {
     /*收货地址列表*/
     @Override
     protected void initData() {
+        adapter.setData(Collections.EMPTY_LIST,false);
         App.app.appAction.myAddressList(new BaseActionCallbackListener<List<AddressBean>>() {
             @Override
             public void onSuccess(List<AddressBean> data) {
                 adapter.setData(data,false);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
 
             @Override
             public void onIllegalState(String errorEvent, String message) {
                 ToastUtil.showToast(App.app,message);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
             }
         });
     }

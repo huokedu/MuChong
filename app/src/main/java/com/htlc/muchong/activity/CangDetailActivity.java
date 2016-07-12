@@ -146,6 +146,7 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
                 PostCommentBean postCommentBean = (PostCommentBean) commentAdapter.getItem(position);
                 reply = postCommentBean.userinfo_id;
                 showInput(true);
+                SoftInputUtil.showSoftInput(editComment);
             }
         });
         commentAdapter = new PostCommentAdapter();
@@ -307,7 +308,6 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
     /*切换评论输入 与 喜欢的  显示*/
     private void showInput(boolean flag) {
         if (flag) {
-            SoftInputUtil.showSoftInput(editComment);
             relativeInput.setVisibility(View.VISIBLE);
             linearBottom.setVisibility(View.GONE);
         } else {
