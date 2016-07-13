@@ -30,11 +30,11 @@ public class BannerFragment extends Fragment implements OnPageChangeListener {
     public static final int CycleCode = 100;
     public static final int DelayTime = 4000;
 
-    private LinearLayout indicatorLayout; // 指示器  
+    private LinearLayout indicatorLayout; // 指示器 容器
     private ViewPager viewPager;
     private BannerPagerAdapter adapter;
     private List<String> list = new ArrayList<>();
-    private int currentItem;
+    private int currentItem;//当前选中位置
     private onItemClickListener listener;
     private boolean recycle = true;
 

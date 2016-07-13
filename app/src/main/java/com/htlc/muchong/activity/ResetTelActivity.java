@@ -21,13 +21,13 @@ import com.larno.util.ToastUtil;
 public class ResetTelActivity extends BaseActivity implements View.OnClickListener {
 
 
-    private TextView textButton;
+    private TextView textButton;//底部的大按钮
     private LinearLayout linearNext;
     private EditText editText;//新手机号
-    private LinearLayout linearPre;
-    private TextView textTips;
-    private EditText editCode;
-    private Button buttonCode;
+    private LinearLayout linearPre;//第一步的容器
+    private TextView textTips;//提示当前手机号
+    private EditText editCode;//验证码编辑
+    private Button buttonCode;//获取验证码
 
     private boolean isNextState;//是否是第二步操作
 

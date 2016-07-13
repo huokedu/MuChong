@@ -41,6 +41,7 @@ public class QiangListActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        //获取抢购日期
         App.app.appAction.qiangTimeList(new BaseActionCallbackListener<List<Pair<String, String>>>() {
             @Override
             public void onSuccess(List<Pair<String, String>> data) {
@@ -73,6 +74,8 @@ public class QiangListActivity extends BaseActivity {
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
+
+    /*根据返回的日期，创建对应的Fragment key为Fragment类型，value为日期*/
     private void refreshView(List<Pair<String, String>> data) {
         ArrayList<QiangListFragment> pageFragments = new ArrayList<>();
         for (Pair<String, String> pair : data) {

@@ -109,6 +109,7 @@ public class TaLikeActivity extends BaseActivity {
         setTitle();
     }
 
+    /*根据当前喜欢类型，设置标题并加载数据*/
     private void setTitle() {
         if (LoginUtil.getUser().id.equals(personId)) {
             mTitleTextView.setText(String.format(getString(R.string.title_my_like), getResources().getStringArray(R.array.like_type_array)[currentType]));
@@ -277,6 +278,7 @@ public class TaLikeActivity extends BaseActivity {
         }, 500);
     }
 
+    /*弹出喜欢类型列表对话框*/
     private void selectLikeType() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.DialogAppCompat);
         builder.setItems(R.array.like_type_array, new DialogInterface.OnClickListener() {

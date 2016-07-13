@@ -45,8 +45,8 @@ public class WebActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
-    private String title;
-    private String url;
+    private String title;//Activity标题
+    private String url;//加载的网页地址
 
     private WebView webView;
 

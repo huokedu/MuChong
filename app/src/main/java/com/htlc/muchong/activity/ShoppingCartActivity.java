@@ -35,12 +35,12 @@ import model.ShoppingCartItemBean;
  */
 public class ShoppingCartActivity extends BaseActivity{
 
-    private ListView listView;
-    private ShoppingCartAdapter adapter;
-    private CheckBox checkbox;
-    private TextView textTotalNumber;
-    private TextView textTotalPrice;
-    private View noDataView;
+    private ListView listView;//购物列表ListView
+    private ShoppingCartAdapter adapter;//购物Adapter
+    private CheckBox checkbox;//全选按钮
+    private TextView textTotalNumber;//总数量
+    private TextView textTotalPrice;//总价格
+    private View noDataView;//没有数据提示view
 
     private int number;
     private double price;

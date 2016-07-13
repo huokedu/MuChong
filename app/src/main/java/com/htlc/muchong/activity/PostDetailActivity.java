@@ -45,22 +45,23 @@ import model.PostDetailBean;
 public class PostDetailActivity extends BaseActivity implements View.OnClickListener {
     public static final String Post_Id = "Post_Id";
     public static final String Is_School = "Is_School";
-    private ImageView imageHead;
-    private TextView textName;
-    private TextView textLevel;
-    private TextView textTime;
-    private TextView textPostTitle;
-    private TextView textContent;
-    private TextView textComment;
-    private TextView textCommentMore;
+    private ImageView imageHead;//楼主头像
+    private TextView textName;//楼主昵称
+    private TextView textLevel;//楼主等级
+    private TextView textTime;//发布时间
+    private TextView textPostTitle;//帖子标题
+    private TextView textContent;//帖子内容
+    private TextView textComment;//帖子评论标题（评论总数）
+    private TextView textCommentMore;//查看更多评论
 
     private LoadMoreScrollView scrollView;
-    private Button textButton;
-    private EditText editComment;
-    private TextView textLike;
+    private Button textButton;//评论按钮
+    private EditText editComment;//评论编辑
+    private TextView textLike;//喜欢按钮
 
     private String reply = "";//当前要回复人的昵称
 
+    /*不是学堂的帖子*/
     public static void goPostDetailActivity(Context context, String id, int titleId) {
         Intent intent = new Intent(context, PostDetailActivity.class);
         intent.putExtra(BaseActivity.ActivityTitleId, titleId);
@@ -68,6 +69,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         context.startActivity(intent);
     }
 
+    /*学堂帖子 isSchool为true*/
     public static void goPostDetailActivity(Context context, String id, int titleId, boolean isSchool) {
         Intent intent = new Intent(context, PostDetailActivity.class);
         intent.putExtra(BaseActivity.ActivityTitleId, titleId);
@@ -76,17 +78,17 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         context.startActivity(intent);
     }
 
-    private ListView imageListView, mCommentListView;
-    private DetailImageAdapter imageAdapter;
-    private PostCommentAdapter commentAdapter;
+    private ListView imageListView, mCommentListView;//图片和评论list view
+    private DetailImageAdapter imageAdapter;//图片Adapter
+    private PostCommentAdapter commentAdapter;//评论Adapter
 
-    private String postId;
+    private String postId;//帖子id
     private boolean hasMore = false;
     private boolean isLoading = true;
     private int page = 2;
-    private PostDetailBean data;
-    private boolean isSchool;
-    private boolean isLike;
+    private PostDetailBean data;//帖子详情数据
+    private boolean isSchool;//帖子是否是school类型
+    private boolean isLike;//当前用户是否喜欢该帖子，喜欢true;
 
     @Override
     protected int getLayoutId() {
@@ -148,6 +150,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
             }
         });
 
+        //如果帖子类型是学堂，显示喜欢按钮，否则隐藏
         textLike = (TextView) findViewById(R.id.textLike);
         textLike.setOnClickListener(this);
         if (isSchool) {

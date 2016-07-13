@@ -27,11 +27,11 @@ import model.UserInfoBean;
 public class UserActivity extends BaseActivity implements View.OnClickListener {
     private static final int Request_Name = 101;
     private static final int Request_Area = 102;
-    private ImageView imageHead;
-    private SelectPhotoDialogHelper selectPhotoDialogHelper;
-    private View relativeName, relativeArea,relativePassword,relativeTel,relativeAddress;
-    private TextView textName, textArea;
-    private File imageFile;
+    private ImageView imageHead;//用户头像
+    private SelectPhotoDialogHelper selectPhotoDialogHelper;//选择图片工具类
+    private View relativeName, relativeArea,relativePassword,relativeTel,relativeAddress;//昵称，地区，修改密码，修改手机，收获地址
+    private TextView textName, textArea;//昵称，地区
+    private File imageFile;//选择的图像文件
 
     @Override
     protected int getLayoutId() {
@@ -109,6 +109,7 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    /*保存用户信息*/
     private void commit() {
         App.app.appAction.updateUserInfo(textName.getText().toString(), textArea.getText().toString(), imageFile, new BaseActionCallbackListener<Void>() {
             @Override
@@ -127,16 +128,18 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
+            //修改名称
             if(requestCode == Request_Name){
                 textName.setText(data.getStringExtra(UpdateInfoActivity.Value));
-            } else if(requestCode == Request_Area){
+            } else if(requestCode == Request_Area){//修改地区
                 textArea.setText(data.getStringExtra(UpdateInfoActivity.Value));
-            }else if(selectPhotoDialogHelper!=null){
+            }else if(selectPhotoDialogHelper!=null){//选择图片
                 selectPhotoDialogHelper.onActivityResult(requestCode, resultCode, data);
             }
         }
     }
 
+    /*选择照片结束的回调*/
     private class OnPickPhotoFinishListener implements SelectPhotoDialogHelper.OnPickPhotoFinishListener {
         @Override
         public void onPickPhotoFinishListener(File imageFile) {

@@ -34,7 +34,7 @@ import model.GoodsBean;
 public class SearchActivity extends BaseActivity {
     private int page = 1;
     private RecyclerView.ItemDecoration decor;
-    private String searchKey;
+    private String searchKey;//搜索关键字
 
     public static void goSearchActivity(Context context) {
         Intent intent = new Intent(context, SearchActivity.class);
