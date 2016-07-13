@@ -51,9 +51,9 @@ public class MyPostListActivity extends BaseActivity {
     protected void setupView() {
         mTitleTextView.setText(R.string.fifth_lun);
 
-        noDataView =  findViewById(R.id.noDataView);
+        noDataView = findViewById(R.id.noDataView);
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
-       mPtrFrame.setLastUpdateTimeKey(null);
+        mPtrFrame.setLastUpdateTimeKey(null);
         mPtrFrame.setPtrHandler(new PtrHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -105,24 +105,24 @@ public class MyPostListActivity extends BaseActivity {
 
     private void loadMoreData() {
         App.app.appAction.postListByPersonId(page, LoginUtil.getUser().id, new BaseActionCallbackListener<List<PostBean>>() {
-              @Override
-              public void onSuccess(List<PostBean> data) {
-                  adapter.setData(data, true);
-                  if (data.size() < AppActionImpl.PAGE_SIZE) {
-                      mPtrFrame.loadMoreComplete(false);
-                  } else {
-                      mPtrFrame.loadMoreComplete(true);
-                  }
-                  page++;
-              }
+            @Override
+            public void onSuccess(List<PostBean> data) {
+                adapter.setData(data, true);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.loadMoreComplete(false);
+                } else {
+                    mPtrFrame.loadMoreComplete(true);
+                }
+                page++;
+            }
 
-              @Override
-              public void onIllegalState(String errorEvent, String message) {
-                  ToastUtil.showToast(App.app, message);
-                  mPtrFrame.refreshComplete();
-                  mPtrFrame.setFail();
-              }
-          });
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setFail();
+            }
+        });
     }
 
     @Override

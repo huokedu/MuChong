@@ -47,10 +47,10 @@ import model.ShoppingCartItemBean;
 public class ProductDetailActivity extends BaseActivity implements View.OnClickListener {
     public static final String SPLIT_FLAG = ",";
     public static final String Product_Id = "Product_Id";
-    private TextView textCommentMore;
-    private TextView textBuy;
-    private TextView textAddCar;
-    private ImageView imageShoppingCart;
+    private TextView textCommentMore;//查看更多评论
+    private TextView textBuy;//立即购买
+    private TextView textAddCar;//加入购物车
+    private ImageView imageShoppingCart;//去购物车
 
     /*去商品详情*/
     public static void goProductActivity(Context context, String goodId) {
@@ -59,21 +59,21 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         context.startActivity(intent);
     }
 
-    private String productId;
-    private GoodsDetailBean data;
-    private boolean isLike;
+    private String productId;//当前商品id
+    private GoodsDetailBean data;//商品详情
+    private boolean isLike;//当前用户是否喜欢该商品，喜欢true
 
-    protected BannerFragment mBannerFragment;
-    protected ListView mCommentListView;
-    private TextView textName;
-    private TextView textLike;
+    protected BannerFragment mBannerFragment;//商品图片Fragment
+    protected ListView mCommentListView;//评论list view
+    private TextView textName;//商品名称
+    private TextView textLike;//喜欢按钮
 
-    private CommentAdapter adapter;
-    private ImageView imageRenZheng;
-    private TextView textPrice;
-    private TextView textDescription;
-    private TextView textMaterial;
-    private TextView textComment;
+    private CommentAdapter adapter;//评论Adapter
+    private ImageView imageRenZheng;//商家是否认证图标，未认证不显示
+    private TextView textPrice;//商品价格
+    private TextView textDescription;//商品描述
+    private TextView textMaterial;//商品材质
+    private TextView textComment;//评论标题（显示总评论数）
 
     @Override
     protected int getLayoutId() {
@@ -127,6 +127,11 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         adapter = new CommentAdapter();
         mCommentListView.setAdapter(adapter);
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
     }
 
     @Override

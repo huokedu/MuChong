@@ -62,48 +62,48 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
     private TextView textName;//发布者昵称
     private ImageView imageHead;//发布者头像
     private TextView textLevel;//发布者等级
-    private RatingBar ratingBarLevel;
+    private RatingBar ratingBarLevel;//等级的星星表示
 
     protected BannerFragment mBannerFragment;//商品详情图片
 
-    private TextView textGoodsName;
-    private TextView textMaterial;
-    private TextView textDescription;
+    private TextView textGoodsName;//商品名称
+    private TextView textMaterial;//商品材质
+    private TextView textDescription;//商品描述
 
-    private TextView textComment;
-    private TextView textCommentMore;
+    private TextView textComment;//评论标题，显示评论总数
+    private TextView textCommentMore;//查看更多评论
 
-    private TextView paiPriceLabel;
-    private TextView textPaiPrice;
-    private TextView textMarketPrice;
-    private TextView depositLabel;
-    private TextView textDeposit;
+    private TextView paiPriceLabel;//拍卖价标签
+    private TextView textPaiPrice;//拍卖价格
+    private TextView textMarketPrice;//市场价格
+    private TextView depositLabel;//保证金标签
+    private TextView textDeposit;//保证金
 
     //倒拍
-    private LinearLayout linearDaoPai;
-    private TextView textPrice;
-    private TextView textDaoPaiTips;
-    private DaoJiShiView daoJiShiView;
-    private RelativeLayout relativeBuy;
-    private TextView textBuy;
+    private LinearLayout linearDaoPai;//倒拍模块
+    private TextView textPrice;//当前实际价格
+    private TextView textDaoPaiTips;//倒拍提示（多少时间降价一次）
+    private DaoJiShiView daoJiShiView;//倒拍倒计时控件
+    private RelativeLayout relativeBuy;//倒拍购买按钮容器
+    private TextView textBuy;//立即购买按钮
 
     //竞拍
-    private LinearLayout linearJingPai;
-    private TextView textLastPaiName;
-    private TextView textLastPaiPrice;
-    private TextView textAddPriceSmall;
-    private TextView textAddPriceBig;
-    private TextView textDaoJiShi;
-    private RelativeLayout relativeInput;
+    private LinearLayout linearJingPai;//竞拍模块
+    private TextView textLastPaiName;//最后拍的用户昵称
+    private TextView textLastPaiPrice;//最后拍出的价格
+    private TextView textAddPriceSmall;//小幅加价按钮
+    private TextView textAddPriceBig;//大幅加价按钮
+    private TextView textDaoJiShi;//竞拍倒计时TextView
+    private RelativeLayout relativeInput;//评论容器
     private TextView textButton;//评论按钮
-    private EditText editComment;
+    private EditText editComment;//评论编辑框
 
-    protected ListView mCommentListView;
-    private CommentAdapter adapter;
-    private String productId;
-    private CountDownTimer timer;
-    private GoodsDetailBean data;
-    private Timer refreshDataTimer;
+    protected ListView mCommentListView;//评论list view
+    private CommentAdapter adapter;//评论Adapter
+    private String productId;//当前商品id
+    private CountDownTimer timer;//倒计时，计时器
+    private GoodsDetailBean data;//商品详情数据
+    private Timer refreshDataTimer;//定时刷新计时器
 
     private String reply = "";//当前要回复人的昵称
 
@@ -266,6 +266,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
                 }
                 textComment.setText(getString(R.string.product_detail_comment, data.evalcount));
                 adapter.setData(data.evallist, false);
+                //倒拍类型商品
                 if (PaiGoodsBean.TYPE_DAO.equals(data.commodity_type)) {
                     GoodsUtil.setPriceBySymbol(textPrice, data.commodity_panicprice);
                     textDaoPaiTips.setText(getString(R.string.pai_dao_pai_tips, Double.parseDouble(data.decpricetime) / 60));
@@ -283,7 +284,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
                     relativeBuy.setVisibility(View.VISIBLE);
                     linearJingPai.setVisibility(View.GONE);
                     relativeInput.setVisibility(View.GONE);
-                } else {
+                } else {//竞拍类型商品
                     textLastPaiName.setText(getString(R.string.pai_last_username, data.bidname));
                     textLastPaiPrice.setText(getString(R.string.pai_last_price, data.commodity_panicprice));
                     if (PaiGoodsBean.STATE_NO_START.equals(data.state)) {
@@ -472,6 +473,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
         });
     }
 
+    /*提交评论*/
     private void commitComment() {
         if (!App.app.isLogin()) {
             LoginUtil.showLoginTips(this);

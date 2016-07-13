@@ -77,6 +77,7 @@ public class FourthFragment extends HomeFragment {
         if (position == 1) {
             ((BaseActivity) getActivity()).mTitleRightTextView.setVisibility(View.INVISIBLE);
             ((BaseActivity) getActivity()).mTitleTextView.setText(mTitle);
+            ((MainActivity) getActivity()).setFourthFragmentOnClickListener(null);
         } else {
             ((BaseActivity) getActivity()).mTitleTextView.setText(mTitle);
             ((BaseActivity) getActivity()).mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);

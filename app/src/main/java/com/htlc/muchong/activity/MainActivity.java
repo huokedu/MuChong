@@ -32,7 +32,7 @@ import model.UserBean;
 public class MainActivity extends BaseActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
-    private View imageViewButton;
+    private View imageViewButton;//藏品专区底部ImageView按钮
     private View.OnClickListener fourthFragmentOnClickListener;
 
     public void setFourthFragmentOnClickListener(View.OnClickListener fourthFragmentOnClickListener) {
@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity {
                 }
             }
         }
-        //init  Tab 0
+        //首次启动，将首页的标题设置为Toolbar的标题；显示右边按钮，并设置为搜索按钮
         mTitleTextView.setText(mViewPager.getAdapter().getPageTitle(0));
         mTitleRightTextView.setBackgroundResource(R.mipmap.icon_search);
         mTitleRightTextView.setText("");
@@ -89,7 +89,9 @@ public class MainActivity extends BaseActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 mViewPager.setCurrentItem(position, false);
+                //设置当前Fragment的标题作为Toolbar标题
                 mTitleTextView.setText(mViewPager.getAdapter().getPageTitle(position));
+                //首页，显示右侧搜索按钮
                 if (position == 0) {
                     setStatusBarColor();
                     mTitleRightTextView.setBackgroundResource(R.mipmap.icon_search);
@@ -103,7 +105,7 @@ public class MainActivity extends BaseActivity {
                     mTitleLeftTextView.setVisibility(View.INVISIBLE);
                     mTitleRightTextView.setVisibility(View.VISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
-                } else if (position == 1) {
+                } else if (position == 1) {//商城，显示右侧搜索按钮；根据用户身份判断是否显示-发布商品-按钮；
                     setStatusBarColor();
                     mTitleRightTextView.setBackgroundResource(R.mipmap.icon_search);
                     mTitleRightTextView.setText("");
@@ -125,7 +127,7 @@ public class MainActivity extends BaseActivity {
                         });
                     }
                     mToolbar.setVisibility(View.VISIBLE);
-                } else if (position == 2) {
+                } else if (position == 2) {//藏品专区，显示右侧-发布藏品-按钮；将imageview设置为选中状态
                     setStatusBarColor();
                     mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);
                     mTitleRightTextView.setText("");
@@ -144,20 +146,21 @@ public class MainActivity extends BaseActivity {
                     mTitleRightTextView.setVisibility(View.VISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
                     imageViewButton.setSelected(true);
-                } else if (position == 3) {
+                } else if (position == 3) {//论坛，根据给发布按钮设置的点击事件，判断是否显示发布按钮；如果点击事件监听为null，不显示
                     setStatusBarColor();
                     mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);
                     mTitleRightTextView.setText("");
                     mTitleRightTextView.setOnClickListener(fourthFragmentOnClickListener);
                     mTitleLeftTextView.setVisibility(View.INVISIBLE);
-                    mTitleRightTextView.setVisibility(View.VISIBLE);
+                    mTitleRightTextView.setVisibility(fourthFragmentOnClickListener==null ? View.INVISIBLE : View.VISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
-                } else if (position == 4) {
+                } else if (position == 4) {//个人中心，隐藏标题栏
                     setStatusBarColor(R.mipmap.bg_status_bar);
                     mToolbar.setVisibility(View.GONE);
                 }
             }
 
+            /*当藏品专区取消选中时，取消ImageView的选中状态*/
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 int position = tab.getPosition();

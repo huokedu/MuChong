@@ -22,10 +22,11 @@ import java.util.ArrayList;
  * 个人中心---我的交易
  */
 public class OrderListActivity extends BaseActivity {
-    public static final int NO_PAY_TAB = 0;
-    public static final int PAY_FINISH_TAB = 1;
-    public static final int ON_THE_WAY_TAB = 2;
+    public static final int NO_PAY_TAB = 0;//未支付
+    public static final int PAY_FINISH_TAB = 1;//已支付
+    public static final int ON_THE_WAY_TAB = 2;//已发货
     public static final String TAB = "TAB";
+    /*启动Activity并跳转到对应的Fragment*/
     public static void goOrderListActivity(Context context, int tab){
         Intent intent = new Intent(context, OrderListActivity.class);
         intent.putExtra(TAB,tab);

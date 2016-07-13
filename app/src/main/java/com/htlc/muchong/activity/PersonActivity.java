@@ -47,16 +47,16 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
-    private TabLayout.Tab mLastSelectTab;
+    private TabLayout.Tab mLastSelectTab;//最后选择的tab，排除 TA的喜欢
 
-    private TextView textFollow;
-    private TextView textName;
-    private TextView textFans;
-    private RatingBar ratingBarLevel;
-    private ImageView imageHead;
+    private TextView textFollow;//关注按钮
+    private TextView textName;//藏家昵称
+    private TextView textFans;//藏家粉丝数量
+    private RatingBar ratingBarLevel;//藏家等级
+    private ImageView imageHead;//藏家头像
 
-    private String personId;
-    private boolean isLike;
+    private String personId;//藏家id
+    private boolean isLike;//当前用户是否喜欢该藏家
 
     public String getPersonId() {
         return personId;
@@ -107,6 +107,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
+                //当选择的是Ta的喜欢标签，跳转Activity；并选中上传选择的标签
                 if (position == 4) {
                     mLastSelectTab.select();
                     TaLikeActivity.goTaLikeActivity(PersonActivity.this, personId);
@@ -132,7 +133,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     protected void onRestart() {
         super.onRestart();
         initData();
-
+        //如果当前用户和藏家是同一个人，隐藏关注按钮
         if (personId.equals(LoginUtil.getUser().id)) {
             textFollow.setVisibility(View.INVISIBLE);
         }
@@ -173,6 +174,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
+    /*添加关注*/
     private void addLike() {
         if (!App.app.isLogin()) {
             LoginUtil.showLoginTips(this);

@@ -66,6 +66,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    /*充值请求，获取支付信息*/
     private void chongZhi() {
         int checkedId = radioGroup.getCheckedRadioButtonId();
         String payWay = PayListActivity.PayWays[2];
@@ -82,6 +83,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         App.app.appAction.payForAccount(editMoney.getText().toString(), payWay, new BaseActionCallbackListener<CreateOrderResultBean>() {
             @Override
             public void onSuccess(CreateOrderResultBean data) {
+                //调起支付
                 Pingpp.createPayment(PayActivity.this, data.charges);
             }
 

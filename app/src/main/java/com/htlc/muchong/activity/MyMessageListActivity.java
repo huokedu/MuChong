@@ -112,6 +112,7 @@ public class MyMessageListActivity extends BaseActivity {
 
     }
 
+    /*加载更多*/
     private void loadMoreData() {
         App.app.appAction.messageList(page, new BaseActionCallbackListener<List<MessageBean>>() {
             @Override

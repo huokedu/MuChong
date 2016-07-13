@@ -46,8 +46,8 @@ public class ProductListActivity extends BaseActivity {
     private TabLayout mTabLayout;
     private ProductPagerAdapter pagerAdapter;
 
-    private boolean priceOrderIsDown;
-    private boolean salesOrderIsDown;
+    private boolean priceOrderIsDown;//价格是降序排列，默认false
+    private boolean salesOrderIsDown;//销量是降序排列，默认false
     private String smallClassId;//商品小类Id
     private String smallClassName;//商品小类 名字
     private String material;//筛选条件 材质
@@ -132,11 +132,13 @@ public class ProductListActivity extends BaseActivity {
                 View view = tab.getCustomView();
                 mViewPager.setCurrentItem(position,false);
                 TextView textView = (TextView) view.findViewById(R.id.textView);
+                //根据当前价格和销量的排序状态设置图标
                 if (position == 1) {
                     textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, salesOrderIsDown ? R.mipmap.icon_order_down : R.mipmap.icon_order_up, 0);
                 } else if (position == 2) {
                     textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, priceOrderIsDown ? R.mipmap.icon_order_down : R.mipmap.icon_order_up, 0);
                 }
+                //当选择筛选标签时，显示确定按钮；否则，隐藏确定按钮，并刷新数据
                 if(position!=3){
                     mTitleRightTextView.setVisibility(View.INVISIBLE);
                     ProductListFragment fragment = (ProductListFragment) pagerAdapter.getItem(position);
@@ -151,6 +153,7 @@ public class ProductListActivity extends BaseActivity {
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
+                //当标签没有选中时，设置为没有选中的图标
                 if (position == 1 || position == 2) {
                     View view = tab.getCustomView();
                     TextView textView = (TextView) view.findViewById(R.id.textView);
@@ -164,12 +167,13 @@ public class ProductListActivity extends BaseActivity {
                 int position = tab.getPosition();
                 View view = tab.getCustomView();
                 TextView textView = (TextView) view.findViewById(R.id.textView);
+                //切换销量的排序方式
                 if (position == 1) {
                     salesOrderIsDown = !salesOrderIsDown;
                     textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, salesOrderIsDown ? R.mipmap.icon_order_down : R.mipmap.icon_order_up, 0);
                     ProductListFragment fragment = (ProductListFragment) pagerAdapter.getItem(position);
                     fragment.initData();
-                } else if (position == 2) {
+                } else if (position == 2) {//切换价格的排序方式
                     priceOrderIsDown = !priceOrderIsDown;
                     textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, priceOrderIsDown ? R.mipmap.icon_order_down : R.mipmap.icon_order_up, 0);
                     ProductListFragment fragment = (ProductListFragment) pagerAdapter.getItem(position);

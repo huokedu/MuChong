@@ -50,15 +50,15 @@ import model.PaiGoodsBean;
  * 商城---分类商品列表Fragment
  */
 public class ProductListFragment extends BaseFragment {
-    public static final String TYPE_1 = "1";
-    public static final String TYPE_2 = "2";
-    public static final String TYPE_3 = "3";
-    public static final String TYPE_4 = "4";
-    public static final String ORDER_NORMAL = "1";
-    public static final String ORDER_SALES_DOWN = "2";
-    public static final String ORDER_SALES_UP = "5";
-    public static final String ORDER_PRICE_DOWN = "4";
-    public static final String ORDER_PRICE_UP = "3";
+    public static final String TYPE_1 = "1";//综合
+    public static final String TYPE_2 = "2";//销量
+    public static final String TYPE_3 = "3";//价格
+    public static final String TYPE_4 = "4";//筛选
+    public static final String ORDER_NORMAL = "1";//商品综合排序
+    public static final String ORDER_SALES_DOWN = "2";//商品销量降序
+    public static final String ORDER_SALES_UP = "5";//商品销量升序
+    public static final String ORDER_PRICE_DOWN = "4";//商品价格降序
+    public static final String ORDER_PRICE_UP = "3";//商品价格升序
 
     public static final String[] Titles = {"材质", "价格"};
     public static final String[] Prices = {"全部", "0-500", "500-1000", "1000-3000", "3000-5000", "5000以上"};
@@ -101,11 +101,11 @@ public class ProductListFragment extends BaseFragment {
 
 
     private PtrClassicFrameLayout mPtrFrame;
-    private ProductRecyclerViewAdapter adapter;
-    private FilterRecyclerAdapter filterAdapter;
+    private ProductRecyclerViewAdapter adapter;//商品adapter
+    private FilterRecyclerAdapter filterAdapter;//筛选adapter
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
-    private View noDataView;
+    private View noDataView;//无数据的提示view
 
     @Override
     protected int getLayoutId() {
@@ -192,6 +192,7 @@ public class ProductListFragment extends BaseFragment {
 
     }
 
+    /*加载第2，3...的商品数据*/
     private void loadMoreData() {
         String order = getOderType();
         App.app.appAction.jiaoListBySmallClass(page, activity.getSmallClassId(), order, activity.getMaterial(), activity.getPrice(), activity.new BaseActionCallbackListener<List<JiaoGoodsBean>>() {
@@ -224,6 +225,7 @@ public class ProductListFragment extends BaseFragment {
                 public void onSuccess(List<MaterialBean> data) {
                     mPtrFrame.refreshComplete();
                     mPtrFrame.setLoadMoreEnable(false);
+                    //将价格和材质 可选择的数据封装为集合
                     materials = data;
                     List<MaterialBean> prices = new ArrayList<MaterialBean>();
                     for (int i = 0; i < Prices.length; i++) {
@@ -232,6 +234,7 @@ public class ProductListFragment extends BaseFragment {
                         materialBean.id = PricesId[i];
                         prices.add(materialBean);
                     }
+                    //设置给FilterAdapter
                     filterAdapter.setData(materials, prices);
                 }
 
@@ -270,6 +273,7 @@ public class ProductListFragment extends BaseFragment {
         }
     }
 
+    /*根据当前Fragment类型和Activity中记录的价格销量状态判断，商品排序类型*/
     @NonNull
     private String getOderType() {
         String order = ORDER_NORMAL;
@@ -289,6 +293,8 @@ public class ProductListFragment extends BaseFragment {
 
     /**
      * 设置筛选条件
+     * 将当前选中的 材质和价格 设置为筛选条件
+     * 并记录选中的位置
      */
     public void setFilter() {
         activity.setMaterial(materialId);
@@ -297,12 +303,14 @@ public class ProductListFragment extends BaseFragment {
         pricePositionSelected = pricePosition;
     }
 
+    /*当选择筛选Fragment时，刷新筛选数据状态（默认选择的位置）*/
     public void notifyFilterDataSetChanged() {
         if (filterAdapter != null) {
             filterAdapter.notifyDataSetChanged();
         }
     }
 
+    /*筛选条目Bean，筛选类型 和 可选择的数据集合*/
     public class FilterBean {
         public String title;
         public List<MaterialBean> list;
@@ -321,6 +329,7 @@ public class ProductListFragment extends BaseFragment {
             }
         }
 
+        /*将可选择的 价格集合 和 材质集合，分装为FilterBean，作为FilterAdapter的一个条目的数据源*/
         public void setData(List<MaterialBean> materials, List<MaterialBean> prices) {
             array[0].list.clear();
             MaterialBean materialBean = new MaterialBean();
@@ -350,6 +359,7 @@ public class ProductListFragment extends BaseFragment {
             viewHolder.gridView.setOnItemClickListener(new GridViewOnItemClickListener(position, array, filterGridAdapter));
 //            viewHolder.gridView.setSelection(filterGridAdapter.getCheckPosition());
 //            viewHolder.gridView.setItemChecked(filterGridAdapter.getCheckPosition(), true);
+            //将上次选中的位置，设置为选中状态
             viewHolder.gridView.setSelection(position == 0 ? materialPositionSelected : pricePositionSelected);
             viewHolder.gridView.setItemChecked(position == 0 ? materialPositionSelected : pricePositionSelected, true);
         }
@@ -384,6 +394,7 @@ public class ProductListFragment extends BaseFragment {
             this.filterGridAdapter = filterGridAdapter;
         }
 
+        /*将GridView点击的条目设置为选中状态，并记录选择位置和对应的数据*/
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
             int checkedItemPosition = ((GridView) parent).getCheckedItemPosition();
