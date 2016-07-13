@@ -203,14 +203,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
         mCommentListView.setFocusable(false);
         adapter = new CommentAdapter();
         mCommentListView.setAdapter(adapter);
-        mCommentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GoodsCommentBean goodsCommentBean = (GoodsCommentBean) adapter.getItem(position);
-                reply = goodsCommentBean.commodityeval_userid;
-                showInput(true);
-            }
-        });
+
         initData();
     }
 
@@ -285,6 +278,14 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
                     linearJingPai.setVisibility(View.GONE);
                     relativeInput.setVisibility(View.GONE);
                 } else {//竞拍类型商品
+                    mCommentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            GoodsCommentBean goodsCommentBean = (GoodsCommentBean) adapter.getItem(position);
+                            reply = goodsCommentBean.commodityeval_userid;
+                            showInput(true);
+                        }
+                    });
                     textLastPaiName.setText(getString(R.string.pai_last_username, data.bidname));
                     textLastPaiPrice.setText(getString(R.string.pai_last_price, data.commodity_panicprice));
                     if (PaiGoodsBean.STATE_NO_START.equals(data.state)) {
