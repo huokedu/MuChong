@@ -125,8 +125,11 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
         initData();
+        //如果当前用户和藏家是同一个人，隐藏关注按钮
+        if (personId.equals(LoginUtil.getUser().id)) {
+            textFollow.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
