@@ -49,7 +49,7 @@ public class TaFragment extends HomeFragment {
     private View noDataView;
 
     private int page;
-    private String personId;
+    private String personId;//藏家id
 
     @Override
     protected int getLayoutId() {
@@ -92,6 +92,7 @@ public class TaFragment extends HomeFragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
+    /*根据Fragment的标题设置对应adapter*/
     private void initAdapter() {
         //一人一语  他的故事
         if (mTitle.equals(getString(R.string.title_ta_three))) {

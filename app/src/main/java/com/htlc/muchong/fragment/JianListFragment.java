@@ -34,8 +34,8 @@ public class JianListFragment extends BaseFragment {
     public static final String TYPE_1 = "1";
     public static final String TYPE_2 = "2";
     public static final String TYPE_3 = "3";
-    public CharSequence mTitle;
-    private String mType;
+    public CharSequence mTitle;//Fragment标题
+    private String mType;//当前Fragment的鉴定类型（真，假，进行中）
     private View noDataView;
 
     public static JianListFragment newInstance(String title, String type) {
@@ -177,6 +177,7 @@ public class JianListFragment extends BaseFragment {
         });
     }
 
+    /*给鉴定的item数据，添加鉴定状态*/
     private void handleData(List<JianBean> data) {
         for (JianBean bean : data) {
             bean.forum_yesorno = mType;

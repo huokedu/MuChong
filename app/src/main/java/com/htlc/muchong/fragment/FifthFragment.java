@@ -93,6 +93,7 @@ public class FifthFragment extends HomeFragment {
 
     }
 
+    /*根据点击条目的位置，跳转对应的界面*/
     private class RecyclerViewOnItemClickListener implements FifthRecyclerViewAdapter.OnItemClickListener {
         @Override
         public void onItemClick(int position) {

@@ -14,8 +14,8 @@ import com.htlc.muchong.base.BaseFragment;
  * 主页四个Fragment的父类
  */
 public abstract class HomeFragment extends BaseFragment {
-    public CharSequence mTitle;
-    public int mIconResId;
+    public CharSequence mTitle;//Fragment的标题
+    public int mIconResId;//Fragment的图标资源id
 
     public void setTitle(CharSequence title) {
         this.mTitle = title;

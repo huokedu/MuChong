@@ -72,6 +72,7 @@ public class FourthFragment extends HomeFragment {
         ((MainActivity) getActivity()).setFourthFragmentOnClickListener(rightTextClickListener);
     }
 
+    /*根据Tab的位置，刷新Toolbar；当是藏家Tab是，隐藏发布帖子按钮，并取消点击事件*/
     private void refreshToolbar(final int position) {
         mTitle = mViewPager.getAdapter().getPageTitle(position);
         if (position == 1) {

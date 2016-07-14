@@ -44,8 +44,8 @@ public class OrderListFragment extends BaseFragment {
     public static final String TYPE_1 = "2";//未付款
     public static final String TYPE_2 = "3";//已付款
     public static final String TYPE_3 = "1";//已发货
-    public CharSequence mTitle;
-    private String mType;
+    public CharSequence mTitle;//Fragment的标题
+    private String mType;//当前Fragment的订单状态
 
     public static OrderListFragment newInstance(String title, String type) {
         try {
@@ -175,6 +175,7 @@ public class OrderListFragment extends BaseFragment {
         });
     }
 
+    /*删除确认对话框*/
     private void showDeleteDialog(final int position) {
 //        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogAppCompat);
 //        builder.setItems(R.array.order_operation_array, new DialogInterface.OnClickListener() {

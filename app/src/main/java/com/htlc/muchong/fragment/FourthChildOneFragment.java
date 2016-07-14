@@ -93,6 +93,7 @@ public class FourthChildOneFragment extends HomeFragment {
         initData();
     }
 
+    /*根据Fragment的标题，设置对应的Adapter*/
     private void initAdapter() {
         if (getString(R.string.fourth_title_fragment_one).equals(mTitle)) {
             adapter = new FourthOneRecyclerViewAdapter();

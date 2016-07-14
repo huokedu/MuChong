@@ -42,8 +42,8 @@ public class QiangListFragment extends BaseFragment {
     public static final String TYPE_3 = "3";
     public static final String TYPE_4 = "4";
     public CharSequence mTitle;
-    private String mType;
-    private DaoJiShiView daoJiShiView;
+    private String mType;//Fragment的类型，是第几天的抢购Fragment
+    private DaoJiShiView daoJiShiView;//Fragment头部的倒计时
     private TextView textView;
     private View noDataView;
     private ProgressDialog progressDialog;

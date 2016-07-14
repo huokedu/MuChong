@@ -177,6 +177,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         initData();
     }
 
+    /*初始化banner下边的  分类容器*/
     protected void initLinearType() {
         LayoutInflater.from(getContext()).inflate(R.layout.layout_first_type, mlinearTypeContainer, true);
         linearQiang = (LinearLayout) mlinearTypeContainer.findViewById(R.id.linearQiang);
