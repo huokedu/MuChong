@@ -63,6 +63,7 @@ public interface Api {
     String DeleteShoppingCart = Host + "/Home/HomeShopCar/delShopCar";
     String AddPaiPrice = Host + "/Home/HomeBid/addbid";
     String SearchGoods = Host + "/Home/HomeCommodity/search";
+    String IsCanBuyQiang = Host + "/Home/HomeCommodity/checkProductIsCanBuy";
 
     String CangList = Host + "/Home/HomeForum/collectionlist";
     String PostDetail = Host + "/Home/HomeForum/foruminfo";
@@ -128,6 +129,7 @@ public interface Api {
     void deleteShoppingCart(String shopcar_id, ResultCallback callback);
     void addPaiPrice(String commodity_id, String price, ResultCallback callback);
     void searchGoods(String page, String search, ResultCallback callback);
+    void isCanBuyQiang(String PID, ResultCallback callback);
 
     void cangList(String page, ResultCallback callback);
     void postDetail(String forum_id, ResultCallback callback);

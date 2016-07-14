@@ -88,6 +88,7 @@ public interface AppAction {
     void deleteShoppingCart(List<ShoppingCartItemBean> shoppingCartItemBeans, ActionCallbackListener<Void> listener);
     void addPaiPrice(String commodity_id, String price, ActionCallbackListener<Void> listener);
     void searchGoods(int page, String search, ActionCallbackListener<List<GoodsBean>> listener);
+    void isCanBuyQiang(String PID, ActionCallbackListener<Void> listener);
 
     void cangList(int page,ActionCallbackListener<List<CangBean>> listener);
     void postDetail(String forum_id,ActionCallbackListener<PostDetailBean> listener);

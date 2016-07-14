@@ -1179,6 +1179,21 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
+    public void isCanBuyQiang(String PID, ActionCallbackListener<Void> listener) {
+        api.isCanBuyQiang(PID, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
     public void cangList(int page, ActionCallbackListener<List<CangBean>> listener) {
         api.cangList(String.valueOf(page), new DefaultResultCallback(listener) {
             @Override

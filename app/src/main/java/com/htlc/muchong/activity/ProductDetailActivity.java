@@ -203,7 +203,11 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.textBuy:
                 if (App.app.isLogin()) {
-                    buyNow();
+                    if(isQiangType){
+                        isCanBuy();
+                    }else {
+                        buyNow();
+                    }
                 } else {
                     LoginUtil.showLoginTips(this);
                 }
@@ -230,6 +234,21 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 }
                 break;
         }
+    }
+
+    /*判断当前抢购商品是否能购买*/
+    private void isCanBuy() {
+        App.app.appAction.isCanBuyQiang(productId, new BaseActionCallbackListener<Void>() {
+            @Override
+            public void onSuccess(Void data) {
+                buyNow();
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+            }
+        });
     }
 
     /*立即购买*/

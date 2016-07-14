@@ -517,6 +517,15 @@ public class ApiImpl implements Api {
     }
 
     @Override
+    public void isCanBuyQiang(String PID, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+
+        params.put("PID", PID);
+        String url = Api.IsCanBuyQiang;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
     public void cangList(String page,ResultCallback callback) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("page", page);
