@@ -58,12 +58,12 @@ public class ThirdFragment extends HomeFragment {
                 return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
             }
         });
-        mPtrFrame.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mPtrFrame.autoRefresh();
-            }
-        }, 200);
+//        mPtrFrame.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                mPtrFrame.autoRefresh();
+//            }
+//        }, 200);
         mPtrFrame.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void loadMore() {
@@ -112,7 +112,7 @@ public class ThirdFragment extends HomeFragment {
             }
         });
 
-
+        initData();
     }
 
     private void loadMoreData() {

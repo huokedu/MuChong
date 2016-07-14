@@ -142,7 +142,7 @@ public class QiangListFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 GoodsBean bean = adapter.getData().get(position);
-                ProductDetailActivity.goProductActivity(getContext(), bean.id);
+                ProductDetailActivity.goProductActivity(getContext(), bean.id, true);
             }
         });
 
@@ -208,6 +208,7 @@ public class QiangListFragment extends BaseFragment {
         });
     }
 
+    /*刷新数据*/
     private void refreshView(QiangListBean data) {
         daoJiShiView.setVisibility(View.VISIBLE);
         //刷新抢购数据

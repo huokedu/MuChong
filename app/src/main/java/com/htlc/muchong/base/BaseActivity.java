@@ -1,6 +1,7 @@
 package com.htlc.muchong.base;
 
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -207,6 +208,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         builder.setView(view);
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
+        alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                LoginUtil.clearUser();
+                App.app.setIsLogin(false);
+            }
+        });
 
         TextView textMessage = (TextView) view.findViewById(R.id.textMessage);
         textMessage.setText(R.string.login_timeout_tips);

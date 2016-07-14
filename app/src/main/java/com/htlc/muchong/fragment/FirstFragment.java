@@ -111,8 +111,10 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
                     WebActivity.goWebActivity(getContext(), banner_title, id);
                 } else if ("3".equals(banner_type) || "4".equals(banner_type) || "5".equals(banner_type)) {
                     PaiDetailActivity.goPaiActivity(getContext(), id);
-                } else if ("1".equals(banner_type) || "2".equals(banner_type)) {
+                } else if ("1".equals(banner_type)) {
                     ProductDetailActivity.goProductActivity(getContext(), id);
+                } else if("2".equals(banner_type)){
+                    ProductDetailActivity.goProductActivity(getContext(), id, true);
                 }
             }
         });
@@ -300,17 +302,17 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
                 break;
             case R.id.linearQiang1:
                 if (homeBean != null && homeBean.limittime.list.size() >= 1) {
-                    ProductDetailActivity.goProductActivity(getContext(), homeBean.limittime.list.get(0).id);
+                    ProductDetailActivity.goProductActivity(getContext(), homeBean.limittime.list.get(0).id, true);
                 }
                 break;
             case R.id.linearQiang2:
                 if (homeBean != null && homeBean.limittime.list.size() >= 2) {
-                    ProductDetailActivity.goProductActivity(getContext(), homeBean.limittime.list.get(1).id);
+                    ProductDetailActivity.goProductActivity(getContext(), homeBean.limittime.list.get(1).id, true);
                 }
                 break;
             case R.id.linearQiang3:
                 if (homeBean != null && homeBean.limittime.list.size() >= 3) {
-                    ProductDetailActivity.goProductActivity(getContext(), homeBean.limittime.list.get(2).id);
+                    ProductDetailActivity.goProductActivity(getContext(), homeBean.limittime.list.get(2).id, true);
                 }
                 break;
             case R.id.relativePai1:

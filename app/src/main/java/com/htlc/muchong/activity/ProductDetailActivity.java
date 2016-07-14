@@ -47,6 +47,7 @@ import model.ShoppingCartItemBean;
 public class ProductDetailActivity extends BaseActivity implements View.OnClickListener {
     public static final String SPLIT_FLAG = ",";
     public static final String Product_Id = "Product_Id";
+    public static final String IS_QIANG_TYPE = "IS_QIANG_TYPE";
     private TextView textCommentMore;//查看更多评论
     private TextView textBuy;//立即购买
     private TextView textAddCar;//加入购物车
@@ -54,12 +55,24 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
     /*去商品详情*/
     public static void goProductActivity(Context context, String goodId) {
+        goProductActivity(context, goodId, false);
+    }
+
+    /**
+     * 去商品详情
+     * @param context
+     * @param goodId 商品id
+     * @param isQiangType 商品是抢购类型true
+     */
+    public static void goProductActivity(Context context, String goodId, boolean isQiangType) {
         Intent intent = new Intent(context, ProductDetailActivity.class);
         intent.putExtra(ProductDetailActivity.Product_Id, goodId);
+        intent.putExtra(ProductDetailActivity.IS_QIANG_TYPE, isQiangType);
         context.startActivity(intent);
     }
 
     private String productId;//当前商品id
+    private boolean isQiangType;//是限时抢购商品 true
     private GoodsDetailBean data;//商品详情
     private boolean isLike;//当前用户是否喜欢该商品，喜欢true
 
@@ -83,6 +96,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void setupView() {
         productId = getIntent().getStringExtra(Product_Id);
+        isQiangType = getIntent().getBooleanExtra(IS_QIANG_TYPE,false);
+
+
         mTitleTextView.setText(R.string.title_product_detail);
         mTitleRightTextView.setBackgroundResource(R.mipmap.icon_share);
         mTitleRightTextView.setVisibility(View.VISIBLE);
@@ -127,6 +143,10 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         adapter = new CommentAdapter();
         mCommentListView.setAdapter(adapter);
 
+        if(isQiangType){
+            imageShoppingCart.setVisibility(View.INVISIBLE);
+            textAddCar.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

@@ -441,7 +441,7 @@ public class ApiImpl implements Api {
     }
 
     @Override
-    public void buyNow(String channel, String commodity_id, String num, String address_id, ResultCallback callback) {
+    public void buyNow(String channel, String commodity_id, String num, String address_id,String jpoper, ResultCallback callback) {
         UserBean bean = LoginUtil.getUser();
         Map<String, String> params = new HashMap<String, String>();
         params.put("user_id", bean.id);
@@ -451,6 +451,7 @@ public class ApiImpl implements Api {
         params.put("commodity_id", commodity_id);
         params.put("num", num);
         params.put("address_id", address_id);
+        params.put("jpoper", jpoper);
         String url = Api.BuyNow;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }

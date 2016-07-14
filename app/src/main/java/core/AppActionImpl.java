@@ -1053,12 +1053,16 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void buyNow(String channel, String commodity_id, String num, String address_id, ActionCallbackListener<CreateOrderResultBean> listener) {
+    public void buyNow(String channel, String commodity_id, String num, String address_id, boolean isJingPaiCart,  ActionCallbackListener<CreateOrderResultBean> listener) {
         if (TextUtils.isEmpty(address_id)) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "请选择收获地址");
             return;
         }
-        api.buyNow(channel, commodity_id, num, address_id, new DefaultResultCallback(listener) {
+        String jpoper = "1";
+        if(isJingPaiCart){
+            jpoper = "2";
+        }
+        api.buyNow(channel, commodity_id, num, address_id, jpoper, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);

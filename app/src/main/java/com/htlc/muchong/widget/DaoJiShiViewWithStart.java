@@ -54,7 +54,8 @@ public class DaoJiShiViewWithStart extends DaoJiShiView {
      * 开始倒计时
      */
     private void startStartTimer() {
-        textLabel.setText(R.string.first_header_qiang);
+        textLabel.setText(getContext().getString(R.string.first_header_qiang));
+//        textLabel.setText("抢购(未开始)");
         linearTime.setVisibility(INVISIBLE);
         startTimer = new CountDownTimer(millisInFutureStart, T) {
             public void onTick(long millisUntilFinished) {
@@ -89,7 +90,8 @@ public class DaoJiShiViewWithStart extends DaoJiShiView {
      * 结束倒计时
      */
     private void startEndTimer(){
-        textLabel.setText(R.string.first_header_qiang);
+        textLabel.setText(getContext().getString(R.string.first_header_qiang));
+//        textLabel.setText("抢购(已开始)");
         linearTime.setVisibility(VISIBLE);
         endTimer = new CountDownTimer(millisInFutureEnd, T) {
             public void onTick(long millisUntilFinished) {
@@ -114,7 +116,9 @@ public class DaoJiShiViewWithStart extends DaoJiShiView {
             }
 
             public void onFinish() {
-                textLabel.setText(R.string.first_header_qiang);
+                textLabel.setText(getContext().getString(R.string.first_header_qiang));
+//                textLabel.setText("抢购(已结束)");
+                linearTime.setVisibility(INVISIBLE);
                 textHour.setText(String.valueOf("00"));
                 textMinute.setText(String.valueOf("00"));
                 textSecond.setText(String.valueOf("00"));

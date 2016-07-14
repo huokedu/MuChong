@@ -82,7 +82,7 @@ public interface AppAction {
     void jiaoListBySmallClass(int page, String commodity_smallclass, String order, String commodity_material, String price, ActionCallbackListener<List<JiaoGoodsBean>> listener);
     void addLikeGoods(String commodity_id,ActionCallbackListener<Void> listener);
     void addShoppingCart(String shopcar_commodityid,ActionCallbackListener<Void> listener);
-    void buyNow(String channel, String commodity_id, String num, String address_id, ActionCallbackListener<CreateOrderResultBean> listener);
+    void buyNow(String channel, String commodity_id, String num, String address_id, boolean isJingPaiCart, ActionCallbackListener<CreateOrderResultBean> listener);
     void buyByShoppingCart(String channel, List<ShoppingCartItemBean> shoppingCartItemBeans, String address_id, ActionCallbackListener<CreateOrderResultBean> listener);
     void shoppingCartList(ActionCallbackListener<List<ShoppingCartItemBean>> listener);
     void deleteShoppingCart(List<ShoppingCartItemBean> shoppingCartItemBeans, ActionCallbackListener<Void> listener);

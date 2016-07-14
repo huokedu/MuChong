@@ -26,7 +26,7 @@
         <TextView
             android:id="@+id/textHour"
             style="@style/DaoJiShiText"
-            android:text="25"
+            android:text="00"
             />
 
         <TextView
@@ -41,7 +41,7 @@
         <TextView
             android:id="@+id/textMinute"
             style="@style/DaoJiShiText"
-            android:text="25"/>
+            android:text="00"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,6 +55,6 @@
         <TextView
             android:id="@+id/textSecond"
             style="@style/DaoJiShiText"
-            android:text="25"/>
+            android:text="00"/>
     </LinearLayout>
 </merge>

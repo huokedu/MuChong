@@ -39,6 +39,7 @@ import model.ShoppingCartItemBean;
 public class CreateOrderActivity extends BaseActivity implements View.OnClickListener {
     public static final String Shopping_Items = "Shopping_Items";
     public static final String Is_Shopping_Cart = "Is_Shopping_Cart";
+    public static final String Is_jing_Pai_Cart = "Is_jing_Pai_Cart";
     public static final String Is_Pay = "Is_Pay";
     public static final String Order_Id = "Order_Id";
     private static final int RequestAddressCode = 852;
@@ -49,12 +50,25 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
      * 创建订单
      * @param context
      * @param shoppingCartItemBeans
-     * @param isShoppingCart
+     * @param isShoppingCart 是否是购物车进入（true 是）
      */
     public static void goCreateOrderActivity(Context context, ArrayList<ShoppingCartItemBean> shoppingCartItemBeans, boolean isShoppingCart) {
         Intent intent = new Intent(context, CreateOrderActivity.class);
         intent.putParcelableArrayListExtra(Shopping_Items, shoppingCartItemBeans);
         intent.putExtra(Is_Shopping_Cart, isShoppingCart);
+        context.startActivity(intent);
+    }
+
+    /**
+     *
+     * @param context
+     * @param isJingPaiCart 是否是我的竞拍列表进入 true 是
+     * @param shoppingCartItemBeans 商品数组
+     */
+    public static void goCreateOrderActivity(Context context, boolean isJingPaiCart, ArrayList<ShoppingCartItemBean> shoppingCartItemBeans) {
+        Intent intent = new Intent(context, CreateOrderActivity.class);
+        intent.putParcelableArrayListExtra(Shopping_Items, shoppingCartItemBeans);
+        intent.putExtra(Is_jing_Pai_Cart, isJingPaiCart);
         context.startActivity(intent);
     }
 
@@ -94,6 +108,7 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
 
     private ArrayList<ShoppingCartItemBean> shoppingCartItemBeans;//商品条目
     private boolean isShoppingCart;//是购物车创建订单
+    private boolean isJingPaiCart;//是我的竞拍创建订单
     private AddressBean addressBean;//地址信息
     private String payWay;//支付方式
 
@@ -110,6 +125,7 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
     protected void setupView() {
         shoppingCartItemBeans = getIntent().getParcelableArrayListExtra(Shopping_Items);
         isShoppingCart = getIntent().getBooleanExtra(Is_Shopping_Cart, false);
+        isJingPaiCart = getIntent().getBooleanExtra(Is_jing_Pai_Cart, false);
 
         orderId = getIntent().getStringExtra(Order_Id);
         isPay = getIntent().getBooleanExtra(Is_Pay, true);
@@ -289,7 +305,7 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
     /*立即购买创建订单并支付*/
     private void buyNow(String addressId) {
         ShoppingCartItemBean bean = adapter.getData().get(0);
-        App.app.appAction.buyNow(payWay, bean.shopcar_commodityid, bean.num, addressId, new BaseActionCallbackListener<CreateOrderResultBean>() {
+        App.app.appAction.buyNow(payWay, bean.shopcar_commodityid, bean.num, addressId, isJingPaiCart, new BaseActionCallbackListener<CreateOrderResultBean>() {
             @Override
             public void onSuccess(CreateOrderResultBean data) {
 //                ToastUtil.showToast(App.app, "创建   单个商品   订单成功去支付！  " + data.charges);

@@ -34,6 +34,7 @@ import api.Api;
 import core.AppActionImpl;
 import model.MessageBean;
 import model.MyPaiBean;
+import model.ShoppingCartItemBean;
 import model.UserBean;
 
 /**
@@ -101,6 +102,20 @@ public class MyPaiListActivity extends BaseActivity {
         adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                MyPaiBean myPaiBean = adapter.getData().get(position);
+                if(MyPaiBean.IS_CREATE_ORDER.equals(myPaiBean.mybid_iscreateorder)){
+                    ToastUtil.showToast(App.app,"该竞拍商品已生成订单，可以在我的交易查看");
+                    return;
+                }
+                ArrayList<ShoppingCartItemBean> shoppingCartItemBeans = new ArrayList<>();
+                ShoppingCartItemBean bean = new ShoppingCartItemBean();
+                bean.shopcar_commodityid = myPaiBean.mybid_commodityid;
+                bean.num = "1";
+                bean.commodity_panicprice = myPaiBean.paymoney;
+                bean.commodity_coverimg = myPaiBean.commodity_coverimg;
+                bean.commodity_name = myPaiBean.mybid_commodityname;
+                shoppingCartItemBeans.add(bean);
+                CreateOrderActivity.goCreateOrderActivity(MyPaiListActivity.this, true, shoppingCartItemBeans);
             }
         });
         mRecyclerView.setAdapter(mAdapter);

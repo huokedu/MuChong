@@ -122,7 +122,7 @@ public interface Api {
     void jiaoListBySmallClass(String page, String commodity_smallclass,String order, String commodity_material, String price, ResultCallback callback);
     void addLike(String commodityid,String forumid,String user, ResultCallback callback);
     void addShoppingCart(String shopcar_commodityid,ResultCallback callback);
-    void buyNow(String channel, String commodity_id, String num, String address_id, ResultCallback callback);
+    void buyNow(String channel, String commodity_id, String num, String address_id, String jpoper, ResultCallback callback);
     void buyByShoppingCart(String channel, String shopcar, String address_id, ResultCallback callback);
     void shoppingCartList(ResultCallback callback);
     void deleteShoppingCart(String shopcar_id, ResultCallback callback);

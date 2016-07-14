@@ -73,12 +73,12 @@ public class FourthChildOneFragment extends HomeFragment {
                 return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
             }
         });
-        mPtrFrame.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mPtrFrame.autoRefresh();
-            }
-        }, 500);
+//        mPtrFrame.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                mPtrFrame.autoRefresh();
+//            }
+//        }, 500);
         mPtrFrame.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void loadMore() {
@@ -89,6 +89,8 @@ public class FourthChildOneFragment extends HomeFragment {
         mRecyclerView = findViewById(R.id.recyclerView);
         initAdapter();
         mRecyclerView.setAdapter(mAdapter);
+
+        initData();
     }
 
     private void initAdapter() {
