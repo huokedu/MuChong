@@ -116,12 +116,16 @@ public class ApiImpl implements Api {
     }
 
     @Override
-    public void addAddress(String addr_address, String addr_name, String addr_mobile, ResultCallback callback) {
+    public void addAddress(String addr_type, String addr_province,String addr_city,String addr_county, String addr_address,String addr_name, String addr_mobile, ResultCallback callback) {
         UserBean user = LoginUtil.getUser();
         Map<String, String> params = new HashMap<String, String>();
         params.put("user_id", user.id);
         params.put("user_token", user.user_token);
 
+        params.put("addr_type", addr_type);
+        params.put("addr_province", addr_province);
+        params.put("addr_city", addr_city);
+        params.put("addr_county", addr_county);
         params.put("addr_address", addr_address);
         params.put("addr_name", addr_name);
         params.put("addr_mobile", addr_mobile);
@@ -131,13 +135,17 @@ public class ApiImpl implements Api {
     }
 
     @Override
-    public void updateAddress(String addr_id, String addr_address, String addr_name, String addr_mobile, ResultCallback callback) {
+    public void updateAddress(String addr_id, String addr_type, String addr_province,String addr_city,String addr_county, String addr_address, String addr_name, String addr_mobile, ResultCallback callback) {
         UserBean user = LoginUtil.getUser();
         Map<String, String> params = new HashMap<String, String>();
         params.put("user_id", user.id);
         params.put("user_token", user.user_token);
 
         params.put("addr_id", addr_id);
+        params.put("addr_type", addr_type);
+        params.put("addr_province", addr_province);
+        params.put("addr_city", addr_city);
+        params.put("addr_county", addr_county);
         params.put("addr_address", addr_address);
         params.put("addr_name", addr_name);
         params.put("addr_mobile", addr_mobile);
@@ -155,6 +163,17 @@ public class ApiImpl implements Api {
 
         params.put("addr_id", addr_id);
         String url = Api.DeleteAddress;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void getDefaultAddress(ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("userid", user.id);
+        params.put("user_token", user.user_token);
+
+        String url = Api.GetDefaultAddress;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }
 
@@ -276,15 +295,23 @@ public class ApiImpl implements Api {
     }
 
     @Override
+    public void getGoodsMaterialAndType(ResultCallback callback) {
+        String url = Api.GetGoodsMaterialAndType;
+        new OkHttpRequest.Builder().url(url).get(callback);
+    }
+
+    @Override
     public void getGoodsType(ResultCallback callback) {
         String url = Api.GetGoodsType;
         new OkHttpRequest.Builder().url(url).get(callback);
     }
 
     @Override
-    public void getGoodsMaterials(ResultCallback callback) {
+    public void getGoodsMaterials(String pid, ResultCallback callback) {
         String url = Api.GetGoodsMaterials;
-        new OkHttpRequest.Builder().url(url).get(callback);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("pid", pid);
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }
 
     @Override
@@ -297,6 +324,7 @@ public class ApiImpl implements Api {
     public void publishGoods(String commodity_name, String commodity_content,
                              String commodity_type, String commodity_smallclass, String commodity_spec, String commodity_material, String commodity_panicprice,
                              String commodity_starttime, String commodity_limitend, String commodity_buynum, String commodity_price, String commodity_bond,
+                             String commodity_freemail, String commodity_classlevel,
                              Pair<String, File>[] images, ResultCallback callback) {
         UserBean user = LoginUtil.getUser();
         Map<String, String> params = new HashMap<String, String>();
@@ -317,6 +345,9 @@ public class ApiImpl implements Api {
         params.put("commodity_buynum", commodity_buynum);
         params.put("commodity_price", commodity_price);
         params.put("commodity_bond", commodity_bond);
+
+        params.put("commodity_freemail", commodity_freemail);
+        params.put("commodity_classlevel", commodity_classlevel);
 
         String url = Api.PublishGoods;
         new OkHttpRequest.Builder().url(url).params(params).files(images).upload(callback);
@@ -403,13 +434,14 @@ public class ApiImpl implements Api {
     }
 
     @Override
-    public void jiaoListBySmallClass(String page, String commodity_smallclass, String order, String commodity_material, String price, ResultCallback callback) {
+    public void jiaoListBySmallClass(String page, String commodity_smallclass, String order, String commodity_material, String price, String commodity_classlevel, ResultCallback callback) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("page", page);
-        params.put("commodity_smallclass", commodity_smallclass);
+        params.put("commodity_material", commodity_smallclass);
         params.put("order", order);
-        params.put("commodity_material", commodity_material);
+        params.put("commodity_smallclass", commodity_material);
         params.put("price", price);
+        params.put("commodity_classlevel", commodity_classlevel);
         String url = Api.JiaoList;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }

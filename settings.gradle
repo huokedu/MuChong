@@ -1,1 +1,1 @@
-include ':app', ':okhttputil', ':cptr', ':pingpp'
+include ':app', ':okhttputil', ':cptr', ':pingpp', ':pickerview'

@@ -73,12 +73,6 @@ public class FourthChildOneFragment extends HomeFragment {
                 return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
             }
         });
-//        mPtrFrame.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                mPtrFrame.autoRefresh();
-//            }
-//        }, 500);
         mPtrFrame.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void loadMore() {

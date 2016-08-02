@@ -42,6 +42,7 @@ public class PostPublishActivity extends BaseActivity implements AdapterView.OnI
     public static final String Publish_Type = "Publish_Type";
     public static final String[] Publish_Types = {"5", "5", "4", "3"};
 
+
     public static void goPostPublishActivity(Context context, String publishType, int titleId) {
         Intent intent = new Intent(context, PostPublishActivity.class);
         intent.putExtra(Publish_Type, publishType);
@@ -56,6 +57,7 @@ public class PostPublishActivity extends BaseActivity implements AdapterView.OnI
     private SelectPhotoDialogHelper selectPhotoDialogHelper;
     private File coverImageFile;
     private boolean isPickCover;
+    private LinearLayout linearTitle;
     private EditText editContent;
     private EditText editTitle;
 
@@ -80,6 +82,9 @@ public class PostPublishActivity extends BaseActivity implements AdapterView.OnI
 
 
         mTitleTextView.setText(intent.getIntExtra(ActivityTitleId, R.string.title_post_publish));
+        mTitleRightTextView.setText(R.string.commit);
+        mTitleRightTextView.setVisibility(View.VISIBLE);
+        mTitleRightTextView.setOnClickListener(this);
 
         linearCover = (LinearLayout) findViewById(R.id.linearCover);
         imageViewCover = (ImageView) findViewById(R.id.imageViewCover);
@@ -89,6 +94,7 @@ public class PostPublishActivity extends BaseActivity implements AdapterView.OnI
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
 
+        linearTitle = (LinearLayout) findViewById(R.id.linearTitle);
         editTitle = (EditText) findViewById(R.id.editTitle);
         editContent = (EditText) findViewById(R.id.editContent);
 
@@ -103,6 +109,7 @@ public class PostPublishActivity extends BaseActivity implements AdapterView.OnI
         if(publishType.equals(Publish_Types[0])){
             linearCover.setVisibility(View.GONE);
             linearSelect.setVisibility(View.GONE);
+            linearTitle.setVisibility(View.GONE);
         }else if(publishType.equals(Publish_Types[2])){
             linearSelect.setVisibility(View.VISIBLE);
         }else {
@@ -144,6 +151,7 @@ public class PostPublishActivity extends BaseActivity implements AdapterView.OnI
                 showPopupWindow(v, list);
                 break;
             case R.id.buttonCommit:
+            case R.id.title_right:
                 publishCang();
                 break;
 

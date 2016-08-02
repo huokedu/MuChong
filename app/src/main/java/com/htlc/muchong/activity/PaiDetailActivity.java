@@ -52,6 +52,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
     public static final int REFRESH_TIME_T = 10000;
     private ProgressDialog progressDialog;
 
+
     /*去商品详情*/
     public static void goPaiActivity(Context context, String goodsId) {
         Intent intent = new Intent(context, PaiDetailActivity.class);
@@ -67,6 +68,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
     protected BannerFragment mBannerFragment;//商品详情图片
 
     private TextView textGoodsName;//商品名称
+    private TextView textBaoYou;
     private TextView textMaterial;//商品材质
     private TextView textDescription;//商品描述
 
@@ -142,6 +144,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
             }
         });
         textGoodsName = (TextView) findViewById(R.id.textGoodsName);
+        textBaoYou = (TextView) findViewById(R.id.textBaoYou);
         textMaterial = (TextView) findViewById(R.id.textMaterial);
         textDescription = (TextView) findViewById(R.id.textDescription);
 
@@ -252,6 +255,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
                     String[] images = data.commodity_imgStr.split(ProductDetailActivity.SPLIT_FLAG);
                     mBannerFragment.setData(Arrays.asList(images));
                     textGoodsName.setText(getString(R.string.pai_name, data.commodity_name));
+                    GoodsUtil.setBaoYouByFlag(textBaoYou,data.commodity_freemail);
                     textMaterial.setText(getString(R.string.pai_detail_material, data.commodity_material, data.commodity_spec));
                     textDescription.setText(data.commodity_content);
                     GoodsUtil.setPriceBySymbol(textMarketPrice, data.commodity_price);
@@ -283,6 +287,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             GoodsCommentBean goodsCommentBean = (GoodsCommentBean) adapter.getItem(position);
                             reply = goodsCommentBean.commodityeval_userid;
+                            editComment.setHint("回复:"+goodsCommentBean.userinfo_nickname);
                             showInput(true);
                         }
                     });
@@ -426,6 +431,7 @@ public class PaiDetailActivity extends BaseActivity implements View.OnClickListe
             SoftInputUtil.showSoftInput(editComment);
         } else {
             reply = "";
+            editComment.setHint("");
             editComment.setText("");
             SoftInputUtil.hideSoftInput(editComment);
         }

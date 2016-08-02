@@ -42,6 +42,7 @@
             android:id="@+id/textPostTitle"
             android:textSize="14sp"
             android:text="小小世界"
+            android:visibility="gone"
             android:textColor="@color/text_color_black_muchong"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

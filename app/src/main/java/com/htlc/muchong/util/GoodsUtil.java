@@ -23,8 +23,20 @@ public class GoodsUtil {
         }
     }
     /*设置商品价格为：￥100*/
+    public static void setBaoYouByFlag(TextView textView, String flag) {
+        textView.setText("2".equals(flag)?"包邮":"不包邮");
+    }
+    /*设置商品价格为：￥100*/
     public static void setPriceBySymbol(TextView textView, String price) {
         textView.setText("￥"+price);
+    }
+    /*设置商品价格为：￥100*/
+    public static void setPriceBySymbolAndOld(TextView textView, String price) {
+        textView.setText("原价:￥"+price);
+    }
+    /*设置商品价格为：￥100*/
+    public static void setPriceBySymbolAndNew(TextView textView, String price) {
+        textView.setText("当前价格:￥"+price);
     }
     /*设置商品价格为：100元*/
     public static void setPriceByYuan(TextView textView, String price) {

@@ -8,15 +8,13 @@
     tools:showIn="@layout/activity_jian_detail">
 
     <TextView
-        android:drawableLeft="@mipmap/icon_jian_professor_comment"
         android:id="@+id/textProfessorCommentTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:drawablePadding="5dp"
         android:gravity="center"
         android:text="@string/jian_detail_professor_comment"
-        android:textColor="@color/text_color_black_muchong"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="14sp"/>
 
     <View

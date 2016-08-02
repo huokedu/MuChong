@@ -168,7 +168,7 @@ public class AddressActivity extends BaseActivity {
             AddressBean bean = list.get(position);
             holder.textName.setText(bean.addr_name);
             holder.textTel.setText(bean.addr_mobile);
-            holder.textAddress.setText(bean.addr_address);
+            holder.textAddress.setText(bean.addr_province+bean.addr_city+bean.addr_county+bean.addr_address);
             holder.textEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

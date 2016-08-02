@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +8,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_layout"/>
+    <include layout="@layout/toolbar_layout" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -21,40 +20,58 @@
             android:orientation="vertical">
 
             <EditText
-                android:layout_marginTop="@dimen/divider_width_thin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:background="@android:color/white"
                 android:id="@+id/editName"
-                android:textSize="14sp"
-                android:singleLine="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_width_thin"
+                android:background="@android:color/white"
                 android:hint="@string/address_edit_name_hint"
-                android:textColor="@color/text_color_black_muchong"
-               />
-            <EditText
-                android:layout_marginTop="@dimen/divider_width_thin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:padding="12dp"
-                android:background="@android:color/white"
-                android:id="@+id/editTel"
-                android:textSize="14sp"
                 android:singleLine="true"
-                android:hint="@string/address_edit_tel_hint"
                 android:textColor="@color/text_color_black_muchong"
-               />
+                android:textSize="14sp" />
+
             <EditText
-                android:layout_marginTop="@dimen/divider_width_thin"
+                android:id="@+id/editTel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="12dp"
+                android:layout_marginTop="@dimen/divider_width_thin"
                 android:background="@android:color/white"
-                android:id="@+id/editAddress"
-                android:hint="@string/address_edit_address_hint"
-                android:textSize="14sp"
+                android:hint="@string/address_edit_tel_hint"
+                android:padding="12dp"
+                android:singleLine="true"
                 android:textColor="@color/text_color_black_muchong"
-                />
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textProvince"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_width_thin"
+                android:background="@android:color/white"
+                android:hint="@string/address_edit_province_hint"
+                android:padding="12dp"
+                android:textColor="@color/text_color_black_muchong"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/editAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/divider_width_thin"
+                android:background="@android:color/white"
+                android:hint="@string/address_edit_address_hint"
+                android:padding="12dp"
+                android:textColor="@color/text_color_black_muchong"
+                android:textSize="14sp" />
+            <Switch
+                android:id="@+id/switchView"
+                android:layout_gravity="end|right"
+                android:text="设为默认地址"
+                android:padding="10dp"
+                android:drawablePadding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

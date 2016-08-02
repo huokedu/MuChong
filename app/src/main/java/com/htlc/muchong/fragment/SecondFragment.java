@@ -5,11 +5,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.activity.ProductListActivity;
 import com.htlc.muchong.adapter.SecondAdapter;
-import com.larno.util.ToastUtil;
 
 import model.GoodsTypeBean;
 
@@ -35,7 +33,7 @@ public class SecondFragment extends FirstFragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 GoodsTypeBean bean = (GoodsTypeBean) adapter.getItem(position);
-                ProductListActivity.goProductListActivity(getActivity(),bean.id,bean.constant_name);
+                ProductListActivity.goProductListActivity(getActivity(),bean.id,bean.name);
             }
         });
     }

@@ -84,6 +84,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     private CommentAdapter adapter;//评论Adapter
     private ImageView imageRenZheng;//商家是否认证图标，未认证不显示
     private TextView textPrice;//商品价格
+    private TextView textBaoYou;//商品价格
     private TextView textDescription;//商品描述
     private TextView textMaterial;//商品材质
     private TextView textComment;//评论标题（显示总评论数）
@@ -124,6 +125,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         textLike.setOnClickListener(this);
         imageRenZheng = (ImageView) findViewById(R.id.imageRenZheng);
         textPrice = (TextView) findViewById(R.id.textPrice);
+        textBaoYou = (TextView) findViewById(R.id.textBaoYou);
         textDescription = (TextView) findViewById(R.id.textDescription);
         textMaterial = (TextView) findViewById(R.id.textMaterial);
 
@@ -175,6 +177,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
                 imageRenZheng.setVisibility(GoodsUtil.isTrue(data.userinfo_sincerity) ? View.VISIBLE : View.INVISIBLE);
                 GoodsUtil.setPriceBySymbol(textPrice, data.commodity_panicprice);
+                GoodsUtil.setBaoYouByFlag(textBaoYou, data.commodity_freemail);
                 textDescription.setText(data.commodity_content);
                 String material = getString(R.string.product_detail_material, data.commodity_material, data.commodity_spec);
                 textMaterial.setText(material);

@@ -108,6 +108,7 @@
                 android:minLines="5"
                 android:textSize="14sp"/>
             <Button
+                android:visibility="gone"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="40dp"
                 android:id="@+id/buttonCommit"

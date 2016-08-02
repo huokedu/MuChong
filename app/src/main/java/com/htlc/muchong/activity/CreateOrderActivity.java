@@ -193,6 +193,7 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
                 totalPrice += Double.parseDouble(bean.commodity_panicprice) * Integer.parseInt(bean.num);
             }
             GoodsUtil.setPriceBySymbol(textTotalPrice, String.valueOf(totalPrice));
+            getDefaultAddress();
         } else {
             //有订单，根据订单id获取商品
             getOrderDetail();
@@ -381,16 +382,35 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+    /*获取默认收获地址*/
+    private void getDefaultAddress(){
+        App.app.appAction.getDefaultAddress(new BaseActionCallbackListener<AddressBean>() {
+            @Override
+            public void onSuccess(AddressBean data) {
+                addressBean = data;
+                refreshAddress();
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+
+            }
+        });
+    }
+
     /**
      * 刷新地址模块
      */
     private void refreshAddress() {
-        textName.setText(addressBean.addr_name);
-        textAddress.setText(addressBean.addr_address);
-        textTel.setText(addressBean.addr_mobile);
+        if(addressBean != null){
+            textName.setText(addressBean.addr_name);
+            textAddress.setText(addressBean.addr_province+addressBean.addr_city+addressBean.addr_county+addressBean.addr_address);
+            textTel.setText(addressBean.addr_mobile);
 
-        textAddressTips.setVisibility(View.GONE);
-        relativeAddress.setVisibility(View.VISIBLE);
+            textAddressTips.setVisibility(View.GONE);
+            relativeAddress.setVisibility(View.VISIBLE);
+        }
+
     }
 
 

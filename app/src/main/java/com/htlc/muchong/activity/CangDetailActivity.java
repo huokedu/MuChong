@@ -145,6 +145,7 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PostCommentBean postCommentBean = (PostCommentBean) commentAdapter.getItem(position);
                 reply = postCommentBean.userinfo_id;
+                editComment.setHint("回复:"+postCommentBean.userinfo_nickname);
                 showInput(true);
                 SoftInputUtil.showSoftInput(editComment);
             }
@@ -312,6 +313,7 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
             linearBottom.setVisibility(View.GONE);
         } else {
             reply = "";
+            editComment.setHint("");
             SoftInputUtil.hideSoftInput(editComment);
             relativeInput.setVisibility(View.GONE);
             linearBottom.setVisibility(View.VISIBLE);

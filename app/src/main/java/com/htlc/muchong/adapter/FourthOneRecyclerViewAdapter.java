@@ -56,7 +56,7 @@ public class FourthOneRecyclerViewAdapter extends com.htlc.muchong.base.BaseRecy
         }else {
             viewHolder.image1.setVisibility(View.INVISIBLE);
         }
-        viewHolder.textPostTitle.setText(bean.forum_title);
+//        viewHolder.textPostTitle.setText(bean.forum_title);
         viewHolder.textDescription.setText(bean.forum_content);
 
 

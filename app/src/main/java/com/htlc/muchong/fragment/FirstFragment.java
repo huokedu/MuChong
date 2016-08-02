@@ -58,6 +58,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
     protected ImageView imageQiang1, imageQiang2, imageQiang3;
     protected TextView textNameQiang1, textNameQiang2, textNameQiang3;
     protected TextView textPriceQiang1, textPriceQiang2, textPriceQiang3;
+    protected TextView textOldPriceQiang1,textOldPriceQiang2,textOldPriceQiang3;
 
     protected View relativePai1, relativePai2;//竞拍 的两个条目
     protected ImageView imagePai1, imagePai2;
@@ -160,6 +161,9 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         textPriceQiang1 = findViewById(R.id.textPriceQiang1);
         textPriceQiang2 = findViewById(R.id.textPriceQiang2);
         textPriceQiang3 = findViewById(R.id.textPriceQiang3);
+        textOldPriceQiang1 = findViewById(R.id.textOldPriceQiang1);
+        textOldPriceQiang2 = findViewById(R.id.textOldPriceQiang2);
+        textOldPriceQiang3 = findViewById(R.id.textOldPriceQiang3);
 
         relativePai1 = findViewById(R.id.relativePai1);
         relativePai2 = findViewById(R.id.relativePai2);
@@ -229,7 +233,8 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             GoodsBean goodsBean = homeBean.limittime.list.get(0);
             ImageUtil.setImageByDefault(imageQiang1, R.mipmap.default_first_qiang, Uri.parse(goodsBean.commodity_coverimg));
             textNameQiang1.setText(goodsBean.commodity_name);
-            GoodsUtil.setPriceBySymbol(textPriceQiang1, goodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbolAndNew(textPriceQiang1, goodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbolAndOld(textOldPriceQiang1, goodsBean.commodity_panicprice);
         } else {
             linearQiang1.setVisibility(View.INVISIBLE);
         }
@@ -238,7 +243,8 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             GoodsBean goodsBean = homeBean.limittime.list.get(1);
             ImageUtil.setImageByDefault(imageQiang2, R.mipmap.default_first_qiang, Uri.parse(goodsBean.commodity_coverimg));
             textNameQiang2.setText(goodsBean.commodity_name);
-            GoodsUtil.setPriceBySymbol(textPriceQiang2, goodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbolAndNew(textPriceQiang2, goodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbolAndOld(textOldPriceQiang2, goodsBean.commodity_panicprice);
         } else {
             linearQiang2.setVisibility(View.INVISIBLE);
         }
@@ -247,7 +253,8 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             GoodsBean goodsBean = homeBean.limittime.list.get(2);
             ImageUtil.setImageByDefault(imageQiang3, R.mipmap.default_first_qiang, Uri.parse(goodsBean.commodity_coverimg));
             textNameQiang3.setText(goodsBean.commodity_name);
-            GoodsUtil.setPriceBySymbol(textPriceQiang3, goodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbolAndNew(textPriceQiang3, goodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbolAndOld(textOldPriceQiang3, goodsBean.commodity_panicprice);
         } else {
             linearQiang3.setVisibility(View.INVISIBLE);
         }
@@ -259,7 +266,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             ImageUtil.setImageByDefault(imagePai1, R.mipmap.default_first_pai, Uri.parse(paiGoodsBean.commodity_coverimg));
             GoodsUtil.setImageByPaiType(imageTypePai1, paiGoodsBean.commodity_type);
             textPaiName1.setText(paiGoodsBean.commodity_name);
-            GoodsUtil.setPriceBySymbol(textPaiPrice1, paiGoodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbolAndNew(textPaiPrice1, paiGoodsBean.commodity_panicprice);
         } else {
             relativePai1.setVisibility(View.INVISIBLE);
         }
@@ -269,7 +276,7 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             ImageUtil.setImageByDefault(imagePai2, R.mipmap.default_first_pai, Uri.parse(paiGoodsBean.commodity_coverimg));
             GoodsUtil.setImageByPaiType(imageTypePai2, paiGoodsBean.commodity_type);
             textPaiName2.setText(paiGoodsBean.commodity_name);
-            GoodsUtil.setPriceBySymbol(textPaiPrice2, paiGoodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbolAndNew(textPaiPrice2, paiGoodsBean.commodity_panicprice);
         } else {
             relativePai2.setVisibility(View.INVISIBLE);
         }

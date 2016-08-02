@@ -64,6 +64,10 @@
                     android:id="@+id/textPriceQiang1"
                     style="@style/FirstQiangLinearTextPrice"
                     android:text="￥8899"/>
+                <TextView
+                    android:id="@+id/textOldPriceQiang1"
+                    style="@style/FirstQiangLinearTextPrice"
+                    android:text="￥8899"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -90,6 +94,11 @@
                     android:id="@+id/textPriceQiang2"
                     style="@style/FirstQiangLinearTextPrice"
                     android:text="￥8899"/>
+
+                <TextView
+                    android:id="@+id/textOldPriceQiang2"
+                    style="@style/FirstQiangLinearTextPrice"
+                    android:text="￥8899"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -114,6 +123,11 @@
 
                 <TextView
                     android:id="@+id/textPriceQiang3"
+                    style="@style/FirstQiangLinearTextPrice"
+                    android:text="￥8899"/>
+
+                <TextView
+                    android:id="@+id/textOldPriceQiang3"
                     style="@style/FirstQiangLinearTextPrice"
                     android:text="￥8899"/>
             </LinearLayout>

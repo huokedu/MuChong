@@ -33,6 +33,7 @@ import model.GoodsTypeBean;
 import model.HomeBean;
 import model.JianBean;
 import model.JiaoGoodsBean;
+import model.MaterialAndTypeBean;
 import model.MaterialBean;
 import model.MessageBean;
 import model.MyPaiBean;
@@ -338,7 +339,7 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void addAddress(String addr_address, String addr_name, String addr_mobile, ActionCallbackListener<Void> listener) {
+    public void addAddress(String addr_type, String addr_province,String addr_city,String addr_county, String addr_address, String addr_name, String addr_mobile, ActionCallbackListener<Void> listener) {
         if (!NetworkUtil.isNetworkAvailable(context)) {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
             return;
@@ -359,7 +360,7 @@ public class AppActionImpl implements AppAction {
             listener.onFailure(ErrorEvent.PARAM_ILLEGAL, "手机号格式不正确");
             return;
         }
-        api.addAddress(addr_address, addr_name, addr_mobile, new DefaultResultCallback(listener) {
+        api.addAddress(addr_type, addr_province, addr_city, addr_county, addr_address, addr_name, addr_mobile, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
@@ -373,7 +374,7 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void updateAddress(String addr_id, String addr_address, String addr_name, String addr_mobile, ActionCallbackListener<Void> listener) {
+    public void updateAddress(String addr_id, String addr_type, String addr_province,String addr_city,String addr_county, String addr_address, String addr_name, String addr_mobile, ActionCallbackListener<Void> listener) {
         if (!NetworkUtil.isNetworkAvailable(context)) {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
             return;
@@ -394,7 +395,7 @@ public class AppActionImpl implements AppAction {
             listener.onFailure(ErrorEvent.PARAM_ILLEGAL, "手机号格式不正确");
             return;
         }
-        api.updateAddress(addr_id, addr_address, addr_name, addr_mobile, new DefaultResultCallback(listener) {
+        api.updateAddress(addr_id,addr_type, addr_province, addr_city, addr_county, addr_address, addr_name, addr_mobile, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
@@ -419,6 +420,26 @@ public class AppActionImpl implements AppAction {
                 JSONObject model = JSON.parseObject(response);
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
                     listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getDefaultAddress(ActionCallbackListener<AddressBean> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        api.getDefaultAddress(new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    AddressBean bean = JSON.parseObject(model.getString(KEY_DATA), AddressBean.class);
+                    listener.onSuccess(bean);
                 } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }
@@ -640,6 +661,26 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
+    public void getGoodsMaterialAndType(ActionCallbackListener<List<MaterialAndTypeBean>> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        api.getGoodsMaterialAndType(new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    List<MaterialAndTypeBean> bean = JSON.parseArray(model.getString(KEY_DATA), MaterialAndTypeBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
+    @Override
     public void getGoodsType(ActionCallbackListener<List<GoodsTypeBean>> listener) {
         if (!NetworkUtil.isNetworkAvailable(context)) {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
@@ -660,12 +701,12 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void getGoodsMaterials(ActionCallbackListener<List<MaterialBean>> listener) {
+    public void getGoodsMaterials(String pid, ActionCallbackListener<List<MaterialBean>> listener) {
         if (!NetworkUtil.isNetworkAvailable(context)) {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
             return;
         }
-        api.getGoodsMaterials(new DefaultResultCallback(listener) {
+        api.getGoodsMaterials(pid,new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
@@ -702,6 +743,7 @@ public class AppActionImpl implements AppAction {
     @Override
     public void publishGoods(String commodity_name, String commodity_content, String commodity_type, String commodity_smallclass, String commodity_spec, String commodity_material, String commodity_panicprice,
                              String commodity_starttime, String commodity_limitend, String commodity_buynum, String commodity_price, String commodity_bond,
+                             String commodity_freemail, String commodity_classlevel,
                              File coverImageFile, List<File> contentImageFiles, ActionCallbackListener<Void> listener) {
         if (!NetworkUtil.isNetworkAvailable(context)) {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
@@ -738,6 +780,13 @@ public class AppActionImpl implements AppAction {
         if (TextUtils.isEmpty(commodity_material)) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "(商品)材质不能为空");
             return;
+        }
+        if (TextUtils.isEmpty(commodity_freemail)) {
+            listener.onFailure(ErrorEvent.PARAM_NULL, "请选择是否包邮");
+            return;
+        }
+        if(TextUtils.isEmpty(commodity_classlevel)){
+            commodity_classlevel = "";
         }
         if (TextUtils.isEmpty(commodity_panicprice)) {
             if("4".endsWith(commodity_type)){
@@ -795,7 +844,9 @@ public class AppActionImpl implements AppAction {
             imageFiles[i + 1] = new Pair<>("commodity_imgs[" + (i + 1) + "]", contentImageFiles.get(i));
         }
         api.publishGoods(commodity_name, commodity_content, commodity_type, commodity_smallclass, commodity_spec, commodity_material, commodity_panicprice,
-                commodity_starttime, commodity_limitend, commodity_buynum, commodity_price, commodity_bond, imageFiles, new DefaultResultCallback(listener) {
+                commodity_starttime, commodity_limitend, commodity_buynum, commodity_price, commodity_bond,
+                commodity_freemail, commodity_classlevel,
+                imageFiles, new DefaultResultCallback(listener) {
                     @Override
                     public void onResponse(String response) {
                         JSONObject model = JSON.parseObject(response);
@@ -989,7 +1040,7 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void jiaoListBySmallClass(int page, String commodity_smallclass, String order, String commodity_material, String price, ActionCallbackListener<List<JiaoGoodsBean>> listener) {
+    public void jiaoListBySmallClass(int page, String commodity_smallclass, String order, String commodity_material, String price, String commodity_classlevel, ActionCallbackListener<List<JiaoGoodsBean>> listener) {
         if (!NetworkUtil.isNetworkAvailable(context)) {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
             return;
@@ -1000,7 +1051,10 @@ public class AppActionImpl implements AppAction {
         if (TextUtils.isEmpty(price)) {
             price = "";
         }
-        api.jiaoListBySmallClass(String.valueOf(page), commodity_smallclass, order, commodity_material,price, new DefaultResultCallback(listener) {
+        if(TextUtils.isEmpty(commodity_classlevel)){
+            commodity_classlevel = "";
+        }
+        api.jiaoListBySmallClass(String.valueOf(page), commodity_smallclass, order, commodity_material,price, commodity_classlevel,new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
@@ -1338,7 +1392,7 @@ public class AppActionImpl implements AppAction {
             listener.onFailure(ErrorEvent.PARAM_NULL, "内容图片不能为空");
             return;
         }
-        if (TextUtils.isEmpty(forum_title)) {
+        if (TextUtils.isEmpty(forum_title) && !PostPublishActivity.Publish_Types[0].equals(type)) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "标题不能为空");
             return;
         }

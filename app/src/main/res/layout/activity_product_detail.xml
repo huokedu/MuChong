@@ -28,7 +28,7 @@
                     android:id="@+id/fragmentBanner"
                     android:name="com.htlc.muchong.fragment.BannerFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/banner_height"/>
+                    android:layout_height="@dimen/banner_height_plus"/>
                 <!--商品正文-->
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -78,6 +78,13 @@
                         android:text="￥5555"
                         android:textColor="@color/text_color_red"
                         android:textSize="14sp"/>
+                    <TextView
+                        android:layout_alignLeft="@+id/textLike"
+                        android:id="@+id/textBaoYou"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_alignBottom="@+id/textPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
                     <View
                         android:id="@+id/divider"

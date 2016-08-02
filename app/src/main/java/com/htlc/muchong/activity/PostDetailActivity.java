@@ -169,6 +169,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PostCommentBean postCommentBean = (PostCommentBean) commentAdapter.getItem(position);
                 reply = postCommentBean.userinfo_id;
+                editComment.setHint("回复:"+postCommentBean.userinfo_nickname);
                 showInput(true);
             }
         });
@@ -216,6 +217,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
             SoftInputUtil.showSoftInput(editComment);
         } else {
             reply = "";
+            editComment.setHint("");
             editComment.setText("");
             SoftInputUtil.hideSoftInput(editComment);
         }

@@ -52,9 +52,18 @@ public class ProductListActivity extends BaseActivity {
     private String smallClassName;//商品小类 名字
     private String material;//筛选条件 材质
     private String price;//筛选条件 价格
+    private String level;//筛选条件 紫檀级别
 
     public void setMaterial(String material) {
         this.material = material;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getLevel() {
+        return level;
     }
 
     public String getPrice() {
@@ -71,6 +80,10 @@ public class ProductListActivity extends BaseActivity {
 
     public String getSmallClassId() {
         return smallClassId;
+    }
+
+    public String getSmallClassName() {
+        return smallClassName;
     }
 
     public boolean isSalesOrderIsDown() {

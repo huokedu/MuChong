@@ -138,6 +138,7 @@ public class CommentListActivity extends BaseActivity {
             public void onItemClick(View view, int position) {
                 GoodsCommentBean goodsCommentBean = adapter.getData().get(position);
                 reply = goodsCommentBean.commodityeval_userid;
+                editComment.setHint("回复:"+goodsCommentBean.userinfo_nickname);
                 showInput(true);
             }
         });
@@ -154,6 +155,7 @@ public class CommentListActivity extends BaseActivity {
             SoftInputUtil.showSoftInput(editComment);
         } else {
             reply = "";
+            editComment.setHint("");
             editComment.setText("");
             SoftInputUtil.hideSoftInput(editComment);
         }

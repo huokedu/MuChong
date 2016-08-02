@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_layout"/>
+    <include layout="@layout/toolbar_layout" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -41,7 +40,7 @@
                         android:id="@+id/imageHead"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@mipmap/default_third_gird_head"/>
+                        android:src="@mipmap/default_third_gird_head" />
 
                     <RelativeLayout
                         android:layout_width="0dp"
@@ -54,7 +53,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
-                            android:text="哆啦A梦"/>
+                            android:text="哆啦A梦" />
 
                         <TextView
                             android:id="@+id/textLevel"
@@ -64,7 +63,7 @@
                             android:layout_marginTop="5dp"
                             android:singleLine="true"
                             android:text="等级：豆豆"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
                     </RelativeLayout>
 
                     <RatingBar
@@ -74,18 +73,18 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="top"
                         android:numStars="5"
-                        android:rating="4"/>
+                        android:rating="4" />
                 </LinearLayout>
 
-                <View style="@style/DividerHorizontal.Thin"/>
+                <View style="@style/DividerHorizontal.Thin" />
                 <!--banner-->
                 <fragment
                     android:id="@+id/fragmentBanner"
                     android:name="com.htlc.muchong.fragment.BannerFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/banner_height"/>
+                    android:layout_height="@dimen/banner_height" />
 
-                <View style="@style/DividerHorizontal.Thin"/>
+                <View style="@style/DividerHorizontal.Thin" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -94,14 +93,27 @@
                     android:padding="20dp"
                     android:visibility="visible">
 
-                    <TextView
-                        android:id="@+id/textGoodsName"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:text="@string/pai_name"
-                        android:textColor="@color/text_color_black_muchong"
-                        android:textSize="16sp"/>
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/textGoodsName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:text="@string/pai_name"
+                            android:textColor="@color/text_color_black_muchong"
+                            android:textSize="16sp" />
+                        <TextView
+                            android:id="@+id/textBaoYou"
+                            android:textColor="@color/colorPrimary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/textMaterial"
@@ -111,22 +123,21 @@
                         android:layout_marginTop="10dp"
                         android:text="@string/pai_detail_material"
                         android:textColor="@color/text_color_black_muchong"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/textDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="酷传，是应用发布和监控平台，一键快速发布应用到多个应用市场，同时监控应用数据，同时解决了 App 在上传和监控时面临的问题。"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
                 </LinearLayout>
 
-                <View style="@style/DividerHorizontal.Thin"/>
+                <View style="@style/DividerHorizontal.Thin" />
 
-                <include
-                    layout="@layout/layout_comment"/>
+                <include layout="@layout/layout_comment" />
 
-                <View style="@style/DividerHorizontal.Thin"/>
+                <View style="@style/DividerHorizontal.Thin" />
 
 
                 <!--价格-->
@@ -137,94 +148,98 @@
                     android:padding="20dp">
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/paiPriceLabel"
                         style="@style/PaiDetailPriceLabelTextView"
-                        android:background="@color/text_color_red"
                         android:layout_marginBottom="15dp"
-                        android:text="@string/pai_price"/>
+                        android:background="@color/text_color_red"
+                        android:text="@string/pai_price"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/textPaiPrice"
-                        android:visibility="gone"
                         style="@style/PaiDetailPriceTextView"
                         android:layout_toRightOf="@+id/paiPriceLabel"
-                        android:text="￥8899"/>
+                        android:text="￥8899"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/paiMarketPriceLabel"
                         style="@style/PaiDetailPriceLabelTextView"
                         android:layout_below="@+id/paiPriceLabel"
                         android:background="@android:color/holo_blue_light"
-                        android:text="@string/pai_market_price"/>
+                        android:text="@string/pai_market_price" />
 
                     <TextView
                         android:id="@+id/textMarketPrice"
                         style="@style/PaiDetailPriceTextView"
                         android:layout_alignBottom="@+id/paiMarketPriceLabel"
                         android:layout_toRightOf="@+id/paiMarketPriceLabel"
-                        android:text="￥8899"/>
+                        android:text="￥8899" />
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/depositLabel"
                         style="@style/PaiDetailPriceLabelTextView"
                         android:layout_below="@+id/paiMarketPriceLabel"
                         android:layout_marginTop="15dp"
                         android:background="@android:color/holo_orange_light"
-                        android:text="@string/pai_deposit"/>
+                        android:text="@string/pai_deposit"
+                        android:visibility="gone" />
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/textDeposit"
                         style="@style/PaiDetailPriceTextView"
                         android:layout_alignBottom="@+id/depositLabel"
                         android:layout_toRightOf="@+id/depositLabel"
-                        android:text="￥8899"/>
+                        android:text="￥8899"
+                        android:visibility="gone" />
                 </RelativeLayout>
-                <View style="@style/DividerHorizontal.Thin"/>
+
+                <View style="@style/DividerHorizontal.Thin" />
                 <!--倒拍-->
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/linearDaoPai"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:padding="20dp"
-                    android:orientation="vertical">
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/textPrice"
-                        android:layout_marginBottom="15dp"
-                        android:textColor="@color/text_color_red"
-                        android:text="@string/pai_current_price"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:text="@string/pai_current_price"
+                        android:textColor="@color/text_color_red" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <TextView
                             android:id="@+id/textDaoPaiTips"
-                            android:layout_weight="1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:text="@string/pai_dao_pai_tips"
-                            android:textColor="@color/text_color_black_muchong"/>
+                            android:textColor="@color/text_color_black_muchong" />
+
                         <com.htlc.muchong.widget.DaoJiShiView
                             android:id="@+id/daoJiShiView"
-                            android:layout_gravity="right"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"></com.htlc.muchong.widget.DaoJiShiView>
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"></com.htlc.muchong.widget.DaoJiShiView>
                     </LinearLayout>
 
                 </LinearLayout>
                 <!--竞拍-->
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/linearJingPai"
                     android:layout_width="match_parent"
                     android:layout_height="210dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -237,7 +252,7 @@
                         <ImageView
                             android:layout_width="87dp"
                             android:layout_height="41dp"
-                            android:src="@mipmap/icon_pai_detail_left"/>
+                            android:src="@mipmap/icon_pai_detail_left" />
 
                         <TextView
                             android:id="@+id/textLastPaiName"
@@ -246,7 +261,7 @@
                             android:layout_marginTop="20dp"
                             android:text="@string/pai_last_username"
                             android:textColor="@android:color/white"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/textLastPaiPrice"
@@ -255,7 +270,7 @@
                             android:layout_marginTop="10dp"
                             android:text="@string/pai_last_price"
                             android:textColor="@android:color/white"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <RelativeLayout
@@ -269,7 +284,7 @@
                             android:layout_height="21dp"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="20dp"
-                            android:src="@mipmap/icon_pai_detail_right"/>
+                            android:src="@mipmap/icon_pai_detail_right" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -288,7 +303,7 @@
                                 android:gravity="center"
                                 android:text="100元"
                                 android:textColor="@android:color/white"
-                                android:textSize="16sp"/>
+                                android:textSize="16sp" />
 
                             <TextView
                                 android:id="@+id/textAddPriceBig"
@@ -299,7 +314,7 @@
                                 android:gravity="center"
                                 android:text="200元"
                                 android:textColor="@android:color/white"
-                                android:textSize="16sp"/>
+                                android:textSize="16sp" />
                         </LinearLayout>
 
                         <TextView
@@ -317,30 +332,33 @@
                             android:paddingTop="5dp"
                             android:text="@string/pai_dao_jis_shi"
                             android:textColor="@android:color/white"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp" />
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
-        <include layout="@layout/layout_input"/>
+
+        <include layout="@layout/layout_input" />
+
         <RelativeLayout
             android:id="@+id/relativeBuy"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@color/bg_gray">
+            android:background="@color/bg_gray"
+            android:visibility="gone">
+
             <TextView
                 android:id="@+id/textBuy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:background="@mipmap/bg_button_code"
-                android:padding="10dp"
                 android:gravity="center"
+                android:padding="10dp"
                 android:text="@string/product_detail_buy"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
         </RelativeLayout>
     </FrameLayout>
 </LinearLayout>

@@ -5,6 +5,6 @@ package model;
  */
 public class MaterialBean {
     public String id;
-    public String name;
+    public String materialsub_name;
     public boolean isSelect;
 }

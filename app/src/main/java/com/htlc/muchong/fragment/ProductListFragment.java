@@ -1,9 +1,7 @@
 package com.htlc.muchong.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Rect;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
@@ -24,12 +21,9 @@ import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
-import com.htlc.muchong.activity.JianDetailActivity;
-import com.htlc.muchong.activity.PaiDetailActivity;
 import com.htlc.muchong.activity.ProductDetailActivity;
 import com.htlc.muchong.activity.ProductListActivity;
 import com.htlc.muchong.adapter.ProductRecyclerViewAdapter;
-import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.base.BaseFragment;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
 import com.htlc.muchong.widget.CheckTextView;
@@ -37,13 +31,11 @@ import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import core.AppActionImpl;
 import model.JiaoGoodsBean;
 import model.MaterialBean;
-import model.PaiGoodsBean;
 
 /**
  * Created by sks on 2015/12/29.
@@ -60,9 +52,11 @@ public class ProductListFragment extends BaseFragment {
     public static final String ORDER_PRICE_DOWN = "4";//商品价格降序
     public static final String ORDER_PRICE_UP = "3";//商品价格升序
 
-    public static final String[] Titles = {"材质", "价格"};
+    public static final String[] Titles = {"商品种类", "价格", "级别"};
     public static final String[] Prices = {"全部", "0-500", "500-1000", "1000-3000", "3000-5000", "5000以上"};
     public static final String[] PricesId = {"", "0-500", "500-1000", "1000-3000", "3000-5000", "5000"};
+    public static final String[] Levels = {"全部","A级", "A+级", "AA级", "AA+级", "AAA级", "AAA+级","AAAA级","AAAA+级","AAAAA级", "AAAAA+级"};
+    public static final String[] LevelsId = {"全部","A级", "A+级", "AA级", "AA+级", "AAA级", "AAA+级","AAAA级","AAAA+级","AAAAA级", "AAAAA+级"};
 
 
     public CharSequence mTitle;//标题  综合，价格等
@@ -73,10 +67,13 @@ public class ProductListFragment extends BaseFragment {
     private List<MaterialBean> materials;//材质列表
     private String materialId;//当前选择的材质id
     private String priceId;//当前选择的价格id
+    private String levelId;//当前选择的价格id
     private int materialPosition;//当前选择的材质在gridview的位置
     private int pricePosition;//当前选择的价格在gridview的位置
+    private int levelPosition;//当前选择的级别在gridview的位置
     private int materialPositionSelected;//确认选择的材质在gridview的位置
     private int pricePositionSelected;//确认选择的价格在gridview的位置
+    private int levelPositionSelected;//确认选择的级别在gridview的位置
 
     public static ProductListFragment newInstance(int iconId, String title, String type) {
         try {
@@ -195,7 +192,7 @@ public class ProductListFragment extends BaseFragment {
     /*加载第2，3...的商品数据*/
     private void loadMoreData() {
         String order = getOderType();
-        App.app.appAction.jiaoListBySmallClass(page, activity.getSmallClassId(), order, activity.getMaterial(), activity.getPrice(), activity.new BaseActionCallbackListener<List<JiaoGoodsBean>>() {
+        App.app.appAction.jiaoListBySmallClass(page, activity.getSmallClassId(), order, activity.getMaterial(), activity.getPrice(),activity.getLevel(), activity.new BaseActionCallbackListener<List<JiaoGoodsBean>>() {
             @Override
             public void onSuccess(List<JiaoGoodsBean> data) {
                 adapter.setData(data, true);
@@ -220,7 +217,8 @@ public class ProductListFragment extends BaseFragment {
     public void initData() {
         if (TYPE_4.equals(mType)) {
             /*获取材质列表*/
-            App.app.appAction.getGoodsMaterials(activity.new BaseActionCallbackListener<List<MaterialBean>>() {
+
+            App.app.appAction.getGoodsMaterials(activity.getSmallClassId(),activity.new BaseActionCallbackListener<List<MaterialBean>>() {
                 @Override
                 public void onSuccess(List<MaterialBean> data) {
                     mPtrFrame.refreshComplete();
@@ -230,12 +228,19 @@ public class ProductListFragment extends BaseFragment {
                     List<MaterialBean> prices = new ArrayList<MaterialBean>();
                     for (int i = 0; i < Prices.length; i++) {
                         MaterialBean materialBean = new MaterialBean();
-                        materialBean.name = Prices[i];
+                        materialBean.materialsub_name = Prices[i];
                         materialBean.id = PricesId[i];
                         prices.add(materialBean);
                     }
+                    List<MaterialBean> levels = new ArrayList<MaterialBean>();
+                    for (int i = 0; i < Levels.length; i++) {
+                        MaterialBean materialBean = new MaterialBean();
+                        materialBean.materialsub_name = Levels[i];
+                        materialBean.id = LevelsId[i];
+                        levels.add(materialBean);
+                    }
                     //设置给FilterAdapter
-                    filterAdapter.setData(materials, prices);
+                    filterAdapter.setData(materials, prices, levels);
                 }
 
                 @Override
@@ -248,7 +253,7 @@ public class ProductListFragment extends BaseFragment {
         } else {
             String order = getOderType();
             page = 1;
-            App.app.appAction.jiaoListBySmallClass(page, activity.getSmallClassId(), order, activity.getMaterial(), activity.getPrice(), activity.new BaseActionCallbackListener<List<JiaoGoodsBean>>() {
+            App.app.appAction.jiaoListBySmallClass(page, activity.getSmallClassId(), order, activity.getMaterial(), activity.getPrice(),activity.getLevel(), activity.new BaseActionCallbackListener<List<JiaoGoodsBean>>() {
                 @Override
                 public void onSuccess(List<JiaoGoodsBean> data) {
                     mPtrFrame.refreshComplete();
@@ -274,7 +279,6 @@ public class ProductListFragment extends BaseFragment {
     }
 
     /*根据当前Fragment类型和Activity中记录的价格销量状态判断，商品排序类型*/
-    @NonNull
     private String getOderType() {
         String order = ORDER_NORMAL;
         if (TYPE_1.equals(mType)) {
@@ -299,8 +303,10 @@ public class ProductListFragment extends BaseFragment {
     public void setFilter() {
         activity.setMaterial(materialId);
         activity.setPrice(priceId);
+        activity.setLevel(levelId);
         materialPositionSelected = materialPosition;
         pricePositionSelected = pricePosition;
+        levelPositionSelected = levelPosition;
     }
 
     /*当选择筛选Fragment时，刷新筛选数据状态（默认选择的位置）*/
@@ -318,9 +324,15 @@ public class ProductListFragment extends BaseFragment {
 
     /*筛选分类*/
     public class FilterRecyclerAdapter extends RecyclerView.Adapter {
-        private FilterBean[] array = new FilterBean[2];
+        private FilterBean[] array;
 
         public FilterRecyclerAdapter() {
+            if(activity.getSmallClassName().equals("紫檀")){
+                array = new FilterBean[3];
+            }else {
+                array = new FilterBean[2];
+            }
+
             for (int i = 0; i < array.length; i++) {
                 FilterBean filterBean = new FilterBean();
                 filterBean.title = Titles[i];
@@ -330,15 +342,19 @@ public class ProductListFragment extends BaseFragment {
         }
 
         /*将可选择的 价格集合 和 材质集合，分装为FilterBean，作为FilterAdapter的一个条目的数据源*/
-        public void setData(List<MaterialBean> materials, List<MaterialBean> prices) {
+        public void setData(List<MaterialBean> materials, List<MaterialBean> prices, List<MaterialBean> levels) {
             array[0].list.clear();
             MaterialBean materialBean = new MaterialBean();
             materialBean.id = "";
-            materialBean.name = "全部";
+            materialBean.materialsub_name = "全部";
             array[0].list.add(materialBean);
             array[0].list.addAll(materials);
             array[1].list.clear();
             array[1].list.addAll(prices);
+            if(array.length>2){
+                array[2].list.clear();
+                array[2].list.addAll(levels);
+            }
             notifyDataSetChanged();
         }
 
@@ -360,8 +376,16 @@ public class ProductListFragment extends BaseFragment {
 //            viewHolder.gridView.setSelection(filterGridAdapter.getCheckPosition());
 //            viewHolder.gridView.setItemChecked(filterGridAdapter.getCheckPosition(), true);
             //将上次选中的位置，设置为选中状态
-            viewHolder.gridView.setSelection(position == 0 ? materialPositionSelected : pricePositionSelected);
-            viewHolder.gridView.setItemChecked(position == 0 ? materialPositionSelected : pricePositionSelected, true);
+            if(position==0){
+                viewHolder.gridView.setSelection(materialPositionSelected);
+                viewHolder.gridView.setItemChecked(materialPositionSelected,true);
+            }else if(position==1){
+                viewHolder.gridView.setSelection(pricePositionSelected);
+                viewHolder.gridView.setItemChecked(pricePositionSelected, true);
+            }else if(position==2){
+                viewHolder.gridView.setSelection(levelPositionSelected);
+                viewHolder.gridView.setItemChecked(levelPositionSelected, true);
+            }
         }
 
         @Override
@@ -401,9 +425,12 @@ public class ProductListFragment extends BaseFragment {
             if (position == 0) {
                 materialPosition = checkedItemPosition;
                 materialId = array[0].list.get(checkedItemPosition).id;
-            } else {
+            } else if(position == 1){
                 pricePosition = checkedItemPosition;
                 priceId = array[1].list.get(checkedItemPosition).id;
+            } else if(position == 2){
+                levelPosition = checkedItemPosition;
+                levelId = array[2].list.get(checkedItemPosition).id;
             }
             filterGridAdapter.setCheckPosition(checkedItemPosition);
             filterGridAdapter.notifyDataSetChanged();
@@ -451,7 +478,7 @@ public class ProductListFragment extends BaseFragment {
             if (position == checkPosition) {
                 textView.setChecked(true);
             }
-            textView.setText(list.get(position).name);
+            textView.setText(list.get(position).materialsub_name);
             return convertView;
         }
     }

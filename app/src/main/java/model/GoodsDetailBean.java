@@ -15,6 +15,7 @@ public class GoodsDetailBean {
     public String commodity_likenum;
     public String commodity_looknum;
     public String commodity_panicprice;
+    public String commodity_freemail;
     public String commodity_material;
     public String commodity_spec;
     public String userinfo_sincerity;

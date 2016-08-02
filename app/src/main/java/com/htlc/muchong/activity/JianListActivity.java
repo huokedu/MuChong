@@ -36,7 +36,7 @@ public class JianListActivity extends BaseActivity {
     @Override
     protected void setupView() {
         mTitleTextView.setText(R.string.first_header_jian);
-        mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);
+        mTitleRightTextView.setText(R.string.publish);
         mTitleRightTextView.setVisibility(LoginUtil.getUser().user_role.equals(UserBean.TYPE_EXPERT)?View.INVISIBLE:View.VISIBLE);
         mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -46,6 +46,9 @@ public class JianPublishActivity extends BaseActivity implements AdapterView.OnI
     @Override
     protected void setupView() {
         mTitleTextView.setText(R.string.title_jian_publish);
+        mTitleRightTextView.setText(R.string.commit);
+        mTitleRightTextView.setVisibility(View.VISIBLE);
+        mTitleRightTextView.setOnClickListener(this);
 
         imageViewCover = (ImageView) findViewById(R.id.imageViewCover);
         imageViewCover.setOnClickListener(this);
@@ -88,6 +91,7 @@ public class JianPublishActivity extends BaseActivity implements AdapterView.OnI
                 pickPhoto(SelectPhotoDialogHelper.Width_720, SelectPhotoDialogHelper.Width_Scale_4, SelectPhotoDialogHelper.Height_Scale_3);
                 break;
             case R.id.buttonCommit:
+            case R.id.title_right:
                 publishCang();
                 break;
 

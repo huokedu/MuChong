@@ -31,6 +31,7 @@ public interface Api {
     String AddAddress = Host + "/Home/HomeUser/addAddress";
     String UpdateAddress = Host + "/Home/HomeUser/updateAddr";
     String DeleteAddress = Host + "/Home/HomeUser/deladdr";
+    String GetDefaultAddress = Host + "/Home/HomeOrder/getDefaultAddress";
     String MessageList = Host + "/Home/HomeMessage/msglist";
     String MessageDetailHtml = Host + "/Home/HomeMessage/msginfo?user_id=%1$s&user_token=%2$s&msg_id=%3$s";
     String DeleteMessage = Host + "/Home/HomeMessage/delmsg";
@@ -43,6 +44,7 @@ public interface Api {
     String DeleteOrderById = Host + "/Home/HomeOrder/deleteOrder";
 
     String Home = Host + "/Home/HomeCommodity/homepage";
+    String GetGoodsMaterialAndType = Host + "/Home/HomeCommodity/smallclassAllList";
     String GetGoodsType = Host + "/Home/HomeCommodity/smallclasslist";
     String GetGoodsMaterials = Host + "/Home/HomeCommodity/material";
     String GetPaiStartTimes = Host + "/Home/HomeCommodity/getbidtimelist";
@@ -91,9 +93,10 @@ public interface Api {
     void resetPassword(String user_account,String Verifycode,String user_pwda,String user_pwdb, ResultCallback callback);
     void resetTel(String user_account,ResultCallback callback);
     void myAddressList(ResultCallback callback);
-    void addAddress(String addr_address, String addr_name, String addr_mobile, ResultCallback callback);
-    void updateAddress(String addr_id, String addr_address, String addr_name, String addr_mobile, ResultCallback callback);
+    void addAddress(String addr_type, String addr_province,String addr_city,String addr_county, String addr_address, String addr_name, String addr_mobile, ResultCallback callback);
+    void updateAddress(String addr_id,String addr_type, String addr_province,String addr_city,String addr_county, String addr_address, String addr_name, String addr_mobile, ResultCallback callback);
     void deleteAddress(String addr_id, ResultCallback callback);
+    void getDefaultAddress(ResultCallback callback);
     void messageList(String page, ResultCallback callback);
     void deleteMessage(String msg_id, ResultCallback callback);
     void myPaiList(String page, ResultCallback callback);
@@ -105,12 +108,14 @@ public interface Api {
     void deleteOrderById(String orderno, ResultCallback callback);
 
     void home(ResultCallback callback);
+    void getGoodsMaterialAndType(ResultCallback callback);
     void getGoodsType(ResultCallback callback);
-    void getGoodsMaterials(ResultCallback callback);
+    void getGoodsMaterials(String pid, ResultCallback callback);
     void getPointInTimes(ResultCallback callback);
     void publishGoods(String commodity_name,String commodity_content,
                       String commodity_type,String commodity_smallclass,String commodity_spec,String commodity_material,String commodity_panicprice,
                       String commodity_starttime,String commodity_limitend,String commodity_buynum,String commodity_price,String commodity_bond,
+                      String commodity_freemail, String commodity_classlevel,
                       Pair<String,File>[] images, ResultCallback callback);
     void goodsDetail(String commodity_id,ResultCallback callback);
     void goodsCommentList(String commodity_id,String page,ResultCallback callback);
@@ -120,7 +125,7 @@ public interface Api {
     void qiangList(String flag, String page, ResultCallback callback);
     void paiList(String page, ResultCallback callback);
     void jiaoList(String page, ResultCallback callback);
-    void jiaoListBySmallClass(String page, String commodity_smallclass,String order, String commodity_material, String price, ResultCallback callback);
+    void jiaoListBySmallClass(String page, String commodity_smallclass,String order, String commodity_material, String price, String commodity_classlevel, ResultCallback callback);
     void addLike(String commodityid,String forumid,String user, ResultCallback callback);
     void addShoppingCart(String shopcar_commodityid,ResultCallback callback);
     void buyNow(String channel, String commodity_id, String num, String address_id, String jpoper, ResultCallback callback);

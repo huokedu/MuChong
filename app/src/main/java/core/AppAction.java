@@ -16,6 +16,7 @@ import model.GoodsTypeBean;
 import model.HomeBean;
 import model.JianBean;
 import model.JiaoGoodsBean;
+import model.MaterialAndTypeBean;
 import model.MaterialBean;
 import model.MessageBean;
 import model.MyPaiBean;
@@ -49,9 +50,10 @@ public interface AppAction {
     void resetPassword(String user_account,String Verifycode,String user_pwda,String user_pwdb, ActionCallbackListener<Void> listener);
     void resetTel(String user_account, ActionCallbackListener<Void> listener);
     void myAddressList(ActionCallbackListener<List<AddressBean>> listener);
-    void addAddress(String addr_address, String addr_name, String addr_mobile, ActionCallbackListener<Void> listener);
-    void updateAddress(String addr_id, String addr_address, String addr_name, String addr_mobile, ActionCallbackListener<Void> listener);
+    void addAddress(String addr_type, String addr_province,String addr_city,String addr_county, String addr_address, String addr_name, String addr_mobile, ActionCallbackListener<Void> listener);
+    void updateAddress(String addr_id,String addr_type, String addr_province,String addr_city,String addr_county,  String addr_address, String addr_name, String addr_mobile, ActionCallbackListener<Void> listener);
     void deleteAddress(String addr_id, ActionCallbackListener<Void> listener);
+    void getDefaultAddress(ActionCallbackListener<AddressBean> listener);
     void messageList(int page,  ActionCallbackListener<List<MessageBean>> listener);
     void deleteMessage(String msg_id, ActionCallbackListener<Void> listener);
     void myPaiList(int page,  ActionCallbackListener<List<MyPaiBean>> listener);
@@ -63,12 +65,14 @@ public interface AppAction {
     void deleteOrderById(String orderno, ActionCallbackListener<Void> listener);
 
     void home(ActionCallbackListener<HomeBean> listener);
+    void getGoodsMaterialAndType(ActionCallbackListener<List<MaterialAndTypeBean>> listener);
     void getGoodsType(ActionCallbackListener<List<GoodsTypeBean>> listener);
-    void getGoodsMaterials(ActionCallbackListener<List<MaterialBean>> listener);
+    void getGoodsMaterials(String pid, ActionCallbackListener<List<MaterialBean>> listener);
     void getPointInTimes(ActionCallbackListener<List<PointInTimeBean>> listener);
     void publishGoods(String commodity_name, String commodity_content,
                       String commodity_type, String commodity_smallclass, String commodity_spec, String commodity_material, String commodity_panicprice,
                       String commodity_starttime, String commodity_limitend, String commodity_buynum, String commodity_price, String commodity_bond,
+                      String commodity_freemail, String commodity_classlevel,
                       File coverImageFile,List<File> contentImageFiles,
                       ActionCallbackListener<Void> listener);
     void goodsDetail(String commodity_id,ActionCallbackListener<GoodsDetailBean> listener);
@@ -79,7 +83,7 @@ public interface AppAction {
     void qiangList(String flag, int page,ActionCallbackListener<QiangListBean> listener);
     void paiList(int page, ActionCallbackListener<List<PaiGoodsBean>> listener);
     void jiaoList(int page, ActionCallbackListener<List<JiaoGoodsBean>> listener);
-    void jiaoListBySmallClass(int page, String commodity_smallclass, String order, String commodity_material, String price, ActionCallbackListener<List<JiaoGoodsBean>> listener);
+    void jiaoListBySmallClass(int page, String commodity_smallclass, String order, String commodity_material, String price, String commodity_classlevel, ActionCallbackListener<List<JiaoGoodsBean>> listener);
     void addLikeGoods(String commodity_id,ActionCallbackListener<Void> listener);
     void addShoppingCart(String shopcar_commodityid,ActionCallbackListener<Void> listener);
     void buyNow(String channel, String commodity_id, String num, String address_id, boolean isJingPaiCart, ActionCallbackListener<CreateOrderResultBean> listener);

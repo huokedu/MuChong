@@ -6,6 +6,6 @@ package model;
  */
 public class GoodsTypeBean {
     public String id;
-    public String constant_name;
-    public String constant_img;
+    public String name;
+    public String image;
 }

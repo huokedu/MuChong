@@ -130,21 +130,7 @@
                         style="@style/DividerHorizontal.Thin"
                         android:layout_marginTop="10dp"/>
                 </LinearLayout>
-                <!--商品分类-->
-                <LinearLayout
-                    android:id="@+id/linearChildType"
-                    style="@style/PublishLinearItem">
 
-                    <TextView
-                        android:id="@+id/textChildType"
-                        style="@style/PublishTextItem"
-                        android:text="@string/publish_child_type"
-                        />
-
-                    <View
-                        style="@style/DividerHorizontal.Thin"
-                        android:layout_marginTop="10dp"/>
-                </LinearLayout>
                 <!--材质-->
                 <LinearLayout
                     android:id="@+id/linearMaterial"
@@ -154,6 +140,21 @@
                         android:id="@+id/textMaterial"
                         style="@style/PublishTextItem"
                         android:text="@string/publish_material"
+                        />
+
+                    <View
+                        style="@style/DividerHorizontal.Thin"
+                        android:layout_marginTop="10dp"/>
+                </LinearLayout>
+                <!--商品分类-->
+                <LinearLayout
+                    android:id="@+id/linearChildType"
+                    style="@style/PublishLinearItem">
+
+                    <TextView
+                        android:id="@+id/textChildType"
+                        style="@style/PublishTextItem"
+                        android:text="@string/publish_child_type"
                         />
 
                     <View
@@ -186,6 +187,38 @@
                         android:id="@+id/textDurationTime"
                         style="@style/PublishTextItem"
                         android:text="@string/publish_duration_time"
+                        />
+
+                    <View
+                        style="@style/DividerHorizontal.Thin"
+                        android:layout_marginTop="10dp"/>
+                </LinearLayout>
+                <!--是否包邮-->
+                <LinearLayout
+                    android:visibility="visible"
+                    android:id="@+id/linearBaoYou"
+                    style="@style/PublishLinearItem">
+
+                    <TextView
+                        android:id="@+id/textBaoYou"
+                        style="@style/PublishTextItem"
+                        android:text="@string/publish_bao_you"
+                        />
+
+                    <View
+                        style="@style/DividerHorizontal.Thin"
+                        android:layout_marginTop="10dp"/>
+                </LinearLayout>
+                <!--紫檀级别-->
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linearZiTanLevel"
+                    style="@style/PublishLinearItem">
+
+                    <TextView
+                        android:id="@+id/textZiTanLevel"
+                        style="@style/PublishTextItem"
+                        android:text="@string/publish_zi_tan_level"
                         />
 
                     <View
@@ -320,6 +353,7 @@
                 </RelativeLayout>
             </LinearLayout>
             <Button
+                android:visibility="gone"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="40dp"
                 android:id="@+id/buttonCommit"

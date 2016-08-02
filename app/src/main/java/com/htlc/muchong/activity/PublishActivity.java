@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -29,11 +30,11 @@ import com.larno.util.ToastUtil;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import model.GoodsTypeBean;
+import model.MaterialAndTypeBean;
 import model.MaterialBean;
 import model.PointInTimeBean;
 import model.TimeBoxingBean;
@@ -43,8 +44,11 @@ import model.TimeBoxingBean;
  * 商品发布Activity
  */
 public class PublishActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
-    public static final String[] TYPE_ARRAY = {"精品交易", "限时抢购", "倒拍", "无底价", "有底价"};
+    public static final String[] TYPE_ARRAY = {"商品交易", "限时抢购", "降价拍卖", "无底拍卖", "有底拍卖"};
     public static final String[] TYPE_ARRAY_VALUE = {"1", "2", "3", "4", "5"};
+    public static final String[] BAO_YOU_ARRAY = {"包邮", "不包邮"};
+    public static final String[] BAO_YOU_ARRAY_VALUE = {"2", "1"};
+    public static final String[] ZI_TAN_LEVEL = {"A级", "A+级", "AA级", "AA+级", "AAA级", "AAA+级","AAAA级","AAAA+级","AAAAA级", "AAAAA+级"};
     private ImageView imageViewCover;//封面图
     private GridView gridView;//商品内容图gridview
     private PublishAdapter adapter;//商品内容图adapter
@@ -59,11 +63,15 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
     private LinearLayout linearMaterial;//商品材质
     private LinearLayout linearStartTime;//商品开始时间
     private LinearLayout linearDurationTime;//商品持续时间
+    private LinearLayout linearBaoYou;
+    private LinearLayout linearZiTanLevel;
     private TextView textType;//商品类型TextView
     private TextView textMaterial;//商品材质TextView
     private TextView textChildType;//商品小类TextView
     private TextView textStartTime;//商品开始时间TextView
     private TextView textDurationTime;//商品持续时间TextView
+    private TextView textBaoYou;
+    private TextView textZiTanLevel;
 
     private EditText editMarketPrice;//商品市场价
     private EditText editDeposit;//商品保证金
@@ -76,8 +84,7 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
     private RelativeLayout relativePrice;
 
 
-    private List<GoodsTypeBean> goodsTypes;//商品小类列表
-    private List<MaterialBean> materials;//商品材质列表
+    private List<MaterialAndTypeBean> materialAndTypes;
     private List<PointInTimeBean> pointInTimes;//商品竞拍时间点列表
     private List<Pair<String, String>> qiangDays;//商品抢购日期列表
 
@@ -86,7 +93,10 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
     private String pointInTime;
     private String timeboxing;
     private String material;
+    private String ziTanLevel;
+    private String baoYou;
     private ProgressDialog progressDialog;
+
 
 
     @Override
@@ -97,6 +107,9 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
     @Override
     protected void setupView() {
         mTitleTextView.setText(R.string.title_publish);
+        mTitleRightTextView.setText(R.string.commit);
+        mTitleRightTextView.setVisibility(View.VISIBLE);
+        mTitleRightTextView.setOnClickListener(this);
 
         imageViewCover = (ImageView) findViewById(R.id.imageViewCover);
         imageViewCover.setOnClickListener(this);
@@ -113,16 +126,22 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
         linearMaterial = (LinearLayout) findViewById(R.id.linearMaterial);
         linearStartTime = (LinearLayout) findViewById(R.id.linearStartTime);
         linearDurationTime = (LinearLayout) findViewById(R.id.linearDurationTime);
+        linearBaoYou = (LinearLayout) findViewById(R.id.linearBaoYou);
+        linearZiTanLevel = (LinearLayout) findViewById(R.id.linearZiTanLevel);
         textType = (TextView) findViewById(R.id.textType);
         textChildType = (TextView) findViewById(R.id.textChildType);
         textMaterial = (TextView) findViewById(R.id.textMaterial);
         textStartTime = (TextView) findViewById(R.id.textStartTime);
         textDurationTime = (TextView) findViewById(R.id.textDurationTime);
+        textBaoYou = (TextView) findViewById(R.id.textBaoYou);
+        textZiTanLevel = (TextView) findViewById(R.id.textZiTanLevel);
         linearType.setOnClickListener(this);
         linearChildType.setOnClickListener(this);
         linearMaterial.setOnClickListener(this);
         linearStartTime.setOnClickListener(this);
         linearDurationTime.setOnClickListener(this);
+        linearBaoYou.setOnClickListener(this);
+        linearZiTanLevel.setOnClickListener(this);
 
         relativeCount = (RelativeLayout) findViewById(R.id.relativeCount);
         relativeMarketPrice = (RelativeLayout) findViewById(R.id.relativeMarketPrice);
@@ -141,26 +160,26 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
 
     @Override
     protected void initData() {
-        getGoodsType();
-        getMaterials();
+        getMaterialAndType();
         getPointInTime();
         getQiangDays();
     }
 
-    /*获取材质列表*/
-    private void getMaterials() {
-        App.app.appAction.getGoodsMaterials(new BaseActionCallbackListener<List<MaterialBean>>() {
+    /*获取材质和商品小类（小类有材质决定）*/
+    private void getMaterialAndType() {
+        App.app.appAction.getGoodsMaterialAndType(new BaseActionCallbackListener<List<MaterialAndTypeBean>>() {
             @Override
-            public void onSuccess(List<MaterialBean> data) {
-                materials = data;
+            public void onSuccess(List<MaterialAndTypeBean> data) {
+                materialAndTypes = data;
             }
 
             @Override
             public void onIllegalState(String errorEvent, String message) {
-                ToastUtil.showToast(App.app, message);
+
             }
         });
     }
+
 
     /*获取抢购可选日期*/
     private void getQiangDays() {
@@ -192,21 +211,6 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
         });
     }
 
-    /*获取商品小类*/
-    private void getGoodsType() {
-        App.app.appAction.getGoodsType(new BaseActionCallbackListener<List<GoodsTypeBean>>() {
-            @Override
-            public void onSuccess(List<GoodsTypeBean> data) {
-                goodsTypes = data;
-            }
-
-            @Override
-            public void onIllegalState(String errorEvent, String message) {
-                ToastUtil.showToast(App.app, message);
-            }
-        });
-    }
-
     /*图片列表的点击删除或添加*/
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -214,7 +218,7 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
             adapter.removeData(position);
         } else {
             isPickCover = false;
-            pickPhoto(SelectPhotoDialogHelper.Width_720, SelectPhotoDialogHelper.Width_Scale_12, SelectPhotoDialogHelper.Height_Scale_5);
+            pickPhoto(SelectPhotoDialogHelper.Width_720, SelectPhotoDialogHelper.Width_Scale_4, SelectPhotoDialogHelper.Height_Scale_3);
         }
     }
 
@@ -230,19 +234,30 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
                 showPopupWindow(v, Arrays.asList(TYPE_ARRAY));
                 break;
             case R.id.linearChildType:
-                if (goodsTypes != null) {
-                    String[] goodsTypesArray = new String[goodsTypes.size()];
-                    for (int i = 0; i < goodsTypes.size(); i++) {
-                        goodsTypesArray[i] = goodsTypes.get(i).constant_name;
+                if(TextUtils.isEmpty(material)){
+                    ToastUtil.showToast(App.app,"请先选择材质");
+                    return;
+                }
+                if (materialAndTypes != null) {
+                    for (int i = 0; i < materialAndTypes.size(); i++) {
+                        MaterialAndTypeBean materialAndTypeBean = materialAndTypes.get(i);
+                        if(material.equals(materialAndTypeBean.id)){
+                            String[] goodsTypesArray = new String[materialAndTypeBean.list.size()];
+                            for (int j = 0; j < materialAndTypeBean.list.size(); j++) {
+                                goodsTypesArray[j] = materialAndTypeBean.list.get(j).materialsub_name;
+                            }
+                            showPopupWindow(v, Arrays.asList(goodsTypesArray));
+                            break;
+                        }
                     }
-                    showPopupWindow(v, Arrays.asList(goodsTypesArray));
+
                 }
                 break;
             case R.id.linearMaterial:
-                if (materials != null) {
-                    String[] materialsArray = new String[materials.size()];
-                    for (int i = 0; i < materials.size(); i++) {
-                        materialsArray[i] = materials.get(i).name;
+                if (materialAndTypes != null) {
+                    String[] materialsArray = new String[materialAndTypes.size()];
+                    for (int i = 0; i < materialAndTypes.size(); i++) {
+                        materialsArray[i] = materialAndTypes.get(i).name;
                     }
                     showPopupWindow(v, Arrays.asList(materialsArray));
                 }
@@ -269,7 +284,14 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
             case R.id.linearDurationTime:
                 showPopupWindow(v, Arrays.asList(TimeBoxingBean.TIME_DESCRIPTION_ARRAY));
                 break;
+            case R.id.linearBaoYou:
+                showPopupWindow(v, Arrays.asList(BAO_YOU_ARRAY));
+                break;
+            case R.id.linearZiTanLevel:
+                showPopupWindow(v, Arrays.asList(ZI_TAN_LEVEL));
+                break;
             case R.id.buttonCommit:
+            case R.id.title_right:
                 publishGoods();
                 break;
 
@@ -281,10 +303,10 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("提交中，请稍等...");
         progressDialog.show();
-        boolean exists = coverImageFile.exists();
         App.app.appAction.publishGoods(editTitle.getText().toString().trim(), editContent.getText().toString().trim(),
                 type, childType, editSize.getText().toString().trim(), material, editPrice.getText().toString(),
                 pointInTime, timeboxing, editCount.getText().toString(), editMarketPrice.getText().toString(), editDeposit.getText().toString(),
+                baoYou, ziTanLevel,
                 coverImageFile, adapter.getData(), new BaseActionCallbackListener<Void>() {
                     @Override
                     public void onSuccess(Void data) {
@@ -387,13 +409,26 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
                 relativePrice.setVisibility(View.VISIBLE);
             }
         } else if (clickView == linearChildType) {
-            childType = goodsTypes.get(position).id;
-            String preStr = getString(R.string.publish_child_type);
-            textChildType.setText(preStr + "\t\t" + goodsTypes.get(position).constant_name);
+            for (int i = 0; i < materialAndTypes.size(); i++) {
+                MaterialAndTypeBean materialAndTypeBean = materialAndTypes.get(i);
+                if(material.equals(materialAndTypeBean.id)){
+                    childType = materialAndTypeBean.list.get(position).id;
+                    String preStr = getString(R.string.publish_child_type);
+                    textChildType.setText(preStr + "\t\t" + materialAndTypeBean.list.get(position).materialsub_name);
+                    break;
+                }
+            }
         } else if (clickView == linearMaterial) {
-            material = materials.get(position).id;
+            material = materialAndTypes.get(position).id;
+            if("紫檀".equals(materialAndTypes.get(position).name)){
+                linearZiTanLevel.setVisibility(View.VISIBLE);
+            }else {
+                linearZiTanLevel.setVisibility(View.GONE);
+            }
             String preStr = getString(R.string.publish_material);
-            textMaterial.setText(preStr + "\t\t" + materials.get(position).name);
+            textMaterial.setText(preStr + "\t\t" + materialAndTypes.get(position).name);
+            childType = "";
+            textChildType.setText(R.string.publish_child_type);
         } else if (clickView == linearStartTime) {
             if (TYPE_ARRAY_VALUE[1].equals(type)) {
                 pointInTime = qiangDays.get(position).second;
@@ -408,6 +443,14 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
             timeboxing = TimeBoxingBean.TIME_ARRAY[position];
             String preStr = getString(R.string.publish_duration_time);
             textDurationTime.setText(preStr + "\t\t" + TimeBoxingBean.TIME_DESCRIPTION_ARRAY[position]);
+        } else if (clickView == linearBaoYou) {
+            baoYou = BAO_YOU_ARRAY_VALUE[position];
+            String preStr = getString(R.string.publish_zi_tan_level);
+            textBaoYou.setText(preStr + "\t\t" + BAO_YOU_ARRAY[position]);
+        }else if (clickView == linearZiTanLevel) {
+            ziTanLevel = ZI_TAN_LEVEL[position];
+            String preStr = getString(R.string.publish_zi_tan_level);
+            textZiTanLevel.setText(preStr + "\t\t" + ZI_TAN_LEVEL[position]);
         }
     }
 

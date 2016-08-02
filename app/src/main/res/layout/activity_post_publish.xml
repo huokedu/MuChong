@@ -75,6 +75,7 @@
 
             <!--标题-->
             <LinearLayout
+                android:id="@+id/linearTitle"
                 style="@style/PublishLinear"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
@@ -138,6 +139,7 @@
                 </LinearLayout>
             </LinearLayout>
             <Button
+                android:visibility="gone"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="40dp"
                 android:id="@+id/buttonCommit"
