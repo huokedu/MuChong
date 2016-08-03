@@ -45,6 +45,7 @@ import model.PostDetailBean;
 public class PostDetailActivity extends BaseActivity implements View.OnClickListener {
     public static final String Post_Id = "Post_Id";
     public static final String Is_School = "Is_School";
+    public static final String Is_ShuoShuo = "Is_ShuoShuo";
     private ImageView imageHead;//楼主头像
     private TextView textName;//楼主昵称
     private TextView textLevel;//楼主等级
@@ -77,6 +78,14 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         intent.putExtra(Is_School, isSchool);
         context.startActivity(intent);
     }
+    /*说说帖子 isShuoShuo*/
+    public static void goPostDetailActivityByShuoShuo(Context context, String id, int titleId, boolean isShuoShuo) {
+        Intent intent = new Intent(context, PostDetailActivity.class);
+        intent.putExtra(BaseActivity.ActivityTitleId, titleId);
+        intent.putExtra(Post_Id, id);
+        intent.putExtra(Is_ShuoShuo, isShuoShuo);
+        context.startActivity(intent);
+    }
 
     private ListView imageListView, mCommentListView;//图片和评论list view
     private DetailImageAdapter imageAdapter;//图片Adapter
@@ -88,6 +97,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     private int page = 2;
     private PostDetailBean data;//帖子详情数据
     private boolean isSchool;//帖子是否是school类型
+    private boolean isShuoShuo;//帖子是否是shuoShuo类型
     private boolean isLike;//当前用户是否喜欢该帖子，喜欢true;
 
     @Override
@@ -99,6 +109,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     protected void setupView() {
         postId = getIntent().getStringExtra(Post_Id);
         isSchool = getIntent().getBooleanExtra(Is_School, false);
+        isShuoShuo = getIntent().getBooleanExtra(Is_ShuoShuo, false);
         int activityTitleId = getIntent().getIntExtra(ActivityTitleId, 0);
         mTitleTextView.setText(activityTitleId);
         mTitleRightTextView.setBackgroundResource(R.mipmap.icon_share);
@@ -149,7 +160,10 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
             }
         });
-
+        //是说说，没有标题
+        if(isShuoShuo){
+            textPostTitle.setVisibility(View.GONE);
+        }
         //如果帖子类型是学堂，显示喜欢按钮，否则隐藏
         textLike = (TextView) findViewById(R.id.textLike);
         textLike.setOnClickListener(this);

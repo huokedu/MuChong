@@ -445,7 +445,7 @@ public class PublishActivity extends BaseActivity implements AdapterView.OnItemC
             textDurationTime.setText(preStr + "\t\t" + TimeBoxingBean.TIME_DESCRIPTION_ARRAY[position]);
         } else if (clickView == linearBaoYou) {
             baoYou = BAO_YOU_ARRAY_VALUE[position];
-            String preStr = getString(R.string.publish_zi_tan_level);
+            String preStr = getString(R.string.publish_bao_you);
             textBaoYou.setText(preStr + "\t\t" + BAO_YOU_ARRAY[position]);
         }else if (clickView == linearZiTanLevel) {
             ziTanLevel = ZI_TAN_LEVEL[position];

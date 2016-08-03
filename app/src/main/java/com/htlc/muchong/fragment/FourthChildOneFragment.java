@@ -105,7 +105,7 @@ public class FourthChildOneFragment extends HomeFragment {
                 @Override
                 public void onItemClick(View view, int position) {
                     PostBean bean = (PostBean) adapter.getData().get(position);
-                    PostDetailActivity.goPostDetailActivity(getContext(), bean.id, R.string.detail);
+                    PostDetailActivity.goPostDetailActivityByShuoShuo(getContext(), bean.id, R.string.detail,true);
                 }
             });
         } else if (getString(R.string.fourth_title_fragment_two).equals(mTitle)) {
