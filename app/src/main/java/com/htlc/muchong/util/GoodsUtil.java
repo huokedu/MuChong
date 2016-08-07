@@ -1,5 +1,6 @@
 package com.htlc.muchong.util;
 
+import android.graphics.Paint;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,7 +33,8 @@ public class GoodsUtil {
     }
     /*设置商品价格为：￥100*/
     public static void setPriceBySymbolAndOld(TextView textView, String price) {
-        textView.setText("原价:￥"+price);
+        textView.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG);
+        textView.setText("￥"+price);
     }
     /*设置商品价格为：￥100*/
     public static void setPriceBySymbolAndNew(TextView textView, String price) {
@@ -50,5 +52,18 @@ public class GoodsUtil {
     /*设置商品数量为 数量： 1*/
     public static void setNumber(TextView textNumber, String num) {
         textNumber.setText("数量:  "+num);
+    }
+    public static void setDaoJiShiTips(String state, String timeStr, String timeend, TextView textView){
+        long time = Long.parseLong(timeStr)*1000;
+        long hour = time / 3600000;
+        long minute = time % 3600000 / 60000;
+        long second = time % 3600000 % 60000 / 1000;
+        if (PaiGoodsBean.STATE_NO_START.equals(state)) {
+            textView.setText("距离开始:"+hour+"小时"+minute+"分"+second+"秒");
+        } else if (PaiGoodsBean.STATE_END.equals(state)) {
+            textView.setText("距离结束:0小时0分0秒");
+        } else if (PaiGoodsBean.STATE_STARTING.equals(state)) {
+            textView.setText("距离结束:"+hour+"小时"+minute+"分"+second+"秒");
+        }
     }
 }

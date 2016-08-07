@@ -1,167 +1,43 @@
-package com.htlc.muchong.activity;
+package com.htlc.muchong.util;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Parcelable;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.adapter.ArrayWheelAdapter;
 import com.bigkoo.pickerview.listener.OnItemSelectedListener;
-import com.htlc.muchong.App;
-import com.htlc.muchong.R;
-import com.htlc.muchong.adapter.AddressAdapter;
-import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.bean.AddressItemBean;
 import com.htlc.muchong.database.DBManager;
-import com.htlc.muchong.util.SelectAddressHelper;
-import com.larno.util.ToastUtil;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import model.AddressBean;
 
 /**
- * Created by sks on 2016/5/27.
+ * Created by Administrator on 2016/8/7.
  */
-public class EditAddressActivity extends BaseActivity {
-    public static final String AddressBean = "AddressBean";
-
-    public static void goEditAddressActivity(Context context, AddressBean bean) {
-        Intent intent = new Intent(context, EditAddressActivity.class);
-        intent.putExtra(AddressBean, bean);
-        context.startActivity(intent);
-    }
-
-    private EditText editName, editTel, editAddress;
-    private Switch switchView;
-    private TextView textProvince;
-    private DBManager dbm;
-    private SQLiteDatabase db;
-    private String province = null;
-    private String city = null;
-    private String district = null;
-
-    private AddressBean bean;//开启Activity传递的bean，如果有值则为修改地址，没有则为添加新地址
+public class SelectAddressHelper {
     private OptionsPickerView mPickViePwOptions;
     private ArrayList<AddressItemBean> provinces = new ArrayList<AddressItemBean>();
     private ArrayList<AddressItemBean> citys = new ArrayList<AddressItemBean>();
     private ArrayList<AddressItemBean> countys = new ArrayList<AddressItemBean>();
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_edit_address;
+    private DBManager dbm;
+    private SQLiteDatabase db;
+    private Context context;
+    private String province = null;
+    private String city = null;
+    private String district = null;
+    private TextView textView;
+    public SelectAddressHelper(Context context, String province, String city, String district, TextView textView){
+        this.context = context;
+        this.province = province;
+        this.city = city;
+        this.district = district;
+        this.textView = textView;
     }
-
-    @Override
-    protected void setupView() {
-        bean = getIntent().getParcelableExtra(AddressBean);
-
-        mTitleTextView.setText(R.string.title_address_edit);
-        mTitleRightTextView.setText(R.string.save);
-        mTitleRightTextView.setVisibility(View.VISIBLE);
-        mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                commit();
-            }
-        });
-
-
-        editName = (EditText) findViewById(R.id.editName);
-        editTel = (EditText) findViewById(R.id.editTel);
-        editAddress = (EditText) findViewById(R.id.editAddress);
-        textProvince = (TextView) findViewById(R.id.textProvince);
-        textProvince.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectAddress1();
-            }
-        });
-        switchView = (Switch) findViewById(R.id.switchView);
-
-        initData();
-    }
-
-
-    @Override
-    protected void initData() {
-        if (bean == null) {
-
-        } else {
-            editName.setText(bean.addr_name);
-            editTel.setText(bean.addr_mobile);
-            editAddress.setText(bean.addr_address);
-            province = bean.addr_province;
-            city = bean.addr_city;
-            district = bean.addr_county;
-            textProvince.setText(province+city+district);
-            switchView.setChecked(!"1".equals(bean.addr_type));
-        }
-    }
-
-    /*保存收货地址*/
-    private void commit() {
-        mTitleRightTextView.setEnabled(false);
-        if (province == null || city == null || district == null) {
-            ToastUtil.showToast(App.app, "请选择省市县");
-            return;
-        }
-        boolean flag = switchView.isChecked();
-        String type;
-        if (flag) {
-            type = "2";
-        } else {
-            type = "1";
-        }
-        if (bean == null) {
-            App.app.appAction.addAddress(type, province, city, district, editAddress.getText().toString().trim(), editName.getText().toString().trim(), editTel.getText().toString(), new BaseActionCallbackListener<Void>() {
-                @Override
-                public void onSuccess(Void data) {
-                    ToastUtil.showToast(App.app, "保存成功");
-                    finish();
-                }
-
-                @Override
-                public void onIllegalState(String errorEvent, String message) {
-                    ToastUtil.showToast(App.app, message);
-                    mTitleRightTextView.setEnabled(true);
-                }
-            });
-        } else {
-            App.app.appAction.updateAddress(bean.id, type, province, city, district, editAddress.getText().toString().trim(), editName.getText().toString().trim(), editTel.getText().toString(), new BaseActionCallbackListener<Void>() {
-                @Override
-                public void onSuccess(Void data) {
-                    ToastUtil.showToast(App.app, "保存成功");
-                    finish();
-                }
-
-                @Override
-                public void onIllegalState(String errorEvent, String message) {
-                    ToastUtil.showToast(App.app, message);
-                    mTitleRightTextView.setEnabled(true);
-                }
-            });
-        }
-    }
-
-    private void selectAddress1() {
-        SelectAddressHelper selectAddressHelper = new SelectAddressHelper(this,province,city,district, textProvince);
-        selectAddressHelper.selectAddress();
-    }
-
-    private void selectAddress() {
+    public void selectAddress() {
         //选项选择器
-        mPickViePwOptions = new OptionsPickerView(this);
+        mPickViePwOptions = new OptionsPickerView(context);
         provinces.clear();
         citys.clear();
         countys.clear();
@@ -222,14 +98,14 @@ public class EditAddressActivity extends BaseActivity {
                 province = provinces.get(options1).getName();
                 city = citys.get(option2).getName();
                 district = countys.get(options3).getName();
-                textProvince.setText(province+city+district);
+                textView.setText(province+city+district);
             }
         });
         mPickViePwOptions.show();
     }
 
     public ArrayList<AddressItemBean> initSpinner1() {
-        dbm = new DBManager(this);
+        dbm = new DBManager(context);
         dbm.openDatabase();
         db = dbm.getDatabase();
         ArrayList<AddressItemBean> list = new ArrayList<AddressItemBean>();
@@ -264,7 +140,7 @@ public class EditAddressActivity extends BaseActivity {
     }
 
     public ArrayList<AddressItemBean> initSpinner2(String pcode) {
-        dbm = new DBManager(this);
+        dbm = new DBManager(context);
         dbm.openDatabase();
         db = dbm.getDatabase();
         ArrayList<AddressItemBean> list = new ArrayList<AddressItemBean>();
@@ -299,7 +175,7 @@ public class EditAddressActivity extends BaseActivity {
     }
 
     public  ArrayList<AddressItemBean> initSpinner3(String pcode) {
-        dbm = new DBManager(this);
+        dbm = new DBManager(context);
         dbm.openDatabase();
         db = dbm.getDatabase();
         ArrayList<AddressItemBean> list = new ArrayList<AddressItemBean>();
@@ -332,6 +208,5 @@ public class EditAddressActivity extends BaseActivity {
         db.close();
         return list;
     }
-
 
 }

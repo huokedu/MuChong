@@ -272,6 +272,9 @@
         <item name="android:textColor">@color/text_color_red</item>
         <item name="android:textSize">12sp</item>
     </style>
+    <style name="FirstQiangLinearTextPriceOld" parent="FirstQiangLinearTextPrice">
+        <item name="android:textColor">@android:color/darker_gray</item>
+    </style>
 
     <!--竞拍的一个商品Relative-->
     <style name="FirstPaiRelativeItem">
@@ -303,8 +306,8 @@
         <item name="android:orientation">vertical</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:background">@color/bg_gray</item>
-        <item name="android:paddingLeft">20dp</item>
-        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
     </style>
@@ -325,6 +328,14 @@
     <!--竞拍描述价格-->
     <style name="FirstPaiLinearTextPrice" parent="FirstPaiLinearText">
         <item name="android:textColor">@color/text_color_red</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    <style name="FirstPaiLinearTextPriceOld" parent="FirstPaiLinearTextPrice">
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:gravity">end</item>
+    </style>
+    <style name="FirstPaiLinearTextDaoJiShiTips" parent="FirstPaiLinearTextName">
+        <item name="android:singleLine">true</item>
     </style>
 
     <style name="ThirdChildOneImage" parent="FirstQiangImage">

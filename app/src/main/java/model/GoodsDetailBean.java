@@ -22,6 +22,8 @@ public class GoodsDetailBean {
     public String islike;
     public String evalcount;
     public List<GoodsCommentBean> evallist;
+    public String commodity_classlevel;
+    public String shopnum;
 
 
     public String commodity_type;

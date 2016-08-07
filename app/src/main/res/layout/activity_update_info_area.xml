@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/bg_gray"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_layout"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:background="@android:color/white"
+                android:id="@+id/textView"
+                android:textSize="14sp"
+                android:hint="@string/address_edit_province_hint"
+                android:textColor="@color/text_color_black_muchong"
+                android:layout_gravity="center_horizontal"/>
+            <EditText
+                android:layout_marginTop="@dimen/divider_width_thin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:background="@android:color/white"
+                android:id="@+id/editText"
+                android:textSize="14sp"
+                android:hint="@string/address_edit_address_hint"
+                android:textColor="@color/text_color_black_muchong"
+                android:layout_gravity="center_horizontal"/>
+            <Button
+                android:id="@+id/textButton"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/confirm"
+                style="@style/Button"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

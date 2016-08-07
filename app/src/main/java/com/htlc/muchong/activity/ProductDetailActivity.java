@@ -52,6 +52,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     private TextView textBuy;//立即购买
     private TextView textAddCar;//加入购物车
     private ImageView imageShoppingCart;//去购物车
+    private TextView textShopNumber;//购物车商品数量
 
     /*去商品详情*/
     public static void goProductActivity(Context context, String goodId) {
@@ -60,8 +61,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
 
     /**
      * 去商品详情
+     *
      * @param context
-     * @param goodId 商品id
+     * @param goodId      商品id
      * @param isQiangType 商品是抢购类型true
      */
     public static void goProductActivity(Context context, String goodId, boolean isQiangType) {
@@ -97,7 +99,7 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void setupView() {
         productId = getIntent().getStringExtra(Product_Id);
-        isQiangType = getIntent().getBooleanExtra(IS_QIANG_TYPE,false);
+        isQiangType = getIntent().getBooleanExtra(IS_QIANG_TYPE, false);
 
 
         mTitleTextView.setText(R.string.title_product_detail);
@@ -139,15 +141,17 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
         textAddCar.setOnClickListener(this);
         imageShoppingCart = (ImageView) findViewById(R.id.imageShoppingCart);
         imageShoppingCart.setOnClickListener(this);
+        textShopNumber = (TextView) findViewById(R.id.textShopNumber);
 
         mCommentListView = (ListView) findViewById(R.id.commentListView);
         mCommentListView.setFocusable(false);
         adapter = new CommentAdapter();
         mCommentListView.setAdapter(adapter);
 
-        if(isQiangType){
+        if (isQiangType) {
             imageShoppingCart.setVisibility(View.INVISIBLE);
             textAddCar.setVisibility(View.INVISIBLE);
+            textShopNumber.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -179,8 +183,15 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 GoodsUtil.setPriceBySymbol(textPrice, data.commodity_panicprice);
                 GoodsUtil.setBaoYouByFlag(textBaoYou, data.commodity_freemail);
                 textDescription.setText(data.commodity_content);
-                String material = getString(R.string.product_detail_material, data.commodity_material, data.commodity_spec);
+                String materialStr;
+                if ("紫檀".equals(data.commodity_material)) {
+                    materialStr = data.commodity_material + "  " + data.commodity_classlevel;
+                } else {
+                    materialStr = data.commodity_material;
+                }
+                String material = getString(R.string.product_detail_material, materialStr, data.commodity_spec);
                 textMaterial.setText(material);
+                textShopNumber.setText(data.shopnum);
                 textComment.setText(getString(R.string.product_detail_comment, data.evalcount));
                 adapter.setData(data.evallist, false);
             }
@@ -206,9 +217,9 @@ public class ProductDetailActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.textBuy:
                 if (App.app.isLogin()) {
-                    if(isQiangType){
+                    if (isQiangType) {
                         isCanBuy();
-                    }else {
+                    } else {
                         buyNow();
                     }
                 } else {

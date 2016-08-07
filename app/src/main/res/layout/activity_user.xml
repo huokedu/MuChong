@@ -101,8 +101,11 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="5dp"
+                        android:maxWidth="150dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
                         android:layout_toLeftOf="@+id/imageArrow2"
-                        android:text="北京 海淀"
+                        android:text="北京是联赛积分拉开距离房间里三分大赛复赛"
                         android:textColor="@color/text_color_black_muchong"
                         android:textSize="14sp"/>
 

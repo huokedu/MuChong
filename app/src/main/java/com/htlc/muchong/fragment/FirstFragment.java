@@ -65,6 +65,8 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
     protected ImageView imageTypePai1, imageTypePai2;
     protected TextView textPaiName1, textPaiName2;
     protected TextView textPaiPrice1, textPaiPrice2;
+    protected TextView textPaiPriceOld1, textPaiPriceOld2;
+    protected TextView textDaoJiShiTips1, textDaoJiShiTips2;
 
     protected DaoJiShiView daoJiShiView;
 
@@ -93,12 +95,6 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
                 return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
             }
         });
-//        mPtrFrame.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                mPtrFrame.autoRefresh();
-//            }
-//        }, 500);
 
         mBannerFragment = (BannerFragment) getChildFragmentManager().findFragmentById(R.id.fragmentBanner);
         mBannerFragment.setRecycle(true);
@@ -177,6 +173,10 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
         textPaiName2 = findViewById(R.id.textPaiName2);
         textPaiPrice1 = findViewById(R.id.textPaiPrice1);
         textPaiPrice2 = findViewById(R.id.textPaiPrice2);
+        textPaiPriceOld1 = findViewById(R.id.textPaiPriceOld1);
+        textPaiPriceOld2 = findViewById(R.id.textPaiPriceOld2);
+        textDaoJiShiTips1 = findViewById(R.id.textDaoJiShiTips1);
+        textDaoJiShiTips2 = findViewById(R.id.textDaoJiShiTips2);
 
         initData();
     }
@@ -233,8 +233,8 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             GoodsBean goodsBean = homeBean.limittime.list.get(0);
             ImageUtil.setImageByDefault(imageQiang1, R.mipmap.default_first_qiang, Uri.parse(goodsBean.commodity_coverimg));
             textNameQiang1.setText(goodsBean.commodity_name);
-            GoodsUtil.setPriceBySymbolAndNew(textPriceQiang1, goodsBean.commodity_panicprice);
-            GoodsUtil.setPriceBySymbolAndOld(textOldPriceQiang1, goodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbol(textPriceQiang1, goodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbolAndOld(textOldPriceQiang1, goodsBean.commodity_price);
         } else {
             linearQiang1.setVisibility(View.INVISIBLE);
         }
@@ -243,8 +243,8 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             GoodsBean goodsBean = homeBean.limittime.list.get(1);
             ImageUtil.setImageByDefault(imageQiang2, R.mipmap.default_first_qiang, Uri.parse(goodsBean.commodity_coverimg));
             textNameQiang2.setText(goodsBean.commodity_name);
-            GoodsUtil.setPriceBySymbolAndNew(textPriceQiang2, goodsBean.commodity_panicprice);
-            GoodsUtil.setPriceBySymbolAndOld(textOldPriceQiang2, goodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbol(textPriceQiang2, goodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbolAndOld(textOldPriceQiang2, goodsBean.commodity_price);
         } else {
             linearQiang2.setVisibility(View.INVISIBLE);
         }
@@ -253,8 +253,8 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             GoodsBean goodsBean = homeBean.limittime.list.get(2);
             ImageUtil.setImageByDefault(imageQiang3, R.mipmap.default_first_qiang, Uri.parse(goodsBean.commodity_coverimg));
             textNameQiang3.setText(goodsBean.commodity_name);
-            GoodsUtil.setPriceBySymbolAndNew(textPriceQiang3, goodsBean.commodity_panicprice);
-            GoodsUtil.setPriceBySymbolAndOld(textOldPriceQiang3, goodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbol(textPriceQiang3, goodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbolAndOld(textOldPriceQiang3, goodsBean.commodity_price);
         } else {
             linearQiang3.setVisibility(View.INVISIBLE);
         }
@@ -266,7 +266,9 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             ImageUtil.setImageByDefault(imagePai1, R.mipmap.default_first_pai, Uri.parse(paiGoodsBean.commodity_coverimg));
             GoodsUtil.setImageByPaiType(imageTypePai1, paiGoodsBean.commodity_type);
             textPaiName1.setText(paiGoodsBean.commodity_name);
-            GoodsUtil.setPriceBySymbolAndNew(textPaiPrice1, paiGoodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbol(textPaiPrice1, paiGoodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbolAndOld(textPaiPriceOld1, paiGoodsBean.commodity_price);
+            GoodsUtil.setDaoJiShiTips(paiGoodsBean.state,paiGoodsBean.timeStr,paiGoodsBean.timeend,textDaoJiShiTips1);
         } else {
             relativePai1.setVisibility(View.INVISIBLE);
         }
@@ -276,7 +278,9 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             ImageUtil.setImageByDefault(imagePai2, R.mipmap.default_first_pai, Uri.parse(paiGoodsBean.commodity_coverimg));
             GoodsUtil.setImageByPaiType(imageTypePai2, paiGoodsBean.commodity_type);
             textPaiName2.setText(paiGoodsBean.commodity_name);
-            GoodsUtil.setPriceBySymbolAndNew(textPaiPrice2, paiGoodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbol(textPaiPrice2, paiGoodsBean.commodity_panicprice);
+            GoodsUtil.setPriceBySymbolAndOld(textPaiPriceOld2, paiGoodsBean.commodity_price);
+            GoodsUtil.setDaoJiShiTips(paiGoodsBean.state,paiGoodsBean.timeStr,paiGoodsBean.timeend,textDaoJiShiTips2);
         } else {
             relativePai2.setVisibility(View.INVISIBLE);
         }

@@ -5,6 +5,7 @@ import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -53,7 +54,7 @@ public class MainActivity extends BaseActivity {
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
         ArrayList<HomeFragment> pageFragments = new ArrayList<>();
         pageFragments.add(HomeFragment.newInstance(FirstFragment.class, getString(R.string.app_name), R.mipmap.tab_1));
-        pageFragments.add(HomeFragment.newInstance(SecondFragment.class, getString(R.string.app_name), R.mipmap.tab_2));
+        pageFragments.add(HomeFragment.newInstance(SecondFragment.class, getString(R.string.title_fragment_second), R.mipmap.tab_2));
         pageFragments.add(HomeFragment.newInstance(ThirdFragment.class, getString(R.string.title_fragment_third), 0));
         pageFragments.add(HomeFragment.newInstance(FourthFragment.class, getString(R.string.fourth_title_fragment_one), R.mipmap.tab_4));
         pageFragments.add(HomeFragment.newInstance(FifthFragment.class, getString(R.string.title_fragment_fifth), R.mipmap.tab_5));
@@ -91,6 +92,7 @@ public class MainActivity extends BaseActivity {
                 mViewPager.setCurrentItem(position, false);
                 //设置当前Fragment的标题作为Toolbar标题
                 mTitleTextView.setText(mViewPager.getAdapter().getPageTitle(position));
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 //首页，显示右侧搜索按钮
                 if (position == 0) {
                     setStatusBarColor();
@@ -107,30 +109,35 @@ public class MainActivity extends BaseActivity {
                     mToolbar.setVisibility(View.VISIBLE);
                 } else if (position == 1) {//商城，显示右侧搜索按钮；根据用户身份判断是否显示-发布商品-按钮；
                     setStatusBarColor();
-                    mTitleRightTextView.setBackgroundResource(R.mipmap.icon_search);
-                    mTitleRightTextView.setText("");
-                    mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
+                    getSupportActionBar().setHomeAsUpIndicator(R.mipmap.icon_search);
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    mTitleLeftTextView.setBackgroundResource(R.mipmap.icon_search);
+                    mTitleLeftTextView.setText("");
+                    mTitleLeftTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             SearchActivity.goSearchActivity(MainActivity.this);
                         }
                     });
                     if (App.app.isLogin() && LoginUtil.getUser().user_role.equals(UserBean.TYPE_MERCHANT)) {
-                        mTitleLeftTextView.setText(R.string.publish);
-                        mTitleLeftTextView.setVisibility(View.VISIBLE);
+                        mTitleRightTextView.setText(R.string.publish);
+                        mTitleRightTextView.setBackgroundResource(0);
                         mTitleRightTextView.setVisibility(View.VISIBLE);
-                        mTitleLeftTextView.setOnClickListener(new View.OnClickListener() {
+                        mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 startActivity(new Intent(MainActivity.this, PublishActivity.class));
                             }
                         });
+                    }else {
+                        mTitleRightTextView.setVisibility(View.INVISIBLE);
                     }
+                    mTitleLeftTextView.setVisibility(View.INVISIBLE);
                     mToolbar.setVisibility(View.VISIBLE);
                 } else if (position == 2) {//藏品专区，显示右侧-发布藏品-按钮；将imageview设置为选中状态
                     setStatusBarColor();
-                    mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);
-                    mTitleRightTextView.setText("");
+                    mTitleRightTextView.setBackgroundResource(0);
+                    mTitleRightTextView.setText(R.string.publish);
                     mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -148,8 +155,8 @@ public class MainActivity extends BaseActivity {
                     imageViewButton.setSelected(true);
                 } else if (position == 3) {//论坛，根据给发布按钮设置的点击事件，判断是否显示发布按钮；如果点击事件监听为null，不显示
                     setStatusBarColor();
-                    mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);
-                    mTitleRightTextView.setText("");
+                    mTitleRightTextView.setBackgroundResource(0);
+                    mTitleRightTextView.setText(R.string.publish);
                     mTitleRightTextView.setOnClickListener(fourthFragmentOnClickListener);
                     mTitleLeftTextView.setVisibility(View.INVISIBLE);
                     mTitleRightTextView.setVisibility(fourthFragmentOnClickListener==null ? View.INVISIBLE : View.VISIBLE);
@@ -182,5 +189,15 @@ public class MainActivity extends BaseActivity {
         if (!TextUtils.isEmpty(user.user_token)) {
             App.app.setIsLogin(true);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            SearchActivity.goSearchActivity(MainActivity.this);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

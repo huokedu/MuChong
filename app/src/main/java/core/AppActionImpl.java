@@ -1218,6 +1218,10 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void searchGoods(int page, String search, ActionCallbackListener<List<GoodsBean>> listener) {
+        if(TextUtils.isEmpty(search)){
+            listener.onFailure(ErrorEvent.PARAM_NULL, "请输入搜索关键字");
+            return;
+        }
         api.searchGoods(String.valueOf(page), search, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {

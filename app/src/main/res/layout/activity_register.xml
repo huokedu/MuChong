@@ -47,7 +47,7 @@
                     android:inputType="phone"
                     android:layout_toLeftOf="@+id/imageCheckout"
                     android:layout_toRightOf="@+id/divider"
-                    android:hint="@string/login_username"/>
+                    android:hint="@string/register_username"/>
 
                 <ImageView
                     android:id="@+id/imageCheckout"
@@ -114,7 +114,7 @@
                     style="@style/LoginTextView.EditText"
                     android:layout_alignParentRight="true"
                     android:layout_toRightOf="@+id/divider2"
-                    android:hint="@string/login_password"
+                    android:hint="@string/register_password"
                     android:inputType="textPassword"/>
             </RelativeLayout>
             <RelativeLayout
@@ -144,7 +144,7 @@
                     style="@style/LoginTextView.EditText"
                     android:layout_alignParentRight="true"
                     android:layout_toRightOf="@+id/divider3"
-                    android:hint="@string/register_password"
+                    android:hint="@string/register_password_confirm"
                     android:inputType="textPassword"/>
             </RelativeLayout>
             <LinearLayout

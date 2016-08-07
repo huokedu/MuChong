@@ -84,10 +84,10 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
                 startActivityForResult(intent, Request_Name);
                 break;
             case R.id.relativeArea:
-                Intent intent1 = new Intent(this, UpdateInfoActivity.class);
-                intent1.putExtra(UpdateInfoActivity.ActivityTitleId,R.string.user_area);
-                intent1.putExtra(UpdateInfoActivity.Hint,R.string.user_area_hint);
-                intent1.putExtra(UpdateInfoActivity.Value,textArea.getText().toString());
+                Intent intent1 = new Intent(this, UpdateInfoAreaActivity.class);
+                intent1.putExtra(UpdateInfoAreaActivity.ActivityTitleId,R.string.user_area);
+                intent1.putExtra(UpdateInfoAreaActivity.Hint,R.string.user_area_hint);
+                intent1.putExtra(UpdateInfoAreaActivity.Value,textArea.getText().toString());
                 startActivityForResult(intent1, Request_Area);
                 break;
             case R.id.relativeTel:

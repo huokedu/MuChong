@@ -81,8 +81,8 @@ public class FourthFragment extends HomeFragment {
             ((MainActivity) getActivity()).setFourthFragmentOnClickListener(null);
         } else {
             ((BaseActivity) getActivity()).mTitleTextView.setText(mTitle);
-            ((BaseActivity) getActivity()).mTitleRightTextView.setBackgroundResource(R.mipmap.icon_add);
-            ((BaseActivity) getActivity()).mTitleRightTextView.setText("");
+            ((BaseActivity) getActivity()).mTitleRightTextView.setBackgroundResource(0);
+            ((BaseActivity) getActivity()).mTitleRightTextView.setText(R.string.publish);
             View.OnClickListener rightTextClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
