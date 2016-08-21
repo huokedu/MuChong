@@ -82,7 +82,7 @@
                     android:id="@+id/fragmentBanner"
                     android:name="com.htlc.muchong.fragment.BannerFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/banner_height" />
+                    android:layout_height="@dimen/banner_height_plus" />
 
                 <View style="@style/DividerHorizontal.Thin" />
 

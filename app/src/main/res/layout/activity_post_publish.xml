@@ -145,6 +145,14 @@
                 android:id="@+id/buttonCommit"
                 android:text="@string/commit"
                 style="@style/Button"/>
+            <TextView
+                android:textSize="14sp"
+                android:gravity="center"
+                android:textColor="@color/text_color_red"
+                android:text="本版块禁止发布任何商品信息，违规会被封号呦！"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

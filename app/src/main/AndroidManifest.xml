@@ -82,6 +82,7 @@
         <activity android:name=".activity.FeedbackActivity"/>
         <activity android:name=".activity.PayActivity"/>
         <activity android:name=".activity.ImageActivity"/>
+        <activity android:name=".activity.SchoolListActivity"/>
 
         <!-- Ping++ SDK -->
         <activity

@@ -87,6 +87,7 @@ public class FourthFragment extends HomeFragment {
                 @Override
                 public void onClick(View v) {
                     if (App.app.isLogin()) {
+                        // TODO: 2016/8/22 论坛发布修改，当是学堂时，单独写一个Activity
                         PostPublishActivity.goPostPublishActivity(getContext(), PostPublishActivity.Publish_Types[position], R.string.title_post_publish);
                     } else {
                         LoginUtil.showLoginTips(getActivity());

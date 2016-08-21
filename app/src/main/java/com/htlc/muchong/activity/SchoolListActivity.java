@@ -1,10 +1,13 @@
 package com.htlc.muchong.activity;
 
 import android.graphics.Rect;
-import android.support.v7.widget.GridLayoutManager;
+import android.net.Uri;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
@@ -14,29 +17,31 @@ import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
-import com.htlc.muchong.adapter.FourthOneRecyclerViewAdapter;
-import com.htlc.muchong.adapter.PaiRecyclerViewAdapter;
+import com.htlc.muchong.adapter.FourthFourRecyclerViewAdapter;
 import com.htlc.muchong.adapter.ThirdRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
+import com.htlc.muchong.util.DateFormat;
+import com.htlc.muchong.util.ImageUtil;
 import com.htlc.muchong.util.LoginUtil;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
 import java.util.List;
 
+import api.Api;
 import core.AppActionImpl;
-import model.PaiGoodsBean;
-import model.PostBean;
+import model.MessageBean;
+import model.SchoolBean;
+import model.UserBean;
 
 /**
  * Created by sks on 2016/5/23.
- * 个人中心---我的论坛My
- *
+ * 个人中心---消息中心
  */
-public class MyPostListActivity extends BaseActivity {
+public class SchoolListActivity extends BaseActivity {
     private PtrClassicFrameLayout mPtrFrame;
-    private FourthOneRecyclerViewAdapter adapter;
+    private FourthFourRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
     private View noDataView;
@@ -50,8 +55,7 @@ public class MyPostListActivity extends BaseActivity {
 
     @Override
     protected void setupView() {
-        // TODO: 2016/8/22 我的论坛需要修改为，说说和学堂两种类别；可以编辑修改之前的说说和学堂；需要定义新的修改界面
-        mTitleTextView.setText(R.string.fifth_lun);
+        mTitleTextView.setText(R.string.first_header_school);
 
         noDataView = findViewById(R.id.noDataView);
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
@@ -83,11 +87,11 @@ public class MyPostListActivity extends BaseActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setBackgroundResource(R.color.bg_gray);
-        adapter = new FourthOneRecyclerViewAdapter();
+        adapter = new FourthFourRecyclerViewAdapter();
         mAdapter = new RecyclerAdapterWithHF(adapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(SchoolListActivity.this));
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            private int space = CommonUtil.dp2px(MyPostListActivity.this, 10);
+            private int space = CommonUtil.dp2px(SchoolListActivity.this, 10);
 
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -97,23 +101,25 @@ public class MyPostListActivity extends BaseActivity {
         adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                PostBean bean = (PostBean) adapter.getData().get(position);
-                PostDetailActivity.goPostDetailActivity(MyPostListActivity.this, bean.id, R.string.detail);
+                SchoolBean bean = (SchoolBean) adapter.getData().get(position);
+                PostDetailActivity.goPostDetailActivity(SchoolListActivity.this, bean.id, R.string.detail, true);
             }
         });
         mRecyclerView.setAdapter(mAdapter);
 
     }
 
+    /*加载更多*/
     private void loadMoreData() {
-        App.app.appAction.postListByPersonId(page, LoginUtil.getUser().id, new BaseActionCallbackListener<List<PostBean>>() {
+        App.app.appAction.schoolList(page, new BaseActionCallbackListener<List<SchoolBean>>() {
             @Override
-            public void onSuccess(List<PostBean> data) {
+            public void onSuccess(List<SchoolBean> data) {
+                mPtrFrame.loadMoreComplete(true);
                 adapter.setData(data, true);
                 if (data.size() < AppActionImpl.PAGE_SIZE) {
-                    mPtrFrame.loadMoreComplete(false);
+                    mPtrFrame.setNoMoreData();
                 } else {
-                    mPtrFrame.loadMoreComplete(true);
+                    mPtrFrame.setLoadMoreEnable(true);
                 }
                 page++;
             }
@@ -130,9 +136,9 @@ public class MyPostListActivity extends BaseActivity {
     @Override
     protected void initData() {
         page = 1;
-        App.app.appAction.postListByPersonId(page, LoginUtil.getUser().id, new BaseActionCallbackListener<List<PostBean>>() {
+        App.app.appAction.schoolList(page, new BaseActionCallbackListener<List<SchoolBean>>() {
             @Override
-            public void onSuccess(List<PostBean> data) {
+            public void onSuccess(List<SchoolBean> data) {
                 mPtrFrame.refreshComplete();
                 adapter.setData(data, false);
                 if (data.size() < AppActionImpl.PAGE_SIZE) {
@@ -153,4 +159,5 @@ public class MyPostListActivity extends BaseActivity {
             }
         });
     }
+
 }

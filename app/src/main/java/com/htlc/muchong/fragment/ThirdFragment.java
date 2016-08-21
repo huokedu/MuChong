@@ -58,12 +58,6 @@ public class ThirdFragment extends HomeFragment {
                 return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
             }
         });
-//        mPtrFrame.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                mPtrFrame.autoRefresh();
-//            }
-//        }, 200);
         mPtrFrame.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void loadMore() {
@@ -145,9 +139,6 @@ public class ThirdFragment extends HomeFragment {
         App.app.appAction.cangList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<CangBean>>() {
             @Override
             public void onSuccess(List<CangBean> data) {
-                if(data ==null || data.size()<=0){
-                    mRecyclerView.setBackgroundResource(R.mipmap.bg_no_data);
-                }
                 mPtrFrame.refreshComplete();
                 adapter.setData(data, false);
                 if (data.size() < AppActionImpl.PAGE_SIZE) {

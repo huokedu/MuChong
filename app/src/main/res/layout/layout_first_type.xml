@@ -61,11 +61,11 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/icon_first_duo"/>
+            android:src="@mipmap/icon_first_school"/>
 
         <TextView
             style="@style/FirstHeaderLinearText"
-            android:text="@string/first_header_duo"
+            android:text="@string/first_header_school"
             />
     </LinearLayout>
 </LinearLayout>

@@ -23,6 +23,7 @@ import com.htlc.muchong.activity.PaiDetailActivity;
 import com.htlc.muchong.activity.PaiListActivity;
 import com.htlc.muchong.activity.ProductDetailActivity;
 import com.htlc.muchong.activity.QiangListActivity;
+import com.htlc.muchong.activity.SchoolListActivity;
 import com.htlc.muchong.activity.WebActivity;
 import com.htlc.muchong.adapter.FirstAdapter;
 import com.htlc.muchong.base.BaseActivity;
@@ -307,7 +308,8 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
                 break;
             case R.id.linearDuo:
 //                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(Api.DuoBao)));
-                WebActivity.goWebActivity(getContext(), getString(R.string.first_header_duo), Api.DuoBao);
+//                WebActivity.goWebActivity(getContext(), getString(R.string.first_header_duo), Api.DuoBao);
+                startActivity(new Intent(getActivity(), SchoolListActivity.class));
                 break;
             case R.id.textJiaoMore:
                 startActivity(new Intent(getActivity(), JiaoListActivity.class));

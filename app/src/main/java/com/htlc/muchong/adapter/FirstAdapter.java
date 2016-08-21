@@ -32,7 +32,7 @@ public class FirstAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return mList.size();
+        return Math.min(mList.size(),6);
     }
 
     @Override

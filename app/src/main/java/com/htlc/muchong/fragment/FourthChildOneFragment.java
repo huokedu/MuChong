@@ -150,6 +150,7 @@ public class FourthChildOneFragment extends HomeFragment {
                     outRect.bottom = space;
                 }
             });
+            // TODO: 2016/8/22 学堂的详情界面修改，单独写一个学堂详情Activity，点击事件需要修改
             adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
