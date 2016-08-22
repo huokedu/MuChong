@@ -1,6 +1,10 @@
 package com.htlc.muchong.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,14 +19,19 @@ import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.adapter.FourthOneRecyclerViewAdapter;
+import com.htlc.muchong.adapter.MyPostListPagerAdapter;
+import com.htlc.muchong.adapter.OrderListPagerAdapter;
 import com.htlc.muchong.adapter.PaiRecyclerViewAdapter;
 import com.htlc.muchong.adapter.ThirdRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
+import com.htlc.muchong.fragment.MyPostListFragment;
+import com.htlc.muchong.fragment.OrderListFragment;
 import com.htlc.muchong.util.LoginUtil;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import core.AppActionImpl;
@@ -35,122 +44,38 @@ import model.PostBean;
  *
  */
 public class MyPostListActivity extends BaseActivity {
-    private PtrClassicFrameLayout mPtrFrame;
-    private FourthOneRecyclerViewAdapter adapter;
-    private RecyclerAdapterWithHF mAdapter;
-    private RecyclerView mRecyclerView;
-    private View noDataView;
+    public static void goMyPostListActivity(Context context){
+        Intent intent = new Intent(context, MyPostListActivity.class);
+        context.startActivity(intent);
+    }
 
-    int page = 1;
+    private ViewPager mViewPager;
+    private TabLayout mTabLayout;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_pai_list;
+        return R.layout.activity_my_post_list;
     }
 
     @Override
     protected void setupView() {
-        // TODO: 2016/8/22 我的论坛需要修改为，说说和学堂两种类别；可以编辑修改之前的说说和学堂；需要定义新的修改界面
         mTitleTextView.setText(R.string.fifth_lun);
 
-        noDataView = findViewById(R.id.noDataView);
-        mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
-        mPtrFrame.setLastUpdateTimeKey(null);
-        mPtrFrame.setPtrHandler(new PtrHandler() {
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                initData();
-            }
+        mViewPager = (ViewPager) findViewById(R.id.viewPager);
+        mViewPager.setOffscreenPageLimit(2);
+        mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        ArrayList<MyPostListFragment> pageFragments = new ArrayList<>();
 
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
-            }
-        });
-        mPtrFrame.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mPtrFrame.autoRefresh();
-            }
-        }, 500);
-        mPtrFrame.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void loadMore() {
-                loadMoreData();
-            }
-        });
+        pageFragments.add(MyPostListFragment.newInstance(getString(R.string.fourth_title_fragment_one)));
+        pageFragments.add(MyPostListFragment.newInstance(getString(R.string.fourth_title_fragment_four)));
 
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mRecyclerView.setBackgroundResource(R.color.bg_gray);
-        adapter = new FourthOneRecyclerViewAdapter();
-        mAdapter = new RecyclerAdapterWithHF(adapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            private int space = CommonUtil.dp2px(MyPostListActivity.this, 10);
-
-            @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                outRect.bottom = space;
-            }
-        });
-        adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                PostBean bean = (PostBean) adapter.getData().get(position);
-                PostDetailActivity.goPostDetailActivity(MyPostListActivity.this, bean.id, R.string.detail);
-            }
-        });
-        mRecyclerView.setAdapter(mAdapter);
-
-    }
-
-    private void loadMoreData() {
-        App.app.appAction.postListByPersonId(page, LoginUtil.getUser().id, new BaseActionCallbackListener<List<PostBean>>() {
-            @Override
-            public void onSuccess(List<PostBean> data) {
-                adapter.setData(data, true);
-                if (data.size() < AppActionImpl.PAGE_SIZE) {
-                    mPtrFrame.loadMoreComplete(false);
-                } else {
-                    mPtrFrame.loadMoreComplete(true);
-                }
-                page++;
-            }
-
-            @Override
-            public void onIllegalState(String errorEvent, String message) {
-                ToastUtil.showToast(App.app, message);
-                mPtrFrame.refreshComplete();
-                mPtrFrame.setFail();
-            }
-        });
+        MyPostListPagerAdapter pagerAdapter = new MyPostListPagerAdapter(getSupportFragmentManager(), pageFragments);
+        mViewPager.setAdapter(pagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
     protected void initData() {
-        page = 1;
-        App.app.appAction.postListByPersonId(page, LoginUtil.getUser().id, new BaseActionCallbackListener<List<PostBean>>() {
-            @Override
-            public void onSuccess(List<PostBean> data) {
-                mPtrFrame.refreshComplete();
-                adapter.setData(data, false);
-                if (data.size() < AppActionImpl.PAGE_SIZE) {
-                    mPtrFrame.setLoadMoreEnable(false);
-                } else {
-                    mPtrFrame.setLoadMoreEnable(true);
-                }
-                page++;
-                showOrHiddenNoDataView(adapter.getData(), noDataView);
-            }
 
-            @Override
-            public void onIllegalState(String errorEvent, String message) {
-                ToastUtil.showToast(App.app, message);
-                mPtrFrame.refreshComplete();
-                mPtrFrame.setLoadMoreEnable(false);
-                showOrHiddenNoDataView(adapter.getData(), noDataView);
-            }
-        });
     }
 }
