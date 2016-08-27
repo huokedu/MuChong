@@ -19,6 +19,7 @@ import com.htlc.muchong.R;
 import com.htlc.muchong.activity.CreateOrderActivity;
 import com.htlc.muchong.activity.PostDetailActivity;
 import com.htlc.muchong.adapter.FourthOneRecyclerViewAdapter;
+import com.htlc.muchong.adapter.MyTalkRecyclerViewAdapter;
 import com.htlc.muchong.adapter.ThirdRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.base.BaseFragment;
@@ -56,7 +57,7 @@ public class MyPostListFragment extends BaseFragment {
 
 
     private PtrClassicFrameLayout mPtrFrame;
-    private FourthOneRecyclerViewAdapter adapter;
+    private MyTalkRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
     private View noDataView;
@@ -100,7 +101,13 @@ public class MyPostListFragment extends BaseFragment {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setBackgroundResource(R.color.bg_gray);
-        adapter = new FourthOneRecyclerViewAdapter();
+        initAdapter();
+        mRecyclerView.setAdapter(mAdapter);
+
+    }
+
+    private void initAdapter() {
+        adapter = new MyTalkRecyclerViewAdapter();
         mAdapter = new RecyclerAdapterWithHF(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -118,8 +125,6 @@ public class MyPostListFragment extends BaseFragment {
                 PostDetailActivity.goPostDetailActivity(getActivity(), bean.id, R.string.detail);
             }
         });
-        mRecyclerView.setAdapter(mAdapter);
-
     }
 
     private void loadMoreData() {
