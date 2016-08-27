@@ -164,11 +164,12 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         if(isShuoShuo){
             textPostTitle.setVisibility(View.GONE);
         }
-        //如果帖子类型是学堂，显示喜欢按钮，否则隐藏
+        //如果帖子类型是学堂，显示喜欢按钮，否则隐藏;内容按钮GONE
         textLike = (TextView) findViewById(R.id.textLike);
         textLike.setOnClickListener(this);
         if (isSchool) {
             textLike.setVisibility(View.VISIBLE);
+            textContent.setVisibility(View.GONE);
         } else {
             textLike.setVisibility(View.INVISIBLE);
         }
@@ -275,6 +276,9 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
                 DateFormat.setTextByTime(textTime, data.forum_ctime);
 
                 String[] images = data.forum_imgstr.split(ProductDetailActivity.SPLIT_FLAG);
+                if(isSchool){
+                    imageAdapter.setContentJsonArrayStr(data.forum_content);
+                }
                 imageAdapter.setData(Arrays.asList(images), false);
                 textPostTitle.setText(data.forum_title);
                 textContent.setText(data.forum_content);

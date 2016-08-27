@@ -7,6 +7,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.htlc.muchong.R;
 import com.htlc.muchong.util.ImageUtil;
 
@@ -17,8 +19,18 @@ import java.util.List;
  * Created by sks on 2016/5/25.
  */
 public class DetailImageAdapter extends BaseAdapter{
+    private ArrayList<String> descriptions = new ArrayList<>();
     private List<String> list = new ArrayList<>();
-    public void setData(List<String> list,boolean isAdd){
+
+    public void setContentJsonArrayStr(String contentJsonArrayStr) {
+        JSONArray objects = JSON.parseArray(contentJsonArrayStr);
+        for(int i=0; i<objects.size(); i++){
+            String desc = objects.getJSONObject(i).getString("desc");
+            descriptions.add(desc);
+        }
+    }
+
+    public void setData(List<String> list, boolean isAdd){
         if(isAdd){
             this.list.addAll(list);
         }else {
@@ -48,14 +60,23 @@ public class DetailImageAdapter extends BaseAdapter{
         if(convertView == null){
             holder = new ViewHolder();
             convertView = View.inflate(parent.getContext(), R.layout.adapter_jian_detail_image,null);
+            holder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
+            holder.textDescription = (TextView) convertView.findViewById(R.id.textDescription);
             convertView.setTag(holder);
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
-        ImageUtil.setImageByDefault((ImageView) convertView,R.mipmap.default_cang_detail, Uri.parse(list.get(position)));
+        ImageUtil.setImageByDefault(holder.imageView,R.mipmap.default_cang_detail, Uri.parse(list.get(position)));
+        if(descriptions.size()>position){
+            holder.textDescription.setText(descriptions.get(position));
+            holder.textDescription.setVisibility(View.VISIBLE);
+        }else {
+            holder.textDescription.setVisibility(View.GONE);
+        }
         return convertView;
     }
     public class ViewHolder{
         public ImageView imageView;
+        public TextView textDescription;
     }
 }
