@@ -122,7 +122,6 @@ public class MyPostListFragment extends BaseFragment {
                     outRect.bottom = space;
                 }
             });
-            // TODO: 2016/8/22 学堂的详情界面修改，单独写一个学堂详情Activity，点击事件需要修改
             adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
@@ -133,11 +132,13 @@ public class MyPostListFragment extends BaseFragment {
             ((MySchoolRecyclerViewAdapter) adapter).setOperationListener(new MySchoolRecyclerViewAdapter.OnOperationListener() {
                 @Override
                 public void onEditClick(int position) {
+                    // TODO: 2016/8/27 定义学堂的发布和修改界面，并调试接口
                     ToastUtil.showToast(App.app,"onEditClick: "+position);
                 }
 
                 @Override
                 public void onDeleteClick(int position) {
+                    // TODO: 2016/8/27 实现学堂删除功能
                     ToastUtil.showToast(App.app,"onDeleteClick: "+position);
                 }
             });
@@ -163,11 +164,13 @@ public class MyPostListFragment extends BaseFragment {
             ((MyTalkRecyclerViewAdapter) adapter).setOperationListener(new MyTalkRecyclerViewAdapter.OnOperationListener() {
                 @Override
                 public void onEditClick(int position) {
+                    // TODO: 2016/8/27 定义说说的修改界面，并调试接口
                     ToastUtil.showToast(App.app,"onEditClick: "+position);
                 }
 
                 @Override
                 public void onDeleteClick(int position) {
+                    // TODO: 2016/8/27 实现说说删除功能
                     ToastUtil.showToast(App.app,"onDeleteClick: "+position);
                 }
             });
@@ -185,6 +188,7 @@ public class MyPostListFragment extends BaseFragment {
     }
 
     private void loadMoreDataTwo() {
+        // TODO: 2016/8/27 需要修改为当前用户的学堂数据（现在是论坛中的学堂的数据）
         App.app.appAction.schoolList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<SchoolBean>>() {
             @Override
             public void onSuccess(List<SchoolBean> data) {
@@ -242,6 +246,7 @@ public class MyPostListFragment extends BaseFragment {
 
     private void initDataTwo() {
         page = 1;
+        // TODO: 2016/8/27 需要修改为当前用户的学堂数据（现在是论坛中的学堂的数据）
         App.app.appAction.schoolList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<SchoolBean>>() {
             @Override
             public void onSuccess(List<SchoolBean> data) {
