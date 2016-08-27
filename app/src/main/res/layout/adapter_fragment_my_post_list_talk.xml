@@ -1,62 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@android:color/white"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
-    <View
-        style="@style/DividerHorizontal.Thin"/>
-    <include layout="@layout/layout_owner"/>
-    <View
-        style="@style/DividerHorizontal.Thin"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <ImageView
-            android:id="@+id/image1"
-            style="@style/ThirdChildOneImage"/>
-        <View
-           style="@style/DividerVertical"/>
-        <ImageView
-            android:id="@+id/image2"
-            style="@style/ThirdChildOneImage"/>
-        <View
-            style="@style/DividerVertical"/>
-        <ImageView
-            android:id="@+id/image3"
-            style="@style/ThirdChildOneImage"/>
-    </LinearLayout>
-    <View
-        style="@style/DividerHorizontal.Thin"/>
-    <LinearLayout
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/textPostTitle"
-            android:textSize="14sp"
-            android:text="小小世界"
-            android:visibility="gone"
-            android:textColor="@color/text_color_black_muchong"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/textDescription"
-            android:textSize="12sp"
-            android:minLines="4"
-            android:maxLines="4"
-            android:ellipsize="end"
-            android:text="Universal App Campaigns 在去年的 Google I/O 大会上，Google 推出了 Universal App Campaigns。这是一个自动化流程，它能从 app 在 Google Play 应用商店的展示页面中提取图片、视频以及文字描述，生成适用于不同传播载体的广告格式。广告生成后，系统会自动对广告内容进行优化，尝试不同创意方案，使该 app 实现安装数量最大化，并尽可能接近预期单次安装成本的目标。"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <View
-        style="@style/DividerHorizontal.Thin"/>
 
-</LinearLayout>
+        <View style="@style/DividerHorizontal.Thin" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/image1"
+                style="@style/ThirdChildOneImage" />
+
+            <View style="@style/DividerVertical" />
+
+            <ImageView
+                android:id="@+id/image2"
+                style="@style/ThirdChildOneImage" />
+
+            <View style="@style/DividerVertical" />
+
+            <ImageView
+                android:id="@+id/image3"
+                style="@style/ThirdChildOneImage" />
+        </LinearLayout>
+
+        <View style="@style/DividerHorizontal.Thin" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/textPostTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="小小世界"
+                android:textColor="@color/text_color_black_muchong"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/textDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:minLines="4"
+                android:text="Universal App Campaigns 在去年的 Google I/O 大会上，Google 推出了 Universal App Campaigns。这是一个自动化流程，它能从 app 在 Google Play 应用商店的展示页面中提取图片、视频以及文字描述，生成适用于不同传播载体的广告格式。广告生成后，系统会自动对广告内容进行优化，尝试不同创意方案，使该 app 实现安装数量最大化，并尽可能接近预期单次安装成本的目标。"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View style="@style/DividerHorizontal.Thin" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textEdit"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBottom="@+id/textDelete"
+        android:layout_gravity="bottom|end|right"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/textDelete"
+        android:background="@drawable/bg_school_like_shape"
+        android:gravity="center"
+        android:text="编辑"
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textDelete"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|end|right"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_school_like_shape"
+        android:gravity="center"
+        android:text="删除"
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
+</RelativeLayout>

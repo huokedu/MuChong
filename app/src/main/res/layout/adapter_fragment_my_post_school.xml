@@ -62,4 +62,31 @@
         android:drawablePadding="5dp"
         android:text="199"
         android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/textEdit"
+        android:layout_gravity="bottom|end|right"
+        android:text="编辑"
+        android:textSize="14sp"
+        android:background="@drawable/bg_school_like_shape"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:layout_alignBottom="@+id/textDelete"
+        android:layout_toLeftOf="@+id/textDelete"
+        android:layout_marginRight="5dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"/>
+    <TextView
+        android:id="@+id/textDelete"
+        android:layout_gravity="bottom|end|right"
+        android:text="删除"
+        android:textSize="14sp"
+        android:background="@drawable/bg_school_like_shape"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"/>
 </RelativeLayout>

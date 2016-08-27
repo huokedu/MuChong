@@ -18,7 +18,9 @@ import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.activity.CreateOrderActivity;
 import com.htlc.muchong.activity.PostDetailActivity;
+import com.htlc.muchong.adapter.FourthFourRecyclerViewAdapter;
 import com.htlc.muchong.adapter.FourthOneRecyclerViewAdapter;
+import com.htlc.muchong.adapter.MySchoolRecyclerViewAdapter;
 import com.htlc.muchong.adapter.MyTalkRecyclerViewAdapter;
 import com.htlc.muchong.adapter.ThirdRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
@@ -36,6 +38,7 @@ import java.util.List;
 import core.AppActionImpl;
 import model.OrderBean;
 import model.PostBean;
+import model.SchoolBean;
 
 /**
  * Created by sks on 2016/5/23.
@@ -57,7 +60,7 @@ public class MyPostListFragment extends BaseFragment {
 
 
     private PtrClassicFrameLayout mPtrFrame;
-    private MyTalkRecyclerViewAdapter adapter;
+    private BaseRecyclerViewAdapter adapter;
     private RecyclerAdapterWithHF mAdapter;
     private RecyclerView mRecyclerView;
     private View noDataView;
@@ -107,27 +110,104 @@ public class MyPostListFragment extends BaseFragment {
     }
 
     private void initAdapter() {
-        adapter = new MyTalkRecyclerViewAdapter();
-        mAdapter = new RecyclerAdapterWithHF(adapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            private int space = CommonUtil.dp2px(getContext(), 10);
+        if(mTitle.equals(getString(R.string.fourth_title_fragment_four))){
+            adapter = new MySchoolRecyclerViewAdapter();
+            mAdapter = new RecyclerAdapterWithHF(adapter);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+                private int space = CommonUtil.dp2px(getContext(), 10);
+
+                @Override
+                public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                    outRect.bottom = space;
+                }
+            });
+            // TODO: 2016/8/22 学堂的详情界面修改，单独写一个学堂详情Activity，点击事件需要修改
+            adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    SchoolBean bean = (SchoolBean) adapter.getData().get(position);
+                    PostDetailActivity.goPostDetailActivity(getContext(), bean.id, R.string.detail, true);
+                }
+            });
+            ((MySchoolRecyclerViewAdapter) adapter).setOperationListener(new MySchoolRecyclerViewAdapter.OnOperationListener() {
+                @Override
+                public void onEditClick(int position) {
+                    ToastUtil.showToast(App.app,"onEditClick: "+position);
+                }
+
+                @Override
+                public void onDeleteClick(int position) {
+                    ToastUtil.showToast(App.app,"onDeleteClick: "+position);
+                }
+            });
+        }else {
+            adapter = new MyTalkRecyclerViewAdapter();
+            mAdapter = new RecyclerAdapterWithHF(adapter);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+                private int space = CommonUtil.dp2px(getContext(), 10);
+
+                @Override
+                public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                    outRect.bottom = space;
+                }
+            });
+            adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    PostBean bean = (PostBean) adapter.getData().get(position);
+                    PostDetailActivity.goPostDetailActivity(getActivity(), bean.id, R.string.detail);
+                }
+            });
+            ((MyTalkRecyclerViewAdapter) adapter).setOperationListener(new MyTalkRecyclerViewAdapter.OnOperationListener() {
+                @Override
+                public void onEditClick(int position) {
+                    ToastUtil.showToast(App.app,"onEditClick: "+position);
+                }
+
+                @Override
+                public void onDeleteClick(int position) {
+                    ToastUtil.showToast(App.app,"onDeleteClick: "+position);
+                }
+            });
+        }
+
+    }
+
+    private void loadMoreData() {
+        if (getString(R.string.fourth_title_fragment_one).equals(mTitle)) {
+            loadMoreDataOne();
+        } else if (getString(R.string.fourth_title_fragment_four).equals(mTitle)) {
+            loadMoreDataTwo();
+        }
+
+    }
+
+    private void loadMoreDataTwo() {
+        App.app.appAction.schoolList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<SchoolBean>>() {
+            @Override
+            public void onSuccess(List<SchoolBean> data) {
+                mPtrFrame.loadMoreComplete(true);
+                adapter.setData(data, true);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setNoMoreData();
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+            }
 
             @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                outRect.bottom = space;
-            }
-        });
-        adapter.setOnItemClickListener(new ThirdRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                PostBean bean = (PostBean) adapter.getData().get(position);
-                PostDetailActivity.goPostDetailActivity(getActivity(), bean.id, R.string.detail);
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setFail();
             }
         });
     }
 
-    private void loadMoreData() {
+    private void loadMoreDataOne() {
         BaseActivity baseActivity = (BaseActivity) getActivity();
         App.app.appAction.postListByPersonId(page, LoginUtil.getUser().id, baseActivity.new BaseActionCallbackListener<List<PostBean>>() {
             @Override
@@ -152,6 +232,41 @@ public class MyPostListFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        if (getString(R.string.fourth_title_fragment_one).equals(mTitle)) {
+            initDataOne();
+        } else if (getString(R.string.fourth_title_fragment_four).equals(mTitle)) {
+            initDataTwo();
+        }
+
+    }
+
+    private void initDataTwo() {
+        page = 1;
+        App.app.appAction.schoolList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<SchoolBean>>() {
+            @Override
+            public void onSuccess(List<SchoolBean> data) {
+                mPtrFrame.refreshComplete();
+                adapter.setData(data, false);
+                if (data.size() < AppActionImpl.PAGE_SIZE) {
+                    mPtrFrame.setLoadMoreEnable(false);
+                } else {
+                    mPtrFrame.setLoadMoreEnable(true);
+                }
+                page++;
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
+            }
+
+            @Override
+            public void onIllegalState(String errorEvent, String message) {
+                ToastUtil.showToast(App.app, message);
+                mPtrFrame.refreshComplete();
+                mPtrFrame.setLoadMoreEnable(false);
+                showOrHiddenNoDataView(adapter.getData(), noDataView);
+            }
+        });
+    }
+
+    private void initDataOne() {
         BaseActivity baseActivity = (BaseActivity) getActivity();
         page = 1;
         App.app.appAction.postListByPersonId(page, LoginUtil.getUser().id,  baseActivity.new BaseActionCallbackListener<List<PostBean>>() {
