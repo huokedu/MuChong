@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">格物文玩</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
@@ -56,6 +56,7 @@
     <string name="fifth_lun">我的论坛</string>
     <string name="fifth_xiao">消息中心</string>
     <string name="fifth_setting">设置</string>
+    <string name="fifth_th">退换货</string>
 
     <string name="title_login">登录</string>
     <string name="login_username">手机号</string>
@@ -100,7 +101,8 @@
 
     <string name="jian_title_fragment_one">真</string>
     <string name="jian_title_fragment_two">假</string>
-    <string name="jian_title_fragment_three">进行中</string>
+    <string name="jian_title_fragment_three">存疑</string>
+    <string name="jian_title_fragment_four">进行中</string>
 
     <string name="title_jian_detail">鉴定详情</string>
     <string name="jian_detail_result">鉴定结果</string>

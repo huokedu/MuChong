@@ -2,12 +2,14 @@ package core;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.htlc.muchong.activity.PostPublishActivity;
 import com.htlc.muchong.activity.ProductDetailActivity;
+import com.htlc.muchong.util.LogUtils;
 import com.htlc.muchong.util.LoginUtil;
 import com.larno.util.EncryptUtil;
 import com.larno.util.NetworkUtil;
@@ -25,6 +27,8 @@ import api.ApiImpl;
 import model.ActivityBean;
 import model.AddressBean;
 import model.CangBean;
+import model.ChargesBean;
+import model.CreateOrderBean;
 import model.CreateOrderResultBean;
 import model.GoodsBean;
 import model.GoodsCommentBean;
@@ -227,6 +231,7 @@ public class AppActionImpl implements AppAction {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
             return;
         }
+        Log.e("File---",""+userinfo_headportrait);
         api.updateUserInfo(userinfo_nickname, userinfo_address, userinfo_headportrait, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
@@ -340,18 +345,22 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void addAddress(String addr_type, String addr_province,String addr_city,String addr_county, String addr_address, String addr_name, String addr_mobile, ActionCallbackListener<Void> listener) {
+        Log.e("context---",""+NetworkUtil.isNetworkAvailable(context));
         if (!NetworkUtil.isNetworkAvailable(context)) {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
             return;
         }
+        Log.e("addr_address---",""+addr_address);
         if (TextUtils.isEmpty(addr_address)) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "收货地址不能为空");
             return;
         }
+        Log.e("addr_name---",""+addr_name);
         if (TextUtils.isEmpty(addr_name)) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "收货人不能为空");
             return;
         }
+        Log.e("addr_mobile---",""+addr_mobile);
         if (TextUtils.isEmpty(addr_mobile)) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "手机号不能为空");
             return;
@@ -360,6 +369,7 @@ public class AppActionImpl implements AppAction {
             listener.onFailure(ErrorEvent.PARAM_ILLEGAL, "手机号格式不正确");
             return;
         }
+
         api.addAddress(addr_type, addr_province, addr_city, addr_county, addr_address, addr_name, addr_mobile, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
@@ -527,7 +537,7 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void pay(String order_id, String channel, ActionCallbackListener<CreateOrderResultBean> listener) {
+    public void pay(String order_id, String channel, ActionCallbackListener<CreateOrderBean> listener) {
         if (!NetworkUtil.isNetworkAvailable(context)) {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
             return;
@@ -537,12 +547,15 @@ public class AppActionImpl implements AppAction {
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
-                    String charges = model.getJSONObject(KEY_DATA).getString("charges");
-                    String order_id = model.getJSONObject(KEY_DATA).getString("order_id");
-                    CreateOrderResultBean bean = new CreateOrderResultBean();
-                    bean.charges = charges;
-                    bean.order_id = order_id;
-                    listener.onSuccess(bean);
+//                    String charges = model.getJSONObject(KEY_DATA).getString("charges");
+//                    String order_id = model.getJSONObject(KEY_DATA).getString("order_id");
+//                    CreateOrderResultBean bean = new CreateOrderResultBean();
+//                    bean.charges = charges;
+//                    bean.order_id = order_id;
+//                    listener.onSuccess(bean);
+
+                    CreateOrderBean coBean = JSON.parseObject(model.getString(KEY_DATA), CreateOrderBean.class);
+                    listener.onSuccess(coBean);
                 } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }
@@ -594,7 +607,7 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void payForAccount(String money, String channel, ActionCallbackListener<CreateOrderResultBean> listener) {
+    public void payForAccount(String money, String channel, ActionCallbackListener<CreateOrderBean> listener) {
         if (!NetworkUtil.isNetworkAvailable(context)) {
             listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
             return;
@@ -608,12 +621,15 @@ public class AppActionImpl implements AppAction {
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
-                    String charges = model.getJSONObject(KEY_DATA).getString("charges");
-                    String order_id = model.getJSONObject(KEY_DATA).getString("order_id");
-                    CreateOrderResultBean bean = new CreateOrderResultBean();
-                    bean.charges = charges;
-                    bean.order_id = order_id;
-                    listener.onSuccess(bean);
+//                    String charges = model.getJSONObject(KEY_DATA).getString("charges");
+//                    String order_id = model.getJSONObject(KEY_DATA).getString("order_id");
+//                    CreateOrderResultBean bean = new CreateOrderResultBean();
+//                    bean.charges = charges;
+//                    bean.order_id = order_id;
+//                    listener.onSuccess(bean);
+
+                    CreateOrderBean coBean = JSON.parseObject(model.getString(KEY_DATA), CreateOrderBean.class);
+                    listener.onSuccess(coBean);
                 } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }
@@ -1107,7 +1123,7 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void buyNow(String channel, String commodity_id, String num, String address_id, boolean isJingPaiCart,  ActionCallbackListener<CreateOrderResultBean> listener) {
+    public void buyNow(String channel, String commodity_id, String num, String address_id, boolean isJingPaiCart,  ActionCallbackListener<CreateOrderBean> listener) {
         if (TextUtils.isEmpty(address_id)) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "请选择收获地址");
             return;
@@ -1119,14 +1135,18 @@ public class AppActionImpl implements AppAction {
         api.buyNow(channel, commodity_id, num, address_id, jpoper, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {
+                LogUtils.e("response---",""+response);
                 JSONObject model = JSON.parseObject(response);
+                LogUtils.e("model---",""+model);
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
-                    String charges = model.getJSONObject(KEY_DATA).getString("charges");
-                    String order_id = model.getJSONObject(KEY_DATA).getString("order_id");
-                    CreateOrderResultBean bean = new CreateOrderResultBean();
-                    bean.charges = charges;
-                    bean.order_id = order_id;
-                    listener.onSuccess(bean);
+//                    String charges = model.getJSONObject(KEY_DATA).getString("charges");
+//                    String order_id = model.getJSONObject(KEY_DATA).getString("order_id");
+
+//                    CreateOrderResultBean bean = new CreateOrderResultBean();
+//                    bean.charges = charges;
+//                    bean.order_id = order_id;
+                    CreateOrderBean coBean = JSON.parseObject(model.getString(KEY_DATA), CreateOrderBean.class);
+                    listener.onSuccess(coBean);
                 } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }
@@ -1135,7 +1155,7 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void buyByShoppingCart(String channel, List<ShoppingCartItemBean> shoppingCartItemBeans, String address_id, ActionCallbackListener<CreateOrderResultBean> listener) {
+    public void buyByShoppingCart(String channel, List<ShoppingCartItemBean> shoppingCartItemBeans, String address_id, ActionCallbackListener<CreateOrderBean> listener) {
         if (TextUtils.isEmpty(address_id)) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "请选择收获地址");
             return;
@@ -1146,12 +1166,15 @@ public class AppActionImpl implements AppAction {
             public void onResponse(String response) {
                 JSONObject model = JSON.parseObject(response);
                 if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
-                    String charges = model.getJSONObject(KEY_DATA).getString("charges");
-                    String order_id = model.getJSONObject(KEY_DATA).getString("order_id");
-                    CreateOrderResultBean bean = new CreateOrderResultBean();
-                    bean.charges = charges;
-                    bean.order_id = order_id;
-                    listener.onSuccess(bean);
+//                    String charges = model.getJSONObject(KEY_DATA).getString("charges");
+//                    String order_id = model.getJSONObject(KEY_DATA).getString("order_id");
+//                    CreateOrderResultBean bean = new CreateOrderResultBean();
+//                    bean.charges = charges;
+//                    bean.order_id = order_id;
+//                    listener.onSuccess(bean);
+
+                    CreateOrderBean coBean = JSON.parseObject(model.getString(KEY_DATA), CreateOrderBean.class);
+                    listener.onSuccess(coBean);
                 } else {
                     listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
                 }
@@ -1334,7 +1357,7 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void publishPostCang(boolean isCangPublish, String forum_title, String forum_content, File coverImageFile, List<File> contentImageFiles, ActionCallbackListener<Void> listener) {
+    public void publishPostCang(boolean isCangPublish, String forum_title,String forum_content, File coverImageFile, List<File> contentImageFiles, ActionCallbackListener<Void> listener) {
         if (coverImageFile == null) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "封面图片不能为空");
             return;
@@ -1343,10 +1366,10 @@ public class AppActionImpl implements AppAction {
             listener.onFailure(ErrorEvent.PARAM_NULL, "内容图片不能为空");
             return;
         }
-        if (TextUtils.isEmpty(forum_title)) {
-            listener.onFailure(ErrorEvent.PARAM_NULL, "标题不能为空");
-            return;
-        }
+//        if (TextUtils.isEmpty(forum_title)) {
+//            listener.onFailure(ErrorEvent.PARAM_NULL, "标题不能为空");
+//            return;
+//        }
         if (TextUtils.isEmpty(forum_content)) {
             listener.onFailure(ErrorEvent.PARAM_NULL, "文本内容不能为空");
             return;
@@ -1450,10 +1473,10 @@ public class AppActionImpl implements AppAction {
 
     @Override
     public void publishJianResult(String appraisal_forumid, boolean isTrue, String appraisal_content, ActionCallbackListener<Void> listener) {
-        if (TextUtils.isEmpty(appraisal_content)) {
-            listener.onFailure(ErrorEvent.PARAM_NULL, "评论内容不能为空");
-            return;
-        }
+//        if (TextUtils.isEmpty(appraisal_content)) {
+//            listener.onFailure(ErrorEvent.PARAM_NULL, "评论内容不能为空");
+//            return;
+//        }
         String appraisal_type = isTrue ? "1" : "2";
         api.publishJianResult(appraisal_forumid, appraisal_type, appraisal_content, new DefaultResultCallback(listener) {
             @Override

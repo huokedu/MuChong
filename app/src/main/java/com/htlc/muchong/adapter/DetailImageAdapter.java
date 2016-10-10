@@ -11,6 +11,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.htlc.muchong.R;
 import com.htlc.muchong.util.ImageUtil;
+import com.htlc.muchong.util.LogUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +68,10 @@ public class DetailImageAdapter extends BaseAdapter{
         }else {
             holder = (ViewHolder) convertView.getTag();
         }
+        LogUtils.e("list.get(position)---",""+list.get(position));
         ImageUtil.setImageByDefault(holder.imageView,R.mipmap.default_cang_detail, Uri.parse(list.get(position)));
+//        Picasso.with().load(Uri.parse(list.get(position))).placeholder(R.mipmap.default_cang_detail).
+//                error(R.mipmap.default_cang_detail).resizeDimen(R.dimen.banner_width,R.dimen.banner_height).into(holder.imageView);
         if(descriptions.size()>position){
             holder.textDescription.setText(descriptions.get(position));
             holder.textDescription.setVisibility(View.VISIBLE);

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ import com.htlc.muchong.adapter.AddressAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.bean.AddressItemBean;
 import com.htlc.muchong.database.DBManager;
+import com.htlc.muchong.util.LoginUtil;
 import com.htlc.muchong.util.SelectAddressHelper;
 import com.larno.util.ToastUtil;
 
@@ -84,7 +86,7 @@ public class EditAddressActivity extends BaseActivity {
         textProvince.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectAddress1();
+                selectAddress();
             }
         });
         switchView = (Switch) findViewById(R.id.switchView);
@@ -111,7 +113,7 @@ public class EditAddressActivity extends BaseActivity {
 
     /*保存收货地址*/
     private void commit() {
-        mTitleRightTextView.setEnabled(false);
+//        mTitleRightTextView.setEnabled(false);
         if (province == null || city == null || district == null) {
             ToastUtil.showToast(App.app, "请选择省市县");
             return;
@@ -124,9 +126,11 @@ public class EditAddressActivity extends BaseActivity {
             type = "1";
         }
         if (bean == null) {
+            Log.e("bean---if---",""+bean);
             App.app.appAction.addAddress(type, province, city, district, editAddress.getText().toString().trim(), editName.getText().toString().trim(), editTel.getText().toString(), new BaseActionCallbackListener<Void>() {
                 @Override
                 public void onSuccess(Void data) {
+                    Log.e("onSuccess---","onSuccess");
                     ToastUtil.showToast(App.app, "保存成功");
                     finish();
                 }
@@ -138,6 +142,7 @@ public class EditAddressActivity extends BaseActivity {
                 }
             });
         } else {
+            Log.e("bean---else--",""+bean);
             App.app.appAction.updateAddress(bean.id, type, province, city, district, editAddress.getText().toString().trim(), editName.getText().toString().trim(), editTel.getText().toString(), new BaseActionCallbackListener<Void>() {
                 @Override
                 public void onSuccess(Void data) {

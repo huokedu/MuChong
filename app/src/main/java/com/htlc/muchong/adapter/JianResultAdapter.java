@@ -74,8 +74,13 @@ public class JianResultAdapter extends BaseAdapter {
         if(JianListFragment.TYPE_1.equals(type)){
             textView.setText("真");
             textView.setTextColor(textView.getResources().getColor(R.color.text_color_red));
-        }else{
+        }
+        else if(JianListFragment.TYPE_2.equals(type)){
             textView.setText("假");
+            textView.setTextColor(textView.getResources().getColor(R.color.text_color_orange));
+        }
+        else if(JianListFragment.TYPE_4.equals(type)){
+            textView.setText("存疑");
             textView.setTextColor(textView.getResources().getColor(R.color.text_color_orange));
         }
     }

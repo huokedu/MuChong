@@ -3,6 +3,7 @@ package com.chanven.lib.cptr.loadmore;
 import android.content.Context;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,6 +15,7 @@ public class RecyclerViewHandler implements ViewHandler {
     @Override
     public boolean handleSetAdapter(View contentView, ILoadViewMoreFactory.ILoadMoreView loadMoreView, OnClickListener onClickLoadMoreListener) {
         final RecyclerView recyclerView = (RecyclerView) contentView;
+        android.util.Log.e("getAdapter---",""+recyclerView.getAdapter());
         boolean hasInit = false;
         final RecyclerAdapterWithHF adapter = (RecyclerAdapterWithHF) recyclerView.getAdapter();
         if (loadMoreView != null) {

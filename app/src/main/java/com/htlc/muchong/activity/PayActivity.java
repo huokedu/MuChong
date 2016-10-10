@@ -11,10 +11,16 @@ import android.widget.RadioGroup;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.base.BaseActivity;
+import com.htlc.muchong.util.LogUtils;
 import com.larno.util.ToastUtil;
 import com.pingplusplus.android.Pingpp;
+import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import model.CreateOrderBean;
 import model.CreateOrderResultBean;
+import model.WxBean;
 
 
 /**
@@ -69,22 +75,31 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     /*充值请求，获取支付信息*/
     private void chongZhi() {
         int checkedId = radioGroup.getCheckedRadioButtonId();
-        String payWay = PayListActivity.PayWays[2];
+        String payWay = PayListActivity.PayWays[0];
+//        if(checkedId == R.id.radioPayWeixin){
+//            payWay = PayListActivity.PayWays[2];
+//        }
+//        else if(checkedId == R.id.radioPayUnion){
+//            payWay = PayListActivity.PayWays[1];
+//        }else if(checkedId == R.id.radioPayAli){
+//            payWay = PayListActivity.PayWays[3];
+//        }
+
         if(checkedId == R.id.radioPayWeixin){
-            payWay = PayListActivity.PayWays[2];
-        }else if(checkedId == R.id.radioPayUnion){
-            payWay = PayListActivity.PayWays[1];
-        }else if(checkedId == R.id.radioPayAli){
-            payWay = PayListActivity.PayWays[3];
+            payWay = PayListActivity.PayWays[0];
         }
+
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("正在支付中，请稍等...");
         progressDialog.show();
-        App.app.appAction.payForAccount(editMoney.getText().toString(), payWay, new BaseActionCallbackListener<CreateOrderResultBean>() {
+        App.app.appAction.payForAccount(editMoney.getText().toString(), payWay, new BaseActionCallbackListener<CreateOrderBean>() {
             @Override
-            public void onSuccess(CreateOrderResultBean data) {
+            public void onSuccess(CreateOrderBean data) {
+
+                payWx(data);//微信支付
                 //调起支付
-                Pingpp.createPayment(PayActivity.this, data.charges);
+//                Pingpp.createPayment(PayActivity.this, data.charges);
             }
 
             @Override
@@ -95,6 +110,31 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 }
             }
         });
+    }
+
+    IWXAPI msgApi;
+    private void payWx(CreateOrderBean data) {
+        WxBean wx = data.getCharges().getCredential().getWx();
+        App.set("wx_appid",wx.getAppId());
+        LogUtils.e("wx_appid----",""+App.get("wx_appid", ""));
+        msgApi = WXAPIFactory.createWXAPI(this, wx.getAppId());
+        msgApi.registerApp(wx.getAppId());
+
+        if (msgApi != null) {
+            if (msgApi.isWXAppInstalled()) {
+                PayReq req = new PayReq();
+                req.appId = wx.getAppId();
+                req.partnerId = wx.getPartnerId();
+                req.prepayId = wx.getPrepayId();
+                req.packageValue = wx.getPackageValue();
+                req.nonceStr = wx.getNonceStr();
+                req.timeStamp = wx.getTimeStamp();
+                req.sign = wx.getSign();
+                msgApi.sendReq(req);
+            }
+
+        }
+
     }
 
 

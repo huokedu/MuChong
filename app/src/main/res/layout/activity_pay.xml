@@ -64,32 +64,32 @@
                         android:drawableLeft="@mipmap/icon_pay_3"
                         android:text="@string/pay_way_3"
                         android:textSize="14sp"/>
-                    <View
-                        style="@style/DividerHorizontal.Thin"/>
-                    <RadioButton
-                        android:background="@android:color/white"
-                        android:id="@+id/radioPayUnion"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="12dp"
-                        android:button="@drawable/jian_result_radio_selector"
-                        android:drawablePadding="10dp"
-                        android:drawableLeft="@mipmap/icon_pay_2"
-                        android:text="@string/pay_way_2"
-                        android:textSize="14sp"/>
-                    <View
-                        style="@style/DividerHorizontal.Thin"/>
-                    <RadioButton
-                        android:background="@android:color/white"
-                        android:id="@+id/radioPayAli"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="12dp"
-                        android:button="@drawable/jian_result_radio_selector"
-                        android:drawablePadding="10dp"
-                        android:drawableLeft="@mipmap/icon_pay_4"
-                        android:text="@string/pay_way_4"
-                        android:textSize="14sp"/>
+                    <!--<View-->
+                        <!--style="@style/DividerHorizontal.Thin"/>-->
+                    <!--<RadioButton-->
+                        <!--android:background="@android:color/white"-->
+                        <!--android:id="@+id/radioPayUnion"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:padding="12dp"-->
+                        <!--android:button="@drawable/jian_result_radio_selector"-->
+                        <!--android:drawablePadding="10dp"-->
+                        <!--android:drawableLeft="@mipmap/icon_pay_2"-->
+                        <!--android:text="@string/pay_way_2"-->
+                        <!--android:textSize="14sp"/>-->
+                    <!--<View-->
+                        <!--style="@style/DividerHorizontal.Thin"/>-->
+                    <!--<RadioButton-->
+                        <!--android:background="@android:color/white"-->
+                        <!--android:id="@+id/radioPayAli"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:padding="12dp"-->
+                        <!--android:button="@drawable/jian_result_radio_selector"-->
+                        <!--android:drawablePadding="10dp"-->
+                        <!--android:drawableLeft="@mipmap/icon_pay_4"-->
+                        <!--android:text="@string/pay_way_4"-->
+                        <!--android:textSize="14sp"/>-->
                 </RadioGroup>
             </RadioGroup>
 

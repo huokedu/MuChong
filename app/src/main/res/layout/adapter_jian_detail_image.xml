@@ -8,7 +8,6 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:scaleType="fitXY"
-        android:src="@mipmap/default_cang_detail"
         android:layout_height="270dp">
     </ImageView>
     <TextView

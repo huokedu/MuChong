@@ -15,7 +15,8 @@ public class PostDetailBean {
     public String forum_title;
     public String forum_content;
     public String forum_coverimg;
-    public String forum_imgstr;
+    public List<ForumImgstrBean> forum_imgstr;
+//    public String forum_imgstr;
     public String forum_likenum;
     public String forum_looknum;
     public String forum_type;

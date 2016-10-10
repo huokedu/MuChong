@@ -21,6 +21,7 @@
             android:orientation="vertical">
             <!--封面-->
             <LinearLayout
+                android:id="@+id/linearCover"
                 style="@style/PublishLinear"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -44,6 +45,25 @@
 
             <View
                 style="@style/DividerHorizontal.Thin"/>
+
+            <!--标题-->
+            <LinearLayout
+                android:id="@+id/linearTitle"
+                style="@style/PublishLinear"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp">
+
+                <EditText
+                    android:id="@+id/editTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/publish_title_hint"
+                    android:textColor="@color/text_color_black_muchong"
+                    android:textSize="14sp"/>
+            </LinearLayout>
             <!--内容图片-->
             <LinearLayout
                 style="@style/PublishLinear"
@@ -71,50 +91,27 @@
                     android:verticalSpacing="10dp"
                     />
             </LinearLayout>
-            <!--标题-->
-            <!--<LinearLayout-->
-                <!--style="@style/PublishLinear"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:paddingBottom="15dp"-->
-                <!--android:paddingTop="15dp">-->
 
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:text="@string/publish_title"-->
-                    <!--android:textColor="@color/text_color_black_muchong"-->
-                    <!--android:textSize="14sp"/>-->
 
-                <!--<EditText-->
-                    <!--android:id="@+id/editTitle"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginLeft="10dp"-->
-                    <!--android:background="@null"-->
-                    <!--android:hint="@string/publish_title_hint"-->
-                    <!--android:singleLine="true"-->
-                    <!--android:textColor="@color/text_color_black_muchong"-->
-                    <!--android:textSize="14sp"/>-->
-            <!--</LinearLayout>-->
-            <!--描述-->
-            <EditText
-                android:id="@+id/editContent"
+
+
+
+            <ImageView
+                android:id="@+id/imageCover"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/divider_retangle_shape"
+                android:src="@mipmap/icon_publish_add_image"/>
+            <TextView
+                android:textSize="14sp"
+                android:gravity="center"
+                android:textColor="@color/text_color_red"
+                android:text="本版块禁止发布任何商品信息，违规会被封号呦！"
                 android:layout_marginTop="10dp"
-                style="@style/PublishLinear"
-                android:gravity="start"
-                android:hint="@string/publish_content_hint"
-                android:textColor="@color/text_color_black_muchong"
-                android:minLines="5"
-                android:textSize="14sp"/>
-            <Button
-                android:visibility="gone"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="40dp"
-                android:id="@+id/buttonCommit"
-                android:text="@string/commit"
-                style="@style/Button"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

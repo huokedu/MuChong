@@ -18,6 +18,8 @@ import com.htlc.muchong.adapter.JianRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.base.BaseFragment;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
+import com.htlc.muchong.util.LogUtils;
+import com.htlc.muchong.util.LoginUtil;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
@@ -34,8 +36,9 @@ public class JianListFragment extends BaseFragment {
     public static final String TYPE_1 = "1";
     public static final String TYPE_2 = "2";
     public static final String TYPE_3 = "3";
+    public static final String TYPE_4 = "4";
     public CharSequence mTitle;//Fragment标题
-    private String mType;//当前Fragment的鉴定类型（真，假，进行中）
+    private String mType;//当前Fragment的鉴定类型（真，假，存疑，鉴定中）
     private View noDataView;
 
     public static JianListFragment newInstance(String title, String type) {
@@ -151,10 +154,12 @@ public class JianListFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        LogUtils.e("mType---",""+mType);
         page = 1;
         App.app.appAction.jianList(page, mType, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<JianBean>>() {
             @Override
             public void onSuccess(List<JianBean> data) {
+                LogUtils.e("data---",""+data);
                 handleData(data);
                 mPtrFrame.refreshComplete();
                 adapter.setData(data, false);

@@ -18,6 +18,7 @@ import com.htlc.muchong.activity.MyPostListActivity;
 import com.htlc.muchong.activity.OrderListActivity;
 import com.htlc.muchong.activity.PaiListActivity;
 import com.htlc.muchong.activity.PayActivity;
+import com.htlc.muchong.activity.ReturnGoodsActivity;
 import com.htlc.muchong.activity.SettingActivity;
 import com.htlc.muchong.activity.ShoppingCartActivity;
 import com.htlc.muchong.activity.TaLikeActivity;
@@ -132,6 +133,9 @@ public class FifthFragment extends HomeFragment {
                     return;
                 case 8:
                     startActivity(new Intent(getActivity(), SettingActivity.class));
+                    return;
+                case 9:
+                    startActivity(new Intent(getActivity(), ReturnGoodsActivity.class));
                     return;
                 default:
                     startActivity(new Intent(getActivity(), LoginActivity.class));

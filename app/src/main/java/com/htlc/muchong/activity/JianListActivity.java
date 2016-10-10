@@ -13,6 +13,7 @@ import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.fragment.JianListFragment;
 import com.htlc.muchong.fragment.QiangListFragment;
 import com.htlc.muchong.util.DateFormat;
+import com.htlc.muchong.util.LogUtils;
 import com.htlc.muchong.util.LoginUtil;
 import com.larno.util.ToastUtil;
 
@@ -37,7 +38,10 @@ public class JianListActivity extends BaseActivity {
     protected void setupView() {
         mTitleTextView.setText(R.string.first_header_jian);
         mTitleRightTextView.setText(R.string.publish);
-        mTitleRightTextView.setVisibility(LoginUtil.getUser().user_role.equals(UserBean.TYPE_EXPERT)?View.INVISIBLE:View.VISIBLE);
+        LogUtils.e("LoginUtil.getUser().user_role---",""+LoginUtil.getUser().user_role);
+//        mTitleRightTextView.setVisibility(LoginUtil.getUser().user_role.equals(UserBean.TYPE_EXPERT)?View.INVISIBLE:View.VISIBLE);
+        boolean b = LoginUtil.getUser().user_role.equals(UserBean.TYPE_EXPERT);
+        mTitleRightTextView.setVisibility(View.VISIBLE);
         mTitleRightTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,13 +53,14 @@ public class JianListActivity extends BaseActivity {
             }
         });
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(4);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
         ArrayList<JianListFragment> pageFragments = new ArrayList<>();
 
         pageFragments.add(JianListFragment.newInstance(getString(R.string.jian_title_fragment_one), JianListFragment.TYPE_1));
         pageFragments.add(JianListFragment.newInstance(getString(R.string.jian_title_fragment_two), JianListFragment.TYPE_2));
-        pageFragments.add(JianListFragment.newInstance(getString(R.string.jian_title_fragment_three), JianListFragment.TYPE_3));
+        pageFragments.add(JianListFragment.newInstance(getString(R.string.jian_title_fragment_three), JianListFragment.TYPE_4));
+        pageFragments.add(JianListFragment.newInstance(getString(R.string.jian_title_fragment_four), JianListFragment.TYPE_3));
 
 
         JianListPagerAdapter pagerAdapter = new JianListPagerAdapter(getSupportFragmentManager(), pageFragments);

@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Pair;
 
 import com.htlc.muchong.util.LoginUtil;
+import com.larno.util.okhttp.Log;
 import com.larno.util.okhttp.callback.ResultCallback;
 import com.larno.util.okhttp.request.OkHttpRequest;
 
@@ -75,6 +76,7 @@ public class ApiImpl implements Api {
         String url = Api.UpdateUserInfo;
         if (userinfo_headportrait != null) {
             Pair<String, File> pair = new Pair<>("userinfo_headportrait", userinfo_headportrait);
+           android.util.Log.e("pair---",""+pair);
             new OkHttpRequest.Builder().url(url).params(params).files(pair).upload(callback);
         } else {
             new OkHttpRequest.Builder().url(url).params(params).post(callback);
@@ -610,7 +612,9 @@ public class ApiImpl implements Api {
         params.put("user_token", user.user_token);
 
         params.put("limitdays", limitdays);
-        params.put("forum_title", forum_title);
+        if(!TextUtils.isEmpty(forum_title)){
+            params.put("forum_title", forum_title);
+        }
         params.put("forum_content", forum_content);
 
         params.put("forum_type", forum_type);
@@ -637,7 +641,10 @@ public class ApiImpl implements Api {
 
         params.put("appraisal_forumid", appraisal_forumid);
         params.put("appraisal_type", appraisal_type);
-        params.put("appraisal_content", appraisal_content);
+        if(!TextUtils.isEmpty(appraisal_content)){
+            params.put("appraisal_content", appraisal_content);
+        }
+
         String url = Api.PublishJianResult;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }

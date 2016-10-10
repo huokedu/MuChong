@@ -24,16 +24,19 @@ import com.htlc.muchong.adapter.PostCommentAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.util.DateFormat;
 import com.htlc.muchong.util.ImageUtil;
+import com.htlc.muchong.util.LogUtils;
 import com.htlc.muchong.util.LoginUtil;
 import com.htlc.muchong.util.PersonUtil;
 import com.htlc.muchong.util.SoftInputUtil;
 import com.htlc.muchong.widget.LoadMoreScrollView;
 import com.larno.util.ToastUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import core.AppActionImpl;
+import model.ForumImgstrBean;
 import model.PostCommentBean;
 import model.PostDetailBean;
 
@@ -225,8 +228,17 @@ public class CangDetailActivity extends BaseActivity implements View.OnClickList
                 PersonUtil.setPersonLevel(textLevel, data.userinfo_grade);
                 DateFormat.setTextByTime(textTime, data.forum_ctime);
 
-                String[] images = data.forum_imgstr.split(ProductDetailActivity.SPLIT_FLAG);
-                imageAdapter.setData(Arrays.asList(images), false);
+//                String[] images = data.forum_imgstr.split(ProductDetailActivity.SPLIT_FLAG);
+//                imageAdapter.setData(Arrays.asList(images), false);
+
+                List<ForumImgstrBean> bean = data.forum_imgstr;
+
+                List<String> imgList = new ArrayList<String>();
+                for(int i=0;i<bean.size();i++){
+                    imgList.add(bean.get(i).img);
+                }
+                LogUtils.e("imgList---",""+imgList);
+                imageAdapter.setData(imgList, false);
                 textPostTitle.setText(data.forum_title);
                 textContent.setText(data.forum_content);
 

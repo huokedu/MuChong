@@ -8,6 +8,7 @@ import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.activity.MainActivity;
 import com.htlc.muchong.activity.PostPublishActivity;
+import com.htlc.muchong.activity.PostPublishSchoolActivity;
 import com.htlc.muchong.adapter.FourthPagerAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.util.LoginUtil;
@@ -79,7 +80,27 @@ public class FourthFragment extends HomeFragment {
             ((BaseActivity) getActivity()).mTitleRightTextView.setVisibility(View.INVISIBLE);
             ((BaseActivity) getActivity()).mTitleTextView.setText(mTitle);
             ((MainActivity) getActivity()).setFourthFragmentOnClickListener(null);
-        } else {
+        }
+        else if(position == 3){
+            ((BaseActivity) getActivity()).mTitleTextView.setText(mTitle);
+            ((BaseActivity) getActivity()).mTitleRightTextView.setBackgroundResource(0);
+            ((BaseActivity) getActivity()).mTitleRightTextView.setText(R.string.publish);
+            View.OnClickListener rightTextTClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (App.app.isLogin()) {
+                        // 学堂
+                        PostPublishSchoolActivity.goPostPublishSchoolActivity(getContext(), PostPublishActivity.Publish_Types[position], R.string.title_post_publish);
+                    } else {
+                        LoginUtil.showLoginTips(getActivity());
+                    }
+                }
+            };
+            ((MainActivity) getActivity()).setFourthFragmentOnClickListener(rightTextTClickListener);
+            ((BaseActivity) getActivity()).mTitleRightTextView.setOnClickListener(rightTextTClickListener);
+            ((BaseActivity) getActivity()).mTitleRightTextView.setVisibility(View.VISIBLE);
+        }
+        else {
             ((BaseActivity) getActivity()).mTitleTextView.setText(mTitle);
             ((BaseActivity) getActivity()).mTitleRightTextView.setBackgroundResource(0);
             ((BaseActivity) getActivity()).mTitleRightTextView.setText(R.string.publish);
@@ -87,7 +108,7 @@ public class FourthFragment extends HomeFragment {
                 @Override
                 public void onClick(View v) {
                     if (App.app.isLogin()) {
-                        // TODO: 2016/8/22 论坛发布修改，当是学堂时，单独写一个Activity
+                        // 说说，活动
                         PostPublishActivity.goPostPublishActivity(getContext(), PostPublishActivity.Publish_Types[position], R.string.title_post_publish);
                     } else {
                         LoginUtil.showLoginTips(getActivity());

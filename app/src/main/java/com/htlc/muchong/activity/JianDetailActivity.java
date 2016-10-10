@@ -24,16 +24,19 @@ import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.fragment.JianListFragment;
 import com.htlc.muchong.util.DateFormat;
 import com.htlc.muchong.util.ImageUtil;
+import com.htlc.muchong.util.LogUtils;
 import com.htlc.muchong.util.LoginUtil;
 import com.htlc.muchong.util.PersonUtil;
 import com.htlc.muchong.util.SoftInputUtil;
 import com.htlc.muchong.widget.LoadMoreScrollView;
 import com.larno.util.ToastUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import core.AppActionImpl;
+import model.ForumImgstrBean;
 import model.GoodsCommentBean;
 import model.PostCommentBean;
 import model.PostDetailBean;
@@ -96,6 +99,7 @@ public class JianDetailActivity extends BaseActivity implements View.OnClickList
     protected void setupView() {
         postId = getIntent().getStringExtra(Post_Id);
         isOver = getIntent().getBooleanExtra(Is_Over, false);
+        LogUtils.e("isOver---",""+isOver);
         mTitleTextView.setText(R.string.title_jian_detail);
         mTitleRightTextView.setText(R.string.jian_detail_jian);
         mTitleRightTextView.setVisibility(!isOver && App.app.isLogin() && LoginUtil.getUser().user_role.equals(UserBean.TYPE_EXPERT) ? View.VISIBLE : View.INVISIBLE);
@@ -246,22 +250,36 @@ public class JianDetailActivity extends BaseActivity implements View.OnClickList
         App.app.appAction.postDetail(postId, new BaseActionCallbackListener<PostDetailBean>() {
             @Override
             public void onSuccess(PostDetailBean data) {
+
                 //作者
+                LogUtils.e("data.userinfo_headportrait---",""+data.userinfo_headportrait);
                 ImageUtil.setCircleImageByDefault(imageHead, R.mipmap.default_third_gird_head, Uri.parse(data.userinfo_headportrait));
                 textName.setText(data.userinfo_nickname);
                 PersonUtil.setPersonLevel(textLevel, data.userinfo_grade);
                 DateFormat.setTextByTime(textTime, data.forum_ctime);
                 //文章详情
-                String[] images = data.forum_imgstr.split(ProductDetailActivity.SPLIT_FLAG);
-                imageAdapter.setData(Arrays.asList(images), false);
+//                String[] images = data.forum_imgstr.split(ProductDetailActivity.SPLIT_FLAG);
+                List<ForumImgstrBean> bean = data.forum_imgstr;
+
+                List<String> imgList = new ArrayList<String>();
+                for(int i=0;i<bean.size();i++){
+                    imgList.add(bean.get(i).img);
+                }
+                LogUtils.e("imgList---",""+imgList);
+                imageAdapter.setData(imgList, false);
+                LogUtils.e("data.forum_content---",""+data.forum_content);
                 textContent.setText(data.forum_content);
                 //专家鉴定
+                LogUtils.e("data.forum_yesorno---",""+data.forum_yesorno);
                 setResultByType(textResult, data.forum_yesorno);
+                LogUtils.e("data.islike---",""+data.islike);
                 setIsLike("1".equals(data.islike));
+                LogUtils.e("data.appraisal---",""+data.appraisal);
                 jianResultAdapter.setData(data.appraisal, false);
                 professorCommentAdapter.setData(data.appraisal, false);
 
                 //评论
+                LogUtils.e("data.evalcount---",""+data.evalcount);
                 textComment.setText(getString(R.string.product_detail_comment, data.evalcount));
                 textCommentMore.setVisibility(View.INVISIBLE);
                 if (data.evallist.size() < AppActionImpl.PAGE_SIZE) {
@@ -269,6 +287,7 @@ public class JianDetailActivity extends BaseActivity implements View.OnClickList
                 } else {
                     hasMore = true;
                 }
+                LogUtils.e("data.evallist---",""+data.evallist);
                 commentAdapter.setData(data.evallist, false);
 
                 isLoading = false;
@@ -337,8 +356,12 @@ public class JianDetailActivity extends BaseActivity implements View.OnClickList
             textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_jian_result, 0);
         } else if (JianListFragment.TYPE_2.equals(type)) {
             textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_jian_result_false, 0);
-        } else if (JianListFragment.TYPE_3.equals(type)) {
+        }
+        else if (JianListFragment.TYPE_3.equals(type)) {
             textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_jian_result_unfinish, 0);
+        }
+        else if (JianListFragment.TYPE_4.equals(type)) {
+            textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.cunyi, 0);
         }
     }
 

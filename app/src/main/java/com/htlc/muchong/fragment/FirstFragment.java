@@ -29,6 +29,7 @@ import com.htlc.muchong.adapter.FirstAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.util.GoodsUtil;
 import com.htlc.muchong.util.ImageUtil;
+import com.htlc.muchong.util.LogUtils;
 import com.htlc.muchong.widget.DaoJiShiView;
 import com.larno.util.ToastUtil;
 import com.squareup.picasso.Picasso;
@@ -201,6 +202,8 @@ public class FirstFragment extends HomeFragment implements View.OnClickListener 
             @Override
             public void onSuccess(HomeBean data) {
                 homeBean = data;
+
+                LogUtils.e("homeBean---",""+homeBean);
                 mPtrFrame.refreshComplete();
                 refreshView();
             }

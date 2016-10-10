@@ -33,7 +33,7 @@ public class JianPublishActivity extends BaseActivity implements AdapterView.OnI
     private File coverImageFile;
     private boolean isPickCover;
     private EditText editContent;
-    private EditText editTitle;
+//    private EditText editTitle;
 
     private ProgressDialog progressDialog;
 
@@ -57,7 +57,7 @@ public class JianPublishActivity extends BaseActivity implements AdapterView.OnI
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
 
-        editTitle = (EditText) findViewById(R.id.editTitle);
+//        editTitle = (EditText) findViewById(R.id.editTitle);
         editContent = (EditText) findViewById(R.id.editContent);
 
 
@@ -103,7 +103,7 @@ public class JianPublishActivity extends BaseActivity implements AdapterView.OnI
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("提交中，请稍等...");
         progressDialog.show();
-        App.app.appAction.publishPostCang(false,editTitle.getText().toString().trim(), editContent.getText().toString().trim(), coverImageFile, adapter.getData(), new BaseActionCallbackListener<Void>() {
+        App.app.appAction.publishPostCang(false,"", editContent.getText().toString().trim(), coverImageFile, adapter.getData(), new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {
                 if(progressDialog!=null){

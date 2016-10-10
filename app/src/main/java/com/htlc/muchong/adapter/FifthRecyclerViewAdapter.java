@@ -31,9 +31,9 @@ public class FifthRecyclerViewAdapter extends RecyclerView.Adapter {
     public static final int TYPE_HEAD = 1;
     public static final int TYPE_BODY = 0;
     public static final int[] iconArray = {R.mipmap.icon_fifth_chong, R.mipmap.icon_fifth_gou, R.mipmap.icon_fifth_shou, R.mipmap.icon_fifth_jian,
-            R.mipmap.icon_fifth_jiao, R.mipmap.icon_fifth_jing, R.mipmap.icon_fifth_lun, R.mipmap.icon_fifth_xiao, R.mipmap.icon_fifth_setting};
+            R.mipmap.icon_fifth_jiao, R.mipmap.icon_fifth_jing, R.mipmap.icon_fifth_lun, R.mipmap.icon_fifth_xiao, R.mipmap.icon_fifth_setting, R.mipmap.icon_fifth_setting};
     public static final int[] nameArray = {R.string.fifth_chong, R.string.fifth_gou, R.string.fifth_shou, R.string.fifth_jian,
-            R.string.fifth_jiao, R.string.fifth_jing, R.string.fifth_lun, R.string.fifth_xiao, R.string.fifth_setting};
+            R.string.fifth_jiao, R.string.fifth_jing, R.string.fifth_lun, R.string.fifth_xiao, R.string.fifth_setting, R.string.fifth_th};
     protected OnItemClickListener mOnItemClickListener;
 
     private UserInfoBean userInfoBean;

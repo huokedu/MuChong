@@ -1,6 +1,7 @@
 package com.htlc.muchong.base;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,14 +19,18 @@ import android.widget.TextView;
 
 import com.bugtags.library.Bugtags;
 import com.htlc.muchong.App;
+import com.htlc.muchong.AppManager;
 import com.htlc.muchong.R;
 import com.htlc.muchong.activity.LoginActivity;
+import com.htlc.muchong.util.LogUtils;
 import com.htlc.muchong.util.LoginUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.List;
 
 import core.ActionCallbackListener;
+import de.greenrobot.event.EventBus;
+import model.OrderPayEvent;
 
 /**
  * Created by sks on 2016/5/13.
@@ -38,7 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static final String ERROR_NO_ENOUGH_DATA = "没有更多数据";
     public Toolbar mToolbar;
     public TextView mTitleTextView, mTitleRightTextView, mTitleLeftTextView;
-
+    protected Context mContext;
     @Override
     protected void onResume() {
         super.onResume();
@@ -61,6 +67,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+        mContext=this;
+        AppManager.getAppManager().addActivity(this);
+        registerEventBus();
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("");
         mToolbar.setNavigationIcon(R.mipmap.ic_back);
@@ -151,6 +160,26 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
+     * 注册EventBus通信组件
+     */
+    protected void registerEventBus() {
+        EventBus.getDefault().register(this);
+    }
+
+    /**
+     * 取消注册EventBus通信组件
+     */
+    protected void unRegisterEventBus() {
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        unRegisterEventBus();
+        super.onDestroy();
+    }
+
+    /**
      * 设置布局文件id
      *
      * @return
@@ -166,6 +195,12 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 初始化数据
      */
     protected abstract void initData();
+
+    public void onEventMainThread(OrderPayEvent event) {
+        String msg = event.getMsg();
+        LogUtils.e("base---msg---", "" + msg);
+
+    }
 
     /**
      * 判断是否显示 没有数据的图片
@@ -240,4 +275,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

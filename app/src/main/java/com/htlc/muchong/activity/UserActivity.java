@@ -3,6 +3,7 @@ package com.htlc.muchong.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -145,6 +146,7 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
         public void onPickPhotoFinishListener(File imageFile) {
             if(imageFile!=null){
                 UserActivity.this.imageFile = imageFile;
+                Log.e("imageFile---",""+imageFile);
                 Picasso.with(UserActivity.this).load(Uri.fromFile(imageFile)).transform(new CircleTransform()).into(imageHead);
             }
         }

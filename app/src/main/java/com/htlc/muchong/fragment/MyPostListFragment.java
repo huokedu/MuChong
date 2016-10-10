@@ -31,6 +31,7 @@ import com.htlc.muchong.util.GoodsUtil;
 import com.htlc.muchong.util.LoginUtil;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
+import com.larno.util.okhttp.Log;
 
 import java.util.Collections;
 import java.util.List;
@@ -97,6 +98,7 @@ public class MyPostListFragment extends BaseFragment {
         mPtrFrame.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void loadMore() {
+                android.util.Log.e("loadMore---","loadMore");
                 loadMoreData();
             }
         });
@@ -194,8 +196,10 @@ public class MyPostListFragment extends BaseFragment {
             public void onSuccess(List<SchoolBean> data) {
                 mPtrFrame.loadMoreComplete(true);
                 adapter.setData(data, true);
+                android.util.Log.e("size---",""+data.size() );
                 if (data.size() < AppActionImpl.PAGE_SIZE) {
-                    mPtrFrame.setNoMoreData();
+                    mPtrFrame.setLoadMoreEnable(true);
+//                    mPtrFrame.setNoMoreData();
                 } else {
                     mPtrFrame.setLoadMoreEnable(true);
                 }

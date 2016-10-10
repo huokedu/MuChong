@@ -20,17 +20,28 @@ import com.htlc.muchong.R;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.util.GoodsUtil;
 import com.htlc.muchong.util.ImageUtil;
+import com.htlc.muchong.util.LogUtils;
 import com.larno.util.ToastUtil;
+import com.larno.util.okhttp.Log;
 import com.pingplusplus.android.Pingpp;
+import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import model.AddressBean;
+import model.CreateOrderBean;
 import model.CreateOrderResultBean;
 import model.OrderDetailBean;
+import model.OrderPayEvent;
 import model.ShoppingCartItemBean;
+import model.WxBean;
 
 /**
  * Created by sks on 2016/6/14.
@@ -247,6 +258,7 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
     }
     /*结算操作*/
     private void buy() {
+        LogUtils.e("orderId----",""+orderId);
         if (TextUtils.isEmpty(orderId)) {
             createOrderAndBuy();
         } else {
@@ -257,10 +269,11 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
 
     /*根据订单id支付*/
     private void buyFromOrderDetail() {
-        App.app.appAction.pay(orderId, payWay, new BaseActionCallbackListener<CreateOrderResultBean>() {
+        App.app.appAction.pay(orderId, payWay, new BaseActionCallbackListener<CreateOrderBean>() {
             @Override
-            public void onSuccess(CreateOrderResultBean data) {
-                payByPingPlus(data);
+            public void onSuccess(CreateOrderBean data) {
+                payWx(data);//微信支付
+//                payByPingPlus(data);
 
             }
 
@@ -296,6 +309,8 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
             return;
         }
         String addressId = addressBean.id;
+
+        LogUtils.e("isShoppingCart----",""+isShoppingCart);
         if (isShoppingCart) {
             buyByShoppingCart(addressId);
         } else {
@@ -306,12 +321,13 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
     /*立即购买创建订单并支付*/
     private void buyNow(String addressId) {
         ShoppingCartItemBean bean = adapter.getData().get(0);
-        App.app.appAction.buyNow(payWay, bean.shopcar_commodityid, bean.num, addressId, isJingPaiCart, new BaseActionCallbackListener<CreateOrderResultBean>() {
+        App.app.appAction.buyNow(payWay, bean.shopcar_commodityid, bean.num, addressId, isJingPaiCart, new BaseActionCallbackListener<CreateOrderBean>() {
             @Override
-            public void onSuccess(CreateOrderResultBean data) {
+            public void onSuccess(CreateOrderBean data) {
 //                ToastUtil.showToast(App.app, "创建   单个商品   订单成功去支付！  " + data.charges);
-                CreateOrderActivity.this.orderId = data.order_id;
-                payByPingPlus(data);
+                CreateOrderActivity.this.orderId = data.getOrder_id();
+                payWx(data);//微信支付
+//                payByPingPlus(data);
             }
 
             @Override
@@ -321,14 +337,41 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
         });
     }
 
+
+    IWXAPI msgApi;
+    private void payWx(CreateOrderBean data) {
+            WxBean wx = data.getCharges().getCredential().getWx();
+            App.set("wx_appid",wx.getAppId());
+            LogUtils.e("wx_appid----",""+App.get("wx_appid", ""));
+            msgApi = WXAPIFactory.createWXAPI(this, wx.getAppId());
+            msgApi.registerApp(wx.getAppId());
+
+            if (msgApi != null) {
+                if (msgApi.isWXAppInstalled()) {
+                    PayReq req = new PayReq();
+                    req.appId = wx.getAppId();
+                    req.partnerId = wx.getPartnerId();
+                    req.prepayId = wx.getPrepayId();
+                    req.packageValue = wx.getPackageValue();
+                    req.nonceStr = wx.getNonceStr();
+                    req.timeStamp = wx.getTimeStamp();
+                    req.sign = wx.getSign();
+                    msgApi.sendReq(req);
+                }
+
+            }
+
+    }
+
     /*购物车创建订单并支付*/
     private void buyByShoppingCart(String addressId) {
-        App.app.appAction.buyByShoppingCart(payWay, shoppingCartItemBeans, addressId, new BaseActionCallbackListener<CreateOrderResultBean>() {
+        App.app.appAction.buyByShoppingCart(payWay, shoppingCartItemBeans, addressId, new BaseActionCallbackListener<CreateOrderBean>() {
             @Override
-            public void onSuccess(CreateOrderResultBean data) {
+            public void onSuccess(CreateOrderBean data) {
 //                ToastUtil.showToast(App.app, "创建   多个商品   订单成功去支付！  " + data.charges);
-                CreateOrderActivity.this.orderId = data.order_id;
-                payByPingPlus(data);
+                CreateOrderActivity.this.orderId = data.getOrder_id();
+                payWx(data);//微信支付
+//                payByPingPlus(data);
             }
 
             @Override
@@ -477,5 +520,17 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
             }
         }
 
+    }
+
+
+    public void onEventMainThread(OrderPayEvent event) {
+        String msg = event.getMsg();
+        LogUtils.e("msg---", "" + msg);
+        if (TextUtils.isEmpty(msg)) {
+        } else {
+            if (msg.equals("支付成功")) {
+                CreateOrderActivity.this.finish();
+            }
+        }
     }
 }

@@ -26,9 +26,12 @@ import model.ShoppingCartItemBean;
  * 创建订单  支付列表选择Activity
  */
 public class PayListActivity extends BaseActivity implements AdapterView.OnItemClickListener {
-    public static final int[] PayNameIds = {R.string.pay_way_1,R.string.pay_way_2,R.string.pay_way_3,R.string.pay_way_4};
-    public static final int[] PayIconIds = {R.mipmap.icon_pay_1,R.mipmap.icon_pay_2,R.mipmap.icon_pay_3,R.mipmap.icon_pay_4};
-    public static final String[] PayWays = {"wallet","upacp","wx","alipay"};
+//    public static final int[] PayNameIds = {R.string.pay_way_1,R.string.pay_way_2,R.string.pay_way_3,R.string.pay_way_4};
+//    public static final int[] PayIconIds = {R.mipmap.icon_pay_1,R.mipmap.icon_pay_2,R.mipmap.icon_pay_3,R.mipmap.icon_pay_4};
+//      public static final String[] PayWays = {"wallet","upacp","wx","alipay"};
+    public static final int[] PayNameIds = {R.string.pay_way_3};
+    public static final int[] PayIconIds = {R.mipmap.icon_pay_3};
+    public static final String[] PayWays = {"wx"};
     public static final String PayId = "PayId";
 
     private ListView listView;
@@ -66,7 +69,7 @@ public class PayListActivity extends BaseActivity implements AdapterView.OnItemC
 
         @Override
         public int getCount() {
-            return 4;
+            return 1;
         }
 
         @Override
