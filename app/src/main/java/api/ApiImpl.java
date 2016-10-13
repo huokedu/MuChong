@@ -3,6 +3,7 @@ package api;
 import android.text.TextUtils;
 import android.util.Pair;
 
+import com.htlc.muchong.util.LogUtils;
 import com.htlc.muchong.util.LoginUtil;
 import com.larno.util.okhttp.Log;
 import com.larno.util.okhttp.callback.ResultCallback;
@@ -12,6 +13,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import core.DefaultResultCallback;
 import model.UserBean;
 
 /**
@@ -226,6 +228,19 @@ public class ApiImpl implements Api {
         params.put("flag", flag);
         String url = Api.MyOrderList;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+    @Override
+    public void merchantOrderList(String page, ResultCallback callback) {
+        UserBean user = LoginUtil.getUser();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("shopID", user.id);
+
+        params.put("page", page);
+        LogUtils.e("params---",""+params);
+        String url = Api.MOrderList;
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+
     }
 
     @Override
@@ -736,4 +751,18 @@ public class ApiImpl implements Api {
         String url = Api.PersonCommentList;
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }
+
+    @Override
+    public void express(String orderno, String logisticsno, String logisticsname, ResultCallback callback) {
+        Map<String, String> params = new HashMap<String, String>();
+
+        params.put("orderno", orderno);
+        params.put("logisticsno", logisticsno);
+        params.put("logisticsname", logisticsname);
+        String url = Api.Express;
+        LogUtils.e("params---",""+params);
+        new OkHttpRequest.Builder().url(url).params(params).post(callback);
+    }
+
+
 }

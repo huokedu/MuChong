@@ -2,9 +2,16 @@ package api;
 
 import android.util.Pair;
 
+import com.htlc.muchong.base.BaseActivity;
 import com.larno.util.okhttp.callback.ResultCallback;
 
 import java.io.File;
+import java.util.List;
+
+import core.ActionCallbackListener;
+import core.DefaultResultCallback;
+import model.MerchantOrderListBean;
+import model.MyPaiBean;
 
 /**
  * Api接口
@@ -36,6 +43,8 @@ public interface Api {
     String MessageDetailHtml = Host + "/Home/HomeMessage/msginfo?user_id=%1$s&user_token=%2$s&msg_id=%3$s";
     String DeleteMessage = Host + "/Home/HomeMessage/delmsg";
     String MyPaiList = Host + "/Home/HomeBid/mybid";
+    String MerchantOrderList = Host + "/Home/HomeBid/mybid";
+    String MOrderList = Host + "/Home/HomeOrder/getShopOrderList";
     String MyOrderList = Host + "/Home/HomeOrder/myorder";
     String Pay = Host + "/Home/HomePay/payOrder";
     String MyOrderDetail = Host + "/Home/HomeOrder/orderinfo";
@@ -83,6 +92,7 @@ public interface Api {
     String LikeListByType = Host + "/Home/HomeForum/likes";
     String MyJianList = Host + "/Home/HomeForum/myAppraisal";
     String PersonCommentList = Host + "/Home/HomeForum/allevalList";
+    String Express = Host + "/Home/HomeForum/insertLogistics";
 
     void smsCode(String mobile, ResultCallback callback);
     void ensureSmsCode(String user_account, String Verifycode, ResultCallback callback);
@@ -101,6 +111,8 @@ public interface Api {
     void deleteMessage(String msg_id, ResultCallback callback);
     void myPaiList(String page, ResultCallback callback);
     void myOrderList(String page, String flag, ResultCallback callback);
+
+    void merchantOrderList(String page, ResultCallback listener);
     void pay(String order_id, String channel, ResultCallback callback);
     void myOrderDetail(String order_id, ResultCallback callback);
     void feedback(String feedback_content, ResultCallback callback);
@@ -152,4 +164,5 @@ public interface Api {
     void likeListByType(String page, String id, String type, ResultCallback callback);
     void myJianList(String page,String forum_yesorno,ResultCallback callback);
     void personCommentList(String page,String user_id,ResultCallback callback);
+    void express(String orderno, String logisticsno, String logisticsname, ResultCallback callback);
 }

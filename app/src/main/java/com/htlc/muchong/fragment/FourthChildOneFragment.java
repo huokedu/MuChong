@@ -27,6 +27,7 @@ import com.htlc.muchong.adapter.FourthTwoRecyclerViewAdapter;
 import com.htlc.muchong.adapter.ThirdRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.base.BaseRecyclerViewAdapter;
+import com.htlc.muchong.util.LogUtils;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
 
@@ -283,6 +284,7 @@ public class FourthChildOneFragment extends HomeFragment {
         App.app.appAction.schoolList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<SchoolBean>>() {
             @Override
             public void onSuccess(List<SchoolBean> data) {
+                LogUtils.e("data---",""+data);
                 mPtrFrame.refreshComplete();
                 adapter.setData(data, false);
                 if (data.size() < AppActionImpl.PAGE_SIZE) {
@@ -309,6 +311,7 @@ public class FourthChildOneFragment extends HomeFragment {
         App.app.appAction.activityList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<ActivityBean>>() {
             @Override
             public void onSuccess(List<ActivityBean> data) {
+                LogUtils.e("data---",""+data);
                 mPtrFrame.refreshComplete();
                 adapter.setData(data, false);
                 if (data.size() < AppActionImpl.PAGE_SIZE) {
@@ -335,6 +338,7 @@ public class FourthChildOneFragment extends HomeFragment {
         App.app.appAction.personList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<PersonBean>>() {
             @Override
             public void onSuccess(List<PersonBean> data) {
+                LogUtils.e("data---",""+data);
                 mPtrFrame.refreshComplete();
                 adapter.setData(data, false);
                 if (data.size() < AppActionImpl.PAGE_SIZE) {
@@ -361,6 +365,7 @@ public class FourthChildOneFragment extends HomeFragment {
         App.app.appAction.postList(page, ((BaseActivity) getActivity()).new BaseActionCallbackListener<List<PostBean>>() {
             @Override
             public void onSuccess(List<PostBean> data) {
+                LogUtils.e("data---",""+data);
                 mPtrFrame.refreshComplete();
                 adapter.setData(data, false);
                 if (data.size() < AppActionImpl.PAGE_SIZE) {

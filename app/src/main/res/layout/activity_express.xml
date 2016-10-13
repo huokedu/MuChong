@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/toolbar_layout" />
+    <EditText
+        android:id="@+id/express_et"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="请输入快递单号"
+        android:paddingLeft="10dp"
+        android:text=""
+        android:textSize="15sp"
+        android:textColor="@color/cardview_dark_background"
+        android:background="@null"/>
+
+<TextView
+    android:id="@+id/express_tv"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:text="请选择快递公司"
+    android:textSize="15sp"
+    android:paddingLeft="10dp"
+    android:gravity="center_vertical"
+    android:textColor="@color/cardview_dark_background"
+    />
+
+    <TextView
+        android:id="@+id/express_tv_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/divider_white_color"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_blue"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="发货"/>
+
+</LinearLayout>

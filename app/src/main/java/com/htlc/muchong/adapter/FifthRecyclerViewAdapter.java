@@ -19,6 +19,7 @@ import com.htlc.muchong.activity.LoginActivity;
 import com.htlc.muchong.activity.UserActivity;
 import com.htlc.muchong.util.CircleTransform;
 import com.htlc.muchong.util.ImageUtil;
+import com.htlc.muchong.util.LogUtils;
 import com.htlc.muchong.util.LoginUtil;
 import com.squareup.picasso.Picasso;
 
@@ -30,10 +31,18 @@ import model.UserInfoBean;
 public class FifthRecyclerViewAdapter extends RecyclerView.Adapter {
     public static final int TYPE_HEAD = 1;
     public static final int TYPE_BODY = 0;
+    //普通用户
     public static final int[] iconArray = {R.mipmap.icon_fifth_chong, R.mipmap.icon_fifth_gou, R.mipmap.icon_fifth_shou, R.mipmap.icon_fifth_jian,
             R.mipmap.icon_fifth_jiao, R.mipmap.icon_fifth_jing, R.mipmap.icon_fifth_lun, R.mipmap.icon_fifth_xiao, R.mipmap.icon_fifth_setting, R.mipmap.icon_fifth_setting};
     public static final int[] nameArray = {R.string.fifth_chong, R.string.fifth_gou, R.string.fifth_shou, R.string.fifth_jian,
             R.string.fifth_jiao, R.string.fifth_jing, R.string.fifth_lun, R.string.fifth_xiao, R.string.fifth_setting, R.string.fifth_th};
+
+    //商户
+    public static final int[] iconArray1 = {R.mipmap.icon_fifth_chong, R.mipmap.icon_fifth_gou, R.mipmap.icon_fifth_shou, R.mipmap.icon_fifth_jian,
+            R.mipmap.icon_fifth_jiao, R.mipmap.icon_fifth_jing, R.mipmap.icon_fifth_lun, R.mipmap.icon_fifth_xiao, R.mipmap.icon_fifth_setting, R.mipmap.icon_fifth_setting, R.mipmap.icon_fifth_jiao};
+    public static final int[] nameArray1 = {R.string.fifth_chong, R.string.fifth_gou, R.string.fifth_shou, R.string.fifth_jian,
+            R.string.fifth_jiao, R.string.fifth_jing, R.string.fifth_lun, R.string.fifth_xiao, R.string.fifth_setting, R.string.fifth_th,R.string.fifth_dd};
+
     protected OnItemClickListener mOnItemClickListener;
 
     private UserInfoBean userInfoBean;
@@ -53,11 +62,17 @@ public class FifthRecyclerViewAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return iconArray.length + 1;
+        if(App.get("user_role","").equals("3")){
+            return iconArray1.length + 1;
+        }else {
+            return iconArray.length + 1;
+        }
+
     }
 
     @Override
     public int getItemViewType(int position) {
+        LogUtils.e("getItemViewType---",""+position);
         if (position == 0) {
             return TYPE_HEAD;
         } else {
@@ -67,6 +82,7 @@ public class FifthRecyclerViewAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LogUtils.e("onCreateViewHolder---",""+viewType);
         if (viewType == TYPE_BODY) {
             View view = View.inflate(parent.getContext(), R.layout.adapter_fragment_fifth, null);
             ViewHolder vh = new ViewHolder(view);
@@ -85,6 +101,7 @@ public class FifthRecyclerViewAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        LogUtils.e("onBindViewHolder---",""+holder.getItemViewType());
         if (holder.getItemViewType() == TYPE_BODY) {
             final int pos = position - 1;
             if (mOnItemClickListener != null) {
@@ -96,8 +113,14 @@ public class FifthRecyclerViewAdapter extends RecyclerView.Adapter {
                 });
             }
             ViewHolder tempHolder = (ViewHolder) holder;
-            tempHolder.imageView.setImageResource(iconArray[pos]);
-            tempHolder.textName.setText(nameArray[pos]);
+            if(App.get("user_role","").equals("3")){
+                tempHolder.imageView.setImageResource(iconArray1[pos]);
+                tempHolder.textName.setText(nameArray1[pos]);
+            }else {
+                tempHolder.imageView.setImageResource(iconArray[pos]);
+                tempHolder.textName.setText(nameArray[pos]);
+            }
+
             if (pos == 0) {
                 if(userInfoBean!=null){
                     tempHolder.textOther.setText("余额￥" + userInfoBean.userinfo_money);

@@ -27,9 +27,10 @@ public class DetailImageAdapter extends BaseAdapter{
     public void setContentJsonArrayStr(String contentJsonArrayStr) {
         JSONArray objects = JSON.parseArray(contentJsonArrayStr);
         for(int i=0; i<objects.size(); i++){
-            String desc = objects.getJSONObject(i).getString("desc");
+            String desc = objects.getJSONObject(i).getString("forum_content");
             descriptions.add(desc);
         }
+        LogUtils.e("descriptions--",""+descriptions);
     }
 
     public void setData(List<String> list, boolean isAdd){

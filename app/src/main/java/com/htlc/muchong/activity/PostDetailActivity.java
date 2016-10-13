@@ -280,6 +280,7 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
 //                String[] images = data.forum_imgstr.split(ProductDetailActivity.SPLIT_FLAG);
                 if(isSchool){
+                    LogUtils.e("data.forum_content--",""+data.forum_content);
                     imageAdapter.setContentJsonArrayStr(data.forum_content);
                 }
 //                imageAdapter.setData(Arrays.asList(images), false);

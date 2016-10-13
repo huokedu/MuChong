@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,10 +20,14 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.adapter.PublishAdapter;
+import com.htlc.muchong.adapter.PublishSchoolAdapter;
 import com.htlc.muchong.base.BaseActivity;
+import com.htlc.muchong.util.LogUtils;
 import com.htlc.muchong.util.SelectPhotoDialogHelper;
 import com.larno.util.ToastUtil;
 import com.squareup.picasso.Picasso;
@@ -31,6 +36,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import model.OrderPayEvent;
+import model.PSchoolEvent;
 
 /**
  *论坛帖子发布Activity之学堂页
@@ -47,9 +55,9 @@ public class PostPublishSchoolActivity extends BaseActivity implements AdapterVi
     public static final String Publish_Type = "Publish_Type";
     public static final String[] Publish_Types = {"5", "5", "4", "3"};
     private LinearLayout linearCover;
-    private ImageView imageViewCover;
-    private GridView gridView;
-    private PublishAdapter adapter;
+    private ImageView imageViewCover,imageCover;
+    private ListView lsitView;
+    private PublishSchoolAdapter adapter;
     private SelectPhotoDialogHelper selectPhotoDialogHelper;
     private File coverImageFile;
     private boolean isPickCover;
@@ -59,6 +67,7 @@ public class PostPublishSchoolActivity extends BaseActivity implements AdapterVi
     private ProgressDialog progressDialog;
     private String publishType;//发布类型
     private String selectDurationTime;//活动时间长度
+    String string;
 
     @Override
     protected int getLayoutId() {
@@ -76,10 +85,12 @@ public class PostPublishSchoolActivity extends BaseActivity implements AdapterVi
 
         imageViewCover = (ImageView) findViewById(R.id.imageViewCover);
         imageViewCover.setOnClickListener(this);
-        gridView = (GridView) findViewById(R.id.gridView);
-        adapter = new PublishAdapter();
-        gridView.setAdapter(adapter);
-        gridView.setOnItemClickListener(this);
+        imageCover = (ImageView) findViewById(R.id.imageCover);
+        imageCover.setOnClickListener(this);
+        lsitView = (ListView) findViewById(R.id.pps_listView);
+        adapter = new PublishSchoolAdapter();
+        lsitView.setAdapter(adapter);
+        lsitView.setOnItemClickListener(this);
         editTitle = (EditText) findViewById(R.id.editTitle);
 
         initData();
@@ -92,13 +103,18 @@ public class PostPublishSchoolActivity extends BaseActivity implements AdapterVi
 
     /*图片列表的点击删除或添加*/
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (adapter.getCount() - 1 != position || adapter.getData().size() == PublishAdapter.MaxImageNumber) {
-            adapter.removeData(position);
-        } else {
-            isPickCover = false;
-            pickPhoto(SelectPhotoDialogHelper.Width_720, SelectPhotoDialogHelper.Width_Scale_4, SelectPhotoDialogHelper.Height_Scale_3);
-        }
+    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+//        LogUtils.e("view---",""+view);
+//        ImageView et = (ImageView) view.findViewById(R.id.ps_imageView);// 从layout中获得控件,根据其id
+//        et.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LogUtils.e("v---",""+v);
+//                adapter.removeData(position);
+//            }
+//        });
+
+
     }
 
     /*点击时间处理*/
@@ -111,10 +127,30 @@ public class PostPublishSchoolActivity extends BaseActivity implements AdapterVi
                 break;
 
             case R.id.title_right:
-                publishCang();
+                initString();//获取图片输入文本
+
+                break;
+            case R.id.imageCover:
+                isPickCover = false;
+                pickPhoto(SelectPhotoDialogHelper.Width_720, SelectPhotoDialogHelper.Width_Scale_4, SelectPhotoDialogHelper.Height_Scale_3);
                 break;
 
         }
+    }
+
+    private void initString() {
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i < lsitView.getChildCount(); i++) {
+            LinearLayout layout = (LinearLayout)lsitView.getChildAt(i);// 获得子item的layout
+            EditText et = (EditText) layout.findViewById(R.id.ps_et);// 从layout中获得控件,根据其id
+            LogUtils.e("et---",""+et.getText().toString());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("forum_content",et.getText().toString());
+            jsonArray.add(jsonObject);
+        }
+        string = jsonArray.toString();
+        LogUtils.e("string---",""+string);
+        publishCang();
     }
 
 
@@ -123,14 +159,13 @@ public class PostPublishSchoolActivity extends BaseActivity implements AdapterVi
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("提交中，请稍等...");
         progressDialog.show();
-        String st = null;
-//        st = editContent.getText().toString().trim();
-        App.app.appAction.publishPost(publishType,selectDurationTime, editTitle.getText().toString().trim(), st, coverImageFile, adapter.getData(), new BaseActionCallbackListener<Void>() {
+        App.app.appAction.publishPost(publishType,selectDurationTime, editTitle.getText().toString().trim(), string, coverImageFile, adapter.getData(), new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {
                 if (progressDialog != null) {
                     progressDialog.dismiss();
                 }
+                LogUtils.e("onSuccess---", "onSuccess");
                 ToastUtil.showToast(App.app, "发布成功！");
                 finish();
             }
@@ -182,37 +217,4 @@ public class PostPublishSchoolActivity extends BaseActivity implements AdapterVi
         }
     }
 
-    /*选择条目Adapter*/
-    class PublishPickItemAdapter extends BaseAdapter {
-        private List<String> list;
-
-        public PublishPickItemAdapter(List<String> list) {
-            this.list = list;
-        }
-
-        @Override
-        public int getCount() {
-            return list.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return list.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = View.inflate(parent.getContext(), R.layout.adapter_publish_pick_item, null);
-            }
-            String value = list.get(position);
-            ((TextView) convertView).setText(value);
-            return convertView;
-        }
-    }
 }

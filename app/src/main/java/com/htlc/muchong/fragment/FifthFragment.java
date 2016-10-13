@@ -11,6 +11,7 @@ import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.activity.JianListActivity;
 import com.htlc.muchong.activity.LoginActivity;
+import com.htlc.muchong.activity.MerchantOrderListActivity;
 import com.htlc.muchong.activity.MyJianListActivity;
 import com.htlc.muchong.activity.MyMessageListActivity;
 import com.htlc.muchong.activity.MyPaiListActivity;
@@ -25,6 +26,7 @@ import com.htlc.muchong.activity.TaLikeActivity;
 import com.htlc.muchong.activity.UserActivity;
 import com.htlc.muchong.adapter.FifthRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
+import com.htlc.muchong.util.LogUtils;
 import com.htlc.muchong.util.LoginUtil;
 import com.larno.util.CommonUtil;
 import com.larno.util.ToastUtil;
@@ -46,7 +48,7 @@ public class FifthFragment extends HomeFragment {
 
     @Override
     protected void setupView() {
-
+        LogUtils.e("setupView---",""+App.app.isLogin());
         mRecyclerView = findViewById(R.id.recyclerView);
         adapter = new FifthRecyclerViewAdapter();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -67,6 +69,7 @@ public class FifthFragment extends HomeFragment {
     @Override
     public void onStart() {
         super.onStart();
+        LogUtils.e("onStart---",""+App.app.isLogin());
         if (App.app.isLogin()) {
             initData();
         } else {
@@ -77,6 +80,7 @@ public class FifthFragment extends HomeFragment {
 
     @Override
     protected void initData() {
+        LogUtils.e("initData---",""+App.app.isLogin());
         adapter.setUserInfoBean(LoginUtil.getUserInfo());
         BaseActivity activity = (BaseActivity) getActivity();
         App.app.appAction.getUserInfo(activity.new BaseActionCallbackListener<UserInfoBean>() {
@@ -132,10 +136,16 @@ public class FifthFragment extends HomeFragment {
                     startActivity(new Intent(getActivity(), MyMessageListActivity.class));
                     return;
                 case 8:
+                    if (!App.app.isLogin()) break;
                     startActivity(new Intent(getActivity(), SettingActivity.class));
                     return;
                 case 9:
+                    if (!App.app.isLogin()) break;
                     startActivity(new Intent(getActivity(), ReturnGoodsActivity.class));
+                    return;
+                case 10:
+                    if (!App.app.isLogin()) break;
+                    startActivity(new Intent(getActivity(), MerchantOrderListActivity.class));
                     return;
                 default:
                     startActivity(new Intent(getActivity(), LoginActivity.class));

@@ -52,6 +52,8 @@
     <string name="fifth_shou">我的收藏</string>
     <string name="fifth_jian">我的鉴定</string>
     <string name="fifth_jiao">我的交易</string>
+    <string name="fifth_dd">我的订单</string>
+    <string name="fh">发货</string>
     <string name="fifth_jing">我的竞拍</string>
     <string name="fifth_lun">我的论坛</string>
     <string name="fifth_xiao">消息中心</string>

@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.htlc.muchong.activity.PostPublishActivity;
 import com.htlc.muchong.activity.ProductDetailActivity;
+import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.util.LogUtils;
 import com.htlc.muchong.util.LoginUtil;
 import com.larno.util.EncryptUtil;
@@ -30,6 +31,7 @@ import model.CangBean;
 import model.ChargesBean;
 import model.CreateOrderBean;
 import model.CreateOrderResultBean;
+import model.ExpressBean;
 import model.GoodsBean;
 import model.GoodsCommentBean;
 import model.GoodsDetailBean;
@@ -39,6 +41,7 @@ import model.JianBean;
 import model.JiaoGoodsBean;
 import model.MaterialAndTypeBean;
 import model.MaterialBean;
+import model.MerchantOrderListBean;
 import model.MessageBean;
 import model.MyPaiBean;
 import model.OrderBean;
@@ -514,6 +517,28 @@ public class AppActionImpl implements AppAction {
                 }
             }
         });
+    }
+
+    @Override
+    public void merchantOrderList(int page, ActionCallbackListener<List<MerchantOrderListBean>> listener) {
+        if (!NetworkUtil.isNetworkAvailable(context)) {
+            listener.onFailure(ErrorEvent.NETWORK_ERROR, ErrorEvent.NETWORK_ERROR_MSG);
+            return;
+        }
+        api.merchantOrderList(String.valueOf(page), new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                JSONObject model = JSON.parseObject(response);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    LogUtils.e("model---",""+model);
+                    List<MerchantOrderListBean> bean = JSON.parseArray(model.getString(KEY_DATA), MerchantOrderListBean.class);
+                    listener.onSuccess(bean);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+
     }
 
     @Override
@@ -1723,5 +1748,23 @@ public class AppActionImpl implements AppAction {
             }
         });
     }
+
+    @Override
+    public void express(String orderno, String logisticsno, String logisticsname, ActionCallbackListener<List<MerchantOrderListBean>> listener) {
+        api.express(orderno, logisticsno, logisticsname, new DefaultResultCallback(listener) {
+            @Override
+            public void onResponse(String response) {
+                LogUtils.e("response---",""+response);
+                JSONObject model = JSON.parseObject(response);
+                LogUtils.e("model---",""+model);
+                if (VALUE_CODE_SUCCESS.equals(model.getString(KEY_CODE))) {
+                    listener.onSuccess(null);
+                } else {
+                    listener.onFailure(ErrorEvent.SEVER_ILLEGAL, model.getString(KEY_MSG));
+                }
+            }
+        });
+    }
+
 
 }

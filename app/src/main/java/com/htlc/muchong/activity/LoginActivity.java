@@ -59,6 +59,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSuccess(UserBean data) {
                 App.app.setIsLogin(true);
+                App.set("user_role",data.user_role);
                 ToastUtil.showToast(App.app, "登录成功");
                 finish();
             }

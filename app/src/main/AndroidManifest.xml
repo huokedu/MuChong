@@ -48,6 +48,10 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.PaiListActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MerchantOrderListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ExpressActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activity.PaiDetailActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.JianListActivity"
@@ -59,6 +63,7 @@
         <activity android:name=".activity.ProductDetailActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.PostPublishSchoolActivity"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.CangDetailActivity"
             android:screenOrientation="portrait"/>

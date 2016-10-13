@@ -2,6 +2,8 @@ package core;
 
 import android.util.Pair;
 
+import com.htlc.muchong.base.BaseActivity;
+
 import java.io.File;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import model.ActivityBean;
 import model.AddressBean;
 import model.CangBean;
 import model.CreateOrderBean;
+import model.ExpressBean;
 import model.GoodsBean;
 import model.GoodsCommentBean;
 import model.GoodsDetailBean;
@@ -18,6 +21,7 @@ import model.JianBean;
 import model.JiaoGoodsBean;
 import model.MaterialAndTypeBean;
 import model.MaterialBean;
+import model.MerchantOrderListBean;
 import model.MessageBean;
 import model.MyPaiBean;
 import model.OrderBean;
@@ -57,6 +61,7 @@ public interface AppAction {
     void messageList(int page,  ActionCallbackListener<List<MessageBean>> listener);
     void deleteMessage(String msg_id, ActionCallbackListener<Void> listener);
     void myPaiList(int page,  ActionCallbackListener<List<MyPaiBean>> listener);
+    void merchantOrderList(int page, ActionCallbackListener<List<MerchantOrderListBean>> listener);
     void myOrderList(int page, String flag, ActionCallbackListener<List<OrderBean>> listener);
     void pay(String order_id, String channel, ActionCallbackListener<CreateOrderBean> listener);
     void myOrderDetail(String order_id, ActionCallbackListener<OrderDetailBean> listener);
@@ -119,4 +124,6 @@ public interface AppAction {
     void likeListByTypeOfPerson(int page, String id, ActionCallbackListener<List<PersonBean>> listener);
     void myJianList(int page, String forum_yesorno,  ActionCallbackListener<List<JianBean>> listener);
     void personCommentList(int page, String user_id, ActionCallbackListener<List<PersonCommentBean>> listener);
+
+    void express(String orderno, String logisticsno, String logisticsname, ActionCallbackListener<List<MerchantOrderListBean>> listener);
 }
