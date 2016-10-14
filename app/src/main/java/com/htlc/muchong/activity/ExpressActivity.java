@@ -102,6 +102,7 @@ public class ExpressActivity extends BaseActivity {
                     public void onIllegalState(String errorEvent, String message) {
                         LogUtils.e("errorEvent---",""+errorEvent);
                         LogUtils.e("message---",""+message);
+                        ToastUtil.showToast(App.app, message);
                     }
                 });
 

@@ -33,6 +33,7 @@ import java.util.List;
 
 import core.AppActionImpl;
 import model.AddressBean;
+import model.ExpressEvent;
 import model.MerchantOrderListBean;
 import model.MyPaiBean;
 import model.OrderPayEvent;
@@ -57,6 +58,7 @@ public class MerchantOrderListActivity extends BaseActivity {
 
     @Override
     protected void setupView() {
+        LogUtils.e("setupView---","setupView");
         mTitleTextView.setText(R.string.fifth_dd);
         noDataView =  findViewById(R.id.noDataView);
         mPtrFrame = (PtrClassicFrameLayout) findViewById(R.id.rotate_header_list_view_frame);
@@ -110,6 +112,7 @@ public class MerchantOrderListActivity extends BaseActivity {
     }
 
     private void loadMoreData() {
+        LogUtils.e("loadMoreData---","loadMoreData");
         App.app.appAction.merchantOrderList(page, new BaseActionCallbackListener<List<MerchantOrderListBean>>() {
             @Override
             public void onSuccess(List<MerchantOrderListBean> data) {
@@ -133,6 +136,7 @@ public class MerchantOrderListActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        LogUtils.e("initData---","initData");
         page = 1;
         App.app.appAction.merchantOrderList(page, new BaseActionCallbackListener<List<MerchantOrderListBean>>() {
             @Override
@@ -198,12 +202,10 @@ public class MerchantOrderListActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     TextView mBtn = (TextView) v;
-                    goExpressActivity(sList.get(position));
-//                    if(mBtn.getText().toString().equals("发货")){
-//                        goExpressActivity(sList.get(position));
-//
-//
-//                    }
+                    if(mBtn.getText().toString().equals("发货")){
+                        goExpressActivity(sList.get(position));
+
+                    }
                 }
             });
 
@@ -230,7 +232,7 @@ public class MerchantOrderListActivity extends BaseActivity {
     }
 
 
-    public void onEventMainThread(OrderPayEvent event) {
+    public void onEventMainThread(ExpressEvent event) {
         String msg = event.getMsg();
         LogUtils.e("msg---", "" + msg);
         if (TextUtils.isEmpty(msg)) {

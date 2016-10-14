@@ -760,6 +760,7 @@ public class ApiImpl implements Api {
         params.put("logisticsno", logisticsno);
         params.put("logisticsname", logisticsname);
         String url = Api.Express;
+        LogUtils.e("url---",""+url);
         LogUtils.e("params---",""+params);
         new OkHttpRequest.Builder().url(url).params(params).post(callback);
     }

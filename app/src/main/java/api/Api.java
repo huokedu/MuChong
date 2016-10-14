@@ -92,7 +92,7 @@ public interface Api {
     String LikeListByType = Host + "/Home/HomeForum/likes";
     String MyJianList = Host + "/Home/HomeForum/myAppraisal";
     String PersonCommentList = Host + "/Home/HomeForum/allevalList";
-    String Express = Host + "/Home/HomeForum/insertLogistics";
+    String Express = Host + "/Home/HomeOrder/insertLogistics";
 
     void smsCode(String mobile, ResultCallback callback);
     void ensureSmsCode(String user_account, String Verifycode, ResultCallback callback);
