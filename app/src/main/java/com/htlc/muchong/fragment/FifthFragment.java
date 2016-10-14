@@ -2,14 +2,13 @@ package com.htlc.muchong.fragment;
 
 import android.content.Intent;
 import android.graphics.Rect;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
-import com.htlc.muchong.activity.JianListActivity;
+import com.htlc.muchong.activity.BrowserActivity;
 import com.htlc.muchong.activity.LoginActivity;
 import com.htlc.muchong.activity.MerchantOrderListActivity;
 import com.htlc.muchong.activity.MyJianListActivity;
@@ -17,19 +16,15 @@ import com.htlc.muchong.activity.MyMessageListActivity;
 import com.htlc.muchong.activity.MyPaiListActivity;
 import com.htlc.muchong.activity.MyPostListActivity;
 import com.htlc.muchong.activity.OrderListActivity;
-import com.htlc.muchong.activity.PaiListActivity;
 import com.htlc.muchong.activity.PayActivity;
-import com.htlc.muchong.activity.ReturnGoodsActivity;
 import com.htlc.muchong.activity.SettingActivity;
 import com.htlc.muchong.activity.ShoppingCartActivity;
 import com.htlc.muchong.activity.TaLikeActivity;
-import com.htlc.muchong.activity.UserActivity;
 import com.htlc.muchong.adapter.FifthRecyclerViewAdapter;
 import com.htlc.muchong.base.BaseActivity;
 import com.htlc.muchong.util.LogUtils;
 import com.htlc.muchong.util.LoginUtil;
 import com.larno.util.CommonUtil;
-import com.larno.util.ToastUtil;
 
 import model.UserInfoBean;
 
@@ -141,7 +136,9 @@ public class FifthFragment extends HomeFragment {
                     return;
                 case 9:
                     if (!App.app.isLogin()) break;
-                    startActivity(new Intent(getActivity(), ReturnGoodsActivity.class));
+                    Intent intent = new Intent(getActivity(), BrowserActivity.class);
+                    intent.putExtra("url","http://t15.damaimob.com/Home/HomeRefund/index.html");
+                    startActivity(intent);
                     return;
                 case 10:
                     if (!App.app.isLogin()) break;

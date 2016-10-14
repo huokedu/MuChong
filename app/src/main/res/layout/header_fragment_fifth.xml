@@ -7,6 +7,7 @@
     android:paddingBottom="15dp"
     android:paddingLeft="30dp"
     android:paddingRight="30dp"
+    android:fitsSystemWindows="true"
     android:background="@mipmap/bg_fragment_fifth_header">
 
     <ImageView

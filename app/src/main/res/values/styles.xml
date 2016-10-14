@@ -168,6 +168,15 @@
         <item name="android:layout_height">@dimen/divider_width_thin</item>
     </style>
 
+    <!-- webview中的进度条 -->
+    <style name="CommonWebViewProgressBarStyle" parent="@android:style/Widget.SeekBar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@android:drawable/progress_horizontal</item>
+        <item name="android:indeterminateDrawable">@android:drawable/progress_horizontal</item>
+        <item name="android:minHeight">8dip</item>
+        <item name="android:maxHeight">20dip</item>
+    </style>
+
     <style name="DividerVertical">
         <item name="android:layout_width">@dimen/divider_width</item>
         <item name="android:layout_height">match_parent</item>

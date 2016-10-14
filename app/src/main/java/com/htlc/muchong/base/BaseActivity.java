@@ -53,6 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        unRegisterEventBus();
         super.onPause();
         Bugtags.onPause(this);
     }
@@ -172,6 +173,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void unRegisterEventBus() {
         EventBus.getDefault().unregister(this);
     }
+
+
 
     @Override
     protected void onDestroy() {

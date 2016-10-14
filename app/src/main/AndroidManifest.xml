@@ -56,6 +56,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.JianListActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.BrowserActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activity.JianDetailActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.ProductListActivity"
@@ -114,8 +116,6 @@
         <activity android:name=".activity.MyMessageListActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.WebActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ReturnGoodsActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.MyPaiListActivity"
             android:screenOrientation="portrait"/>
