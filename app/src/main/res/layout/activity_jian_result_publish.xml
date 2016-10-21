@@ -55,6 +55,18 @@
                         android:drawableRight="@drawable/jian_result_radio_selector"
                         android:text="假"
                         android:textSize="16sp"/>
+
+                    <RadioButton
+                        android:id="@+id/radioCy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:button="@null"
+                        android:checked="false"
+                        android:drawablePadding="10dp"
+                        android:drawableRight="@drawable/jian_result_radio_selector"
+                        android:text="存疑"
+                        android:textSize="16sp"/>
                 </RadioGroup>
 
                 <EditText

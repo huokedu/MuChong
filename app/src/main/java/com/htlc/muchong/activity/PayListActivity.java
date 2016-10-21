@@ -29,9 +29,9 @@ public class PayListActivity extends BaseActivity implements AdapterView.OnItemC
 //    public static final int[] PayNameIds = {R.string.pay_way_1,R.string.pay_way_2,R.string.pay_way_3,R.string.pay_way_4};
 //    public static final int[] PayIconIds = {R.mipmap.icon_pay_1,R.mipmap.icon_pay_2,R.mipmap.icon_pay_3,R.mipmap.icon_pay_4};
 //      public static final String[] PayWays = {"wallet","upacp","wx","alipay"};
-    public static final int[] PayNameIds = {R.string.pay_way_3};
-    public static final int[] PayIconIds = {R.mipmap.icon_pay_3};
-    public static final String[] PayWays = {"wx"};
+    public static final int[] PayNameIds = {R.string.pay_way_1,R.string.pay_way_3};
+    public static final int[] PayIconIds = {R.mipmap.icon_pay_1,R.mipmap.icon_pay_3};
+    public static final String[] PayWays = {"wallet","wx"};
     public static final String PayId = "PayId";
 
     private ListView listView;
@@ -69,7 +69,7 @@ public class PayListActivity extends BaseActivity implements AdapterView.OnItemC
 
         @Override
         public int getCount() {
-            return 1;
+            return 2;
         }
 
         @Override

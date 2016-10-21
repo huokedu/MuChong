@@ -10,6 +10,7 @@ import android.widget.RadioGroup;
 import com.htlc.muchong.App;
 import com.htlc.muchong.R;
 import com.htlc.muchong.base.BaseActivity;
+import com.htlc.muchong.util.LogUtils;
 import com.larno.util.ToastUtil;
 
 /**
@@ -30,7 +31,7 @@ public class JianResultPublishActivity extends BaseActivity implements View.OnCl
     private ProgressDialog progressDialog;
 
     private String postId;
-    private boolean isTrue = true;
+    private String isTrue;
 
     @Override
     protected int getLayoutId() {
@@ -42,16 +43,20 @@ public class JianResultPublishActivity extends BaseActivity implements View.OnCl
         postId = getIntent().getStringExtra(Post_Id);
 
         mTitleTextView.setText(R.string.title_jian_result_publish);
-
+        isTrue = "1";
         radioGroup = (RadioGroup)this.findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int radioId) {
                 if(radioId == R.id.radioTrue){
-                    isTrue = true;
-                }else {
-                    isTrue = false;
+                    isTrue = "1";
+                }
+                if(radioId == R.id.radioFalse){
+                    isTrue = "2";
+                }
+                if(radioId == R.id.radioCy){
+                    isTrue = "4";
                 }
             }
         });
@@ -85,6 +90,7 @@ public class JianResultPublishActivity extends BaseActivity implements View.OnCl
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("提交中，请稍等...");
         progressDialog.show();
+        LogUtils.e("isTrue---",""+isTrue);
         App.app.appAction.publishJianResult(postId, isTrue, editContent.getText().toString().trim(),new BaseActionCallbackListener<Void>() {
             @Override
             public void onSuccess(Void data) {

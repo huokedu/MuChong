@@ -1497,12 +1497,13 @@ public class AppActionImpl implements AppAction {
     }
 
     @Override
-    public void publishJianResult(String appraisal_forumid, boolean isTrue, String appraisal_content, ActionCallbackListener<Void> listener) {
+    public void publishJianResult(String appraisal_forumid, String isTrue, String appraisal_content, ActionCallbackListener<Void> listener) {
 //        if (TextUtils.isEmpty(appraisal_content)) {
 //            listener.onFailure(ErrorEvent.PARAM_NULL, "评论内容不能为空");
 //            return;
 //        }
-        String appraisal_type = isTrue ? "1" : "2";
+        String appraisal_type = isTrue;
+        LogUtils.e("appraisal_type---",""+appraisal_type);
         api.publishJianResult(appraisal_forumid, appraisal_type, appraisal_content, new DefaultResultCallback(listener) {
             @Override
             public void onResponse(String response) {

@@ -107,7 +107,7 @@ public interface AppAction {
     void publishPostCang(boolean isCangPublish,String forum_title,String forum_content, File coverImageFile, List<File> contentImageFiles,  ActionCallbackListener<Void> listener);
     void publishPost(String type,String durationTime, String forum_title, String forum_content, File coverImageFile, List<File> contentImageFiles,  ActionCallbackListener<Void> listener);
     void jianList(int page, String forum_yesorno,  ActionCallbackListener<List<JianBean>> listener);
-    void publishJianResult(String appraisal_forumid, boolean isTrue, String appraisal_content,  ActionCallbackListener<Void> listener);
+    void publishJianResult(String appraisal_forumid, String isTrue, String appraisal_content,  ActionCallbackListener<Void> listener);
     void postList(int page, ActionCallbackListener<List<PostBean>> listener);
     void postListByPersonId(int page, String user_id, ActionCallbackListener<List<PostBean>> listener);
     void schoolList(int page, ActionCallbackListener<List<SchoolBean>> listener);

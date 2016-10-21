@@ -272,7 +272,14 @@ public class CreateOrderActivity extends BaseActivity implements View.OnClickLis
         App.app.appAction.pay(orderId, payWay, new BaseActionCallbackListener<CreateOrderBean>() {
             @Override
             public void onSuccess(CreateOrderBean data) {
-                payWx(data);//微信支付
+                if (payWay.equals(PayListActivity.PayWays[1])) {
+                    payWx(data);//微信支付
+                } else {
+                    ToastUtil.showToast(App.app, "付款成功");
+                    OrderListActivity.goOrderListActivity(CreateOrderActivity.this, OrderListActivity.PAY_FINISH_TAB);
+                    finish();
+                }
+
 //                payByPingPlus(data);
 
             }
